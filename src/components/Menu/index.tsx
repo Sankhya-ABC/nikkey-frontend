@@ -6,7 +6,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { Sidebar } from "../Sidebar";
 
 export const Menu = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -21,7 +20,6 @@ export const Menu = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Sidebar />
           <Typography
             variant="h6"
             noWrap
