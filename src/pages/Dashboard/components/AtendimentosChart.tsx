@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const data = [
   { name: "David Silva", value: 40, color: "#42A5F5" },
@@ -11,14 +11,28 @@ const data = [
 export const AtendimentosChart = () => {
   return (
     <Card sx={{ width: 250, p: 2 }}>
-      <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
         Atendimentos
       </Typography>
+
       <CardContent
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 1,
+        }}
       >
         <ResponsiveContainer width="100%" height={120}>
           <PieChart>
+            {/* Tooltip: mostra "X atendimentos" e o nome da pessoa */}
+            <Tooltip
+              formatter={(value: number, name: string) => [
+                `${value} atendimentos`,
+                name,
+              ]}
+            />
+
             <Pie
               data={data}
               dataKey="value"
@@ -26,6 +40,8 @@ export const AtendimentosChart = () => {
               outerRadius={40}
               innerRadius={20}
               paddingAngle={2}
+              // cursor muda quando passa o mouse
+              cursor="pointer"
             >
               {data.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
@@ -34,14 +50,40 @@ export const AtendimentosChart = () => {
           </PieChart>
         </ResponsiveContainer>
 
+        {/* Legenda personalizada */}
         <Box sx={{ width: "100%", mt: 1 }}>
-          <Legend
-            verticalAlign="middle"
-            align="left"
-            layout="vertical"
-            iconType="circle"
-            wrapperStyle={{ fontSize: 12 }}
-          />
+          {data.map((entry) => (
+            <Box
+              key={entry.name}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                mb: 0.5,
+              }}
+            >
+              {/* ponto colorido */}
+              <Box
+                sx={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: "50%",
+                  backgroundColor: entry.color,
+                  boxShadow: 1,
+                }}
+              />
+              {/* nome e opcionalmente a quantidade */}
+              <Typography variant="body2" sx={{ fontSize: 13 }}>
+                {entry.name}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ fontSize: 13, ml: "auto", color: "text.secondary" }}
+              >
+                {entry.value}
+              </Typography>
+            </Box>
+          ))}
         </Box>
       </CardContent>
     </Card>
