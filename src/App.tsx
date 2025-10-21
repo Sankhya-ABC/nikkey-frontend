@@ -1,58 +1,16 @@
-import { createTheme, ThemeProvider } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
-import MiniDrawer from "./components/Op";
-import { DrawerProvider } from "./hooks/useSidebar";
-
-type ThemeMode = "light" | "dark";
+import { Template } from "./components/Template";
+import { DrawerProvider } from "./hooks/useDrawer";
+import { ThemeProvider } from "./hooks/useTheme";
 
 export const App: React.FC = () => {
-  const [themeMode, setThemeMode] = useState<ThemeMode>("light");
-
-  const toggleTheme = () => {
-    setThemeMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
-  };
-
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: themeMode,
-          primary: {
-            main: "#1976d2",
-          },
-          secondary: {
-            main: "#dc004e",
-          },
-          background: {
-            default: themeMode === "light" ? "#f5f5f5" : "#121212",
-            paper: themeMode === "light" ? "#ffffff" : "#1e1e1e",
-          },
-        },
-        typography: {
-          h6: {
-            fontWeight: 600,
-          },
-        },
-        components: {
-          MuiAppBar: {
-            styleOverrides: {
-              root: {
-                backgroundColor: themeMode === "light" ? "#ffffff" : "#1e1e1e",
-              },
-            },
-          },
-        },
-      }),
-    [themeMode],
-  );
-
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <DrawerProvider>
         <BrowserRouter>
           <Routes>
-            <Route element={<MiniDrawer />}>
+            <Route element={<Template />}>
               <Route path="dashboard" element={<p>dashboard</p>} />
               <Route path="clientes" element={<p>clientes</p>} />
               <Route path="usuarios" element={<p>usuarios</p>} />

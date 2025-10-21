@@ -10,29 +10,20 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
-  useTheme,
 } from "@mui/material";
 import React from "react";
+import { useTheme } from "../../../hooks/useTheme";
 import { CountdownTimer } from "../../CountdownTimer";
+import { ThemeMode } from "../tokens";
 
-interface AppHeaderProps {
-  onThemeToggle: () => void;
-  isDarkMode: boolean;
-}
-
-export const Menu: React.FC<AppHeaderProps> = ({
-  onThemeToggle,
-  isDarkMode,
-}) => {
-  const theme = useTheme();
+export const Menu: React.FC = () => {
+  const { themeMode, toggleTheme } = useTheme();
 
   return (
     <AppBar
-      // position="absolute"
       sx={{
-        backgroundColor: theme.palette.background.paper,
-        color: theme.palette.text.primary,
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        backgroundColor: ({ palette }) => palette.background.paper,
+        color: ({ palette }) => palette.text.primary,
         height: 64,
         zIndex: 2,
       }}
@@ -45,26 +36,32 @@ export const Menu: React.FC<AppHeaderProps> = ({
             <CountdownTimer initialMinutes={120} />
           </Box>
 
-          <Tooltip title={isDarkMode ? "Modo Claro" : "Modo Escuro"}>
+          <Tooltip
+            title={themeMode === ThemeMode.DARK ? "Modo Claro" : "Modo Escuro"}
+          >
             <IconButton
-              onClick={onThemeToggle}
+              onClick={toggleTheme}
               sx={{
-                color: theme.palette.text.primary,
+                color: ({ palette }) => palette.text.primary,
                 "&:hover": {
-                  backgroundColor: theme.palette.action.hover,
+                  backgroundColor: ({ palette }) => palette.action.hover,
                 },
               }}
             >
-              {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
+              {themeMode === ThemeMode.DARK ? (
+                <LightModeIcon />
+              ) : (
+                <DarkModeIcon />
+              )}
             </IconButton>
           </Tooltip>
 
           <Tooltip title="Configurações">
             <IconButton
               sx={{
-                color: theme.palette.text.primary,
+                color: ({ palette }) => palette.text.primary,
                 "&:hover": {
-                  backgroundColor: theme.palette.action.hover,
+                  backgroundColor: ({ palette }) => palette.action.hover,
                 },
               }}
             >
@@ -78,7 +75,7 @@ export const Menu: React.FC<AppHeaderProps> = ({
                 sx={{
                   width: 40,
                   height: 40,
-                  backgroundColor: theme.palette.primary.main,
+                  backgroundColor: ({ palette }) => palette.primary.main,
                   "&:hover": {
                     transform: "scale(1.05)",
                     transition: "transform 0.2s",
