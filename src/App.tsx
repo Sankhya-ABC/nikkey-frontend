@@ -11,17 +11,17 @@ export const App: React.FC = () => {
         <BrowserRouter>
           <Routes>
             <Route element={<Template />}>
-              <Route path="dashboard" element={<p>dashboard</p>} />
-              <Route path="clientes" element={<p>clientes</p>} />
-              <Route path="usuarios" element={<p>usuarios</p>} />
-              <Route path="visitas" element={<p>visitas</p>} />
+              <Route path="dashboard" element={<span>dashboard</span>} />
+              <Route path="clientes" element={<span>clientes</span>} />
+              <Route path="usuarios" element={<span>usuarios</span>} />
+              <Route path="visitas" element={<span>visitas</span>} />
               <Route
                 path="ordens-de-servico"
-                element={<p>ordens-de-servico</p>}
+                element={<span>ordens-de-servico</span>}
               />
               <Route
                 path="relatorio-de-produtividade"
-                element={<p>relatorio-de-produtividade</p>}
+                element={<span>relatorio-de-produtividade</span>}
               />
             </Route>
           </Routes>

@@ -4,11 +4,11 @@ import {
   createTheme,
 } from "@mui/material/styles";
 import React, {
+  ReactNode,
   createContext,
   useContext,
   useEffect,
   useState,
-  type ReactNode,
 } from "react";
 import { ThemeMode, themeTokens } from "../components/Template/tokens";
 

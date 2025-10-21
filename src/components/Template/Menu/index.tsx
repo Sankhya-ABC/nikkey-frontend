@@ -1,33 +1,23 @@
+import React from "react";
+import { useDrawer } from "../../../hooks/useDrawer";
+import { useTheme } from "../../../hooks/useTheme";
+import { AppBar } from "./styles";
+
 import {
   Brightness4 as DarkModeIcon,
   Brightness7 as LightModeIcon,
   Settings as SettingsIcon,
 } from "@mui/icons-material";
-import {
-  AppBar,
-  Avatar,
-  Box,
-  IconButton,
-  Toolbar,
-  Tooltip,
-} from "@mui/material";
-import React from "react";
-import { useTheme } from "../../../hooks/useTheme";
+import { Avatar, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
 import { CountdownTimer } from "../../CountdownTimer";
 import { ThemeMode } from "../tokens";
 
 export const Menu: React.FC = () => {
   const { themeMode, toggleTheme } = useTheme();
+  const { isDrawerOpen } = useDrawer();
 
   return (
-    <AppBar
-      sx={{
-        backgroundColor: ({ palette }) => palette.background.paper,
-        color: ({ palette }) => palette.text.primary,
-        height: 64,
-        zIndex: 2,
-      }}
-    >
+    <AppBar position="fixed" open={isDrawerOpen}>
       <Toolbar>
         <Box sx={{ flexGrow: 1 }} />
 
