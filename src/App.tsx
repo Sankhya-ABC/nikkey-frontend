@@ -2,6 +2,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
 import MiniDrawer from "./components/Op";
+import { DrawerProvider } from "./hooks/useSidebar";
 
 type ThemeMode = "light" | "dark";
 
@@ -48,24 +49,26 @@ export const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<MiniDrawer />}>
-            <Route path="dashboard" element={<p>dashboard</p>} />
-            <Route path="clientes" element={<p>clientes</p>} />
-            <Route path="usuarios" element={<p>usuarios</p>} />
-            <Route path="visitas" element={<p>visitas</p>} />
-            <Route
-              path="ordens-de-servico"
-              element={<p>ordens-de-servico</p>}
-            />
-            <Route
-              path="relatorio-de-produtividade"
-              element={<p>relatorio-de-produtividade</p>}
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <DrawerProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<MiniDrawer />}>
+              <Route path="dashboard" element={<p>dashboard</p>} />
+              <Route path="clientes" element={<p>clientes</p>} />
+              <Route path="usuarios" element={<p>usuarios</p>} />
+              <Route path="visitas" element={<p>visitas</p>} />
+              <Route
+                path="ordens-de-servico"
+                element={<p>ordens-de-servico</p>}
+              />
+              <Route
+                path="relatorio-de-produtividade"
+                element={<p>relatorio-de-produtividade</p>}
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </DrawerProvider>
     </ThemeProvider>
   );
 };

@@ -26,8 +26,8 @@ import {
 } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
 import { Link, Outlet } from "react-router";
+import { useDrawer } from "../hooks/useSidebar";
 
 const drawerWidth = 300;
 
@@ -114,20 +114,12 @@ const Main = styled("main")(({ theme }) => ({
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const { isDrawerOpen, openDrawer, closeDrawer } = useDrawer();
 
   return (
     <Box sx={{ display: "flex" }}>
       {/* Menu */}
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={isDrawerOpen}>
         <Toolbar>
           <Typography
             variant="h6"
@@ -141,10 +133,10 @@ export default function MiniDrawer() {
       </AppBar>
 
       {/* Drawer */}
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={isDrawerOpen}>
         <DrawerHeader
           sx={
-            !open
+            !isDrawerOpen
               ? {
                   display: "flex",
                   justifyContent: "center",
@@ -153,8 +145,8 @@ export default function MiniDrawer() {
               : null
           }
         >
-          <IconButton onClick={open ? handleDrawerClose : handleDrawerOpen}>
-            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          <IconButton onClick={isDrawerOpen ? closeDrawer : openDrawer}>
+            {isDrawerOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -196,14 +188,14 @@ export default function MiniDrawer() {
                 <ListItemButton
                   sx={{
                     minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
+                    justifyContent: isDrawerOpen ? "initial" : "center",
                     px: 2.5,
                   }}
                 >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      mr: open ? 3 : "auto",
+                      mr: isDrawerOpen ? 3 : "auto",
                       justifyContent: "center",
                     }}
                   >
@@ -212,7 +204,7 @@ export default function MiniDrawer() {
                   <ListItemText
                     primary={name}
                     sx={{
-                      opacity: open ? 1 : 0,
+                      opacity: isDrawerOpen ? 1 : 0,
                       transition: theme.transitions.create("opacity", {
                         duration: theme.transitions.duration.leavingScreen,
                       }),
