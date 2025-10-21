@@ -1,5 +1,7 @@
 import { Card, Grid, Typography } from "@mui/material";
 import { CardQuantity } from "./components/CardQuantity";
+import { OrdensDeServicoChart } from "./components/OrdensDeServicoChart";
+import { AtendimentosChart } from "./components/AtendimentosChart";
 
 export const Dashboard = () => {
   return (
@@ -22,15 +24,11 @@ export const Dashboard = () => {
           </Grid>
 
           <Grid item size={{ xs: 12 }}>
-            <Card sx={{ p: 3 }} variant="outlined">
-              Ordens de Serviço Chart
-            </Card>
+            <OrdensDeServicoChart />
           </Grid>
 
           <Grid item size={{ xs: 12, md: 6 }}>
-            <Card sx={{ p: 3 }} variant="outlined">
-              Atendimentos Chart
-            </Card>
+            <AtendimentosChart />
           </Grid>
           <Grid item size={{ xs: 12, md: 6 }}>
             <Card sx={{ p: 3 }} variant="outlined">
