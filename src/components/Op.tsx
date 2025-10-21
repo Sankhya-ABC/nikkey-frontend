@@ -2,7 +2,6 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import TourIcon from "@mui/icons-material/Tour";
@@ -11,7 +10,6 @@ import MuiAppBar, {
   type AppBarProps as MuiAppBarProps,
 } from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import MuiDrawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -68,50 +66,50 @@ interface AppBarProps extends MuiAppBarProps {
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme }) => ({
+})<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(["width", "margin"], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      },
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+  ...(!open && {
+    marginLeft: `calc(${theme.spacing(7)} + 1px)`,
+    width: `calc(100% - calc(${theme.spacing(7)} + 1px))`,
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: `calc(${theme.spacing(8)} + 1px)`,
+      width: `calc(100% - calc(${theme.spacing(8)} + 1px))`,
     },
-  ],
+  }),
 }));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
+})(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
-      },
-    },
-    {
-      props: ({ open }) => !open,
-      style: {
-        ...closedMixin(theme),
-        "& .MuiDrawer-paper": closedMixin(theme),
-      },
-    },
-  ],
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
+
+const Main = styled("main")(({ theme }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
 }));
 
 export default function MiniDrawer() {
@@ -131,30 +129,32 @@ export default function MiniDrawer() {
       {/* Menu */}
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[{ marginRight: 5 }, open && { display: "none" }]}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ color: "black" }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+            Logo
           </Typography>
         </Toolbar>
       </AppBar>
 
-      {/* Sidebar */}
+      {/* Drawer */}
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+        <DrawerHeader
+          sx={
+            !open
+              ? {
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }
+              : null
+          }
+        >
+          <IconButton onClick={open ? handleDrawerClose : handleDrawerOpen}>
+            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -193,9 +193,31 @@ export default function MiniDrawer() {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primary={name} />
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={name}
+                    sx={{
+                      opacity: open ? 1 : 0,
+                      transition: theme.transitions.create("opacity", {
+                        duration: theme.transitions.duration.leavingScreen,
+                      }),
+                    }}
+                  />
                 </ListItemButton>
               </ListItem>
             </Link>
@@ -204,10 +226,10 @@ export default function MiniDrawer() {
       </Drawer>
 
       {/* Conteúdo */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Main>
         <DrawerHeader />
         <Outlet />
-      </Box>
+      </Main>
     </Box>
   );
 }
