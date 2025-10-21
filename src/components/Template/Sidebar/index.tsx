@@ -6,6 +6,7 @@ import TourIcon from "@mui/icons-material/Tour";
 import WorkIcon from "@mui/icons-material/Work";
 import {
   Box,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -14,11 +15,27 @@ import {
 } from "@mui/material";
 import { Drawer } from "./styles";
 import { Link } from "react-router";
+import nikkeyCompleteLogo from "/nikkey-complete-logo.png";
 
 export const Sidebar = () => {
   return (
     <Drawer variant="permanent" sx={{ width: 300 }}>
       <Box sx={{ maxWidth: 300, width: 300 }} role="presentation">
+        <Box
+          sx={{
+            background: "pink",
+            display: "flex",
+            justifyContent: "center",
+            p: 2,
+          }}
+        >
+          <img
+            src={nikkeyCompleteLogo}
+            alt="Nikkey - Absoluto no Combate"
+            height={50}
+          />
+        </Box>
+        <Divider />
         <List sx={{ padding: 0 }}>
           {[
             {

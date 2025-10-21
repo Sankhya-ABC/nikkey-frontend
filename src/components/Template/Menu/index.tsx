@@ -13,7 +13,6 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-import nikkeyCompleteLogo from "../../../../public/nikkey-complete-logo.png";
 import { CountdownTimer } from "../../CountdownTimer";
 
 interface AppHeaderProps {
@@ -29,22 +28,17 @@ export const Menu: React.FC<AppHeaderProps> = ({
 
   return (
     <AppBar
-      position="absolute"
+      // position="absolute"
       sx={{
         backgroundColor: theme.palette.background.paper,
         color: theme.palette.text.primary,
         boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
         height: 64,
+        zIndex: 2,
       }}
     >
       <Toolbar>
-        <Box sx={{ flexGrow: 1 }}>
-          <img
-            src={nikkeyCompleteLogo}
-            alt="Nikkey - Absoluto no Combate"
-            height={50}
-          />
-        </Box>
+        <Box sx={{ flexGrow: 1 }} />
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Box>

@@ -5,15 +5,15 @@ import { Outlet } from "react-router";
 
 export const Template: React.FC = () => {
   return (
-    <Box>
-      <Box sx={{ height: 64 }}>
-        <Menu onThemeToggle={() => {}} isDarkMode={false} />
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      <Box sx={{ width: 300, minHeight: "100%" }}>
+        <Sidebar />
       </Box>
-      <Box sx={{ display: "flex", minHeight: "calc(100vh - 64px)" }}>
-        <Box sx={{ width: 300 }}>
-          <Sidebar />
+      <Box sx={{ width: "100%", background: "red" }}>
+        <Box>
+          <Menu onThemeToggle={() => {}} isDarkMode={false} />
         </Box>
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ minHeight: "calc(100vh - 64px)" }}>
           <Outlet />
         </Box>
       </Box>
