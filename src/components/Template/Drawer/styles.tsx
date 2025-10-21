@@ -27,6 +27,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
 export const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
+  backgroundColor: theme.palette.background.paper,
   width: DRAWER_WIDTH,
   flexShrink: 0,
   whiteSpace: "nowrap",
@@ -42,6 +43,7 @@ export const Drawer = styled(MuiDrawer, {
 }));
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
+  height: 63,
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",

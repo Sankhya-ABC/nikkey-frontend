@@ -11,6 +11,8 @@ import {
 import { Avatar, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
 import { CountdownTimer } from "../../CountdownTimer";
 import { ThemeMode } from "../tokens";
+import nikkeyNameLogo from "/nikkey-name-logo.png";
+import { Link } from "react-router";
 
 export const Menu: React.FC = () => {
   const { themeMode, toggleTheme } = useTheme();
@@ -18,8 +20,22 @@ export const Menu: React.FC = () => {
 
   return (
     <AppBar position="fixed" open={isDrawerOpen}>
-      <Toolbar>
-        <Box sx={{ flexGrow: 1 }} />
+      <Toolbar sx={{ backgroundColor: "background.paper" }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={nikkeyNameLogo}
+              alt="Nikkey - Absoluto no Combate"
+              height={35}
+            />
+          </Link>
+        </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Box>

@@ -4,43 +4,57 @@ export enum ThemeMode {
 }
 
 export const themeTokens = (themeMode: ThemeMode) => ({
+  ...(themeMode === ThemeMode.LIGHT
+    ? lightTheme
+    : {
+        ...darkTheme,
+      }),
+});
+
+const lightTheme = {
   palette: {
-    mode: themeMode,
+    mode: "light" as const,
     primary: {
-      main: themeMode === ThemeMode.DARK ? "#90caf9" : "#1976d2",
+      main: "#1976d2",
+      light: "#42a5f5",
+      dark: "#1565c0",
     },
     secondary: {
-      main: themeMode === ThemeMode.DARK ? "#f48fb1" : "#dc004e",
+      main: "#dc004e",
+      light: "#ff5983",
+      dark: "#9a0036",
     },
     background: {
-      default: themeMode === ThemeMode.DARK ? "#121212" : "#f5f5f5",
-      paper: themeMode === ThemeMode.DARK ? "#1e1e1e" : "#ffffff",
+      default: "#f5f5f5",
+      paper: "#ffffff",
+    },
+    text: {
+      primary: "#000000",
+      secondary: "#666666",
     },
   },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h4: {
-      fontWeight: 600,
+};
+
+const darkTheme = {
+  palette: {
+    mode: "dark" as const,
+    primary: {
+      main: "#90caf9",
+      light: "#e3f2fd",
+      dark: "#42a5f5",
     },
-    h6: {
-      fontWeight: 600,
+    secondary: {
+      main: "#f48fb1",
+      light: "#fce4ec",
+      dark: "#ad1457",
     },
-  },
-  components: {
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: themeMode === ThemeMode.DARK ? "#1e1e1e" : "#ffffff",
-          color: themeMode === ThemeMode.DARK ? "#ffffff" : "#000000",
-        },
-      },
+    background: {
+      default: "#121212",
+      paper: "#1e1e1e",
     },
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: themeMode === ThemeMode.DARK ? "#1e1e1e" : "#ffffff",
-        },
-      },
+    text: {
+      primary: "#ffffff",
+      secondary: "#b0b0b0",
     },
   },
-});
+};

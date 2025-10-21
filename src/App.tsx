@@ -11,6 +11,7 @@ export const App: React.FC = () => {
         <BrowserRouter>
           <Routes>
             <Route element={<Template />}>
+              <Route path="" element={<span>dashboard</span>} />
               <Route path="dashboard" element={<span>dashboard</span>} />
               <Route path="clientes" element={<span>clientes</span>} />
               <Route path="usuarios" element={<span>usuarios</span>} />
