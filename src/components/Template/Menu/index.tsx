@@ -13,8 +13,8 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-import nikkeyCompleteLogo from "../../../public/nikkey-complete-logo.png";
-import { CountdownTimer } from "../CountdownTimer";
+import nikkeyCompleteLogo from "../../../../public/nikkey-complete-logo.png";
+import { CountdownTimer } from "../../CountdownTimer";
 
 interface AppHeaderProps {
   onThemeToggle: () => void;
@@ -34,6 +34,7 @@ export const Menu: React.FC<AppHeaderProps> = ({
         backgroundColor: theme.palette.background.paper,
         color: theme.palette.text.primary,
         boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        height: 64,
       }}
     >
       <Toolbar>

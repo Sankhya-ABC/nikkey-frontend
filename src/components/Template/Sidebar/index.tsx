@@ -13,46 +13,53 @@ import {
   ListItemText,
 } from "@mui/material";
 import { Drawer } from "./styles";
+import { Link } from "react-router";
 
 export const Sidebar = () => {
   return (
-    <Drawer variant="permanent">
-      <Box sx={{ width: 250 }} role="presentation">
-        <List>
+    <Drawer variant="permanent" sx={{ width: 300 }}>
+      <Box sx={{ maxWidth: 300, width: 300 }} role="presentation">
+        <List sx={{ padding: 0 }}>
           {[
             {
               name: "Dashboard",
               icon: <SignalCellularAltIcon />,
-              route: "/aaa",
+              route: "/dashboard",
             },
             {
               name: "Clientes",
               icon: <InsertEmoticonIcon />,
-              route: "/aaa",
+              route: "/clientes",
             },
             {
               name: "Usuários",
               icon: <PersonIcon />,
-              route: "/aaa",
+              route: "/usuarios",
             },
-            { name: "Visitas", icon: <TourIcon />, route: "/aaa" },
+            { name: "Visitas", icon: <TourIcon />, route: "/visitas" },
             {
               name: "Ordens de Serviço",
               icon: <WorkIcon />,
-              route: "/aaa",
+              route: "/ordens-de-servico",
             },
             {
               name: "Relatório de Produtividade",
               icon: <AssignmentIcon />,
-              route: "/aaa",
+              route: "/relatorio-de-produtividade",
             },
-          ].map(({ name, icon, route }, index) => (
-            <ListItem key={name} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={name} />
-              </ListItemButton>
-            </ListItem>
+          ].map(({ name, icon, route }) => (
+            <Link
+              to={route}
+              key={name}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={name} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Box>

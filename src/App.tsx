@@ -1,8 +1,9 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import React, { useMemo, useState } from "react";
-import { Menu } from "./components/Menu";
-import { Sidebar } from "./components/Sidebar";
+import { Menu } from "./components/Template/Menu";
+import { Sidebar } from "./components/Template/Sidebar";
 import { Template } from "./components/Template";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 type ThemeMode = "light" | "dark";
 
@@ -49,7 +50,13 @@ export const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Template />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Template />}>
+            <Route path="dashboard" element={<p>dashboard</p>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };
