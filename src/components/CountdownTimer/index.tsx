@@ -41,7 +41,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   const timeDigits = formatTime(timeLeft);
 
   return (
-    <Box>
+    <Box sx={{ color: ({ palette }) => palette.text.primary }}>
       {timeDigits.map((digit, index) => (
         <Box
           key={index}

@@ -8,11 +8,12 @@ import {
   Brightness7 as LightModeIcon,
   Settings as SettingsIcon,
 } from "@mui/icons-material";
-import { Avatar, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
+import { Box, IconButton, Toolbar, Tooltip } from "@mui/material";
+import { Link } from "react-router";
 import { CountdownTimer } from "../../CountdownTimer";
 import { ThemeMode } from "../tokens";
 import nikkeyNameLogo from "/nikkey-name-logo.png";
-import { Link } from "react-router";
+import { Avatar } from "./Avatar";
 
 export const Menu: React.FC = () => {
   const { themeMode, toggleTheme } = useTheme();
@@ -75,23 +76,7 @@ export const Menu: React.FC = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Perfil">
-            <IconButton sx={{ p: 0 }}>
-              <Avatar
-                sx={{
-                  width: 40,
-                  height: 40,
-                  backgroundColor: ({ palette }) => palette.primary.main,
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                    transition: "transform 0.2s",
-                  },
-                }}
-              >
-                U
-              </Avatar>
-            </IconButton>
-          </Tooltip>
+          <Avatar />
         </Box>
       </Toolbar>
     </AppBar>

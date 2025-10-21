@@ -10,6 +10,7 @@ const Main = styled("main")(({ theme }) => ({
   top: 64,
   position: "relative",
   minHeight: "calc(100vh - 64px)",
+  display: "block",
 }));
 
 export const Template = () => {

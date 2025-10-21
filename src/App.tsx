@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import { Template } from "./components/Template";
 import { DrawerProvider } from "./hooks/useDrawer";
 import { ThemeProvider } from "./hooks/useTheme";
+import { Dashboard } from "./pages/Dashboard";
 
 export const App: React.FC = () => {
   return (
@@ -11,8 +12,8 @@ export const App: React.FC = () => {
         <BrowserRouter>
           <Routes>
             <Route element={<Template />}>
-              <Route path="" element={<span>dashboard</span>} />
-              <Route path="dashboard" element={<span>dashboard</span>} />
+              <Route path="" element={<Dashboard />} />
+              <Route path="dashboard" element={<Dashboard />} />
               <Route path="clientes" element={<span>clientes</span>} />
               <Route path="usuarios" element={<span>usuarios</span>} />
               <Route path="visitas" element={<span>visitas</span>} />
