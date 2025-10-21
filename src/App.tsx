@@ -2,6 +2,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import { Menu } from "./components/Menu";
 import { Sidebar } from "./components/Sidebar";
+import { Template } from "./components/Template";
 
 type ThemeMode = "light" | "dark";
 
@@ -48,9 +49,7 @@ export const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Menu onThemeToggle={toggleTheme} isDarkMode={themeMode === "dark"} />
-      <Sidebar />
-      <p>aaa</p>
+      <Template />
     </ThemeProvider>
   );
 };
