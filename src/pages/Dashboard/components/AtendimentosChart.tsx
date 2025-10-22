@@ -10,7 +10,7 @@ const data = [
 
 export const AtendimentosChart = () => {
   return (
-    <Card sx={{ width: 250, p: 2 }}>
+    <Card sx={{ p: 2 }}>
       <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
         Atendimentos
       </Typography>
@@ -25,7 +25,6 @@ export const AtendimentosChart = () => {
       >
         <ResponsiveContainer width="100%" height={120}>
           <PieChart>
-            {/* Tooltip: mostra "X atendimentos" e o nome da pessoa */}
             <Tooltip
               formatter={(value: number, name: string) => [
                 `${value} atendimentos`,
@@ -40,7 +39,6 @@ export const AtendimentosChart = () => {
               outerRadius={40}
               innerRadius={20}
               paddingAngle={2}
-              // cursor muda quando passa o mouse
               cursor="pointer"
             >
               {data.map((entry, index) => (
@@ -50,7 +48,6 @@ export const AtendimentosChart = () => {
           </PieChart>
         </ResponsiveContainer>
 
-        {/* Legenda personalizada */}
         <Box sx={{ width: "100%", mt: 1 }}>
           {data.map((entry) => (
             <Box
@@ -62,7 +59,6 @@ export const AtendimentosChart = () => {
                 mb: 0.5,
               }}
             >
-              {/* ponto colorido */}
               <Box
                 sx={{
                   width: 12,
@@ -72,7 +68,6 @@ export const AtendimentosChart = () => {
                   boxShadow: 1,
                 }}
               />
-              {/* nome e opcionalmente a quantidade */}
               <Typography variant="body2" sx={{ fontSize: 13 }}>
                 {entry.name}
               </Typography>
