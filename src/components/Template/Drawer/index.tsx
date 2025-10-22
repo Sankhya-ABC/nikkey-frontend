@@ -1,6 +1,5 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-
 import {
   Divider,
   List,
@@ -8,6 +7,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router";
@@ -44,33 +44,40 @@ export const Drawer = () => {
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <ListItem disablePadding>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: isDrawerOpen ? "initial" : "center",
-                  px: 2.5,
-                }}
+              <Tooltip
+                title={name}
+                placement="right"
+                arrow
+                disableHoverListener={isDrawerOpen}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: isDrawerOpen ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: isDrawerOpen ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  {icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={name}
-                  sx={{
-                    opacity: isDrawerOpen ? 1 : 0,
-                    transition: ({ transitions }) =>
-                      transitions.create("opacity", {
-                        duration: transitions.duration.leavingScreen,
-                      }),
-                  }}
-                />
-              </ListItemButton>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: isDrawerOpen ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={name}
+                    sx={{
+                      opacity: isDrawerOpen ? 1 : 0,
+                      transition: ({ transitions }) =>
+                        transitions.create("opacity", {
+                          duration: transitions.duration.leavingScreen,
+                        }),
+                    }}
+                  />
+                </ListItemButton>
+              </Tooltip>
             </ListItem>
           </Link>
         ))}
