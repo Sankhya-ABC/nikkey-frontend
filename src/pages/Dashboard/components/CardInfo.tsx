@@ -1,11 +1,12 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, SxProps, Theme, Typography } from "@mui/material";
 
-interface CardChartProps {
+interface CardInfoProps {
   title: string;
   children: React.ReactNode;
+  sx?: SxProps<Theme>;
 }
 
-export const CardChart: React.FC<CardChartProps> = ({ title, children }) => {
+export const CardInfo: React.FC<CardInfoProps> = ({ title, children, sx }) => {
   return (
     <Card sx={{ p: 3, height: "100%" }}>
       <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
@@ -18,6 +19,7 @@ export const CardChart: React.FC<CardChartProps> = ({ title, children }) => {
           flexDirection: "column",
           alignItems: "center",
           gap: 1,
+          ...sx,
         }}
       >
         {children}

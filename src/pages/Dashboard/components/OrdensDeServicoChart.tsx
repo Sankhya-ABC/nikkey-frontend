@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CardChart } from "./CardChart";
+import { CardInfo } from "./CardInfo";
 
 const data = [
   { name: "4", os: 1 },
@@ -22,7 +22,7 @@ const data = [
 
 export const OrdensDeServicoChart = () => {
   return (
-    <CardChart title="Ordens de Serviço ">
+    <CardInfo title="Ordens de Serviço ">
       <ResponsiveContainer width="100%" height={200}>
         <BarChart
           data={data}
@@ -43,6 +43,6 @@ export const OrdensDeServicoChart = () => {
           />
         </BarChart>
       </ResponsiveContainer>
-    </CardChart>
+    </CardInfo>
   );
 };

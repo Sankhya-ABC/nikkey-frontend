@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { CardChart } from "./CardChart";
+import { CardInfo } from "./CardInfo";
 
 const data = [
   { name: "David Silva", value: 40, color: "#42A5F5" },
@@ -11,7 +11,7 @@ const data = [
 
 export const AtendimentosChart = () => {
   return (
-    <CardChart title="Atendimentos por Técnico">
+    <CardInfo title="Atendimentos por Técnico">
       <ResponsiveContainer width="100%" height={105}>
         <PieChart>
           <Tooltip
@@ -69,6 +69,6 @@ export const AtendimentosChart = () => {
           </Box>
         ))}
       </Box>
-    </CardChart>
+    </CardInfo>
   );
 };

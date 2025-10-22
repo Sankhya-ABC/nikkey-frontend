@@ -1,12 +1,12 @@
 import { ResponsiveContainer } from "recharts";
-import { CardChart } from "./CardChart";
+import { CardInfo } from "./CardInfo";
 
 export const ConsumoDeProdutosChart = () => {
   return (
-    <CardChart title="Consumo de Produtos ">
+    <CardInfo title="Consumo de Produtos ">
       <ResponsiveContainer width="100%" height={105}>
         <></>
       </ResponsiveContainer>
-    </CardChart>
+    </CardInfo>
   );
 };
