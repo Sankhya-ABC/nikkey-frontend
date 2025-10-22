@@ -1,8 +1,9 @@
-import { Card, Grid, Typography } from "@mui/material";
-import { CardQuantity } from "./components/CardQuantity";
-import { OrdensDeServicoChart } from "./components/OrdensDeServicoChart";
+import { Grid, Typography } from "@mui/material";
 import { AtendimentosChart } from "./components/AtendimentosChart";
+import { CardQuantity } from "./components/CardQuantity";
 import { ConsumoDeProdutosChart } from "./components/ConsumoDeProdutosChart";
+import { OrdensDeServicoChart } from "./components/OrdensDeServicoChart";
+import { ProximasVisitas } from "./components/ProximasVisitas";
 
 export const Dashboard = () => {
   return (
@@ -37,11 +38,9 @@ export const Dashboard = () => {
       </Grid>
 
       <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 4, xl: 3 }}>
-        <Grid container spacing={3} alignItems="stretch">
+        <Grid container spacing={3}>
           <Grid item size={{ xs: 12 }}>
-            <Card sx={{ p: 3, height: "100%" }} variant="outlined">
-              Lista próximas visitas
-            </Card>
+            <ProximasVisitas />
           </Grid>
         </Grid>
       </Grid>

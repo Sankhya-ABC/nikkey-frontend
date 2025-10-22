@@ -37,7 +37,7 @@ export const OrdensDeServicoChart = () => {
           <Legend verticalAlign="bottom" height={36} />
           <Bar
             dataKey="os"
-            fill="#2196f3"
+            fill="#c26a17"
             name="OS Atendidas"
             radius={[4, 4, 0, 0]}
           />

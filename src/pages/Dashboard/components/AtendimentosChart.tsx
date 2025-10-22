@@ -3,10 +3,10 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { CardInfo } from "./CardInfo";
 
 const data = [
-  { name: "David Silva", value: 40, color: "#42A5F5" },
-  { name: "José Rodrigues", value: 30, color: "#5E35B1" },
-  { name: "João Victor", value: 20, color: "#FF7043" },
-  { name: "Wellington Rufino", value: 10, color: "#43A047" },
+  { name: "David Silva", value: 40, color: "#578ab4" },
+  { name: "José Rodrigues", value: 30, color: "#7e68aa" },
+  { name: "João Victor", value: 20, color: "#e7a48f" },
+  { name: "Wellington Rufino", value: 10, color: "#7bac7e" },
 ];
 
 export const AtendimentosChart = () => {
@@ -38,36 +38,38 @@ export const AtendimentosChart = () => {
       </ResponsiveContainer>
 
       <Box sx={{ width: "100%", mt: 1 }}>
-        {data.map((entry) => (
-          <Box
-            key={entry.name}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              mb: 0.5,
-            }}
-          >
+        {data
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((entry) => (
             <Box
+              key={entry.name}
               sx={{
-                width: 12,
-                height: 12,
-                borderRadius: "50%",
-                backgroundColor: entry.color,
-                boxShadow: 1,
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                mb: 0.5,
               }}
-            />
-            <Typography variant="body2" sx={{ fontSize: 13 }}>
-              {entry.name}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ fontSize: 13, ml: "auto", color: "text.secondary" }}
             >
-              {entry.value}
-            </Typography>
-          </Box>
-        ))}
+              <Box
+                sx={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: "50%",
+                  backgroundColor: entry.color,
+                  boxShadow: 1,
+                }}
+              />
+              <Typography variant="body2" sx={{ fontSize: 13 }}>
+                {entry.name}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ fontSize: 13, ml: "auto", color: "text.secondary" }}
+              >
+                {entry.value}
+              </Typography>
+            </Box>
+          ))}
       </Box>
     </CardInfo>
   );

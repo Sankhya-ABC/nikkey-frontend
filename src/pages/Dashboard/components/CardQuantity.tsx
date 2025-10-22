@@ -21,8 +21,12 @@ export const CardQuantity: React.FC<CardQuantityProps> = ({
         height: "100%",
       }}
     >
-      <Typography variant="h2">{quantity}</Typography>
-      <Typography variant="h6">{type}</Typography>
+      <Typography variant="h2" align="center">
+        {quantity}
+      </Typography>
+      <Typography variant="h6" align="center">
+        {type}
+      </Typography>
     </Card>
   );
 };
