@@ -12,7 +12,7 @@ export const Dashboard = () => {
       </Grid>
 
       <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 8, xl: 9 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} alignItems="stretch">
           <Grid item size={{ xs: 12, sm: 12, md: 4 }}>
             <CardQuantity quantity={11} type="Ordens de Serviço" />
           </Grid>
@@ -37,9 +37,9 @@ export const Dashboard = () => {
       </Grid>
 
       <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 4, xl: 3 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} alignItems="stretch">
           <Grid item size={{ xs: 12 }}>
-            <Card sx={{ p: 3 }} variant="outlined">
+            <Card sx={{ p: 3, height: "100%" }} variant="outlined">
               Lista próximas visitas
             </Card>
           </Grid>

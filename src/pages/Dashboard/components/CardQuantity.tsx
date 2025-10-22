@@ -17,8 +17,9 @@ export const CardQuantity: React.FC<CardQuantityProps> = ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        minHeight: 155,
+        height: "100%",
       }}
-      variant="outlined"
     >
       <Typography variant="h2">{quantity}</Typography>
       <Typography variant="h6">{type}</Typography>
