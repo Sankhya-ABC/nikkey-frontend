@@ -33,7 +33,7 @@ export const Menu: React.FC = () => {
             <img
               src={nikkeyNameLogo}
               alt="Nikkey - Absoluto no Combate"
-              height={35}
+              height={30}
             />
           </Link>
         </Box>

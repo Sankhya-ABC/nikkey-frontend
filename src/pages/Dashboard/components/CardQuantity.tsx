@@ -17,14 +17,13 @@ export const CardQuantity: React.FC<CardQuantityProps> = ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        minHeight: 155,
         height: "100%",
       }}
     >
-      <Typography variant="h2" align="center">
+      <Typography variant="h4" align="center" sx={{ lineHeight: 1, mb: 1 }}>
         {quantity}
       </Typography>
-      <Typography variant="h6" align="center">
+      <Typography variant="h6" align="center" sx={{ lineHeight: 1 }}>
         {type}
       </Typography>
     </Card>

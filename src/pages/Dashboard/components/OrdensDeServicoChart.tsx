@@ -34,7 +34,7 @@ export const OrdensDeServicoChart = () => {
             label={{ value: "unidade", angle: -90, position: "insideLeft" }}
           />
           <Tooltip />
-          <Legend verticalAlign="bottom" height={36} />
+          <Legend verticalAlign="bottom" />
           <Bar
             dataKey="os"
             fill="#c26a17"
