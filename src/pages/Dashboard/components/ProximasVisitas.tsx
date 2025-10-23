@@ -83,7 +83,7 @@ export const ProximasVisitas = () => {
   return (
     <CardInfo
       title="Próximas Visitas"
-      sx={{ p: 0, display: "block", height: "100%" }}
+      sx={{ p: 0, display: "block", paddingBottom: "0px !important" }}
     >
       <Grid container spacing={3}>
         <Grid item size={{ xs: 12, sm: 12, md: 6, lg: 12, xl: 6 }}>

@@ -38,8 +38,8 @@ export const Menu: React.FC = () => {
           </Link>
         </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ mr: 4 }}>
             <CountdownTimer initialMinutes={120} />
           </Box>
 
@@ -76,7 +76,9 @@ export const Menu: React.FC = () => {
             </IconButton>
           </Tooltip>
 
-          <Avatar />
+          <Box sx={{ ml: 1.5 }}>
+            <Avatar />
+          </Box>
         </Box>
       </Toolbar>
     </AppBar>
