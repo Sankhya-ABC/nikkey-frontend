@@ -1,65 +1,46 @@
+import { Add, Search } from "@mui/icons-material";
 import {
-  Add,
-  Block,
-  CheckCircle,
-  Edit,
-  Search,
-  Visibility,
-} from "@mui/icons-material";
-import {
-  Alert,
   Box,
   Button,
-  Chip,
   CircularProgress,
   Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
   DialogTitle,
-  IconButton,
+  Grid,
   InputAdornment,
-  Paper,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-
-const mockUsers = Array.from({ length: 45 }, (_, index) => ({
-  id: index + 1,
-  nome: `Usuário ${index + 1}`,
-  email: `usuario${index + 1}@email.com`,
-  departamento: index % 3 === 0 ? `Administração` : `Operacional`,
-  ativo: index % 4 !== 0,
-  dataCadastro: new Date(2024, 0, index + 1).toLocaleDateString("pt-BR"),
-}));
+import { ModalDesativar } from "./ModaDesativar";
+import { ModalEditar } from "./ModalEditar";
+import { ModalVisualizar } from "./ModalVisualizar";
+import { mockClientes } from "./provider";
+import { Layout } from "../../components/Template/Layout";
+import { TableClientes } from "./TableClientes";
 
 export const Clientes = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+
+  const [selectedUser, setSelectedUser] = useState(null);
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [dialogType, setDialogType] = useState("");
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [openViewDialog, setOpenViewDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openDeactivateDialog, setOpenDeactivateDialog] = useState(false);
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
   useEffect(() => {
     const loadUsers = async () => {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 250));
-      setUsers(mockUsers);
-      setFilteredUsers(mockUsers);
+      setUsers(mockClientes);
+      setFilteredUsers(mockClientes);
       setLoading(false);
     };
 
@@ -69,15 +50,15 @@ export const Clientes = () => {
   useEffect(() => {
     const filtered = users.filter(
       (user) =>
-        user.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase()),
+        user?.nome?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+        user?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
     );
     setFilteredUsers(filtered);
     setPage(0);
   }, [searchTerm, users]);
 
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+    setSearchTerm(event?.target?.value);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -85,183 +66,69 @@ export const Clientes = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event?.target?.value, 10));
     setPage(0);
   };
 
-  const handleOpenDialog = (user, type) => {
+  const handleOpenViewDialog = (user) => {
     setSelectedUser(user);
-    setDialogType(type);
-    setOpenDialog(true);
+    setOpenViewDialog(true);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
+  const handleOpenEditDialog = (user) => {
+    setSelectedUser(user);
+    setOpenEditDialog(true);
+  };
+
+  const handleOpenDeactivateDialog = (user) => {
+    setSelectedUser(user);
+    setOpenDeactivateDialog(true);
+  };
+
+  const handleOpenCreateDialog = () => {
     setSelectedUser(null);
-    setDialogType("");
+    setOpenCreateDialog(true);
+  };
+
+  const handleCloseViewDialog = () => {
+    setOpenViewDialog(false);
+    setSelectedUser(null);
+  };
+
+  const handleCloseEditDialog = () => {
+    setOpenEditDialog(false);
+    setSelectedUser(null);
+  };
+
+  const handleCloseDeactivateDialog = () => {
+    setOpenDeactivateDialog(false);
+    setSelectedUser(null);
+  };
+
+  const handleCloseCreateDialog = () => {
+    setOpenCreateDialog(false);
+    setSelectedUser(null);
   };
 
   const handleToggleUserStatus = () => {
     if (selectedUser) {
-      const updatedUsers = users.map((user) =>
-        user.id === selectedUser.id
+      const updatedUsers = users?.map((user) =>
+        user?.id === selectedUser?.id
           ? {
               ...user,
-              ativo: !user.ativo,
+              ativo: !user?.ativo,
             }
           : user,
       );
       setUsers(updatedUsers);
-      handleCloseDialog();
+      handleCloseDeactivateDialog();
     }
-  };
-
-  const handleSwitchClick = (user) => {
-    setSelectedUser(user);
-    setDialogType("deactivate");
-    setOpenDialog(true);
   };
 
   const paginatedUsers = filteredUsers.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage,
   );
-
-  const renderDialogContent = () => {
-    if (!selectedUser) return null;
-
-    switch (dialogType) {
-      case "view":
-        return (
-          <DialogContent>
-            <Typography variant="h6" gutterBottom>
-              Detalhes do Usuário
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <Box>
-                <Typography variant="subtitle2" color="textSecondary">
-                  Nome
-                </Typography>
-                <Typography variant="body1">{selectedUser.nome}</Typography>
-              </Box>
-              <Box>
-                <Typography variant="subtitle2" color="textSecondary">
-                  Email
-                </Typography>
-                <Typography variant="body1">{selectedUser.email}</Typography>
-              </Box>
-              <Box>
-                <Typography variant="subtitle2" color="textSecondary">
-                  Departamento
-                </Typography>
-                <Typography variant="body1">
-                  {selectedUser.departamento}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="subtitle2" color="textSecondary">
-                  Status
-                </Typography>
-                <Chip
-                  label={selectedUser.ativo ? "Ativo" : "Inativo"}
-                  color={selectedUser.ativo ? "success" : "default"}
-                  size="small"
-                />
-              </Box>
-              <Box>
-                <Typography variant="subtitle2" color="textSecondary">
-                  Data de Cadastro
-                </Typography>
-                <Typography variant="body1">
-                  {selectedUser.dataCadastro}
-                </Typography>
-              </Box>
-            </Box>
-          </DialogContent>
-        );
-
-      case "edit":
-        return (
-          <DialogContent>
-            <Typography variant="h6" gutterBottom>
-              Editar Usuário
-            </Typography>
-            <Alert severity="info" sx={{ mb: 2 }}>
-              Funcionalidade de edição em desenvolvimento
-            </Alert>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <TextField
-                label="Nome"
-                defaultValue={selectedUser.nome}
-                fullWidth
-              />
-              <TextField
-                label="Email"
-                defaultValue={selectedUser.email}
-                fullWidth
-              />
-              <TextField
-                label="Departamento"
-                defaultValue={selectedUser.departamento}
-                fullWidth
-              />
-            </Box>
-          </DialogContent>
-        );
-
-      case "deactivate":
-        return (
-          <DialogContent>
-            <DialogContentText>
-              {selectedUser.ativo
-                ? `Tem certeza que deseja desativar o usuário ${selectedUser.nome}?`
-                : `Tem certeza que deseja ativar o usuário ${selectedUser.nome}?`}
-            </DialogContentText>
-          </DialogContent>
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  const renderDialogActions = () => {
-    switch (dialogType) {
-      case "view":
-        return (
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Fechar</Button>
-          </DialogActions>
-        );
-
-      case "edit":
-        return (
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Cancelar</Button>
-            <Button variant="contained" onClick={handleCloseDialog}>
-              Salvar
-            </Button>
-          </DialogActions>
-        );
-
-      case "deactivate":
-        return (
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Cancelar</Button>
-            <Button
-              variant="contained"
-              color={selectedUser?.ativo ? "warning" : "success"}
-              onClick={handleToggleUserStatus}
-            >
-              {selectedUser?.ativo ? "Desativar" : "Ativar"}
-            </Button>
-          </DialogActions>
-        );
-
-      default:
-        return null;
-    }
-  };
 
   return loading ? (
     <Box
@@ -271,6 +138,7 @@ export const Clientes = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "100%",
+        width: "100%",
       }}
     >
       <CircularProgress />
@@ -279,18 +147,22 @@ export const Clientes = () => {
       </Typography>
     </Box>
   ) : (
-    <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
+    <Layout title="Clientes">
+      <Grid
+        item
+        size={{ xs: 12 }}
+        sx={{ display: "flex", justifyContent: "end" }}
+      >
         <Button
           variant="contained"
           startIcon={<Add />}
-          onClick={() => handleOpenDialog(null, "create")}
+          onClick={handleOpenCreateDialog}
         >
           Cadastrar Usuário
         </Button>
-      </Box>
+      </Grid>
 
-      <Box sx={{ py: 3 }}>
+      <Grid item size={{ xs: 12 }}>
         <TextField
           fullWidth
           variant="outlined"
@@ -306,149 +178,57 @@ export const Clientes = () => {
             ),
           }}
         />
-      </Box>
+      </Grid>
 
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer>
-          <Table stickyHeader aria-label="tabela de usuários">
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    backgroundColor: "primary.main",
-                    color: "primary.contrastText",
-                  }}
-                >
-                  Nome
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: "primary.main",
-                    color: "primary.contrastText",
-                  }}
-                >
-                  Email
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: "primary.main",
-                    color: "primary.contrastText",
-                  }}
-                >
-                  Departamento
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: "primary.main",
-                    color: "primary.contrastText",
-                  }}
-                >
-                  Data de Cadastro
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: "primary.main",
-                    color: "primary.contrastText",
-                  }}
-                >
-                  Ativo
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    backgroundColor: "primary.main",
-                    color: "primary.contrastText",
-                  }}
-                />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedUsers.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} align="center">
-                    <Typography variant="body1" color="textSecondary">
-                      Nenhum usuário encontrado
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              ) : (
-                paginatedUsers.map((user) => (
-                  <TableRow key={user.id} hover>
-                    <TableCell>{user.nome}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.departamento}</TableCell>
-                    <TableCell>{user.dataCadastro}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={user.ativo ? "Ativo" : "Inativo"}
-                        color={user.ativo ? "success" : "default"}
-                        size="small"
-                      />
-                    </TableCell>
-                    <TableCell align="center">
-                      <Tooltip title="Visualizar" arrow placement="top">
-                        <IconButton
-                          onClick={() => handleOpenDialog(user, "view")}
-                        >
-                          <Visibility />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Editar" arrow placement="top">
-                        <IconButton
-                          onClick={() => handleOpenDialog(user, "edit")}
-                        >
-                          <Edit />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip
-                        title={user.ativo ? "Desativar" : "Ativar"}
-                        arrow
-                        placement="top"
-                      >
-                        <Switch
-                          checked={user.ativo}
-                          onChange={() => handleSwitchClick(user)}
-                          color={user.ativo ? "warning" : "success"}
-                        />
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 50]}
-          component="div"
-          count={filteredUsers.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Itens por página:"
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from}-${to} de ${count !== -1 ? count : `mais de ${to}`}`
-          }
+      <Grid item size={{ xs: 12 }}>
+        <TableClientes
+          {...{
+            paginatedUsers,
+            handleOpenViewDialog,
+            handleOpenEditDialog,
+            handleOpenDeactivateDialog,
+            filteredUsers,
+            rowsPerPage,
+            page,
+            handleChangePage,
+            handleChangeRowsPerPage,
+          }}
         />
-      </Paper>
+      </Grid>
+
+      <ModalVisualizar
+        {...{
+          selectedUser,
+          openViewDialog,
+          handleCloseViewDialog,
+        }}
+      />
+
+      <ModalEditar
+        {...{
+          selectedUser,
+          openEditDialog,
+          handleCloseEditDialog,
+        }}
+      />
+
+      <ModalDesativar
+        {...{
+          selectedUser,
+          handleToggleUserStatus,
+          openDeactivateDialog,
+          handleCloseDeactivateDialog,
+        }}
+      />
 
       <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
+        open={openCreateDialog}
+        onClose={handleCloseCreateDialog}
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>
-          {dialogType === "view" && "Visualizar Usuário"}
-          {dialogType === "edit" && "Editar Usuário"}
-          {dialogType === "deactivate" && "Alterar Status do Usuário"}
-          {dialogType === "create" && "Cadastrar Novo Usuário"}
-        </DialogTitle>
-        {renderDialogContent()}
-        {renderDialogActions()}
+        <DialogTitle>Cadastrar Novo Usuário</DialogTitle>
       </Dialog>
-    </Box>
+    </Layout>
   );
 };
