@@ -1,26 +1,24 @@
 import { Add, Search } from "@mui/icons-material";
 import {
-  Box,
   Button,
-  CircularProgress,
   Dialog,
   DialogTitle,
   Grid,
   InputAdornment,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Loading } from "../../components/Loading";
+import { Layout } from "../../components/Template/Layout";
 import { ModalDesativar } from "./ModaDesativar";
 import { ModalEditar } from "./ModalEditar";
 import { ModalVisualizar } from "./ModalVisualizar";
 import { mockClientes } from "./provider";
-import { Layout } from "../../components/Template/Layout";
 import { TableClientes } from "./TableClientes";
 
 export const Clientes = () => {
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [users, setUsers] = useState(mockClientes);
+  const [filteredUsers, setFilteredUsers] = useState(mockClientes);
   const [loading, setLoading] = useState(true);
 
   const [selectedUser, setSelectedUser] = useState(null);
@@ -34,18 +32,6 @@ export const Clientes = () => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeactivateDialog, setOpenDeactivateDialog] = useState(false);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
-
-  useEffect(() => {
-    const loadUsers = async () => {
-      setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 250));
-      setUsers(mockClientes);
-      setFilteredUsers(mockClientes);
-      setLoading(false);
-    };
-
-    loadUsers();
-  }, []);
 
   useEffect(() => {
     const filtered = users.filter(
@@ -130,105 +116,91 @@ export const Clientes = () => {
     page * rowsPerPage + rowsPerPage,
   );
 
-  return loading ? (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <CircularProgress />
-      <Typography color="primary" sx={{ mt: 2, fontWeight: 600 }}>
-        Carregando...
-      </Typography>
-    </Box>
-  ) : (
-    <Layout title="Clientes">
-      <Grid
-        item
-        size={{ xs: 12 }}
-        sx={{ display: "flex", justifyContent: "end" }}
-      >
-        <Button
-          variant="contained"
-          startIcon={<Add />}
-          onClick={handleOpenCreateDialog}
+  return (
+    <Loading {...{ loading, setLoading }}>
+      <Layout title="Clientes">
+        <Grid
+          item
+          size={{ xs: 12 }}
+          sx={{ display: "flex", justifyContent: "end" }}
         >
-          Cadastrar Usuário
-        </Button>
-      </Grid>
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            onClick={handleOpenCreateDialog}
+          >
+            Cadastrar Usuário
+          </Button>
+        </Grid>
 
-      <Grid item size={{ xs: 12 }}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Pesquisar por nome ou email..."
-          value={searchTerm}
-          size="small"
-          onChange={handleSearchChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Grid>
+        <Grid item size={{ xs: 12 }}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Pesquisar por nome ou email..."
+            value={searchTerm}
+            size="small"
+            onChange={handleSearchChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
 
-      <Grid item size={{ xs: 12 }}>
-        <TableClientes
+        <Grid item size={{ xs: 12 }}>
+          <TableClientes
+            {...{
+              paginatedUsers,
+              handleOpenViewDialog,
+              handleOpenEditDialog,
+              handleOpenDeactivateDialog,
+              filteredUsers,
+              rowsPerPage,
+              page,
+              handleChangePage,
+              handleChangeRowsPerPage,
+            }}
+          />
+        </Grid>
+
+        <ModalVisualizar
           {...{
-            paginatedUsers,
-            handleOpenViewDialog,
-            handleOpenEditDialog,
-            handleOpenDeactivateDialog,
-            filteredUsers,
-            rowsPerPage,
-            page,
-            handleChangePage,
-            handleChangeRowsPerPage,
+            selectedUser,
+            openViewDialog,
+            handleCloseViewDialog,
           }}
         />
-      </Grid>
 
-      <ModalVisualizar
-        {...{
-          selectedUser,
-          openViewDialog,
-          handleCloseViewDialog,
-        }}
-      />
+        <ModalEditar
+          {...{
+            selectedUser,
+            openEditDialog,
+            handleCloseEditDialog,
+          }}
+        />
 
-      <ModalEditar
-        {...{
-          selectedUser,
-          openEditDialog,
-          handleCloseEditDialog,
-        }}
-      />
+        <ModalDesativar
+          {...{
+            selectedUser,
+            handleToggleUserStatus,
+            openDeactivateDialog,
+            handleCloseDeactivateDialog,
+          }}
+        />
 
-      <ModalDesativar
-        {...{
-          selectedUser,
-          handleToggleUserStatus,
-          openDeactivateDialog,
-          handleCloseDeactivateDialog,
-        }}
-      />
-
-      <Dialog
-        open={openCreateDialog}
-        onClose={handleCloseCreateDialog}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>Cadastrar Novo Usuário</DialogTitle>
-      </Dialog>
-    </Layout>
+        <Dialog
+          open={openCreateDialog}
+          onClose={handleCloseCreateDialog}
+          maxWidth="sm"
+          fullWidth
+        >
+          <DialogTitle>Cadastrar Novo Usuário</DialogTitle>
+        </Dialog>
+      </Layout>
+    </Loading>
   );
 };
