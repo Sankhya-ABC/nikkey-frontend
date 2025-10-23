@@ -11,19 +11,19 @@ export const themeTokens = (themeMode: ThemeMode) => ({
       }),
 });
 
+const mainColors = {
+  primary: {
+    main: "#df0209",
+  },
+  secondary: {
+    main: "#1976d2",
+  },
+};
+
 const lightTheme = {
   palette: {
     mode: "light" as const,
-    primary: {
-      main: "#df0209",
-      light: "#ff5983",
-      dark: "#9a0036",
-    },
-    secondary: {
-      main: "#1976d2",
-      light: "#42a5f5",
-      dark: "#1565c0",
-    },
+    ...mainColors,
     background: {
       default: "#f5f5f5",
       paper: "#ffffff",
@@ -38,17 +38,7 @@ const lightTheme = {
 const darkTheme = {
   palette: {
     mode: "dark" as const,
-
-    primary: {
-      main: "#f48fb1",
-      light: "#fce4ec",
-      dark: "#ad1457",
-    },
-    secondary: {
-      main: "#90caf9",
-      light: "#e3f2fd",
-      dark: "#42a5f5",
-    },
+    ...mainColors,
     background: {
       default: "#121212",
       paper: "#1e1e1e",

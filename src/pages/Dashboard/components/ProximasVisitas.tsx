@@ -231,7 +231,7 @@ export const ProximasVisitas = () => {
               {proximasVisitas?.map(({ cliente, data, hora, icone }, index) => {
                 return (
                   <ListItem disablePadding key={index}>
-                    <ListItemButton sx={{ px: 3 }}>
+                    <ListItemButton sx={{ px: 3, py: 2 }}>
                       <Box
                         sx={{
                           display: "flex",
