@@ -10,7 +10,7 @@ export const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
     <Grid container spacing={3}>
       <Grid item size={{ xs: 12 }}>
-        <Typography variant="h4" sx={{ lineHeight: 1 }}>
+        <Typography variant="h4" sx={{ lineHeight: 1, fontWeight: 0 }}>
           {title}
         </Typography>
       </Grid>
