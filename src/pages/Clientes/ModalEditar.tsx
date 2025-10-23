@@ -24,7 +24,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
     <Dialog
       open={openEditDialog}
       onClose={handleCloseEditDialog}
-      maxWidth="sm"
+      maxWidth="md"
       fullWidth
     >
       <DialogTitle>Editar</DialogTitle>

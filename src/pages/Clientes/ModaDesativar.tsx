@@ -24,7 +24,7 @@ export const ModalDesativar: React.FC<ModalDesativarProps> = ({
     <Dialog
       open={openDeactivateDialog}
       onClose={handleCloseDeactivateDialog}
-      maxWidth="sm"
+      maxWidth="md"
       fullWidth
     >
       <DialogTitle>Desativar</DialogTitle>

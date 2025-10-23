@@ -24,7 +24,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
     <Dialog
       open={openViewDialog}
       onClose={handleCloseViewDialog}
-      maxWidth="sm"
+      maxWidth="md"
       fullWidth
     >
       <DialogTitle>Visualizar</DialogTitle>

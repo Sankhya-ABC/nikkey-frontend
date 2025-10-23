@@ -15,6 +15,7 @@ import { ModalEditar } from "./ModalEditar";
 import { ModalVisualizar } from "./ModalVisualizar";
 import { mockClientes } from "./provider";
 import { TableClientes } from "./TableClientes";
+import { ModalCadastrar } from "./ModalCadastrar";
 
 export const Clientes = () => {
   const [users, setUsers] = useState(mockClientes);
@@ -192,14 +193,12 @@ export const Clientes = () => {
           }}
         />
 
-        <Dialog
-          open={openCreateDialog}
-          onClose={handleCloseCreateDialog}
-          maxWidth="sm"
-          fullWidth
-        >
-          <DialogTitle>Cadastrar Novo Usuário</DialogTitle>
-        </Dialog>
+        <ModalCadastrar
+          {...{
+            openCreateDialog,
+            handleCloseCreateDialog,
+          }}
+        />
       </Layout>
     </Loading>
   );
