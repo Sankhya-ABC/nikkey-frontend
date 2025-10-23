@@ -14,7 +14,7 @@ export const CardInfo: React.FC<CardInfoProps> = ({
   sxContent,
 }) => {
   return (
-    <Card sx={{ p: 3, ...sxCard }}>
+    <Card sx={{ p: 3, height: "100%", ...sxCard }}>
       <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, lineHeight: 1 }}>
         {title}
       </Typography>
