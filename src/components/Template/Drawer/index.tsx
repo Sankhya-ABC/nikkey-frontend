@@ -10,13 +10,21 @@ import {
   Tooltip,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useDrawer } from "../../../hooks/useDrawer";
 import { functionalities } from "./provider";
 import { DrawerHeader, Drawer as DrawerUI } from "./styles";
 
 export const Drawer = () => {
   const { isDrawerOpen, openDrawer, closeDrawer } = useDrawer();
+  const location = useLocation();
+
+  const isActive = (route) => {
+    return (
+      location.pathname === route ||
+      (location.pathname === "/" && route === "/dashboard")
+    );
+  };
 
   return (
     <DrawerUI variant="permanent" open={isDrawerOpen}>
@@ -55,6 +63,14 @@ export const Drawer = () => {
                     minHeight: 48,
                     justifyContent: isDrawerOpen ? "initial" : "center",
                     px: 2.5,
+                    backgroundColor: isActive(route)
+                      ? "primary.main"
+                      : "transparent",
+                    "&:hover": {
+                      backgroundColor: isActive(route)
+                        ? "primary.dark"
+                        : "action.hover",
+                    },
                   }}
                 >
                   <ListItemIcon
@@ -62,6 +78,9 @@ export const Drawer = () => {
                       minWidth: 0,
                       mr: isDrawerOpen ? 3 : "auto",
                       justifyContent: "center",
+                      color: isActive(route)
+                        ? "primary.contrastText"
+                        : "inherit",
                     }}
                   >
                     {icon}
@@ -74,6 +93,9 @@ export const Drawer = () => {
                         transitions.create("opacity", {
                           duration: transitions.duration.leavingScreen,
                         }),
+                      color: isActive(route)
+                        ? "primary.contrastText"
+                        : "inherit",
                     }}
                   />
                 </ListItemButton>
