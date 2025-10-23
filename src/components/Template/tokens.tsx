@@ -13,7 +13,7 @@ export const themeTokens = (themeMode: ThemeMode) => ({
 
 const mainColors = {
   primary: {
-    main: "#df0209",
+    main: "#D4373C",
   },
   secondary: {
     main: "#1976d2",

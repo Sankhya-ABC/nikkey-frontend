@@ -20,6 +20,7 @@ import {
   IconButton,
   InputAdornment,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -28,6 +29,7 @@ import {
   TablePagination,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -37,7 +39,7 @@ const mockUsers = Array.from({ length: 45 }, (_, index) => ({
   nome: `Usuário ${index + 1}`,
   email: `usuario${index + 1}@email.com`,
   departamento: index % 3 === 0 ? `Administração` : `Operacional`,
-  ativo: index % 4 === 0 ? true : false,
+  ativo: index % 4 !== 0,
   dataCadastro: new Date(2024, 0, index + 1).toLocaleDateString("pt-BR"),
 }));
 
@@ -99,19 +101,25 @@ export const Clientes = () => {
     setDialogType("");
   };
 
-  const handleDeactivateUser = () => {
+  const handleToggleUserStatus = () => {
     if (selectedUser) {
       const updatedUsers = users.map((user) =>
         user.id === selectedUser.id
           ? {
               ...user,
-              ativo: user.ativo === "active" ? "inactive" : "active",
+              ativo: !user.ativo,
             }
           : user,
       );
       setUsers(updatedUsers);
       handleCloseDialog();
     }
+  };
+
+  const handleSwitchClick = (user) => {
+    setSelectedUser(user);
+    setDialogType("deactivate");
+    setOpenDialog(true);
   };
 
   const paginatedUsers = filteredUsers.slice(
@@ -144,19 +152,25 @@ export const Clientes = () => {
               </Box>
               <Box>
                 <Typography variant="subtitle2" color="textSecondary">
-                  ativo
+                  Departamento
+                </Typography>
+                <Typography variant="body1">
+                  {selectedUser.departamento}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2" color="textSecondary">
+                  Status
                 </Typography>
                 <Chip
-                  label={selectedUser.ativo === "active" ? "Ativo" : "Inativo"}
-                  color={
-                    selectedUser.ativo === "active" ? "success" : "default"
-                  }
+                  label={selectedUser.ativo ? "Ativo" : "Inativo"}
+                  color={selectedUser.ativo ? "success" : "default"}
                   size="small"
                 />
               </Box>
               <Box>
                 <Typography variant="subtitle2" color="textSecondary">
-                  Data de Criação
+                  Data de Cadastro
                 </Typography>
                 <Typography variant="body1">
                   {selectedUser.dataCadastro}
@@ -186,6 +200,11 @@ export const Clientes = () => {
                 defaultValue={selectedUser.email}
                 fullWidth
               />
+              <TextField
+                label="Departamento"
+                defaultValue={selectedUser.departamento}
+                fullWidth
+              />
             </Box>
           </DialogContent>
         );
@@ -194,7 +213,7 @@ export const Clientes = () => {
         return (
           <DialogContent>
             <DialogContentText>
-              {selectedUser.ativo === "active"
+              {selectedUser.ativo
                 ? `Tem certeza que deseja desativar o usuário ${selectedUser.nome}?`
                 : `Tem certeza que deseja ativar o usuário ${selectedUser.nome}?`}
             </DialogContentText>
@@ -231,10 +250,10 @@ export const Clientes = () => {
             <Button onClick={handleCloseDialog}>Cancelar</Button>
             <Button
               variant="contained"
-              color={selectedUser?.ativo === "active" ? "warning" : "success"}
-              onClick={handleDeactivateUser}
+              color={selectedUser?.ativo ? "warning" : "success"}
+              onClick={handleToggleUserStatus}
             >
-              {selectedUser?.ativo === "active" ? "Desativar" : "Ativar"}
+              {selectedUser?.ativo ? "Desativar" : "Ativar"}
             </Button>
           </DialogActions>
         );
@@ -294,12 +313,53 @@ export const Clientes = () => {
           <Table stickyHeader aria-label="tabela de usuários">
             <TableHead>
               <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Departamento</TableCell>
-                <TableCell>Data de Cadastro</TableCell>
-                <TableCell>Ativo</TableCell>
-                <TableCell align="center" />
+                <TableCell
+                  sx={{
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
+                  }}
+                >
+                  Nome
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
+                  }}
+                >
+                  Email
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
+                  }}
+                >
+                  Departamento
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
+                  }}
+                >
+                  Data de Cadastro
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
+                  }}
+                >
+                  Ativo
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
+                  }}
+                />
               </TableRow>
             </TableHead>
             <TableBody>
@@ -326,24 +386,31 @@ export const Clientes = () => {
                       />
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton
-                        onClick={() => handleOpenDialog(user, "view")}
-                        title="Visualizar"
-                      >
-                        <Visibility />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleOpenDialog(user, "edit")}
-                        title="Editar"
-                      >
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleOpenDialog(user, "deactivate")}
+                      <Tooltip title="Visualizar" arrow placement="top">
+                        <IconButton
+                          onClick={() => handleOpenDialog(user, "view")}
+                        >
+                          <Visibility />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Editar" arrow placement="top">
+                        <IconButton
+                          onClick={() => handleOpenDialog(user, "edit")}
+                        >
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip
                         title={user.ativo ? "Desativar" : "Ativar"}
+                        arrow
+                        placement="top"
                       >
-                        {user.ativo ? <Block /> : <CheckCircle />}
-                      </IconButton>
+                        <Switch
+                          checked={user.ativo}
+                          onChange={() => handleSwitchClick(user)}
+                          color={user.ativo ? "warning" : "success"}
+                        />
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))
@@ -352,7 +419,6 @@ export const Clientes = () => {
           </Table>
         </TableContainer>
 
-        {/* Paginação */}
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}
           component="div"
@@ -368,7 +434,6 @@ export const Clientes = () => {
         />
       </Paper>
 
-      {/* Diálogo */}
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -378,7 +443,7 @@ export const Clientes = () => {
         <DialogTitle>
           {dialogType === "view" && "Visualizar Usuário"}
           {dialogType === "edit" && "Editar Usuário"}
-          {dialogType === "deactivate" && "Alterar ativo do Usuário"}
+          {dialogType === "deactivate" && "Alterar Status do Usuário"}
           {dialogType === "create" && "Cadastrar Novo Usuário"}
         </DialogTitle>
         {renderDialogContent()}
