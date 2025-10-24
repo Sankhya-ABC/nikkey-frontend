@@ -31,12 +31,14 @@ export const ModalDesativar: React.FC<ModalDesativarProps> = ({
       <DialogContent>
         <DialogContentText>
           {selectedUser?.ativo
-            ? `Tem certeza que deseja desativar o usuário ${selectedUser?.nome}?`
-            : `Tem certeza que deseja ativar o usuário ${selectedUser?.nome}?`}
+            ? `Tem certeza que deseja desativar ${selectedUser?.nome}?`
+            : `Tem certeza que deseja ativar ${selectedUser?.nome}?`}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCloseDeactivateDialog}>Cancelar</Button>
+        <Button variant="outlined" onClick={handleCloseDeactivateDialog}>
+          Cancelar
+        </Button>
         <Button variant="contained" onClick={handleToggleUserStatus}>
           {selectedUser?.ativo ? "Desativar" : "Ativar"}
         </Button>

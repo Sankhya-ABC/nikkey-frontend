@@ -1,21 +1,14 @@
 import { Add, Search } from "@mui/icons-material";
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  Grid,
-  InputAdornment,
-  TextField,
-} from "@mui/material";
+import { Button, Grid, InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
 import { ModalDesativar } from "./ModaDesativar";
+import { ModalCadastrar } from "./ModalCadastrar";
 import { ModalEditar } from "./ModalEditar";
 import { ModalVisualizar } from "./ModalVisualizar";
 import { mockClientes } from "./provider";
 import { TableClientes } from "./TableClientes";
-import { ModalCadastrar } from "./ModalCadastrar";
 
 export const Clientes = () => {
   const [users, setUsers] = useState(mockClientes);
@@ -130,7 +123,7 @@ export const Clientes = () => {
             startIcon={<Add />}
             onClick={handleOpenCreateDialog}
           >
-            Cadastrar Usuário
+            Cadastrar
           </Button>
         </Grid>
 
