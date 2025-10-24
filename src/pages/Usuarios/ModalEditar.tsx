@@ -36,7 +36,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
       </DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item size={{ xs: 12 }}>
             <TextField
               size="small"
               fullWidth
@@ -46,7 +46,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item size={{ xs: 12 }}>
             <TextField
               size="small"
               fullWidth
@@ -56,7 +56,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={8}>
+          <Grid item size={{ xs: 12, md: 8 }}>
             <TextField
               size="small"
               fullWidth
@@ -65,7 +65,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item size={{ xs: 12, md: 4 }}>
             <FormControl fullWidth>
               <InputLabel id="perfil-label">Perfil</InputLabel>
               <Select
@@ -83,7 +83,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item size={{ xs: 12, md: 4 }}>
             <TextField
               size="small"
               fullWidth
@@ -92,7 +92,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item size={{ xs: 12, md: 4 }}>
             <TextField
               size="small"
               fullWidth
@@ -102,7 +102,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item size={{ xs: 12, md: 4 }}>
             <TextField
               size="small"
               fullWidth

@@ -33,7 +33,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
       </DialogTitle>
       <DialogContent>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid item size={{ xs: 12, md: 6 }}>
             <Typography variant="subtitle2" color="textSecondary" gutterBottom>
               Nome
             </Typography>
@@ -42,7 +42,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
             </Typography>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item size={{ xs: 12, md: 6 }}>
             <Typography variant="subtitle2" color="textSecondary" gutterBottom>
               E-mail
             </Typography>
@@ -51,7 +51,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
             </Typography>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item size={{ xs: 12, md: 6 }}>
             <Typography variant="subtitle2" color="textSecondary" gutterBottom>
               Departamento
             </Typography>
@@ -60,7 +60,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
             </Typography>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item size={{ xs: 12, md: 6 }}>
             <Typography variant="subtitle2" color="textSecondary" gutterBottom>
               Perfil
             </Typography>
@@ -69,7 +69,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
             </Typography>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item size={{ xs: 12, md: 6 }}>
             <Typography variant="subtitle2" color="textSecondary" gutterBottom>
               Telefone
             </Typography>
@@ -78,11 +78,11 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
             </Typography>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item size={{ xs: 12 }}>
             <Divider />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item size={{ xs: 12, md: 6 }}>
             <Typography variant="subtitle2" color="textSecondary" gutterBottom>
               Status
             </Typography>
@@ -93,7 +93,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item size={{ xs: 12, md: 6 }}>
             <Typography variant="subtitle2" color="textSecondary" gutterBottom>
               Data de Cadastro
             </Typography>
