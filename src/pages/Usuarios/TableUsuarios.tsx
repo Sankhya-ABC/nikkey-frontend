@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 
-interface TableClientesProps {
+interface TableUsuariosProps {
   paginatedCostumers: any;
   handleOpenViewDialog: any;
   handleOpenEditDialog: any;
@@ -27,7 +27,7 @@ interface TableClientesProps {
   handleChangeRowsPerPage: any;
 }
 
-export const TableClientes: React.FC<TableClientesProps> = ({
+export const TableUsuarios: React.FC<TableUsuariosProps> = ({
   paginatedCostumers,
   handleOpenViewDialog,
   handleOpenEditDialog,

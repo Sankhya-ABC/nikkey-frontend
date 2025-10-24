@@ -5,6 +5,7 @@ import { DrawerProvider } from "./hooks/useDrawer";
 import { ThemeProvider } from "./hooks/useTheme";
 import { Clientes } from "./pages/Clientes";
 import { Dashboard } from "./pages/Dashboard";
+import { Usuarios } from "./pages/Usuarios";
 
 export const App: React.FC = () => {
   return (
@@ -16,7 +17,7 @@ export const App: React.FC = () => {
               <Route path="" element={<Dashboard />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="clientes" element={<Clientes />} />
-              <Route path="usuarios" element={<span>usuarios</span>} />
+              <Route path="usuarios" element={<Usuarios />} />
               <Route path="visitas" element={<span>visitas</span>} />
               <Route
                 path="ordens-de-servico"
