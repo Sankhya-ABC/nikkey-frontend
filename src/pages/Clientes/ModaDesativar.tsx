@@ -8,15 +8,15 @@ import {
 } from "@mui/material";
 
 interface ModalDesativarProps {
-  selectedUser: any;
-  handleToggleUserStatus: any;
+  selectedCostumer: any;
+  handleToggleCostumerStatus: any;
   openDeactivateDialog: any;
   handleCloseDeactivateDialog: any;
 }
 
 export const ModalDesativar: React.FC<ModalDesativarProps> = ({
-  selectedUser,
-  handleToggleUserStatus,
+  selectedCostumer,
+  handleToggleCostumerStatus,
   openDeactivateDialog,
   handleCloseDeactivateDialog,
 }) => {
@@ -27,20 +27,22 @@ export const ModalDesativar: React.FC<ModalDesativarProps> = ({
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle>Desativar</DialogTitle>
+      <DialogTitle color="primary" variant="h5" fontWeight="bold">
+        Desativar
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {selectedUser?.ativo
-            ? `Tem certeza que deseja desativar ${selectedUser?.nome}?`
-            : `Tem certeza que deseja ativar ${selectedUser?.nome}?`}
+          {selectedCostumer?.ativo
+            ? `Tem certeza que deseja desativar ${selectedCostumer?.nome}?`
+            : `Tem certeza que deseja ativar ${selectedCostumer?.nome}?`}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={handleCloseDeactivateDialog}>
           Cancelar
         </Button>
-        <Button variant="contained" onClick={handleToggleUserStatus}>
-          {selectedUser?.ativo ? "Desativar" : "Ativar"}
+        <Button variant="contained" onClick={handleToggleCostumerStatus}>
+          {selectedCostumer?.ativo ? "Desativar" : "Ativar"}
         </Button>
       </DialogActions>
     </Dialog>

@@ -20,7 +20,7 @@ interface TableClientesProps {
   handleOpenViewDialog: any;
   handleOpenEditDialog: any;
   handleOpenDeactivateDialog: any;
-  filteredUsers: any;
+  filteredcostumers: any;
   rowsPerPage: any;
   page: any;
   handleChangePage: any;
@@ -32,7 +32,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
   handleOpenViewDialog,
   handleOpenEditDialog,
   handleOpenDeactivateDialog,
-  filteredUsers,
+  filteredcostumers,
   rowsPerPage,
   page,
   handleChangePage,
@@ -103,39 +103,43 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedCostumers?.map((user: any) => (
-                <TableRow key={user?.id} hover>
-                  <TableCell>{user?.nome}</TableCell>
-                  <TableCell>{user?.email}</TableCell>
-                  <TableCell>{user?.departamento}</TableCell>
-                  <TableCell>{user?.dataCadastro}</TableCell>
+              paginatedCostumers?.map((costumer: any) => (
+                <TableRow key={costumer?.id} hover>
+                  <TableCell>{costumer?.nome}</TableCell>
+                  <TableCell>{costumer?.email}</TableCell>
+                  <TableCell>{costumer?.departamento}</TableCell>
+                  <TableCell>{costumer?.dataCadastro}</TableCell>
                   <TableCell>
                     <Chip
-                      label={user?.ativo ? "Ativo" : "Inativo"}
-                      color={user?.ativo ? "success" : "default"}
+                      label={costumer?.ativo ? "Ativo" : "Inativo"}
+                      color={costumer?.ativo ? "success" : "default"}
                       size="small"
                     />
                   </TableCell>
                   <TableCell align="center">
                     <Tooltip title="Visualizar" arrow placement="top">
-                      <IconButton onClick={() => handleOpenViewDialog(user)}>
+                      <IconButton
+                        onClick={() => handleOpenViewDialog(costumer)}
+                      >
                         <Visibility />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Editar" arrow placement="top">
-                      <IconButton onClick={() => handleOpenEditDialog(user)}>
+                      <IconButton
+                        onClick={() => handleOpenEditDialog(costumer)}
+                      >
                         <Edit />
                       </IconButton>
                     </Tooltip>
                     <Tooltip
-                      title={user?.ativo ? "Desativar" : "Ativar"}
+                      title={costumer?.ativo ? "Desativar" : "Ativar"}
                       arrow
                       placement="top"
                     >
                       <Switch
-                        checked={user?.ativo}
-                        onChange={() => handleOpenDeactivateDialog(user)}
-                        color={user?.ativo ? "success" : "default"}
+                        checked={costumer?.ativo}
+                        onChange={() => handleOpenDeactivateDialog(costumer)}
+                        color={costumer?.ativo ? "success" : "default"}
                       />
                     </Tooltip>
                   </TableCell>
@@ -149,7 +153,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50]}
         component="div"
-        count={filteredUsers?.length}
+        count={filteredcostumers?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

@@ -27,7 +27,9 @@ export const ModalDesativar: React.FC<ModalDesativarProps> = ({
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle>Desativar</DialogTitle>
+      <DialogTitle color="primary" variant="h5" fontWeight="bold">
+        Desativar
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
           {selectedUser?.ativo

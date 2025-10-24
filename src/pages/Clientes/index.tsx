@@ -11,11 +11,11 @@ import { mockClientes } from "./provider";
 import { TableClientes } from "./TableClientes";
 
 export const Clientes = () => {
-  const [users, setUsers] = useState(mockClientes);
-  const [filteredUsers, setFilteredUsers] = useState(mockClientes);
+  const [costumers, setCostumer] = useState(mockClientes);
+  const [filteredCostumers, setFilteredCostumers] = useState(mockClientes);
   const [loading, setLoading] = useState(true);
 
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedCostumer, setSelectedCostumer] = useState(null);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -28,14 +28,14 @@ export const Clientes = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
   useEffect(() => {
-    const filtered = users.filter(
-      (user) =>
-        user?.nome?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-        user?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+    const filtered = costumers.filter(
+      (costumer) =>
+        costumer?.nome?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+        costumer?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
     );
-    setFilteredUsers(filtered);
+    setFilteredCostumers(filtered);
     setPage(0);
-  }, [searchTerm, users]);
+  }, [searchTerm, costumers]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event?.target?.value);
@@ -50,62 +50,62 @@ export const Clientes = () => {
     setPage(0);
   };
 
-  const handleOpenViewDialog = (user) => {
-    setSelectedUser(user);
+  const handleOpenViewDialog = (costumer) => {
+    setSelectedCostumer(costumer);
     setOpenViewDialog(true);
   };
 
-  const handleOpenEditDialog = (user) => {
-    setSelectedUser(user);
+  const handleOpenEditDialog = (costumer) => {
+    setSelectedCostumer(costumer);
     setOpenEditDialog(true);
   };
 
-  const handleOpenDeactivateDialog = (user) => {
-    setSelectedUser(user);
+  const handleOpenDeactivateDialog = (costumer) => {
+    setSelectedCostumer(costumer);
     setOpenDeactivateDialog(true);
   };
 
   const handleOpenCreateDialog = () => {
-    setSelectedUser(null);
+    setSelectedCostumer(null);
     setOpenCreateDialog(true);
   };
 
   const handleCloseViewDialog = () => {
     setOpenViewDialog(false);
-    setSelectedUser(null);
+    setSelectedCostumer(null);
   };
 
   const handleCloseEditDialog = () => {
     setOpenEditDialog(false);
-    setSelectedUser(null);
+    setSelectedCostumer(null);
   };
 
   const handleCloseDeactivateDialog = () => {
     setOpenDeactivateDialog(false);
-    setSelectedUser(null);
+    setSelectedCostumer(null);
   };
 
   const handleCloseCreateDialog = () => {
     setOpenCreateDialog(false);
-    setSelectedUser(null);
+    setSelectedCostumer(null);
   };
 
-  const handleToggleUserStatus = () => {
-    if (selectedUser) {
-      const updatedUsers = users?.map((user) =>
-        user?.id === selectedUser?.id
+  const handleToggleCostumerStatus = () => {
+    if (selectedCostumer) {
+      const updatedCostumers = costumers?.map((costumer) =>
+        costumer?.id === selectedCostumer?.id
           ? {
-              ...user,
-              ativo: !user?.ativo,
+              ...costumer,
+              ativo: !costumer?.ativo,
             }
-          : user,
+          : costumer,
       );
-      setUsers(updatedUsers);
+      setCostumer(updatedCostumers);
       handleCloseDeactivateDialog();
     }
   };
 
-  const paginatedUsers = filteredUsers.slice(
+  const paginatedCostumers = filteredCostumers.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage,
   );
@@ -148,11 +148,11 @@ export const Clientes = () => {
         <Grid item size={{ xs: 12 }}>
           <TableClientes
             {...{
-              paginatedUsers,
+              paginatedCostumers,
               handleOpenViewDialog,
               handleOpenEditDialog,
               handleOpenDeactivateDialog,
-              filteredUsers,
+              filteredCostumers,
               rowsPerPage,
               page,
               handleChangePage,
@@ -163,7 +163,7 @@ export const Clientes = () => {
 
         <ModalVisualizar
           {...{
-            selectedUser,
+            selectedCostumer,
             openViewDialog,
             handleCloseViewDialog,
           }}
@@ -171,7 +171,7 @@ export const Clientes = () => {
 
         <ModalEditar
           {...{
-            selectedUser,
+            selectedCostumer,
             openEditDialog,
             handleCloseEditDialog,
           }}
@@ -179,8 +179,8 @@ export const Clientes = () => {
 
         <ModalDesativar
           {...{
-            selectedUser,
-            handleToggleUserStatus,
+            selectedCostumer,
+            handleToggleCostumerStatus,
             openDeactivateDialog,
             handleCloseDeactivateDialog,
           }}

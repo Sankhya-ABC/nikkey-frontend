@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { estados } from "./provider";
+import { perfis } from "./provider";
 
 interface ModalCadastrarProps {
   openCreateDialog: any;
@@ -39,97 +39,32 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item size={{ xs: 12 }}>
-            <Typography variant="h6" color="primary">
-              Dados Básicos
-            </Typography>
+            <TextField size="small" fullWidth label="Nome" variant="outlined" />
           </Grid>
 
           <Grid item size={{ xs: 12 }}>
             <TextField
               size="small"
               fullWidth
-              label="Razão Social"
+              label="E-mail"
               variant="outlined"
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="Nome Fantasia"
-              variant="outlined"
-            />
+          <Grid item size={{ xs: 12, md: 8 }}>
+            <TextField size="small" fullWidth label="Departamento" />
           </Grid>
 
-          <Grid item size={{ xs: 6 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="CNPJ/CPF"
-              placeholder="Apenas Números"
-            />
-          </Grid>
-
-          <Grid item size={{ xs: 6 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="Validade do Certificado (Dias)"
-              placeholder="DD/MM/AAAA"
-            />
-          </Grid>
-
-          <Grid item size={{ xs: 12 }}>
-            <TextField size="small" fullWidth label="Tipo de Atividade" />
-          </Grid>
-
-          <Grid
-            item
-            size={{ xs: 12 }}
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <Box sx={{ mr: 2, minWidth: 140 }}>
-              <Typography color="text.secondary">
-                Cliente possui contrato?
-              </Typography>
-            </Box>
-            <FormControlLabel control={<Switch defaultChecked />} label="" />
-          </Grid>
-
-          <Grid item size={{ xs: 12 }}>
-            <Typography variant="h6" color="primary">
-              Endereço
-            </Typography>
-          </Grid>
-
-          {/* Endereço */}
-          <Grid item size={{ xs: 12 }}>
-            <TextField size="small" fullWidth label="Logradouro" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 3 }}>
-            <TextField size="small" fullWidth label="Número" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 9 }}>
-            <TextField size="small" fullWidth label="Complemento" />
-          </Grid>
-
-          <Grid item size={{ xs: 6, md: 3 }}>
-            <TextField size="small" fullWidth label="Bairro" />
-          </Grid>
-
-          <Grid item size={{ xs: 6, md: 3 }}>
+          <Grid item size={{ xs: 12, md: 4 }}>
             <FormControl fullWidth>
-              <InputLabel id="estado-label">Estado</InputLabel>
+              <InputLabel id="perfil-label">Perfil</InputLabel>
               <Select
-                labelId="estado-label"
-                label="Estado"
-                defaultValue={"Acre"}
+                labelId="perfil-label"
+                label="Perfil"
+                defaultValue={"Administrador"}
                 size="small"
               >
-                {estados?.map((e) => (
+                {perfis?.map((e) => (
                   <MenuItem key={e} value={e}>
                     {e}
                   </MenuItem>
@@ -138,83 +73,16 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
             </FormControl>
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 3 }}>
-            <TextField size="small" fullWidth label="Cidade" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 3 }}>
-            <TextField size="small" fullWidth label="CEP" />
-          </Grid>
-
-          <Grid item size={{ xs: 12 }}>
-            <Typography variant="h6" color="primary">
-              Contato
-            </Typography>
-          </Grid>
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Contato" />
-          </Grid>
-
           <Grid item size={{ xs: 12, md: 4 }}>
             <TextField size="small" fullWidth label="Telefone" />
           </Grid>
 
           <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Função" />
+            <TextField size="small" fullWidth label="Senha" />
           </Grid>
 
           <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Fax" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 8 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="E-mail"
-              defaultValue="atendimento.sp@nikkey.com.br"
-            />
-          </Grid>
-
-          <Grid item size={{ xs: 12 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="Observações"
-              multiline
-              rows={4}
-              placeholder="Anotações sobre o cliente"
-            />
-          </Grid>
-
-          <Grid item size={{ xs: 12 }}>
-            <Typography variant="h6" color="primary">
-              Dados de Acesso
-            </Typography>
-          </Grid>
-          <Grid item size={{ xs: 12, md: 6 }}>
-            <TextField size="small" fullWidth label="Nome" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 6 }}>
-            <TextField size="small" fullWidth label="E-mail" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Departamento" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Senha" type="password" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="Confirmar Senha"
-              type="password"
-            />
+            <TextField size="small" fullWidth label="Confirmar senha" />
           </Grid>
         </Grid>
       </DialogContent>

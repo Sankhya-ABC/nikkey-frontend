@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 
 interface TableUsuariosProps {
-  paginatedCostumers: any;
+  paginatedUsers: any;
   handleOpenViewDialog: any;
   handleOpenEditDialog: any;
   handleOpenDeactivateDialog: any;
@@ -28,7 +28,7 @@ interface TableUsuariosProps {
 }
 
 export const TableUsuarios: React.FC<TableUsuariosProps> = ({
-  paginatedCostumers,
+  paginatedUsers,
   handleOpenViewDialog,
   handleOpenEditDialog,
   handleOpenDeactivateDialog,
@@ -94,7 +94,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCostumers?.length === 0 ? (
+            {paginatedUsers?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
                   <Typography variant="body1" color="textSecondary">
@@ -103,7 +103,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedCostumers?.map((user: any) => (
+              paginatedUsers?.map((user: any) => (
                 <TableRow key={user?.id} hover>
                   <TableCell>{user?.nome}</TableCell>
                   <TableCell>{user?.email}</TableCell>
