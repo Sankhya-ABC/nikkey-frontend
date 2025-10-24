@@ -36,7 +36,7 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
         Cadastrar
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ overflow: "unset" }}>
         <Grid container spacing={2}>
           <Grid item size={{ xs: 12 }}>
             <TextField size="small" fullWidth label="Nome" variant="outlined" />

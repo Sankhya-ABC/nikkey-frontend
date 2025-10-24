@@ -30,7 +30,7 @@ export const ModalDesativar: React.FC<ModalDesativarProps> = ({
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
         Desativar
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ overflow: "unset" }}>
         <DialogContentText>
           {selectedUser?.ativo
             ? `Tem certeza que deseja desativar ${selectedUser?.nome}?`

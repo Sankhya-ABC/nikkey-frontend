@@ -38,7 +38,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
         Editar
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ overflow: "unset" }}>
         <Grid container spacing={2}>
           <Grid item size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">

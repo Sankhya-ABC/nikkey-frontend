@@ -31,7 +31,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
         Visualizar
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ overflow: "unset" }}>
         <Grid container spacing={3}>
           <Grid item size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">
