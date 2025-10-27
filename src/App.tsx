@@ -9,48 +9,92 @@ import { Usuarios } from "./pages/Usuarios";
 import { AuthProvider } from "./hooks/useAuth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Login } from "./pages/Login";
+import { NotFound } from "./pages/NotFound";
+
+const routes = [
+  {
+    path: "login",
+    element: <Login />,
+    isProtected: false,
+    permissions: [],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+    isProtected: false,
+    permissions: [],
+  },
+  {
+    path: "",
+    element: <Dashboard />,
+    isProtected: true,
+    permissions: [],
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+    isProtected: true,
+    permissions: [],
+  },
+  {
+    path: "clientes",
+    element: <Clientes />,
+    isProtected: true,
+    permissions: [],
+  },
+  {
+    element: <Usuarios />,
+    path: "usuarios",
+    isProtected: true,
+    permissions: [],
+  },
+  {
+    path: "visitas",
+    element: <span>visitas</span>,
+    isProtected: true,
+    permissions: [],
+  },
+  {
+    path: "ordens-de-servico",
+    element: <span>ordens-de-servico</span>,
+    isProtected: true,
+    permissions: [],
+  },
+  {
+    path: "relatorio-de-produtividade",
+    element: <span>relatorio-de-produtividade</span>,
+    isProtected: true,
+    permissions: [],
+  },
+];
 
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <DrawerProvider>
-          <BrowserRouter>
+      <DrawerProvider>
+        <BrowserRouter>
+          <AuthProvider>
             <Routes>
               <Route element={<Template />}>
-                <Route
-                  path=""
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="login" element={<Login />} />
-                <Route path="clientes" element={<Clientes />} />
-                <Route path="usuarios" element={<Usuarios />} />
-                <Route path="visitas" element={<span>visitas</span>} />
-                <Route
-                  path="ordens-de-servico"
-                  element={<span>ordens-de-servico</span>}
-                />
-                <Route
-                  path="relatorio-de-produtividade"
-                  element={<span>relatorio-de-produtividade</span>}
-                />
+                {routes.map(({ path, element, isProtected, permissions }) => {
+                  return (
+                    <Route
+                      path={path}
+                      element={
+                        isProtected ? (
+                          <ProtectedRoute>{element}</ProtectedRoute>
+                        ) : (
+                          element
+                        )
+                      }
+                    />
+                  );
+                })}
               </Route>
             </Routes>
-          </BrowserRouter>
-        </DrawerProvider>
-      </AuthProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </DrawerProvider>
     </ThemeProvider>
   );
 };
