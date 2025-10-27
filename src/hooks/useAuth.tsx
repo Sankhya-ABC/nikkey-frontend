@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useNavigate } from "react-router";
 
 interface User {
   id: string;
@@ -51,6 +52,7 @@ const fakeApiLogin = async (
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(() => {
     const raw = localStorage.getItem(STORAGE_KEYS.user);
     return raw ? (JSON.parse(raw) as User) : null;
@@ -82,22 +84,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setExpiresAt(newExpires);
   };
 
-  const clearSession = () => {
+  const logout = () => {
     localStorage.removeItem(STORAGE_KEYS.token);
     localStorage.removeItem(STORAGE_KEYS.user);
     localStorage.removeItem(STORAGE_KEYS.expiresAt);
     setToken(null);
     setUser(null);
     setExpiresAt(null);
+    navigate("/login", { replace: true });
   };
 
   const login = async (email: string, password: string) => {
     const resp = await fakeApiLogin(email, password);
     persistSession(resp);
-  };
-
-  const logout = () => {
-    clearSession();
   };
 
   const isAuthenticated = () => {
@@ -110,11 +109,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const interval = setInterval(() => {
       setTick((t) => t + 1);
       if (expiresAt && expiresAt <= Date.now()) {
-        clearSession();
+        logout();
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [expiresAt]);
+  }, [expiresAt, navigate]);
 
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
@@ -137,18 +136,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (expiresAt && expiresAt <= Date.now()) {
-      clearSession();
+      logout();
     }
   }, []);
 
   const value = useMemo<AuthContextValue>(
-    () => ({
-      login,
-      logout,
-      getUser,
-      isAuthenticated,
-      getSessionRemaining: getSessionRemaining,
-    }),
+    () => ({ login, logout, getUser, isAuthenticated, getSessionRemaining }),
     [token, user, expiresAt],
   );
 
