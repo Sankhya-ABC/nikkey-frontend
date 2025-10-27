@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import { Outlet } from "react-router";
 import { Drawer } from "./Drawer";
 import { Menu } from "./Menu";
+import { useAuth } from "../../hooks/useAuth";
 
 const Main = styled("main")(({ theme }) => ({
   flexGrow: 1,
@@ -14,11 +15,12 @@ const Main = styled("main")(({ theme }) => ({
 }));
 
 export const Template = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <Box sx={{ display: "flex" }}>
       <Menu />
 
-      <Drawer />
+      {isAuthenticated() && <Drawer />}
 
       <Main>
         <Outlet />

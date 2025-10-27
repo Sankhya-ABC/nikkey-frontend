@@ -8,10 +8,11 @@ import {
   Avatar as AvatarUI,
 } from "@mui/material";
 import * as React from "react";
-
-const perfil = ["Logout"];
+import { useAuth } from "../../../hooks/useAuth";
 
 export const Avatar = () => {
+  const { logout } = useAuth();
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
@@ -23,6 +24,13 @@ export const Avatar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const perfil = [
+    {
+      name: "Logout",
+      callback: () => logout(),
+    },
+  ];
 
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -49,9 +57,15 @@ export const Avatar = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {perfil.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography sx={{ textAlign: "center" }}>{setting}</Typography>
+        {perfil.map(({ name, callback }) => (
+          <MenuItem
+            key={name}
+            onClick={() => {
+              callback();
+              handleCloseUserMenu();
+            }}
+          >
+            <Typography sx={{ textAlign: "center" }}>{name}</Typography>
           </MenuItem>
         ))}
       </Menu>

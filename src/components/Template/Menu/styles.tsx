@@ -5,12 +5,13 @@ import { styled } from "@mui/material/styles";
 import { DRAWER_WIDTH } from "../Drawer/styles";
 
 interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
+  isDrawerOpen: boolean;
+  isAuthenticated: boolean;
 }
 
 export const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
+  shouldForwardProp: (prop) => prop !== "openedAndAuthenticated",
+})<AppBarProps>(({ theme, isDrawerOpen, isAuthenticated }) => ({
   zIndex: theme.zIndex.drawer + 1,
   height: 64,
   boxShadow: `0 1px 0 ${theme.palette.divider}`,
@@ -18,7 +19,7 @@ export const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(open && {
+  ...(isDrawerOpen && {
     marginLeft: DRAWER_WIDTH,
     width: `calc(100% - ${DRAWER_WIDTH}px)`,
     transition: theme.transitions.create(["width", "margin"], {
@@ -26,12 +27,15 @@ export const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-  ...(!open && {
+  ...(!isDrawerOpen && {
     marginLeft: `calc(${theme.spacing(7)} + 1px)`,
     width: `calc(100% - calc(${theme.spacing(7)} + 1px))`,
     [theme.breakpoints.up("sm")]: {
       marginLeft: `calc(${theme.spacing(8)} + 1px)`,
       width: `calc(100% - calc(${theme.spacing(8)} + 1px))`,
     },
+  }),
+  ...(!isAuthenticated && {
+    width: "100%",
   }),
 }));
