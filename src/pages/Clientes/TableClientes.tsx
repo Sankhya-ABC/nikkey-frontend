@@ -1,4 +1,5 @@
 import { Edit, Visibility } from "@mui/icons-material";
+import LoginIcon from "@mui/icons-material/Login";
 import {
   Chip,
   IconButton,
@@ -117,6 +118,11 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                     />
                   </TableCell>
                   <TableCell align="center">
+                    <Tooltip title="Acessar como" arrow placement="top">
+                      <IconButton onClick={() => null}>
+                        <LoginIcon />
+                      </IconButton>
+                    </Tooltip>
                     <Tooltip title="Visualizar" arrow placement="top">
                       <IconButton
                         onClick={() => handleOpenViewDialog(costumer)}
