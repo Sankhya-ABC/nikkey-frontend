@@ -7,15 +7,20 @@ import { ModalDesativar } from "./ModaDesativar";
 import { ModalCadastrar } from "./ModalCadastrar";
 import { ModalEditar } from "./ModalEditar";
 import { ModalVisualizar } from "./ModalVisualizar";
-import { mockClientes } from "./provider";
-import { TableClientes } from "./TableClientes";
+import { mockOrdemDeServicos } from "./provider";
+import { TableOrdemDeServicos } from "./TableOrdemDeServicos";
+import { DatePicker } from "../../components/Form/DatePicker";
+import { useForm } from "react-hook-form";
 
 export const OrdemDeServico = () => {
-  const [costumers, setCostumer] = useState(mockClientes);
-  const [filteredCostumers, setFilteredCostumers] = useState(mockClientes);
+  const { control } = useForm();
+
+  const [ordemDeServicos, setOrdemDeServico] = useState(mockOrdemDeServicos);
+  const [filteredOrdemDeServicos, setfilteredOrdemDeServicos] =
+    useState(mockOrdemDeServicos);
   const [loading, setLoading] = useState(true);
 
-  const [selectedCostumer, setSelectedCostumer] = useState(null);
+  const [selectedOrdemDeServico, setSelectedOrdemDeServico] = useState(null);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -28,14 +33,18 @@ export const OrdemDeServico = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
   useEffect(() => {
-    const filtered = costumers.filter(
-      (costumer) =>
-        costumer?.nome?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-        costumer?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+    const filtered = ordemDeServicos.filter(
+      (ordemDeServico) =>
+        ordemDeServico?.cliente
+          ?.toLowerCase()
+          ?.includes(searchTerm?.toLowerCase()) ||
+        ordemDeServico?.tecnico
+          ?.toLowerCase()
+          ?.includes(searchTerm?.toLowerCase()),
     );
-    setFilteredCostumers(filtered);
+    setfilteredOrdemDeServicos(filtered);
     setPage(0);
-  }, [searchTerm, costumers]);
+  }, [searchTerm, ordemDeServicos]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event?.target?.value);
@@ -50,69 +59,69 @@ export const OrdemDeServico = () => {
     setPage(0);
   };
 
-  const handleOpenViewDialog = (costumer) => {
-    setSelectedCostumer(costumer);
+  const handleOpenViewDialog = (ordemDeServico) => {
+    setSelectedOrdemDeServico(ordemDeServico);
     setOpenViewDialog(true);
   };
 
-  const handleOpenEditDialog = (costumer) => {
-    setSelectedCostumer(costumer);
+  const handleOpenEditDialog = (ordemDeServico) => {
+    setSelectedOrdemDeServico(ordemDeServico);
     setOpenEditDialog(true);
   };
 
-  const handleOpenDeactivateDialog = (costumer) => {
-    setSelectedCostumer(costumer);
+  const handleOpenDeactivateDialog = (ordemDeServico) => {
+    setSelectedOrdemDeServico(ordemDeServico);
     setOpenDeactivateDialog(true);
   };
 
   const handleOpenCreateDialog = () => {
-    setSelectedCostumer(null);
+    setSelectedOrdemDeServico(null);
     setOpenCreateDialog(true);
   };
 
   const handleCloseViewDialog = () => {
     setOpenViewDialog(false);
-    setSelectedCostumer(null);
+    setSelectedOrdemDeServico(null);
   };
 
   const handleCloseEditDialog = () => {
     setOpenEditDialog(false);
-    setSelectedCostumer(null);
+    setSelectedOrdemDeServico(null);
   };
 
   const handleCloseDeactivateDialog = () => {
     setOpenDeactivateDialog(false);
-    setSelectedCostumer(null);
+    setSelectedOrdemDeServico(null);
   };
 
   const handleCloseCreateDialog = () => {
     setOpenCreateDialog(false);
-    setSelectedCostumer(null);
+    setSelectedOrdemDeServico(null);
   };
 
-  const handleToggleCostumerStatus = () => {
-    if (selectedCostumer) {
-      const updatedCostumers = costumers?.map((costumer) =>
-        costumer?.id === selectedCostumer?.id
+  const handleToggleOrdemDeServicoStatus = () => {
+    if (selectedOrdemDeServico) {
+      const updatedOrdemDeServicos = ordemDeServicos?.map((ordemDeServico) =>
+        ordemDeServico?.numero === selectedOrdemDeServico?.numero
           ? {
-              ...costumer,
-              ativo: !costumer?.ativo,
+              ...ordemDeServico,
+              ativo: !ordemDeServico?.ativo,
             }
-          : costumer,
+          : ordemDeServico,
       );
-      setCostumer(updatedCostumers);
+      setOrdemDeServico(updatedOrdemDeServicos);
       handleCloseDeactivateDialog();
     }
   };
 
-  const paginatedCostumers = filteredCostumers.slice(
+  const paginatedOrdemDeServicos = filteredOrdemDeServicos.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage,
   );
 
   return (
     <Loading {...{ loading, setLoading }}>
-      <Layout title="Clientes">
+      <Layout title="Ordens de Serviço">
         <Grid
           item
           size={{ xs: 12 }}
@@ -127,11 +136,11 @@ export const OrdemDeServico = () => {
           </Button>
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid item size={{ xs: 12, md: 6 }}>
           <TextField
             fullWidth
             variant="outlined"
-            placeholder="Pesquisar por nome ou email..."
+            placeholder="Pesquisar por cliente ou técnico..."
             value={searchTerm}
             size="small"
             onChange={handleSearchChange}
@@ -145,14 +154,22 @@ export const OrdemDeServico = () => {
           />
         </Grid>
 
+        <Grid item size={{ xs: 12, md: 3 }}>
+          <DatePicker label="Data início" name="dataInicio" control={control} />
+        </Grid>
+
+        <Grid item size={{ xs: 12, md: 3 }}>
+          <DatePicker label="Data fim" name="dataInicio" control={control} />
+        </Grid>
+
         <Grid item size={{ xs: 12 }}>
-          <TableClientes
+          <TableOrdemDeServicos
             {...{
-              paginatedCostumers,
+              paginatedOrdemDeServicos,
               handleOpenViewDialog,
               handleOpenEditDialog,
               handleOpenDeactivateDialog,
-              filteredCostumers,
+              filteredOrdemDeServicos,
               rowsPerPage,
               page,
               handleChangePage,
@@ -163,7 +180,7 @@ export const OrdemDeServico = () => {
 
         <ModalVisualizar
           {...{
-            selectedCostumer,
+            selectedOrdemDeServico,
             openViewDialog,
             handleCloseViewDialog,
           }}
@@ -171,7 +188,7 @@ export const OrdemDeServico = () => {
 
         <ModalEditar
           {...{
-            selectedCostumer,
+            selectedOrdemDeServico,
             openEditDialog,
             handleCloseEditDialog,
           }}
@@ -179,8 +196,8 @@ export const OrdemDeServico = () => {
 
         <ModalDesativar
           {...{
-            selectedCostumer,
-            handleToggleCostumerStatus,
+            selectedOrdemDeServico,
+            handleToggleOrdemDeServicoStatus,
             openDeactivateDialog,
             handleCloseDeactivateDialog,
           }}

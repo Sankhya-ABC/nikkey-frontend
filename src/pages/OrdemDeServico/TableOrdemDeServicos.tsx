@@ -1,5 +1,5 @@
 import { Edit, Visibility } from "@mui/icons-material";
-import LoginIcon from "@mui/icons-material/Login";
+import PrintIcon from "@mui/icons-material/Print";
 import {
   Chip,
   IconButton,
@@ -16,24 +16,24 @@ import {
   Typography,
 } from "@mui/material";
 
-interface TableClientesProps {
-  paginatedCostumers: any;
+interface TableOrdemDeServicosProps {
+  paginatedOrdemDeServicos: any;
   handleOpenViewDialog: any;
   handleOpenEditDialog: any;
   handleOpenDeactivateDialog: any;
-  filteredcostumers: any;
+  filteredOrdemDeServicos: any;
   rowsPerPage: any;
   page: any;
   handleChangePage: any;
   handleChangeRowsPerPage: any;
 }
 
-export const TableClientes: React.FC<TableClientesProps> = ({
-  paginatedCostumers,
+export const TableOrdemDeServicos: React.FC<TableOrdemDeServicosProps> = ({
+  paginatedOrdemDeServicos,
   handleOpenViewDialog,
   handleOpenEditDialog,
   handleOpenDeactivateDialog,
-  filteredcostumers,
+  filteredOrdemDeServicos,
   rowsPerPage,
   page,
   handleChangePage,
@@ -42,7 +42,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
-        <Table stickyHeader aria-label="tabela de clientes">
+        <Table stickyHeader aria-label="tabela de ordens de servico">
           <TableHead>
             <TableRow>
               <TableCell
@@ -51,7 +51,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Nome
+                Nº Ordem
               </TableCell>
               <TableCell
                 sx={{
@@ -59,7 +59,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Email
+                Cliente
               </TableCell>
               <TableCell
                 sx={{
@@ -67,7 +67,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Departamento
+                Técnico
               </TableCell>
               <TableCell
                 sx={{
@@ -75,7 +75,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Data de Cadastro
+                Data e Hora
               </TableCell>
               <TableCell
                 sx={{
@@ -95,57 +95,59 @@ export const TableClientes: React.FC<TableClientesProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCostumers?.length === 0 ? (
+            {paginatedOrdemDeServicos?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
                   <Typography variant="body1" color="textSecondary">
-                    Nenhum cliente encontrado
+                    Nenhuma ordem de serviço encontrada
                   </Typography>
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedCostumers?.map((costumer: any) => (
-                <TableRow key={costumer?.id} hover>
-                  <TableCell>{costumer?.nome}</TableCell>
-                  <TableCell>{costumer?.email}</TableCell>
-                  <TableCell>{costumer?.departamento}</TableCell>
-                  <TableCell>{costumer?.dataCadastro}</TableCell>
+              paginatedOrdemDeServicos?.map((ordemDeServico: any) => (
+                <TableRow key={ordemDeServico?.numero} hover>
+                  <TableCell>{ordemDeServico?.numero}</TableCell>
+                  <TableCell>{ordemDeServico?.cliente}</TableCell>
+                  <TableCell>{ordemDeServico?.tecnico}</TableCell>
+                  <TableCell>{`${ordemDeServico?.dataHora?.data?.split("-").reverse().join("/")} ${ordemDeServico?.dataHora?.horaDe} - ${ordemDeServico?.dataHora?.horaAte}`}</TableCell>
                   <TableCell>
                     <Chip
-                      label={costumer?.ativo ? "Ativo" : "Inativo"}
-                      color={costumer?.ativo ? "success" : "default"}
+                      label={ordemDeServico?.ativo ? "Ativo" : "Inativo"}
+                      color={ordemDeServico?.ativo ? "success" : "default"}
                       size="small"
                     />
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title="Acessar como" arrow placement="top">
-                      <IconButton onClick={() => null}>
-                        <LoginIcon />
-                      </IconButton>
-                    </Tooltip>
                     <Tooltip title="Visualizar" arrow placement="top">
                       <IconButton
-                        onClick={() => handleOpenViewDialog(costumer)}
+                        onClick={() => handleOpenViewDialog(ordemDeServico)}
                       >
                         <Visibility />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Editar" arrow placement="top">
                       <IconButton
-                        onClick={() => handleOpenEditDialog(costumer)}
+                        onClick={() => handleOpenEditDialog(ordemDeServico)}
                       >
                         <Edit />
                       </IconButton>
                     </Tooltip>
+                    <Tooltip title="Imprimir" arrow placement="top">
+                      <IconButton onClick={() => null}>
+                        <PrintIcon />
+                      </IconButton>
+                    </Tooltip>
                     <Tooltip
-                      title={costumer?.ativo ? "Desativar" : "Ativar"}
+                      title={ordemDeServico?.ativo ? "Desativar" : "Ativar"}
                       arrow
                       placement="top"
                     >
                       <Switch
-                        checked={costumer?.ativo}
-                        onChange={() => handleOpenDeactivateDialog(costumer)}
-                        color={costumer?.ativo ? "success" : "default"}
+                        checked={ordemDeServico?.ativo}
+                        onChange={() =>
+                          handleOpenDeactivateDialog(ordemDeServico)
+                        }
+                        color={ordemDeServico?.ativo ? "success" : "default"}
                       />
                     </Tooltip>
                   </TableCell>
@@ -159,7 +161,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50]}
         component="div"
-        count={filteredcostumers?.length}
+        count={filteredOrdemDeServicos?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

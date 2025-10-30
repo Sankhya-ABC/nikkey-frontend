@@ -18,13 +18,13 @@ import {
 import { estados } from "./provider";
 
 interface ModalEditarProps {
-  selectedCostumer: any;
+  selectedOrdemDeServico: any;
   openEditDialog: any;
   handleCloseEditDialog: any;
 }
 
 export const ModalEditar: React.FC<ModalEditarProps> = ({
-  selectedCostumer,
+  selectedOrdemDeServico,
   openEditDialog,
   handleCloseEditDialog,
 }) => {
@@ -52,7 +52,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               fullWidth
               label="Razão Social"
               variant="outlined"
-              defaultValue={selectedCostumer?.razaoSocial || ""}
+              defaultValue={selectedOrdemDeServico?.razaoSocial || ""}
             />
           </Grid>
 
@@ -62,7 +62,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               fullWidth
               label="Nome Fantasia"
               variant="outlined"
-              defaultValue={selectedCostumer?.nomeFantasia || ""}
+              defaultValue={selectedOrdemDeServico?.nomeFantasia || ""}
             />
           </Grid>
 
@@ -72,7 +72,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               fullWidth
               label="CNPJ/CPF"
               placeholder="Apenas Números"
-              defaultValue={selectedCostumer?.documento || ""}
+              defaultValue={selectedOrdemDeServico?.documento || ""}
             />
           </Grid>
 
@@ -82,7 +82,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               fullWidth
               label="Validade do Certificado (Dias)"
               placeholder="DD/MM/AAAA"
-              defaultValue={selectedCostumer?.validadeCertificado || ""}
+              defaultValue={selectedOrdemDeServico?.validadeCertificado || ""}
             />
           </Grid>
 
@@ -91,7 +91,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Tipo de Atividade"
-              defaultValue={selectedCostumer?.tipoAtividade || ""}
+              defaultValue={selectedOrdemDeServico?.tipoAtividade || ""}
             />
           </Grid>
 
@@ -108,7 +108,9 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
             <FormControlLabel
               control={
                 <Switch
-                  defaultChecked={selectedCostumer?.possuiContrato || false}
+                  defaultChecked={
+                    selectedOrdemDeServico?.possuiContrato || false
+                  }
                 />
               }
               label=""
@@ -126,7 +128,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Logradouro"
-              defaultValue={selectedCostumer?.logradouro || ""}
+              defaultValue={selectedOrdemDeServico?.logradouro || ""}
             />
           </Grid>
 
@@ -135,7 +137,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Número"
-              defaultValue={selectedCostumer?.numero || ""}
+              defaultValue={selectedOrdemDeServico?.numero || ""}
             />
           </Grid>
 
@@ -144,7 +146,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Complemento"
-              defaultValue={selectedCostumer?.complemento || ""}
+              defaultValue={selectedOrdemDeServico?.complemento || ""}
             />
           </Grid>
 
@@ -153,7 +155,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Bairro"
-              defaultValue={selectedCostumer?.bairro || ""}
+              defaultValue={selectedOrdemDeServico?.bairro || ""}
             />
           </Grid>
 
@@ -163,7 +165,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               <Select
                 labelId="estado-label"
                 label="Estado"
-                defaultValue={selectedCostumer?.estado || "Acre"}
+                defaultValue={selectedOrdemDeServico?.estado || "Acre"}
                 size="small"
               >
                 {estados?.map((e) => (
@@ -180,7 +182,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Cidade"
-              defaultValue={selectedCostumer?.cidade || ""}
+              defaultValue={selectedOrdemDeServico?.cidade || ""}
             />
           </Grid>
 
@@ -189,7 +191,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="CEP"
-              defaultValue={selectedCostumer?.cep || ""}
+              defaultValue={selectedOrdemDeServico?.cep || ""}
             />
           </Grid>
 
@@ -203,7 +205,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Contato"
-              defaultValue={selectedCostumer?.contato || ""}
+              defaultValue={selectedOrdemDeServico?.contato || ""}
             />
           </Grid>
 
@@ -212,7 +214,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Telefone"
-              defaultValue={selectedCostumer?.telefone || ""}
+              defaultValue={selectedOrdemDeServico?.telefone || ""}
             />
           </Grid>
 
@@ -221,7 +223,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Função"
-              defaultValue={selectedCostumer?.funcao || ""}
+              defaultValue={selectedOrdemDeServico?.funcao || ""}
             />
           </Grid>
 
@@ -230,7 +232,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Fax"
-              defaultValue={selectedCostumer?.fax || ""}
+              defaultValue={selectedOrdemDeServico?.fax || ""}
             />
           </Grid>
 
@@ -240,7 +242,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               fullWidth
               label="E-mail"
               defaultValue={
-                selectedCostumer?.email || "atendimento.sp@nikkey.com.br"
+                selectedOrdemDeServico?.email || "atendimento.sp@nikkey.com.br"
               }
             />
           </Grid>
@@ -253,7 +255,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               multiline
               rows={4}
               placeholder="Anotações sobre o cliente"
-              defaultValue={selectedCostumer?.observacoes || ""}
+              defaultValue={selectedOrdemDeServico?.observacoes || ""}
             />
           </Grid>
 
@@ -267,7 +269,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Nome"
-              defaultValue={selectedCostumer?.nome || ""}
+              defaultValue={selectedOrdemDeServico?.nome || ""}
             />
           </Grid>
 
@@ -276,7 +278,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="E-mail"
-              defaultValue={selectedCostumer?.emailAcesso || ""}
+              defaultValue={selectedOrdemDeServico?.emailAcesso || ""}
             />
           </Grid>
 
@@ -285,7 +287,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
               size="small"
               fullWidth
               label="Departamento"
-              defaultValue={selectedCostumer?.departamento || ""}
+              defaultValue={selectedOrdemDeServico?.departamento || ""}
             />
           </Grid>
 

@@ -11,13 +11,13 @@ import {
 } from "@mui/material";
 
 interface ModalVisualizar {
-  selectedCostumer: any;
+  selectedOrdemDeServico: any;
   openViewDialog: any;
   handleCloseViewDialog: any;
 }
 
 export const ModalVisualizar: React.FC<ModalVisualizar> = ({
-  selectedCostumer,
+  selectedOrdemDeServico,
   openViewDialog,
   handleCloseViewDialog,
 }) => {
@@ -44,7 +44,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Razão Social
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.razaoSocial || "Não informado"}
+              {selectedOrdemDeServico?.razaoSocial || "Não informado"}
             </Typography>
           </Grid>
 
@@ -53,7 +53,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Nome Fantasia
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.nomeFantasia || "Não informado"}
+              {selectedOrdemDeServico?.nomeFantasia || "Não informado"}
             </Typography>
           </Grid>
 
@@ -62,7 +62,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               CNPJ/CPF
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.documento || "Não informado"}
+              {selectedOrdemDeServico?.documento || "Não informado"}
             </Typography>
           </Grid>
 
@@ -71,7 +71,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Validade do Certificado
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.validadeCertificado || "Não informado"}
+              {selectedOrdemDeServico?.validadeCertificado || "Não informado"}
             </Typography>
           </Grid>
 
@@ -80,7 +80,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Tipo de Atividade
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.tipoAtividade || "Não informado"}
+              {selectedOrdemDeServico?.tipoAtividade || "Não informado"}
             </Typography>
           </Grid>
 
@@ -89,8 +89,10 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Possui Contrato
             </Typography>
             <Chip
-              label={selectedCostumer?.possuiContrato ? "Sim" : "Não"}
-              color={selectedCostumer?.possuiContrato ? "success" : "default"}
+              label={selectedOrdemDeServico?.possuiContrato ? "Sim" : "Não"}
+              color={
+                selectedOrdemDeServico?.possuiContrato ? "success" : "default"
+              }
               size="small"
             />
           </Grid>
@@ -110,7 +112,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Logradouro
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.logradouro || "Não informado"}
+              {selectedOrdemDeServico?.logradouro || "Não informado"}
             </Typography>
           </Grid>
 
@@ -119,7 +121,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Número
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.numero || "Não informado"}
+              {selectedOrdemDeServico?.numero || "Não informado"}
             </Typography>
           </Grid>
 
@@ -128,7 +130,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Complemento
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.complemento || "Não informado"}
+              {selectedOrdemDeServico?.complemento || "Não informado"}
             </Typography>
           </Grid>
 
@@ -137,7 +139,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Bairro
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.bairro || "Não informado"}
+              {selectedOrdemDeServico?.bairro || "Não informado"}
             </Typography>
           </Grid>
 
@@ -146,7 +148,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Estado
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.estado || "Não informado"}
+              {selectedOrdemDeServico?.estado || "Não informado"}
             </Typography>
           </Grid>
 
@@ -155,7 +157,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Cidade
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.cidade || "Não informado"}
+              {selectedOrdemDeServico?.cidade || "Não informado"}
             </Typography>
           </Grid>
 
@@ -164,7 +166,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               CEP
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.cep || "Não informado"}
+              {selectedOrdemDeServico?.cep || "Não informado"}
             </Typography>
           </Grid>
 
@@ -183,7 +185,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Contato
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.contato || "Não informado"}
+              {selectedOrdemDeServico?.contato || "Não informado"}
             </Typography>
           </Grid>
 
@@ -192,7 +194,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Telefone
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.telefone || "Não informado"}
+              {selectedOrdemDeServico?.telefone || "Não informado"}
             </Typography>
           </Grid>
 
@@ -201,7 +203,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Função
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.funcao || "Não informado"}
+              {selectedOrdemDeServico?.funcao || "Não informado"}
             </Typography>
           </Grid>
 
@@ -210,7 +212,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Fax
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.fax || "Não informado"}
+              {selectedOrdemDeServico?.fax || "Não informado"}
             </Typography>
           </Grid>
 
@@ -219,7 +221,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               E-mail
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.email || "Não informado"}
+              {selectedOrdemDeServico?.email || "Não informado"}
             </Typography>
           </Grid>
 
@@ -228,7 +230,8 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Observações
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.observacoes || "Nenhuma observação cadastrada"}
+              {selectedOrdemDeServico?.observacoes ||
+                "Nenhuma observação cadastrada"}
             </Typography>
           </Grid>
 
@@ -247,7 +250,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Nome
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.nome || "Não informado"}
+              {selectedOrdemDeServico?.nome || "Não informado"}
             </Typography>
           </Grid>
 
@@ -256,7 +259,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               E-mail
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.emailAcesso || "Não informado"}
+              {selectedOrdemDeServico?.emailAcesso || "Não informado"}
             </Typography>
           </Grid>
 
@@ -265,7 +268,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Departamento
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.departamento || "Não informado"}
+              {selectedOrdemDeServico?.departamento || "Não informado"}
             </Typography>
           </Grid>
 
@@ -274,8 +277,8 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Status
             </Typography>
             <Chip
-              label={selectedCostumer?.ativo ? "Ativo" : "Inativo"}
-              color={selectedCostumer?.ativo ? "success" : "default"}
+              label={selectedOrdemDeServico?.ativo ? "Ativo" : "Inativo"}
+              color={selectedOrdemDeServico?.ativo ? "success" : "default"}
               size="small"
             />
           </Grid>
@@ -285,7 +288,7 @@ export const ModalVisualizar: React.FC<ModalVisualizar> = ({
               Data de Cadastro
             </Typography>
             <Typography variant="body1">
-              {selectedCostumer?.dataCadastro || "Não informado"}
+              {selectedOrdemDeServico?.dataCadastro || "Não informado"}
             </Typography>
           </Grid>
         </Grid>
