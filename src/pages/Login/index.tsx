@@ -67,7 +67,6 @@ export const Login = () => {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
           size="small"
         />
         <TextField
@@ -75,7 +74,6 @@ export const Login = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
           size="small"
         />
         {error && (

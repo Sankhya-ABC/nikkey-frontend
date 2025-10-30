@@ -1,21 +1,18 @@
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  FormControlLabel,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Switch,
-  TextField,
   Typography,
 } from "@mui/material";
-import { estados } from "./provider";
+import { useForm } from "react-hook-form";
+import { DatePicker } from "../../components/Form/DatePicker";
+import { Switch } from "../../components/Form/Switch";
+import { TextField } from "../../components/Form/Textfield";
+import { TimePicker } from "../../components/Form/TimePicker";
+import { Select } from "../../components/Form/Select";
 
 interface ModalCadastrarProps {
   openCreateDialog: any;
@@ -26,12 +23,13 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
   openCreateDialog,
   handleCloseCreateDialog,
 }) => {
+  const { control } = useForm();
+
   return (
     <Dialog
       open={openCreateDialog}
       onClose={handleCloseCreateDialog}
       maxWidth="md"
-      fullWidth
     >
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
         Cadastrar
@@ -40,186 +38,168 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
         <Grid container spacing={2}>
           <Grid item size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">
-              Dados Básicos
+              Informações Gerais
             </Typography>
           </Grid>
 
           <Grid item size={{ xs: 12 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="Razão Social"
-              variant="outlined"
-            />
+            <TextField control={control} label="Cliente" name="aaaa" />
           </Grid>
 
           <Grid item size={{ xs: 12 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="Nome Fantasia"
-              variant="outlined"
+            <TextField control={control} label="Técnico" name="aaaa" />
+          </Grid>
+
+          <Grid item size={{ xs: 6 }}>
+            <DatePicker
+              label="Data Visita"
+              name="dataVisita"
+              control={control}
             />
           </Grid>
 
           <Grid item size={{ xs: 6 }}>
             <TextField
-              size="small"
-              fullWidth
-              label="CNPJ/CPF"
-              placeholder="Apenas Números"
+              control={control}
+              name="aaaa"
+              label="Visitas pendentes"
             />
           </Grid>
 
           <Grid item size={{ xs: 6 }}>
+            <TimePicker
+              label="Hora início"
+              name="horaInicio"
+              control={control}
+            />
+          </Grid>
+
+          <Grid item size={{ xs: 6 }}>
+            <TimePicker label="Hora fim" name="horaFim" control={control} />
+          </Grid>
+
+          <Grid item size={{ xs: 8 }}>
+            <TextField control={control} name="aaaa" label="Responsável" />
+          </Grid>
+          <Grid item size={{ xs: 4 }}>
             <TextField
-              size="small"
-              fullWidth
-              label="Validade do Certificado (Dias)"
-              placeholder="DD/MM/AAAA"
+              control={control}
+              name="aaaa"
+              label="Cargo do responsável"
             />
           </Grid>
 
           <Grid item size={{ xs: 12 }}>
-            <TextField size="small" fullWidth label="Tipo de Atividade" />
-          </Grid>
-
-          <Grid
-            item
-            size={{ xs: 12 }}
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <Box sx={{ mr: 2, minWidth: 140 }}>
-              <Typography color="text.secondary">
-                Cliente possui contrato?
-              </Typography>
-            </Box>
-            <FormControlLabel control={<Switch defaultChecked />} label="" />
-          </Grid>
-
-          <Grid item size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">
-              Endereço
+              Informações do Serviço
             </Typography>
           </Grid>
 
-          {/* Endereço */}
           <Grid item size={{ xs: 12 }}>
-            <TextField size="small" fullWidth label="Logradouro" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 3 }}>
-            <TextField size="small" fullWidth label="Número" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 9 }}>
-            <TextField size="small" fullWidth label="Complemento" />
-          </Grid>
-
-          <Grid item size={{ xs: 6, md: 3 }}>
-            <TextField size="small" fullWidth label="Bairro" />
-          </Grid>
-
-          <Grid item size={{ xs: 6, md: 3 }}>
-            <FormControl fullWidth>
-              <InputLabel id="estado-label">Estado</InputLabel>
-              <Select
-                labelId="estado-label"
-                label="Estado"
-                defaultValue={"Acre"}
-                size="small"
-              >
-                {estados?.map((e) => (
-                  <MenuItem key={e} value={e}>
-                    {e}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 3 }}>
-            <TextField size="small" fullWidth label="Cidade" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 3 }}>
-            <TextField size="small" fullWidth label="CEP" />
-          </Grid>
-
-          <Grid item size={{ xs: 12 }}>
-            <Typography variant="h6" color="primary">
-              Contato
-            </Typography>
-          </Grid>
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Contato" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Telefone" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Função" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Fax" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 8 }}>
-            <TextField
-              size="small"
-              fullWidth
-              label="E-mail"
-              defaultValue="atendimento.sp@nikkey.com.br"
+            <Switch
+              control={control}
+              name="aaaa"
+              label="Serviço foi realizado?"
             />
           </Grid>
 
           <Grid item size={{ xs: 12 }}>
             <TextField
-              size="small"
-              fullWidth
-              label="Observações"
+              control={control}
+              name="aaaa"
+              label="Motivo da não realização"
+              rows={3}
               multiline
-              rows={4}
-              placeholder="Anotações sobre o cliente"
             />
           </Grid>
 
           <Grid item size={{ xs: 12 }}>
-            <Typography variant="h6" color="primary">
-              Dados de Acesso
-            </Typography>
-          </Grid>
-          <Grid item size={{ xs: 12, md: 6 }}>
-            <TextField size="small" fullWidth label="Nome" />
-          </Grid>
-
-          <Grid item size={{ xs: 12, md: 6 }}>
-            <TextField size="small" fullWidth label="E-mail" />
+            <Switch
+              control={control}
+              name="aaaa"
+              label="Houve evidências ou focos de pragas encontrados?"
+            />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Departamento" />
+          <Grid item size={{ xs: 12 }}>
+            <Select
+              name="pragas"
+              control={control}
+              label="Pragas"
+              options={[]}
+              propertyLabel="descricao"
+              propertyValue="id"
+            />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField size="small" fullWidth label="Senha" type="password" />
+          <Grid item size={{ xs: 12 }}>
+            <Switch
+              control={control}
+              name="aaaa"
+              label="Houve revisão de equipamentos?"
+            />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid item size={{ xs: 12 }}>
+            <Select
+              name="oQueFoiVisualizado"
+              control={control}
+              label="O que foi visuailzado?"
+              options={[]}
+              propertyLabel="descricao"
+              propertyValue="id"
+            />
+          </Grid>
+
+          <Grid item size={{ xs: 12 }}>
+            <TextField control={control} name="aaaa" label="Quantidade" />
+          </Grid>
+
+          <Grid item size={{ xs: 12 }}>
             <TextField
-              size="small"
-              fullWidth
-              label="Confirmar Senha"
-              type="password"
+              control={control}
+              name="aaaa"
+              label="Área onde foi encontrado"
+            />
+          </Grid>
+
+          <Grid item size={{ xs: 12 }}>
+            <Switch
+              control={control}
+              name="aaaa"
+              label="Houve consumo de produtos?"
+            />
+          </Grid>
+
+          <Grid item size={{ xs: 12 }}>
+            <Switch
+              control={control}
+              name="aaaa"
+              label="Houveram não conformidades?"
+            />
+          </Grid>
+
+          <Grid item size={{ xs: 12 }}>
+            <Switch
+              control={control}
+              name="aaaa"
+              label="Deseja realizar upload de evidências?"
+            />
+          </Grid>
+
+          <Grid item size={{ xs: 12 }}>
+            <TextField
+              control={control}
+              name="aaaa"
+              label="Observações"
+              rows={3}
+              multiline
             />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={handleCloseCreateDialog}>
+        <Button name="aaaa" onClick={handleCloseCreateDialog}>
           Cancelar
         </Button>
         <Button variant="contained" onClick={handleCloseCreateDialog}>
