@@ -1,9 +1,9 @@
 import {
+  FormControl,
   FormControlLabel,
+  FormHelperText,
   Switch as MuiSwitch,
   SwitchProps as MuiSwitchProps,
-  FormControl,
-  FormHelperText,
 } from "@mui/material";
 import React from "react";
 import { Controller } from "react-hook-form";
@@ -13,7 +13,6 @@ interface ISwitchProps extends IFormProps {
   SwitchProps?: Partial<MuiSwitchProps>;
   labelPlacement?: "end" | "start" | "top" | "bottom";
   disabled?: boolean;
-  required?: boolean;
 }
 
 export const Switch: React.FC<ISwitchProps> = ({
@@ -23,7 +22,6 @@ export const Switch: React.FC<ISwitchProps> = ({
   SwitchProps,
   labelPlacement = "end",
   disabled = false,
-  required = false,
 }) => {
   return (
     <Controller
@@ -46,7 +44,6 @@ export const Switch: React.FC<ISwitchProps> = ({
                 }}
                 onBlur={onBlur}
                 disabled={disabled}
-                required={required}
                 color={error ? "error" : "primary"}
               />
             }
