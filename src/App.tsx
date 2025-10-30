@@ -10,6 +10,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
+import { OrdemDeServico } from "./pages/OrdemDeServico";
 
 const routes = [
   {
@@ -56,7 +57,7 @@ const routes = [
   },
   {
     path: "ordens-de-servico",
-    element: <span>ordens-de-servico</span>,
+    element: <OrdemDeServico />,
     isProtected: true,
     permissions: [],
   },
