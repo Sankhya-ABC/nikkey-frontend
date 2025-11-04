@@ -12,7 +12,7 @@ import { OrdemServico } from "../type";
 import { ConsumoProdutos } from "./ConsumoProdutos";
 import { InformacoesBasicasServico } from "./InformacoesBasicasServico";
 import { InformacoesGerais } from "./InformacoesGerais";
-import { InformaçõesAdicionais } from "./InformaçõesAdicionais";
+import { InformacoesAdicionais } from "./InformacoesAdicionais";
 import { PragasEncontradas } from "./PragasEncontradas";
 import { UploadEvidencias } from "./UploadEvidencias";
 
@@ -151,7 +151,7 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
             </Grid>
 
             <Grid item size={{ xs: 12 }}>
-              <InformaçõesAdicionais />
+              <InformacoesAdicionais />
             </Grid>
 
             <Grid item size={{ xs: 12 }}>
