@@ -11,11 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 
-import { DatePicker } from "../../components/Form/DatePicker";
-import { Select } from "../../components/Form/Select";
-import { Switch } from "../../components/Form/Switch";
-import { TextField } from "../../components/Form/Textfield";
-import { TimePicker } from "../../components/Form/TimePicker";
+import { DatePicker } from "../../../components/Form/DatePicker";
+import { Select } from "../../../components/Form/Select";
+import { Switch } from "../../../components/Form/Switch";
+import { TextField } from "../../../components/Form/Textfield";
+import { TimePicker } from "../../../components/Form/TimePicker";
 
 interface ModalCadastrarProps {
   openCreateDialog: any;
