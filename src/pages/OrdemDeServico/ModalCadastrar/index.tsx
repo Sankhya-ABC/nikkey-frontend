@@ -15,6 +15,7 @@ import { InformacoesGerais } from "./InformacoesGerais";
 import { InformacoesAdicionais } from "./InformacoesAdicionais";
 import { PragasEncontradas } from "./PragasEncontradas";
 import { UploadEvidencias } from "./UploadEvidencias";
+import { Equipamentos } from "./Equipamentos";
 
 const defaultValues: OrdemServico = {
   idCliente: "",
@@ -122,6 +123,9 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
     defaultValues,
   });
 
+  const { watch } = methods;
+  const flagServicoRealizado = watch("flagServicoRealizado");
+
   return (
     <Dialog
       open={openCreateDialog}
@@ -142,21 +146,29 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
               <InformacoesBasicasServico />
             </Grid>
 
-            <Grid item size={{ xs: 12 }}>
-              <PragasEncontradas />
-            </Grid>
+            {flagServicoRealizado && (
+              <>
+                <Grid item size={{ xs: 12 }}>
+                  <PragasEncontradas />
+                </Grid>
 
-            <Grid item size={{ xs: 12 }}>
-              <ConsumoProdutos />
-            </Grid>
+                <Grid item size={{ xs: 12 }}>
+                  <Equipamentos />
+                </Grid>
 
-            <Grid item size={{ xs: 12 }}>
-              <InformacoesAdicionais />
-            </Grid>
+                <Grid item size={{ xs: 12 }}>
+                  <ConsumoProdutos />
+                </Grid>
 
-            <Grid item size={{ xs: 12 }}>
-              <UploadEvidencias />
-            </Grid>
+                <Grid item size={{ xs: 12 }}>
+                  <InformacoesAdicionais />
+                </Grid>
+
+                <Grid item size={{ xs: 12 }}>
+                  <UploadEvidencias />
+                </Grid>
+              </>
+            )}
           </Grid>
         </FormProvider>
       </DialogContent>

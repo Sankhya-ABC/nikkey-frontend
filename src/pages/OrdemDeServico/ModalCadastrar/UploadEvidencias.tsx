@@ -1,6 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { Switch } from "../../../components/Form/Switch";
+import { TextField } from "../../../components/Form/Textfield";
 
 export const UploadEvidencias = () => {
   const { control, watch } = useFormContext();
@@ -32,6 +33,16 @@ export const UploadEvidencias = () => {
             />
           </Grid>
         )}
+
+        <Grid item size={{ xs: 12 }}>
+          <TextField
+            control={control}
+            name="observacoes"
+            label="Observações"
+            multiline
+            rows={4}
+          />
+        </Grid>
       </Grid>
     </Box>
   );

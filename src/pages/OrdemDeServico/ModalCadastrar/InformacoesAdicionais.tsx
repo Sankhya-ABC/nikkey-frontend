@@ -85,16 +85,6 @@ export const InformacoesAdicionais = () => {
             </Button>
           </Grid>
         )}
-
-        <Grid item size={{ xs: 12 }}>
-          <TextField
-            control={control}
-            name="observacoes"
-            label="Observações"
-            multiline
-            rows={4}
-          />
-        </Grid>
       </Grid>
     </Box>
   );
