@@ -15,7 +15,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { estados } from "./provider";
 
 interface ModalEditarProps {
   selectedOrdemDeServico: any;
@@ -167,13 +166,7 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
                 label="Estado"
                 defaultValue={selectedOrdemDeServico?.estado || "Acre"}
                 size="small"
-              >
-                {estados?.map((e) => (
-                  <MenuItem key={e} value={e}>
-                    {e}
-                  </MenuItem>
-                ))}
-              </Select>
+              ></Select>
             </FormControl>
           </Grid>
 

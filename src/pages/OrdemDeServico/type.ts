@@ -5,14 +5,14 @@ export enum ComoEncontrado {
 }
 
 export interface Praga {
-  idPraga: number;
+  idPraga: number | "";
   comoEncontrado: ComoEncontrado;
   ondeEncontrado: string;
-  quantidade: string;
+  quantidade: number | "";
 }
 
 export interface QuantidadeIdentificacao {
-  quantidade: number | string;
+  quantidade: number | "";
   identificacao: string[];
 }
 
@@ -22,18 +22,17 @@ export enum TipoContagem {
 }
 
 export interface Consumo {
-  idPraga: number;
-  idProduto: number;
+  idPraga: number | "";
+  idProduto: number | "";
   lote: string;
   validade: Date | null;
-  idEquipamento: number;
-  quantidade: number | string;
+  idEquipamento: number | "";
+  quantidade: number | "";
 }
 
-// seções da tela
 export interface InformacoesGerais {
-  idCliente: number;
-  idTecnico: number;
+  idCliente: number | "";
+  idTecnico: number | "";
   data: {
     data: Date | null;
     horaInicio: Date | null;
@@ -61,7 +60,7 @@ export interface Equipamentos {
 
   iscagem: {
     flag: boolean;
-    quantidade: number | string;
+    quantidade: number | "";
     mofoDeterioracao: QuantidadeIdentificacao;
     roido: QuantidadeIdentificacao;
     obstruidoQuebradoExtraviado: QuantidadeIdentificacao;
@@ -69,7 +68,7 @@ export interface Equipamentos {
 
   placaColaArmadilhaMecanica: {
     flag: boolean;
-    quantidade: number | string;
+    quantidade: number | "";
     sujeiraDeterioracao: QuantidadeIdentificacao;
     roedorAderido: QuantidadeIdentificacao;
     obstruidoQuebradoExtraviado: QuantidadeIdentificacao;
@@ -78,7 +77,7 @@ export interface Equipamentos {
   armadilhaLuminosa: {
     flag: boolean;
     flagClienteExigeContagemInsetosPorArmadilha: boolean;
-    tipoContagem: TipoContagem;
+    tipoContagem: TipoContagem | "";
     contagem:
       | (QuantidadeIdentificacao & { idPraga: number }[])
       | QuantidadeIdentificacao[];
@@ -86,7 +85,7 @@ export interface Equipamentos {
 
   armadilhaFeromonio: {
     flag: boolean;
-    quantidade: number | string;
+    quantidade: number | "";
     guachon: QuantidadeIdentificacao;
     bioSerrico: QuantidadeIdentificacao;
   };
@@ -115,3 +114,12 @@ export interface UploadEvidencias {
   flagUploadEvidencias: boolean;
   uploads: File[];
 }
+
+export type OrdemServico = InformacoesGerais &
+  InformacoesBasicasServico &
+  PragasEncontradas &
+  Equipamentos &
+  ConsumoProdutos &
+  NaoConformidade &
+  InformacoesAdicionais &
+  UploadEvidencias;

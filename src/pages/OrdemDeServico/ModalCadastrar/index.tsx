@@ -1,93 +1,172 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-
+import { Add, Delete } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
-
+import React from "react";
+import { useForm } from "react-hook-form";
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
 import { TimePicker } from "../../../components/Form/TimePicker";
+import { ComoEncontrado, OrdemServico } from "../type";
+
+const defaultValues: OrdemServico = {
+  idCliente: "",
+  idTecnico: "",
+  data: {
+    data: null,
+    horaInicio: null,
+    horaFinal: null,
+  },
+  responsavel: {
+    nome: "",
+    cargo: "",
+  },
+  flagPossuiVisitaPendente: false,
+
+  flagServicoRealizado: false,
+  motivoNaoRealizacao: "",
+
+  flagEvidenciasOuFocosPragas: false,
+  pragas: [],
+
+  flagRevisaoEquipamentos: false,
+
+  iscagem: {
+    flag: false,
+    quantidade: "",
+    mofoDeterioracao: {
+      quantidade: "",
+      identificacao: [],
+    },
+    roido: {
+      quantidade: "",
+      identificacao: [],
+    },
+    obstruidoQuebradoExtraviado: {
+      quantidade: "",
+      identificacao: [],
+    },
+  },
+
+  placaColaArmadilhaMecanica: {
+    flag: false,
+    quantidade: "",
+    sujeiraDeterioracao: {
+      quantidade: "",
+      identificacao: [],
+    },
+    roedorAderido: {
+      quantidade: "",
+      identificacao: [],
+    },
+    obstruidoQuebradoExtraviado: {
+      quantidade: "",
+      identificacao: [],
+    },
+  },
+
+  armadilhaLuminosa: {
+    flag: false,
+    flagClienteExigeContagemInsetosPorArmadilha: false,
+    tipoContagem: "",
+    contagem: [],
+  },
+
+  armadilhaFeromonio: {
+    flag: false,
+    quantidade: "",
+    guachon: {
+      quantidade: "",
+      identificacao: [],
+    },
+    bioSerrico: {
+      quantidade: "",
+      identificacao: [],
+    },
+  },
+
+  flagConsumoProdutos: false,
+  consumo: [],
+
+  areaLocal: "",
+  naoConformidade: "",
+  acaoSugerida: "",
+
+  naoConformidades: {
+    flag: false,
+    naoConformidades: [],
+  },
+  observacoes: "",
+
+  flagUploadEvidencias: false,
+  uploads: [],
+};
 
 interface ModalCadastrarProps {
   openCreateDialog: any;
   handleCloseCreateDialog: any;
 }
 
-interface OrdemDeServico {
-  cliente: string;
-  tecnico: string;
-  dataVisita: Date | null;
-  visitasPendentes: string;
-  horaInicio: Date | null;
-  horaFim: Date | null;
-  responsavel: string;
-  cargoResponsavel: string;
-  servicoRealizado: boolean;
-  motivoNaoRealizacao: string;
-  evidenciasPragas: boolean;
-  pragas: string | number;
-  revisaoEquipamentos: boolean;
-  oQueFoiVisualizado: string | number;
-  quantidade: string;
-  areaEncontrado: string;
-  consumoProdutos: boolean;
-  naoConformidades: boolean;
-  uploadEvidencias: boolean;
-  observacoes: string;
-  revisaoIscagem: boolean;
-}
-
 export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
   openCreateDialog,
   handleCloseCreateDialog,
 }) => {
-  const { control, watch } = useForm<OrdemDeServico>({
-    defaultValues: {
-      cliente: "",
-      tecnico: "",
-      dataVisita: null,
-      visitasPendentes: false,
-      horaInicio: null,
-      horaFim: null,
-      responsavel: "",
-      cargoResponsavel: "",
-      servicoRealizado: false,
-      motivoNaoRealizacao: "",
-      evidenciasPragas: false,
-      pragas: "",
-      revisaoEquipamentos: false,
-      oQueFoiVisualizado: "",
-      quantidade: "",
-      areaEncontrado: "",
-      consumoProdutos: false,
-      naoConformidades: false,
-      uploadEvidencias: false,
-      observacoes: "",
-      revisaoIscagem: false,
-      quantidadePontos: "",
-      quantidadePontosTrocadosPorMofoDeterioracao: "",
-      identificacaoPonto: "",
-      quantidadePontosTrocadosRoidos: "",
-      revisaoPlacaColaArmadilhaMecanica: false,
-    },
+  const { control, watch, handleSubmit } = useForm<OrdemServico>({
+    defaultValues,
   });
 
-  const servicoRealizado = watch("servicoRealizado");
-  const evidenciasPragas = watch("evidenciasPragas");
-  const revisaoEquipamentos = watch("revisaoEquipamentos");
-  const revisaoIscagem = watch("revisaoIscagem");
-  const quantidadePontosTrocados = watch(
-    "quantidadePontosTrocadosPorMofoDeterioracao",
-  );
+  const flagServicoRealizado = watch("flagServicoRealizado");
+  const flagEvidenciasPragas = watch("flagEvidenciasOuFocosPragas");
+  const flagConsumoProdutos = watch("flagConsumoProdutos");
+  const flagNaoConformidades = watch("naoConformidades.flag");
+  const flagUploadEvidencias = watch("flagUploadEvidencias");
+
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+  };
+
+  const listClientes = [
+    { id: 1, descricao: "Cliente A" },
+    { id: 2, descricao: "Cliente B" },
+  ];
+
+  const listTecnicos = [
+    { id: 1, descricao: "Técnico 1" },
+    { id: 2, descricao: "Técnico 2" },
+  ];
+
+  const listPragas = [
+    { id: 1, descricao: "Barata" },
+    { id: 2, descricao: "Rato" },
+    { id: 3, descricao: "Formiga" },
+  ];
+
+  const listProdutos = [
+    { id: 1, descricao: "Produto A" },
+    { id: 2, descricao: "Produto B" },
+  ];
+
+  const listEquipamentos = [
+    { id: 1, descricao: "Equipamento 1" },
+    { id: 2, descricao: "Equipamento 2" },
+  ];
 
   return (
     <Dialog
@@ -99,390 +178,388 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
         Cadastrar
       </DialogTitle>
       <DialogContent sx={{ overflow: "unset" }}>
-        <Grid container spacing={2}>
-          <Grid item size={{ xs: 12 }}>
-            <Typography variant="h6" color="primary">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h5" gutterBottom>
               Informações Gerais
             </Typography>
-          </Grid>
+            <Grid container spacing={2}>
+              <Grid item size={{ xs: 12, md: 6 }}>
+                <Select
+                  label="Cliente"
+                  name="informacoesGerais.idCliente"
+                  control={control}
+                  propertyLabel="descricao"
+                  propertyValue="id"
+                  options={listClientes}
+                />
+              </Grid>
 
-          <Grid item size={{ xs: 12 }}>
-            <TextField control={control} label="Cliente" name="cliente" />
-          </Grid>
+              <Grid item size={{ xs: 12, md: 6 }}>
+                <Select
+                  label="Técnico"
+                  name="informacoesGerais.idTecnico"
+                  control={control}
+                  propertyLabel="descricao"
+                  propertyValue="id"
+                  options={listTecnicos}
+                />
+              </Grid>
 
-          <Grid item size={{ xs: 12 }}>
-            <TextField control={control} label="Técnico" name="tecnico" />
-          </Grid>
+              <Grid item size={{ xs: 12, md: 4 }}>
+                <DatePicker
+                  label="Data Visita"
+                  name="informacoesGerais.data.data"
+                  control={control}
+                />
+              </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <DatePicker
-              label="Data Visita"
-              name="dataVisita"
-              control={control}
-            />
-          </Grid>
+              <Grid item size={{ xs: 12, md: 4 }}>
+                <TimePicker
+                  label="Hora início"
+                  name="informacoesGerais.data.horaInicio"
+                  control={control}
+                />
+              </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TimePicker
-              label="Hora início"
-              name="horaInicio"
-              control={control}
-            />
-          </Grid>
+              <Grid item size={{ xs: 12, md: 4 }}>
+                <TimePicker
+                  label="Hora final"
+                  name="informacoesGerais.data.horaFinal"
+                  control={control}
+                />
+              </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TimePicker label="Hora fim" name="horaFim" control={control} />
-          </Grid>
+              <Grid item size={{ xs: 12, md: 6 }}>
+                <TextField
+                  control={control}
+                  name="informacoesGerais.responsavel.nome"
+                  label="Nome do Responsável"
+                />
+              </Grid>
 
-          <Grid item size={{ xs: 12, md: 8 }}>
-            <TextField
-              control={control}
-              name="responsavel"
-              label="Responsável"
-            />
-          </Grid>
-          <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField
-              control={control}
-              name="cargoResponsavel"
-              label="Cargo do responsável"
-            />
-          </Grid>
+              <Grid item size={{ xs: 12, md: 6 }}>
+                <TextField
+                  control={control}
+                  name="informacoesGerais.responsavel.cargo"
+                  label="Cargo do Responsável"
+                />
+              </Grid>
 
-          <Grid item size={{ xs: 12 }}>
-            <Switch
-              control={control}
-              name="visitasPendentes"
-              label="Visitas pendentes"
-            />
-          </Grid>
+              <Grid item size={{ xs: 12 }}>
+                <Switch
+                  control={control}
+                  name="informacoesGerais.flagPossuiVisitaPendente"
+                  label="Possui visita pendente?"
+                />
+              </Grid>
+            </Grid>
+          </Box>
 
-          <Grid item size={{ xs: 12 }}>
-            <Typography variant="h6" color="primary">
-              Informações do Serviço
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Informações Básicas do Serviço
             </Typography>
-          </Grid>
-
-          <Grid item size={{ xs: 12 }}>
-            <Switch
-              control={control}
-              name="servicoRealizado"
-              label="Serviço foi realizado?"
-            />
-          </Grid>
-
-          {servicoRealizado ? (
-            <>
+            <Grid container spacing={2}>
               <Grid item size={{ xs: 12 }}>
                 <Switch
                   control={control}
-                  name="evidenciasPragas"
-                  label="Houve evidências ou focos de pragas encontrados?"
+                  name="flagServicoRealizado"
+                  label="Serviço realizado?"
                 />
               </Grid>
 
-              {evidenciasPragas && (
-                <>
-                  <Grid item size={{ xs: 12 }}>
-                    <Select
-                      name="pragas"
-                      control={control}
-                      label="Pragas"
-                      options={[]}
-                      propertyLabel="descricao"
-                      propertyValue="id"
-                    />
-                  </Grid>
-
-                  <Grid item size={{ xs: 12 }}>
-                    <Select
-                      name="oQueFoiVisualizado"
-                      control={control}
-                      label="O que foi visualizado?"
-                      options={[]}
-                      propertyLabel="descricao"
-                      propertyValue="id"
-                    />
-                  </Grid>
-
-                  <Grid item size={{ xs: 12 }}>
-                    <TextField
-                      control={control}
-                      name="quantidade"
-                      label="Quantidade"
-                    />
-                  </Grid>
-
-                  <Grid item size={{ xs: 12 }}>
-                    <TextField
-                      control={control}
-                      name="areaEncontrado"
-                      label="Área onde foi encontrado"
-                    />
-                  </Grid>
-                </>
-              )}
-
-              <Grid item size={{ xs: 12 }}>
-                <Switch
-                  control={control}
-                  name="revisaoEquipamentos"
-                  label="Houve revisão de equipamentos?"
-                />
-              </Grid>
-
-              {revisaoEquipamentos && (
-                <>
-                  <Grid item size={{ xs: 12 }}>
-                    <Switch
-                      control={control}
-                      name="revisaoIscagem"
-                      label="Houve revisão de iscagem?"
-                    />
-                  </Grid>
-
-                  {revisaoIscagem ? (
-                    <>
-                      <Grid item size={{ xs: 12, md: 4 }}>
-                        <TextField
-                          control={control}
-                          name="quantidadePontos"
-                          label="Quantidade de pontos"
-                        />
-                      </Grid>
-                      <Grid item size={{ xs: 12, md: 4 }}>
-                        <TextField
-                          control={control}
-                          name="quantidadePontosTrocadosPorMofoDeterioracao"
-                          label="Quantos pontos trocados por mofo ou deterioração?"
-                        />
-                      </Grid>
-                      {Number(
-                        watch("quantidadePontosTrocadosPorMofoDeterioracao"),
-                      ) > 0 ? (
-                        <Grid item size={{ xs: 12, md: 4 }}>
-                          <TextField
-                            control={control}
-                            name="identificacaoPonto"
-                            label="Identificação do ponto"
-                          />
-                        </Grid>
-                      ) : null}
-                      <Grid item size={{ xs: 12, md: 4 }}>
-                        <TextField
-                          control={control}
-                          name="quantidadePontosTrocadosRoidos"
-                          label="Quantos pontos trocados por estarem roídos?"
-                        />
-                      </Grid>
-                      {Number(watch("quantidadePontosTrocadosRoidos")) > 0 ? (
-                        <Grid item size={{ xs: 12, md: 4 }}>
-                          <TextField
-                            control={control}
-                            name="identificacaoPonto"
-                            label="Identificação do ponto"
-                          />
-                        </Grid>
-                      ) : null}
-
-                      <Grid item size={{ xs: 12, md: 4 }}>
-                        <TextField
-                          control={control}
-                          name="quantidadePontosObstruidosQuebradosExtraviados"
-                          label="Quantos pontos obstruídos, quebrados e/ou extraviados?"
-                        />
-                      </Grid>
-                      {Number(
-                        watch("quantidadePontosObstruidosQuebradosExtraviados"),
-                      ) > 0 ? (
-                        <Grid item size={{ xs: 12, md: 4 }}>
-                          <TextField
-                            control={control}
-                            name="identificacaoPonto"
-                            label="Identificação do ponto"
-                          />
-                        </Grid>
-                      ) : null}
-
-                      <Grid item size={{ xs: 12 }}>
-                        <Switch
-                          control={control}
-                          name="revisaoPlacaColaArmadilhaMecanica"
-                          label="Houve revisão de placa de cola/Armadilha Mecânica?"
-                        />
-                      </Grid>
-                      {watch("revisaoPlacaColaArmadilhaMecanica") ? (
-                        <Grid item size={{ xs: 12, md: 4 }}>
-                          <TextField
-                            control={control}
-                            name="quantidadePontos"
-                            label="Quantidade de pontos"
-                          />
-                          <Grid item size={{ xs: 12, md: 4 }}>
-                            <TextField
-                              control={control}
-                              name="quantidadePontosTrocadosPorSujeiraDeterioracao"
-                              label="Quantos pontos trocados por sujeira ou deterioração?"
-                            />
-                          </Grid>
-                          {Number(
-                            watch(
-                              "quantidadePontosTrocadosPorSujeiraDeterioracao",
-                            ),
-                          ) > 0 ? (
-                            <Grid item size={{ xs: 12, md: 4 }}>
-                              <TextField
-                                control={control}
-                                name="identificacaoPonto"
-                                label="Identificação do ponto"
-                              />
-                            </Grid>
-                          ) : null}
-
-                          <Grid item size={{ xs: 12, md: 4 }}>
-                            <TextField
-                              control={control}
-                              name="quantidadePontosTrocadosPorRoedorAderido"
-                              label="Quantos pontos trocados por roedor aderido?"
-                            />
-                          </Grid>
-                          {Number(
-                            watch("quantidadePontosTrocadosPorRoedorAderido"),
-                          ) > 0 ? (
-                            <Grid item size={{ xs: 12, md: 4 }}>
-                              <TextField
-                                control={control}
-                                name="identificacaoPonto"
-                                label="Identificação do ponto"
-                              />
-                            </Grid>
-                          ) : null}
-
-                          <Grid item size={{ xs: 12, md: 4 }}>
-                            <TextField
-                              control={control}
-                              name="quantidadePontosObstruidosQuebradosExtraviados"
-                              label="Quantos pontos obstruídos, quebrados e/ou extraviados?"
-                            />
-                          </Grid>
-                          {Number(
-                            watch(
-                              "quantidadePontosObstruidosQuebradosExtraviados",
-                            ),
-                          ) > 0 ? (
-                            <Grid item size={{ xs: 12, md: 4 }}>
-                              <TextField
-                                control={control}
-                                name="identificacaoPonto"
-                                label="Identificação do ponto"
-                              />
-                            </Grid>
-                          ) : null}
-                        </Grid>
-                      ) : null}
-                    </>
-                  ) : null}
-                </>
-              )}
-
-              <Grid item size={{ xs: 12 }}>
-                <Switch
-                  control={control}
-                  name="revisaoArmadilhaLuminosa"
-                  label="Houve revisão de armadilha luminosa?"
-                />
-              </Grid>
-              {watch("revisaoArmadilhaLuminosa") ? (
-                <Grid item size={{ xs: 12, md: 4 }}>
+              {!flagServicoRealizado && (
+                <Grid item size={{ xs: 12 }}>
                   <TextField
                     control={control}
-                    name="quantidadePontos"
-                    label="Quantidade de pontos"
+                    name="motivoNaoRealizacao"
+                    label="Motivo da não realização"
+                    multiline
+                    rows={3}
                   />
                 </Grid>
-              ) : null}
+              )}
+            </Grid>
+          </Box>
 
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Pragas Encontradas
+            </Typography>
+            <Grid container spacing={2}>
               <Grid item size={{ xs: 12 }}>
                 <Switch
                   control={control}
-                  name="clienteExigeContagemInsetosPorArmadilha"
-                  label="Cliente exige contagem de insetos por armadilha?"
-                />
-              </Grid>
-              {watch("clienteExigeContagemInsetosPorArmadilha") ? (
-                <>
-                  <Grid item size={{ xs: 12 }}>
-                    <Select
-                      name="tipoContagem"
-                      control={control}
-                      label="Tipo de Contagem"
-                      options={[
-                        { codigo: "TOTAL", descricao: "Total" },
-                        { codigo: "ESPECIE", descricao: "Espécie" },
-                      ]}
-                      propertyLabel="descricao"
-                      propertyValue="codigo"
-                    />
-                  </Grid>
-                  {watch("tipoContagem") === "TOTAL" ? <p>gride</p> : null}
-                  {watch("tipoContagem") === "ESPECIE" ? <p>tabela</p> : null}
-                </>
-              ) : null}
-
-              <Grid item size={{ xs: 12 }}>
-                <Switch
-                  control={control}
-                  name="revisaoArmadilhaFeromonio"
-                  label="Houve revisão de armadilha de feromônio?"
+                  name="flagEvidenciasOuFocosPragas"
+                  label="Evidências ou focos de pragas?"
                 />
               </Grid>
 
+              {flagEvidenciasPragas && (
+                <Grid item size={{ xs: 12 }}>
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Praga</TableCell>
+                          <TableCell>Como Encontrado</TableCell>
+                          <TableCell>Onde Encontrado</TableCell>
+                          <TableCell>Quantidade</TableCell>
+                          <TableCell>Ações</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>
+                            <Select
+                              label="Praga"
+                              name="pragas.0.idPraga"
+                              control={control}
+                              propertyLabel="descricao"
+                              propertyValue="id"
+                              options={listPragas}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Select
+                              label="Como Encontrado"
+                              name="pragas.0.comoEncontrado"
+                              control={control}
+                              propertyLabel="descricao"
+                              propertyValue="value"
+                              options={Object.values(ComoEncontrado).map(
+                                (value) => ({
+                                  id: value,
+                                  descricao: value,
+                                }),
+                              )}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <TextField
+                              control={control}
+                              name="pragas.0.ondeEncontrado"
+                              label=""
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <TextField
+                              control={control}
+                              name="pragas.0.quantidade"
+                              label=""
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <IconButton>
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <Button startIcon={<Add />} sx={{ mt: 1 }}>
+                    Adicionar Praga
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Consumo de Produtos
+            </Typography>
+            <Grid container spacing={2}>
               <Grid item size={{ xs: 12 }}>
                 <Switch
                   control={control}
-                  name="consumoProdutos"
-                  label="Houve consumo de produtos?"
+                  name="flagConsumoProdutos"
+                  label="Consumo de produtos?"
                 />
               </Grid>
 
+              {flagConsumoProdutos && (
+                <Grid item size={{ xs: 12 }}>
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Produto</TableCell>
+                          <TableCell>Lote</TableCell>
+                          <TableCell>Validade</TableCell>
+                          <TableCell>Equipamento</TableCell>
+                          <TableCell>Quantidade</TableCell>
+                          <TableCell>Ações</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>
+                            <Select
+                              label="Produto"
+                              name="consumo.0.idProduto"
+                              control={control}
+                              propertyLabel="descricao"
+                              propertyValue="id"
+                              options={listProdutos}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <TextField
+                              control={control}
+                              name="consumo.0.lote"
+                              label=""
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <DatePicker
+                              label="Validade"
+                              name="consumo.0.validade"
+                              control={control}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Select
+                              label="Equipamento"
+                              name="consumo.0.idEquipamento"
+                              control={control}
+                              propertyLabel="descricao"
+                              propertyValue="id"
+                              options={listEquipamentos}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <TextField
+                              control={control}
+                              name="consumo.0.quantidade"
+                              label=""
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <IconButton>
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <Button startIcon={<Add />} sx={{ mt: 1 }}>
+                    Adicionar Consumo
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Informações Adicionais
+            </Typography>
+            <Grid container spacing={2}>
               <Grid item size={{ xs: 12 }}>
                 <Switch
                   control={control}
-                  name="naoConformidades"
-                  label="Houveram não conformidades?"
+                  name="naoConformidades.flag"
+                  label="Não conformidades?"
                 />
               </Grid>
 
-              <Grid item size={{ xs: 12 }}>
-                <Switch
-                  control={control}
-                  name="uploadEvidencias"
-                  label="Deseja realizar upload de evidências?"
-                />
-              </Grid>
+              {flagNaoConformidades && (
+                <Grid item size={{ xs: 12 }}>
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Área/Local</TableCell>
+                          <TableCell>Não Conformidade</TableCell>
+                          <TableCell>Ação Sugerida</TableCell>
+                          <TableCell>Ações</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>
+                            <TextField
+                              control={control}
+                              name="naoConformidades.naoConformidades.0.areaLocal"
+                              label=""
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <TextField
+                              control={control}
+                              name="naoConformidades.naoConformidades.0.naoConformidade"
+                              label=""
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <TextField
+                              control={control}
+                              name="naoConformidades.naoConformidades.0.acaoSugerida"
+                              label=""
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <IconButton>
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <Button startIcon={<Add />} sx={{ mt: 1 }}>
+                    Adicionar Não Conformidade
+                  </Button>
+                </Grid>
+              )}
 
               <Grid item size={{ xs: 12 }}>
                 <TextField
                   control={control}
                   name="observacoes"
                   label="Observações"
-                  rows={3}
                   multiline
+                  rows={4}
                 />
               </Grid>
-            </>
-          ) : (
-            <Grid item size={{ xs: 12 }}>
-              <TextField
-                control={control}
-                name="motivoNaoRealizacao"
-                label="Motivo da não realização"
-                rows={3}
-                multiline
-              />
             </Grid>
-          )}
-        </Grid>
+          </Box>
+
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Upload de Evidências
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item size={{ xs: 12 }}>
+                <Switch
+                  control={control}
+                  name="flagUploadEvidencias"
+                  label="Upload de evidências?"
+                />
+              </Grid>
+
+              {flagUploadEvidencias && (
+                <Grid item size={{ xs: 12 }}>
+                  <input
+                    type="file"
+                    multiple
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files || []);
+                    }}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+
+          <Button type="submit" variant="contained" size="large">
+            Salvar
+          </Button>
+        </form>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCloseCreateDialog}>Cancelar</Button>
