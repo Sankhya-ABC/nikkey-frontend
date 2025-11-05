@@ -1,26 +1,12 @@
-import { Add, Delete } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
 import { OrdemServico, TipoContagem } from "../type";
-import { listPragas } from "./provider";
 import { QuantidadeIdentificacao } from "./components/QuantidadeIdentificacao";
+import { ContagemEspecie } from "./ContagemEspecie";
 import { ContagemTotal } from "./ContagemTotal";
 
 export const Equipamentos: React.FC = () => {
@@ -35,6 +21,9 @@ export const Equipamentos: React.FC = () => {
   );
   const tipoContagem = watch("armadilhaLuminosa.tipoContagem");
   const flagArmadilhaFeromonio = watch("armadilhaFeromonio.flag");
+  const armadilhaLuminosaQuantidade = Number(
+    watch("armadilhaLuminosa.quantidade"),
+  );
 
   return (
     <Box>
@@ -202,94 +191,49 @@ export const Equipamentos: React.FC = () => {
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
-                        <Switch
-                          control={control}
-                          name="armadilhaLuminosa.flagClienteExigeContagemInsetosPorArmadilha"
-                          label="Cliente exige contagem de insetos por armadilha?"
-                        />
-                      </Grid>
-
-                      {flagContagemInsetos && (
+                      {armadilhaLuminosaQuantidade > 0 && (
                         <>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <Select
-                              label="Tipo de Contagem"
-                              name="armadilhaLuminosa.tipoContagem"
+                          <Grid item size={{ xs: 12 }}>
+                            <Switch
                               control={control}
-                              propertyLabel="descricao"
-                              propertyValue="id"
-                              options={Object.values(TipoContagem).map(
-                                (value) => ({
-                                  id: value,
-                                  descricao: value,
-                                }),
-                              )}
+                              name="armadilhaLuminosa.flagClienteExigeContagemInsetosPorArmadilha"
+                              label="Cliente exige contagem de insetos por armadilha?"
                             />
                           </Grid>
 
-                          <Grid item size={{ xs: 12 }}>
-                            <Typography variant="subtitle1" gutterBottom>
-                              Contagem de Insetos
-                            </Typography>
+                          {flagContagemInsetos && (
+                            <>
+                              <Grid item size={{ xs: 12, md: 6 }}>
+                                <Select
+                                  label="Tipo de Contagem"
+                                  name="armadilhaLuminosa.tipoContagem"
+                                  control={control}
+                                  propertyLabel="descricao"
+                                  propertyValue="id"
+                                  options={Object.values(TipoContagem).map(
+                                    (value) => ({
+                                      id: value,
+                                      descricao: value,
+                                    }),
+                                  )}
+                                />
+                              </Grid>
 
-                            {tipoContagem === TipoContagem.TOTAL ? (
-                              <ContagemTotal />
-                            ) : (
-                              <TableContainer component={Paper}>
-                                <Table>
-                                  <TableHead>
-                                    <TableRow>
-                                      <TableCell>Praga</TableCell>
-                                      <TableCell>Quantidade</TableCell>
-                                      <TableCell>Identificação</TableCell>
-                                      <TableCell>Ações</TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                  <TableBody>
-                                    <TableRow>
-                                      <TableCell>
-                                        <Select
-                                          label="Praga"
-                                          name="armadilhaLuminosa.contagem.0.idPraga"
-                                          control={control}
-                                          propertyLabel="descricao"
-                                          propertyValue="id"
-                                          options={listPragas}
-                                        />
-                                      </TableCell>
-                                      <TableCell>
-                                        <TextField
-                                          control={control}
-                                          name="armadilhaLuminosa.contagem.0.quantidade"
-                                          label=""
-                                          type="number"
-                                        />
-                                      </TableCell>
-                                      <TableCell>
-                                        <TextField
-                                          control={control}
-                                          name="armadilhaLuminosa.contagem.0.identificacao"
-                                          label=""
-                                        />
-                                      </TableCell>
-                                      <TableCell>
-                                        <IconButton>
-                                          <Delete />
-                                        </IconButton>
-                                      </TableCell>
-                                    </TableRow>
-                                  </TableBody>
-                                </Table>
-                                <Button
-                                  startIcon={<Add />}
-                                  sx={{ mt: 1, ml: 2 }}
-                                >
-                                  Adicionar Contagem
-                                </Button>
-                              </TableContainer>
-                            )}
-                          </Grid>
+                              <Grid item size={{ xs: 12 }}>
+                                <Typography variant="subtitle1" gutterBottom>
+                                  Contagem de Insetos
+                                </Typography>
+
+                                {tipoContagem === TipoContagem.TOTAL && (
+                                  <ContagemTotal />
+                                )}
+
+                                {tipoContagem === TipoContagem.ESPECIE && (
+                                  <ContagemEspecie />
+                                )}
+                              </Grid>
+                            </>
+                          )}
                         </>
                       )}
                     </>

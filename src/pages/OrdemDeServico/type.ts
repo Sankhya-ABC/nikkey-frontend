@@ -21,6 +21,15 @@ export enum TipoContagem {
   ESPECIE = "Espécie",
 }
 
+export interface ContagemEspecie {
+  identificacao: string[];
+  mosca: number[];
+  mosquito: number[];
+  mariposa: number[];
+  besouro: number[];
+  outros: number[];
+}
+
 export interface Consumo {
   idPraga: number | "";
   idProduto: number | "";
@@ -79,9 +88,7 @@ export interface Equipamentos {
     quantidade: number | "";
     flagClienteExigeContagemInsetosPorArmadilha: boolean;
     tipoContagem: TipoContagem | "";
-    contagem:
-      | (QuantidadeIdentificacao & { idPraga: number }[])
-      | QuantidadeIdentificacao[];
+    contagem: ContagemEspecie | QuantidadeIdentificacao[];
   };
 
   armadilhaFeromonio: {
