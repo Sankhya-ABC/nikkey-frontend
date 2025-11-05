@@ -13,6 +13,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Select } from "../../../components/Form/Select";
@@ -22,9 +23,36 @@ import { OrdemServico } from "../type";
 import { listEquipamentos, listProdutos } from "./provider";
 
 export const ConsumoProdutos = () => {
-  const { control, watch } = useFormContext<OrdemServico>();
+  const { control, watch, getValues, setValue } =
+    useFormContext<OrdemServico>();
 
+  const consumo = watch("consumo");
   const flagConsumoProdutos = watch("flagConsumoProdutos");
+
+  const handleAdd = () => {
+    const actualList = getValues("consumo");
+    actualList?.push({
+      idPraga: "",
+      idProduto: "",
+      lote: "",
+      validade: null,
+      idEquipamento: "",
+      quantidade: "",
+    });
+    setValue("consumo", actualList);
+  };
+
+  const handleDelete = (index: number) => {
+    const actualList = getValues("consumo");
+    actualList?.splice(index, 1);
+    setValue("consumo", actualList);
+  };
+
+  useEffect(() => {
+    if (!flagConsumoProdutos) {
+      setValue("consumo", []);
+    }
+  }, [flagConsumoProdutos]);
 
   return (
     <Box>
@@ -40,7 +68,7 @@ export const ConsumoProdutos = () => {
           />
         </Grid>
 
-        {flagConsumoProdutos && (
+        {flagConsumoProdutos && consumo?.length ? (
           <Grid item size={{ xs: 12 }}>
             <TableContainer component={Paper}>
               <Table>
@@ -55,61 +83,71 @@ export const ConsumoProdutos = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell sx={{ width: "40%" }}>
-                      <Select
-                        label="Produto"
-                        name="consumo.0.idProduto"
-                        control={control}
-                        propertyLabel="descricao"
-                        propertyValue="id"
-                        options={listProdutos}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ width: "40%" }}>
-                      <TextField
-                        control={control}
-                        name="consumo.0.lote"
-                        label=""
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <DatePicker
-                        label="Validade"
-                        name="consumo.0.validade"
-                        control={control}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ width: "20%" }}>
-                      <Select
-                        label="Equipamento"
-                        name="consumo.0.idEquipamento"
-                        control={control}
-                        propertyLabel="descricao"
-                        propertyValue="id"
-                        options={listEquipamentos}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        control={control}
-                        name="consumo.0.quantidade"
-                        label=""
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <IconButton>
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
+                  {consumo?.map((_data, index) => {
+                    return (
+                      <TableRow>
+                        <TableCell sx={{ width: "40%" }}>
+                          <Select
+                            name={`consumo.${index}.idProduto`}
+                            control={control}
+                            propertyLabel="descricao"
+                            propertyValue="id"
+                            options={listProdutos}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ width: "40%" }}>
+                          <TextField
+                            control={control}
+                            name={`consumo.${index}.lote`}
+                            label=""
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <DatePicker
+                            control={control}
+                            name={`consumo.${index}.validade`}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ width: "20%" }}>
+                          <Select
+                            name={`consumo.${index}.idEquipamento`}
+                            control={control}
+                            propertyLabel="descricao"
+                            propertyValue="id"
+                            options={listEquipamentos}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            control={control}
+                            name={`consumo.${index}.quantidade`}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <IconButton onClick={() => handleDelete(index)}>
+                            <Delete />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
-            <Button variant="outlined" startIcon={<Add />} sx={{ mt: 1 }}>
+          </Grid>
+        ) : null}
+
+        {flagConsumoProdutos && (
+          <Box>
+            <Button
+              variant="outlined"
+              startIcon={<Add />}
+              sx={{ mt: 1 }}
+              onClick={handleAdd}
+            >
               Adicionar Consumo
             </Button>
-          </Grid>
+          </Box>
         )}
       </Grid>
     </Box>
