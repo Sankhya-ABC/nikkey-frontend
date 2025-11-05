@@ -17,8 +17,8 @@ export interface QuantidadeIdentificacao {
 }
 
 export enum TipoContagem {
-  TOTAL = "TOTAL",
-  ESPECIE = "ESPECIE",
+  TOTAL = "Total",
+  ESPECIE = "Espécie",
 }
 
 export interface Consumo {
@@ -76,6 +76,7 @@ export interface Equipamentos {
 
   armadilhaLuminosa: {
     flag: boolean;
+    quantidade: number | "";
     flagClienteExigeContagemInsetosPorArmadilha: boolean;
     tipoContagem: TipoContagem | "";
     contagem:

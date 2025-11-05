@@ -75,6 +75,7 @@ const defaultValues: OrdemServico = {
 
   armadilhaLuminosa: {
     flag: false,
+    quantidade: "",
     flagClienteExigeContagemInsetosPorArmadilha: false,
     tipoContagem: "",
     contagem: [],
