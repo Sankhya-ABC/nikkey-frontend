@@ -115,11 +115,14 @@ export const PragasEncontradas = () => {
                           />
                         </TableCell>
                         <TableCell sx={{ width: "25%" }}>
-                          <TextField
-                            control={control}
-                            name={`pragas.${index}.quantidade`}
-                            label=""
-                          />
+                          {getValues(`pragas.${index}.comoEncontrado`) !==
+                            ComoEncontrado.FRAGMENTOS && (
+                            <TextField
+                              control={control}
+                              name={`pragas.${index}.quantidade`}
+                              label=""
+                            />
+                          )}
                         </TableCell>
                         <TableCell>
                           <IconButton onClick={() => handleDelete(index)}>
