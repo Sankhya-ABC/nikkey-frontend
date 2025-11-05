@@ -13,15 +13,40 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
 import { OrdemServico } from "../type";
 
 export const InformacoesAdicionais = () => {
-  const { control, watch } = useFormContext<OrdemServico>();
+  const { control, watch, getValues, setValue } =
+    useFormContext<OrdemServico>();
 
+  const naoConformidades = watch("naoConformidades.naoConformidades");
   const flagNaoConformidades = watch("naoConformidades.flag");
+
+  const handleAdd = () => {
+    const actualList = getValues("naoConformidades.naoConformidades");
+    actualList?.push({
+      areaLocal: "",
+      naoConformidade: "",
+      acaoSugerida: "",
+    });
+    setValue("naoConformidades.naoConformidades", actualList);
+  };
+
+  const handleDelete = (index: number) => {
+    const actualList = getValues("naoConformidades.naoConformidades");
+    actualList?.splice(index, 1);
+    setValue("naoConformidades.naoConformidades", actualList);
+  };
+
+  useEffect(() => {
+    if (!flagNaoConformidades) {
+      setValue("naoConformidades.naoConformidades", []);
+    }
+  }, [flagNaoConformidades]);
 
   return (
     <Box>
@@ -37,7 +62,7 @@ export const InformacoesAdicionais = () => {
           />
         </Grid>
 
-        {flagNaoConformidades && (
+        {flagNaoConformidades && naoConformidades?.length ? (
           <Grid item size={{ xs: 12 }}>
             <TableContainer component={Paper}>
               <Table>
@@ -50,38 +75,52 @@ export const InformacoesAdicionais = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <TextField
-                        control={control}
-                        name="naoConformidades.naoConformidades.0.areaLocal"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        control={control}
-                        name="naoConformidades.naoConformidades.0.naoConformidade"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        control={control}
-                        name="naoConformidades.naoConformidades.0.acaoSugerida"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <IconButton>
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
+                  {naoConformidades?.map((_data, index) => {
+                    return (
+                      <TableRow>
+                        <TableCell>
+                          <TextField
+                            control={control}
+                            name={`naoConformidades.naoConformidades.${index}.areaLocal`}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            control={control}
+                            name={`naoConformidades.naoConformidades.${index}.naoConformidade`}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            control={control}
+                            name={`naoConformidades.naoConformidades.${index}.acaoSugerida`}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <IconButton onClick={() => handleDelete(index)}>
+                            <Delete />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
-            <Button startIcon={<Add />} sx={{ mt: 1 }}>
+          </Grid>
+        ) : null}
+
+        {flagNaoConformidades && (
+          <Box>
+            <Button
+              variant="outlined"
+              startIcon={<Add />}
+              sx={{ mt: 1 }}
+              onClick={handleAdd}
+            >
               Adicionar Não Conformidade
             </Button>
-          </Grid>
+          </Box>
         )}
       </Grid>
     </Box>
