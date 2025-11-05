@@ -103,7 +103,6 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
             </Typography>
           </Grid>
 
-          {/* Endereço */}
           <Grid item size={{ xs: 12 }}>
             <TextField size="small" fullWidth label="Logradouro" />
           </Grid>
