@@ -56,7 +56,7 @@ export const ConsumoProdutos = () => {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>
+                    <TableCell sx={{ width: "40%" }}>
                       <Select
                         label="Produto"
                         name="consumo.0.idProduto"
@@ -66,7 +66,7 @@ export const ConsumoProdutos = () => {
                         options={listProdutos}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ width: "40%" }}>
                       <TextField
                         control={control}
                         name="consumo.0.lote"
@@ -80,7 +80,7 @@ export const ConsumoProdutos = () => {
                         control={control}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ width: "20%" }}>
                       <Select
                         label="Equipamento"
                         name="consumo.0.idEquipamento"
@@ -106,7 +106,7 @@ export const ConsumoProdutos = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Button startIcon={<Add />} sx={{ mt: 1 }}>
+            <Button variant="outlined" startIcon={<Add />} sx={{ mt: 1 }}>
               Adicionar Consumo
             </Button>
           </Grid>
