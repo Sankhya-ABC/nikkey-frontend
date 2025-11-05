@@ -20,6 +20,8 @@ import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
 import { OrdemServico, TipoContagem } from "../type";
 import { listPragas } from "./provider";
+import { QuantidadeIdentificacao } from "./components/QuantidadeIdentificacao";
+import { ContagemTotal } from "./ContagemTotal";
 
 export const Equipamentos: React.FC = () => {
   const { control, watch } = useFormContext<OrdemServico>();
@@ -83,78 +85,24 @@ export const Equipamentos: React.FC = () => {
                       </Grid>
 
                       <Grid item size={{ xs: 12 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Mofo/Deterioração
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="iscagem.mofoDeterioracao.quantidade"
-                              label="Quantidade"
-                              type="number"
-                            />
-                          </Grid>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="iscagem.mofoDeterioracao.identificacao"
-                              label="Identificação"
-                              multiline
-                              rows={2}
-                            />
-                          </Grid>
-                        </Grid>
+                        <QuantidadeIdentificacao
+                          title="Mofo/Deterioração"
+                          property="iscagem.mofoDeterioracao"
+                        />
                       </Grid>
 
                       <Grid item size={{ xs: 12 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Roído
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="iscagem.roido.quantidade"
-                              label="Quantidade"
-                              type="number"
-                            />
-                          </Grid>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="iscagem.roido.identificacao"
-                              label="Identificação"
-                              multiline
-                              rows={2}
-                            />
-                          </Grid>
-                        </Grid>
+                        <QuantidadeIdentificacao
+                          title="Roído"
+                          property="iscagem.roido"
+                        />
                       </Grid>
 
                       <Grid item size={{ xs: 12 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Obstruído/Quebrado/Extraviado
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="iscagem.obstruidoQuebradoExtraviado.quantidade"
-                              label="Quantidade"
-                              type="number"
-                            />
-                          </Grid>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="iscagem.obstruidoQuebradoExtraviado.identificacao"
-                              label="Identificação"
-                              multiline
-                              rows={2}
-                            />
-                          </Grid>
-                        </Grid>
+                        <QuantidadeIdentificacao
+                          title="Obstruído/Quebrado/Extraviado"
+                          property="iscagem.obstruidoQuebradoExtraviado"
+                        />
                       </Grid>
                     </>
                   )}
@@ -196,78 +144,24 @@ export const Equipamentos: React.FC = () => {
                       </Grid>
 
                       <Grid item size={{ xs: 12 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Sujeira/Deterioração
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="placaColaArmadilhaMecanica.sujeiraDeterioracao.quantidade"
-                              label="Quantidade"
-                              type="number"
-                            />
-                          </Grid>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="placaColaArmadilhaMecanica.sujeiraDeterioracao.identificacao"
-                              label="Identificação"
-                              multiline
-                              rows={2}
-                            />
-                          </Grid>
-                        </Grid>
+                        <QuantidadeIdentificacao
+                          title="Sujeira/Deterioração"
+                          property="placaColaArmadilhaMecanica.sujeiraDeterioracao"
+                        />
                       </Grid>
 
                       <Grid item size={{ xs: 12 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Roedor Aderido
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="placaColaArmadilhaMecanica.roedorAderido.quantidade"
-                              label="Quantidade"
-                              type="number"
-                            />
-                          </Grid>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="placaColaArmadilhaMecanica.roedorAderido.identificacao"
-                              label="Identificação"
-                              multiline
-                              rows={2}
-                            />
-                          </Grid>
-                        </Grid>
+                        <QuantidadeIdentificacao
+                          title="Roedor Aderido"
+                          property="placaColaArmadilhaMecanica.roedorAderido"
+                        />
                       </Grid>
 
                       <Grid item size={{ xs: 12 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Obstruído/Quebrado/Extraviado
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="placaColaArmadilhaMecanica.obstruidoQuebradoExtraviado.quantidade"
-                              label="Quantidade"
-                              type="number"
-                            />
-                          </Grid>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="placaColaArmadilhaMecanica.obstruidoQuebradoExtraviado.identificacao"
-                              label="Identificação"
-                              multiline
-                              rows={2}
-                            />
-                          </Grid>
-                        </Grid>
+                        <QuantidadeIdentificacao
+                          title=" Obstruído/Quebrado/Extraviado"
+                          property="placaColaArmadilhaMecanica.obstruidoQuebradoExtraviado"
+                        />
                       </Grid>
                     </>
                   )}
@@ -299,6 +193,15 @@ export const Equipamentos: React.FC = () => {
 
                   {flagArmadilhaLuminosa && (
                     <>
+                      <Grid item size={{ xs: 12, md: 6 }}>
+                        <TextField
+                          control={control}
+                          name="armadilhaLuminosa.quantidade"
+                          label="Quantidade"
+                          type="number"
+                        />
+                      </Grid>
+
                       <Grid item size={{ xs: 12 }}>
                         <Switch
                           control={control}
@@ -315,17 +218,13 @@ export const Equipamentos: React.FC = () => {
                               name="armadilhaLuminosa.tipoContagem"
                               control={control}
                               propertyLabel="descricao"
-                              propertyValue="value"
-                              options={[
-                                {
-                                  id: TipoContagem.TOTAL,
-                                  descricao: "Total",
-                                },
-                                {
-                                  id: TipoContagem.ESPECIE,
-                                  descricao: "Por Espécie",
-                                },
-                              ]}
+                              propertyValue="id"
+                              options={Object.values(TipoContagem).map(
+                                (value) => ({
+                                  id: value,
+                                  descricao: value,
+                                }),
+                              )}
                             />
                           </Grid>
 
@@ -335,25 +234,7 @@ export const Equipamentos: React.FC = () => {
                             </Typography>
 
                             {tipoContagem === TipoContagem.TOTAL ? (
-                              <Grid container spacing={2}>
-                                <Grid item size={{ xs: 12, md: 6 }}>
-                                  <TextField
-                                    control={control}
-                                    name="armadilhaLuminosa.contagem.0.quantidade"
-                                    label="Quantidade Total"
-                                    type="number"
-                                  />
-                                </Grid>
-                                <Grid item size={{ xs: 12, md: 6 }}>
-                                  <TextField
-                                    control={control}
-                                    name="armadilhaLuminosa.contagem.0.identificacao"
-                                    label="Identificação"
-                                    multiline
-                                    rows={2}
-                                  />
-                                </Grid>
-                              </Grid>
+                              <ContagemTotal />
                             ) : (
                               <TableContainer component={Paper}>
                                 <Table>
@@ -390,8 +271,6 @@ export const Equipamentos: React.FC = () => {
                                           control={control}
                                           name="armadilhaLuminosa.contagem.0.identificacao"
                                           label=""
-                                          multiline
-                                          rows={2}
                                         />
                                       </TableCell>
                                       <TableCell>
@@ -453,53 +332,17 @@ export const Equipamentos: React.FC = () => {
                       </Grid>
 
                       <Grid item size={{ xs: 12 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Guachon
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="armadilhaFeromonio.guachon.quantidade"
-                              label="Quantidade"
-                              type="number"
-                            />
-                          </Grid>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="armadilhaFeromonio.guachon.identificacao"
-                              label="Identificação"
-                              multiline
-                              rows={2}
-                            />
-                          </Grid>
-                        </Grid>
+                        <QuantidadeIdentificacao
+                          title="Guachon"
+                          property="armadilhaFeromonio.guachon"
+                        />
                       </Grid>
 
                       <Grid item size={{ xs: 12 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Bio Serrico
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="armadilhaFeromonio.bioSerrico.quantidade"
-                              label="Quantidade"
-                              type="number"
-                            />
-                          </Grid>
-                          <Grid item size={{ xs: 12, md: 6 }}>
-                            <TextField
-                              control={control}
-                              name="armadilhaFeromonio.bioSerrico.identificacao"
-                              label="Identificação"
-                              multiline
-                              rows={2}
-                            />
-                          </Grid>
-                        </Grid>
+                        <QuantidadeIdentificacao
+                          title="Bio Serrico"
+                          property="armadilhaFeromonio.bioSerrico"
+                        />
                       </Grid>
                     </>
                   )}
