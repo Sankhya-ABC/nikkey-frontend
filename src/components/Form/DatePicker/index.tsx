@@ -1,14 +1,12 @@
 import { InputBaseComponentProps } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import {
-  DatePicker as DatePickerMui,
-  DatePickerProps as MuiDatePickerProps,
-} from "@mui/x-date-pickers/DatePicker";
+import { DatePickerProps as MuiDatePickerProps } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { ptBR } from "date-fns/locale/pt-BR";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { IFormProps } from "../@types/form";
+import { StyledDatePicker } from "./styles";
 
 type IViews = "year" | "month" | "day";
 
@@ -19,6 +17,7 @@ interface IDatePickerProps extends IFormProps {
   maxDate?: Date;
   views?: IViews[];
   disablePast?: boolean;
+  fullWidth?: boolean;
 }
 
 export const DatePicker: React.FC<IDatePickerProps> = ({
@@ -31,6 +30,7 @@ export const DatePicker: React.FC<IDatePickerProps> = ({
   minDate,
   views,
   disablePast,
+  fullWidth = true,
 }) => {
   return (
     <Controller
@@ -41,7 +41,7 @@ export const DatePicker: React.FC<IDatePickerProps> = ({
         fieldState: { error },
       }) => (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
-          <DatePickerMui
+          <StyledDatePicker
             {...(DatePickerProps as any)}
             disablePast={disablePast}
             views={views ?? (DatePickerProps as any)?.views}
@@ -51,7 +51,7 @@ export const DatePicker: React.FC<IDatePickerProps> = ({
             maxDate={(DatePickerProps as any)?.maxDate ?? maxDate}
             slotProps={{
               textField: {
-                fullWidth: true,
+                fullWidth: fullWidth,
                 color: "primary",
                 size: "small",
                 inputRef: ref,
