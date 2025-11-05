@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { useFormContext } from "react-hook-form";
+import { FileUpload } from "../../../components/FileUpload";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
 import { OrdemServico } from "../type";
@@ -25,12 +26,11 @@ export const UploadEvidencias = () => {
 
         {flagUploadEvidencias && (
           <Grid item size={{ xs: 12 }}>
-            <input
-              type="file"
-              multiple
-              onChange={(e) => {
-                const files = Array.from(e.target.files || []);
-              }}
+            <FileUpload
+              acceptedTypes={["image/*"]}
+              maxSizeInMB={5}
+              multiple={true}
+              maxFiles={10}
             />
           </Grid>
         )}

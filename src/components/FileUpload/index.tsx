@@ -1,28 +1,35 @@
-import React, { useCallback, useState } from "react";
 import {
+  CloudUpload,
+  Delete,
+  Description,
+  InsertDriveFile,
+} from "@mui/icons-material";
+import {
+  Alert,
   Box,
   Button,
-  Chip,
-  Typography,
+  Grid,
   IconButton,
   Paper,
-  Grid,
-  Alert,
   styled,
+  Typography,
 } from "@mui/material";
-import { CloudUpload, Delete } from "@mui/icons-material";
+import React, { useCallback, useState } from "react";
 
 interface FileUploadProps {
   acceptedTypes?: string[];
-  maxSize?: number; // em bytes
+  maxSizeInMB?: number;
   multiple?: boolean;
   maxFiles?: number;
-  onFilesChange?: (files: File[]) => void;
+  onFilesChange?: (
+    files: { file: File; preview: string; fileType: string }[],
+  ) => void;
 }
 
-interface FileWithPreview extends File {
-  preview?: string;
-  fileType?: string;
+interface FileWithData {
+  file: File;
+  preview: string;
+  fileType: string;
 }
 
 const VisuallyHiddenInput = styled("input")({
@@ -39,16 +46,17 @@ const VisuallyHiddenInput = styled("input")({
 
 export const FileUpload: React.FC<FileUploadProps> = ({
   acceptedTypes = ["image/*", ".pdf", ".doc", ".docx"],
-  maxSize = 5 * 1024 * 1024, // 5MB padrão
+  maxSizeInMB = 5,
   multiple = true,
   maxFiles = 10,
   onFilesChange,
 }) => {
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const [files, setFiles] = useState<FileWithData[]>([]);
   const [error, setError] = useState<string>("");
 
+  const maxSize = maxSizeInMB * 1024 * 1024;
+
   const getFileType = (file: File): string => {
-    // Fallback para arquivos sem type definido
     return file.type || "application/octet-stream";
   };
 
@@ -58,103 +66,54 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       .toLowerCase();
   };
 
-  const generatePreview = (file: File): Promise<string> => {
-    return new Promise((resolve) => {
-      const fileType = getFileType(file);
-
-      if (fileType.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target?.result as string);
-        reader.readAsDataURL(file);
-      } else {
-        // Ícone padrão para arquivos não-image
-        resolve(getFileIcon(fileType, file.name));
-      }
-    });
-  };
-
-  const getFileIcon = (fileType: string, filename: string = ""): string => {
-    const extension = getFileExtension(filename);
-
-    const iconMap: { [key: string]: string } = {
-      // Documentos
-      "application/pdf": "📄",
-      "application/msword": "📝",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        "📝",
-      "application/vnd.ms-excel": "📊",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "📊",
-      "application/vnd.ms-powerpoint": "📽️",
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-        "📽️",
-      "text/plain": "📄",
-      "text/csv": "📊",
-
-      // Arquivos compactados
-      "application/zip": "📦",
-      "application/x-zip-compressed": "📦",
-      "application/vnd.rar": "📦",
-      "application/x-rar-compressed": "📦",
-      "application/x-tar": "📦",
-      "application/gzip": "📦",
-
-      // Imagens
-      "image/jpeg": "🖼️",
-      "image/png": "🖼️",
-      "image/gif": "🖼️",
-      "image/svg+xml": "🖼️",
-      "image/webp": "🖼️",
-
-      // Áudio
-      "audio/mpeg": "🎵",
-      "audio/wav": "🎵",
-      "audio/ogg": "🎵",
-
-      // Vídeo
-      "video/mp4": "🎬",
-      "video/avi": "🎬",
-      "video/mov": "🎬",
-      "video/webm": "🎬",
-
-      // Código
-      "text/html": "📋",
-      "text/css": "📋",
-      "application/javascript": "📋",
-      "text/x-python": "📋",
-      "text/x-java": "📋",
-      "text/x-c++": "📋",
-    };
-
-    // Tenta encontrar pelo tipo MIME primeiro
-    if (iconMap[fileType]) {
-      return iconMap[fileType];
+  const getFileIcon = (
+    fileType: string,
+    filename: string = "",
+  ): React.ReactNode => {
+    if (fileType.startsWith("image/")) {
+      return null;
     }
 
-    // Fallback para extensões comuns
-    const extensionMap: { [key: string]: string } = {
-      pdf: "📄",
-      doc: "📝",
-      docx: "📝",
-      xls: "📊",
-      xlsx: "📊",
-      ppt: "📽️",
-      pptx: "📽️",
-      txt: "📄",
-      csv: "📊",
-      zip: "📦",
-      rar: "📦",
-      js: "📋",
-      jsx: "📋",
-      ts: "📋",
-      tsx: "📋",
-      html: "📋",
-      css: "📋",
-      py: "📋",
-      java: "📋",
-      cpp: "📋",
+    const extension = getFileExtension(filename);
+
+    const extensionMap: { [key: string]: React.ReactNode } = {
+      pdf: <Description color="error" />,
+      doc: <Description color="primary" />,
+      docx: <Description color="primary" />,
+      xls: <Description color="success" />,
+      xlsx: <Description color="success" />,
+      ppt: <Description color="warning" />,
+      pptx: <Description color="warning" />,
+      txt: <InsertDriveFile color="action" />,
+      csv: <InsertDriveFile color="action" />,
+      zip: <InsertDriveFile color="action" />,
+      rar: <InsertDriveFile color="action" />,
     };
 
-    return extensionMap[extension] || "📁";
+    return extensionMap[extension] || <InsertDriveFile color="action" />;
+  };
+
+  const generatePreview = async (
+    file: File,
+  ): Promise<{ preview: string; fileType: string }> => {
+    const fileType = getFileType(file);
+
+    if (fileType.startsWith("image/")) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) =>
+          resolve({
+            preview: e.target?.result as string,
+            fileType,
+          });
+        reader.readAsDataURL(file);
+      });
+    } else {
+      return {
+        preview: "",
+        fileType,
+      };
+    }
   };
 
   const isFileTypeAccepted = (file: File, acceptedTypes: string[]): boolean => {
@@ -164,18 +123,15 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const fileExtension = getFileExtension(file.name);
 
     return acceptedTypes.some((type) => {
-      // Se for um tipo MIME com wildcard (ex: "image/*")
       if (type.endsWith("/*")) {
         const category = type.split("/")[0];
         return fileType.startsWith(`${category}/`);
       }
 
-      // Se for um tipo MIME específico (ex: "application/pdf")
       if (type.includes("/")) {
         return fileType === type;
       }
 
-      // Se for uma extensão (ex: ".pdf")
       if (type.startsWith(".")) {
         return fileExtension === type.slice(1).toLowerCase();
       }
@@ -189,10 +145,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       const selectedFiles = Array.from(event.target.files || []);
       setError("");
 
-      // Resetar o input para permitir selecionar o mesmo arquivo novamente
       event.target.value = "";
 
-      // Validações
       if (!multiple && selectedFiles.length > 1) {
         setError("Apenas um arquivo é permitido");
         return;
@@ -203,10 +157,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         return;
       }
 
-      const validFiles: FileWithPreview[] = [];
+      const validFiles: FileWithData[] = [];
 
       for (const file of selectedFiles) {
-        // Validar tipo
         if (
           acceptedTypes.length > 0 &&
           !isFileTypeAccepted(file, acceptedTypes)
@@ -215,40 +168,42 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           return;
         }
 
-        // Validar tamanho
         if (file.size > maxSize) {
           setError(
-            `Arquivo muito grande: ${file.name} (Máximo: ${formatFileSize(maxSize)})`,
+            `Arquivo muito grande: ${file.name} (Máximo: ${maxSizeInMB}MB)`,
           );
           return;
         }
 
-        validFiles.push(file);
+        try {
+          const { preview, fileType } = await generatePreview(file);
+          validFiles.push({
+            file,
+            preview,
+            fileType,
+          });
+        } catch (err) {
+          validFiles.push({
+            file,
+            preview: "",
+            fileType: getFileType(file),
+          });
+        }
       }
 
-      try {
-        // Gerar previews
-        const filesWithPreviews = await Promise.all(
-          validFiles.map(async (file) => {
-            const preview = await generatePreview(file);
-            const fileType = getFileType(file);
-            return {
-              ...file,
-              preview,
-              fileType,
-            };
-          }),
-        );
-
-        const newFiles = [...files, ...filesWithPreviews];
-        setFiles(newFiles);
-        onFilesChange?.(newFiles);
-      } catch (err) {
-        console.error("Erro ao gerar previews:", err);
-        setError("Erro ao processar os arquivos");
-      }
+      const newFiles = [...files, ...validFiles];
+      setFiles(newFiles);
+      onFilesChange?.(newFiles);
     },
-    [files, multiple, maxFiles, acceptedTypes, maxSize, onFilesChange],
+    [
+      files,
+      multiple,
+      maxFiles,
+      acceptedTypes,
+      maxSize,
+      maxSizeInMB,
+      onFilesChange,
+    ],
   );
 
   const handleDelete = (index: number) => {
@@ -285,7 +240,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const droppedFiles = Array.from(event.dataTransfer.files);
 
     if (droppedFiles.length > 0) {
-      // Simular um change event para reutilizar a lógica existente
       const mockEvent = {
         target: {
           files: event.dataTransfer.files,
@@ -298,7 +252,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
   return (
     <Box sx={{ width: "100%" }}>
-      {/* Área de Upload */}
       <Paper
         variant="outlined"
         sx={{
@@ -339,18 +292,16 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
         <Typography variant="caption" color="text.secondary">
           Tipos permitidos: {getAcceptedTypesString()} | Tamanho máximo:{" "}
-          {formatFileSize(maxSize)} | Máximo: {maxFiles} arquivos
+          {maxSizeInMB}MB | Máximo: {maxFiles} arquivos
         </Typography>
       </Paper>
 
-      {/* Mensagem de erro */}
       {error && (
         <Alert severity="error" sx={{ mt: 2 }} onClose={() => setError("")}>
           {error}
         </Alert>
       )}
 
-      {/* Preview dos arquivos */}
       {files.length > 0 && (
         <Box sx={{ mt: 3 }}>
           <Typography variant="h6" gutterBottom>
@@ -358,28 +309,25 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           </Typography>
 
           <Grid container spacing={2}>
-            {files.map((file, index) => (
+            {files.map((fileData, index) => (
               <Grid
                 item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                key={`${file.name}-${index}-${file.lastModified}`}
+                key={`${fileData.file.name}-${index}-${fileData.file.lastModified}`}
               >
                 <Paper
                   variant="outlined"
                   sx={{
-                    p: 2,
+                    p: 1,
                     position: "relative",
                     textAlign: "center",
-                    height: "100%",
+                    width: 130,
+                    height: 170,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {/* Botão de deletar */}
                   <IconButton
                     size="small"
                     onClick={() => handleDelete(index)}
@@ -392,12 +340,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                         backgroundColor: "error.light",
                         color: "error.contrastText",
                       },
+                      zIndex: 1,
                     }}
                   >
                     <Delete fontSize="small" />
                   </IconButton>
 
-                  {/* Preview */}
                   <Box
                     sx={{
                       width: 80,
@@ -405,17 +353,19 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: "2rem",
                       mb: 1,
                       overflow: "hidden",
-                      backgroundColor: "grey.50",
+                      backgroundColor: fileData.fileType.startsWith("image/")
+                        ? "transparent"
+                        : "grey.50",
                       borderRadius: 1,
+                      mt: 1,
                     }}
                   >
-                    {file.fileType?.startsWith("image/") ? (
+                    {fileData.fileType.startsWith("image/") ? (
                       <img
-                        src={file.preview}
-                        alt={file.name}
+                        src={fileData.preview}
+                        alt={fileData.file.name}
                         style={{
                           width: "100%",
                           height: "100%",
@@ -423,54 +373,50 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                           borderRadius: 4,
                         }}
                         onError={(e) => {
-                          // Fallback se a imagem não carregar
                           const target = e.target as HTMLImageElement;
                           target.style.display = "none";
-                          target.parentElement!.innerHTML = getFileIcon(
-                            file.fileType || "",
-                            file.name,
-                          );
                         }}
                       />
                     ) : (
-                      <Typography variant="h4">
-                        {getFileIcon(file.fileType || "", file.name)}
-                      </Typography>
+                      <Box sx={{ fontSize: "3rem", color: "action.active" }}>
+                        {getFileIcon(fileData.fileType, fileData.file.name)}
+                      </Box>
                     )}
                   </Box>
 
-                  {/* Informações do arquivo */}
-                  <Typography
-                    variant="body2"
+                  <Box
                     sx={{
-                      fontWeight: "medium",
-                      wordBreak: "break-word",
-                      textAlign: "center",
                       width: "100%",
+                      textAlign: "center",
+                      overflow: "hidden",
                     }}
-                    noWrap
                   >
-                    {file.name}
-                  </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        fontWeight: "medium",
+                        display: "block",
+                        wordBreak: "break-word",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        lineHeight: 1.2,
+                        maxHeight: "2.4em",
+                      }}
+                    >
+                      {fileData.file.name}
+                    </Typography>
 
-                  <Typography
-                    variant="caption"
-                    color="text.secondary"
-                    sx={{ mt: 0.5 }}
-                  >
-                    {formatFileSize(file.size)}
-                  </Typography>
-
-                  <Chip
-                    label={
-                      file.fileType?.split("/")[1] ||
-                      getFileExtension(file.name) ||
-                      "arquivo"
-                    }
-                    size="small"
-                    variant="outlined"
-                    sx={{ mt: 1 }}
-                  />
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ mt: 0.5, display: "block" }}
+                    >
+                      {formatFileSize(fileData.file.size)}
+                    </Typography>
+                  </Box>
                 </Paper>
               </Grid>
             ))}
