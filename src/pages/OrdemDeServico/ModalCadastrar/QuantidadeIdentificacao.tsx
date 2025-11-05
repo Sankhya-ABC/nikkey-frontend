@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import { FieldPath, useFormContext } from "react-hook-form";
-import { TextField } from "../../../../components/Form/Textfield";
-import { OrdemServico } from "../../type";
+import { TextField } from "../../../components/Form/Textfield";
+import { OrdemServico } from "../type";
 
 interface QuantidadeIdentificacaoProps {
   title: string;

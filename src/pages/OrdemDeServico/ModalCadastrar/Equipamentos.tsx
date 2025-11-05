@@ -5,7 +5,7 @@ import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
 import { OrdemServico, TipoContagem } from "../type";
-import { QuantidadeIdentificacao } from "./components/QuantidadeIdentificacao";
+import { QuantidadeIdentificacao } from "./QuantidadeIdentificacao";
 import { ContagemEspecie } from "./ContagemEspecie";
 import { ContagemTotal } from "./ContagemTotal";
 
@@ -220,9 +220,11 @@ export const Equipamentos: React.FC = () => {
                               </Grid>
 
                               <Grid item size={{ xs: 12 }}>
-                                <Typography variant="subtitle1" gutterBottom>
-                                  Contagem de Insetos
-                                </Typography>
+                                {tipoContagem && (
+                                  <Typography variant="subtitle1" gutterBottom>
+                                    Contagem de Insetos
+                                  </Typography>
+                                )}
 
                                 {tipoContagem === TipoContagem.TOTAL && (
                                   <ContagemTotal />
