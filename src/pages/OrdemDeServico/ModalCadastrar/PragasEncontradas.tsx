@@ -84,7 +84,6 @@ export const PragasEncontradas = () => {
                       <TableRow>
                         <TableCell sx={{ width: "25%" }}>
                           <Select
-                            label="Praga"
                             name={`pragas.${index}.idPraga`}
                             control={control}
                             propertyLabel="descricao"
@@ -94,7 +93,6 @@ export const PragasEncontradas = () => {
                         </TableCell>
                         <TableCell sx={{ width: "25%" }}>
                           <Select
-                            label="Como Encontrado"
                             name={`pragas.${index}.comoEncontrado`}
                             control={control}
                             propertyLabel="descricao"
@@ -111,7 +109,6 @@ export const PragasEncontradas = () => {
                           <TextField
                             control={control}
                             name={`pragas.${index}.ondeEncontrado`}
-                            label=""
                           />
                         </TableCell>
                         <TableCell sx={{ width: "25%" }}>
@@ -120,7 +117,6 @@ export const PragasEncontradas = () => {
                             <TextField
                               control={control}
                               name={`pragas.${index}.quantidade`}
-                              label=""
                             />
                           )}
                         </TableCell>

@@ -112,7 +112,6 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
                   }
                 />
               }
-              label=""
             />
           </Grid>
 

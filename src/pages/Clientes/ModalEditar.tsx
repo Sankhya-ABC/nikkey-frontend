@@ -111,7 +111,6 @@ export const ModalEditar: React.FC<ModalEditarProps> = ({
                   defaultChecked={selectedCostumer?.possuiContrato || false}
                 />
               }
-              label=""
             />
           </Grid>
 

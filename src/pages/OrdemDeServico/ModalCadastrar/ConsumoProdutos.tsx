@@ -99,7 +99,6 @@ export const ConsumoProdutos = () => {
                           <TextField
                             control={control}
                             name={`consumo.${index}.lote`}
-                            label=""
                           />
                         </TableCell>
                         <TableCell>

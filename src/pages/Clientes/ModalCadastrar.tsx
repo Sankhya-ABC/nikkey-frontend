@@ -94,7 +94,7 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
                 Cliente possui contrato?
               </Typography>
             </Box>
-            <FormControlLabel control={<Switch defaultChecked />} label="" />
+            <FormControlLabel control={<Switch defaultChecked />} />
           </Grid>
 
           <Grid item size={{ xs: 12 }}>

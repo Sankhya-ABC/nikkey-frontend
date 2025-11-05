@@ -55,21 +55,18 @@ export const InformacoesAdicionais = () => {
                       <TextField
                         control={control}
                         name="naoConformidades.naoConformidades.0.areaLocal"
-                        label=""
                       />
                     </TableCell>
                     <TableCell>
                       <TextField
                         control={control}
                         name="naoConformidades.naoConformidades.0.naoConformidade"
-                        label=""
                       />
                     </TableCell>
                     <TableCell>
                       <TextField
                         control={control}
                         name="naoConformidades.naoConformidades.0.acaoSugerida"
-                        label=""
                       />
                     </TableCell>
                     <TableCell>
