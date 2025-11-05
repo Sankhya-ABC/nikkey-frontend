@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import { CloudUpload, Delete } from "@mui/icons-material";
 
-interface UploadProps {
+interface FileUploadProps {
   acceptedTypes?: string[];
-  maxSize?: number;
+  maxSize?: number; // em bytes
   multiple?: boolean;
   maxFiles?: number;
   onFilesChange?: (files: File[]) => void;
@@ -22,6 +22,7 @@ interface UploadProps {
 
 interface FileWithPreview extends File {
   preview?: string;
+  fileType?: string;
 }
 
 const VisuallyHiddenInput = styled("input")({
@@ -36,9 +37,9 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export const Upload: React.FC<UploadProps> = ({
+export const FileUpload: React.FC<FileUploadProps> = ({
   acceptedTypes = ["image/*", ".pdf", ".doc", ".docx"],
-  maxSize = 5 * 1024 * 1024,
+  maxSize = 5 * 1024 * 1024, // 5MB padrão
   multiple = true,
   maxFiles = 10,
   onFilesChange,
@@ -46,30 +47,141 @@ export const Upload: React.FC<UploadProps> = ({
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [error, setError] = useState<string>("");
 
+  const getFileType = (file: File): string => {
+    // Fallback para arquivos sem type definido
+    return file.type || "application/octet-stream";
+  };
+
+  const getFileExtension = (filename: string): string => {
+    return filename
+      .slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2)
+      .toLowerCase();
+  };
+
   const generatePreview = (file: File): Promise<string> => {
     return new Promise((resolve) => {
-      if (file.type.startsWith("image/")) {
+      const fileType = getFileType(file);
+
+      if (fileType.startsWith("image/")) {
         const reader = new FileReader();
         reader.onload = (e) => resolve(e.target?.result as string);
         reader.readAsDataURL(file);
       } else {
-        resolve(getFileIcon(file.type));
+        // Ícone padrão para arquivos não-image
+        resolve(getFileIcon(fileType, file.name));
       }
     });
   };
 
-  const getFileIcon = (fileType: string): string => {
-    const icons: { [key: string]: string } = {
+  const getFileIcon = (fileType: string, filename: string = ""): string => {
+    const extension = getFileExtension(filename);
+
+    const iconMap: { [key: string]: string } = {
+      // Documentos
       "application/pdf": "📄",
       "application/msword": "📝",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
         "📝",
+      "application/vnd.ms-excel": "📊",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "📊",
+      "application/vnd.ms-powerpoint": "📽️",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+        "📽️",
       "text/plain": "📄",
+      "text/csv": "📊",
+
+      // Arquivos compactados
       "application/zip": "📦",
+      "application/x-zip-compressed": "📦",
       "application/vnd.rar": "📦",
-      default: "📁",
+      "application/x-rar-compressed": "📦",
+      "application/x-tar": "📦",
+      "application/gzip": "📦",
+
+      // Imagens
+      "image/jpeg": "🖼️",
+      "image/png": "🖼️",
+      "image/gif": "🖼️",
+      "image/svg+xml": "🖼️",
+      "image/webp": "🖼️",
+
+      // Áudio
+      "audio/mpeg": "🎵",
+      "audio/wav": "🎵",
+      "audio/ogg": "🎵",
+
+      // Vídeo
+      "video/mp4": "🎬",
+      "video/avi": "🎬",
+      "video/mov": "🎬",
+      "video/webm": "🎬",
+
+      // Código
+      "text/html": "📋",
+      "text/css": "📋",
+      "application/javascript": "📋",
+      "text/x-python": "📋",
+      "text/x-java": "📋",
+      "text/x-c++": "📋",
     };
-    return icons[fileType] || icons.default;
+
+    // Tenta encontrar pelo tipo MIME primeiro
+    if (iconMap[fileType]) {
+      return iconMap[fileType];
+    }
+
+    // Fallback para extensões comuns
+    const extensionMap: { [key: string]: string } = {
+      pdf: "📄",
+      doc: "📝",
+      docx: "📝",
+      xls: "📊",
+      xlsx: "📊",
+      ppt: "📽️",
+      pptx: "📽️",
+      txt: "📄",
+      csv: "📊",
+      zip: "📦",
+      rar: "📦",
+      js: "📋",
+      jsx: "📋",
+      ts: "📋",
+      tsx: "📋",
+      html: "📋",
+      css: "📋",
+      py: "📋",
+      java: "📋",
+      cpp: "📋",
+    };
+
+    return extensionMap[extension] || "📁";
+  };
+
+  const isFileTypeAccepted = (file: File, acceptedTypes: string[]): boolean => {
+    if (acceptedTypes.length === 0) return true;
+
+    const fileType = getFileType(file);
+    const fileExtension = getFileExtension(file.name);
+
+    return acceptedTypes.some((type) => {
+      // Se for um tipo MIME com wildcard (ex: "image/*")
+      if (type.endsWith("/*")) {
+        const category = type.split("/")[0];
+        return fileType.startsWith(`${category}/`);
+      }
+
+      // Se for um tipo MIME específico (ex: "application/pdf")
+      if (type.includes("/")) {
+        return fileType === type;
+      }
+
+      // Se for uma extensão (ex: ".pdf")
+      if (type.startsWith(".")) {
+        return fileExtension === type.slice(1).toLowerCase();
+      }
+
+      return false;
+    });
   };
 
   const handleFileSelect = useCallback(
@@ -77,6 +189,10 @@ export const Upload: React.FC<UploadProps> = ({
       const selectedFiles = Array.from(event.target.files || []);
       setError("");
 
+      // Resetar o input para permitir selecionar o mesmo arquivo novamente
+      event.target.value = "";
+
+      // Validações
       if (!multiple && selectedFiles.length > 1) {
         setError("Apenas um arquivo é permitido");
         return;
@@ -87,7 +203,10 @@ export const Upload: React.FC<UploadProps> = ({
         return;
       }
 
+      const validFiles: FileWithPreview[] = [];
+
       for (const file of selectedFiles) {
+        // Validar tipo
         if (
           acceptedTypes.length > 0 &&
           !isFileTypeAccepted(file, acceptedTypes)
@@ -96,40 +215,41 @@ export const Upload: React.FC<UploadProps> = ({
           return;
         }
 
+        // Validar tamanho
         if (file.size > maxSize) {
           setError(
             `Arquivo muito grande: ${file.name} (Máximo: ${formatFileSize(maxSize)})`,
           );
           return;
         }
+
+        validFiles.push(file);
       }
 
-      const filesWithPreviews = await Promise.all(
-        selectedFiles.map(async (file) => {
-          const preview = await generatePreview(file);
-          return { ...file, preview };
-        }),
-      );
+      try {
+        // Gerar previews
+        const filesWithPreviews = await Promise.all(
+          validFiles.map(async (file) => {
+            const preview = await generatePreview(file);
+            const fileType = getFileType(file);
+            return {
+              ...file,
+              preview,
+              fileType,
+            };
+          }),
+        );
 
-      const newFiles = [...files, ...filesWithPreviews];
-      setFiles(newFiles);
-      onFilesChange?.(newFiles);
+        const newFiles = [...files, ...filesWithPreviews];
+        setFiles(newFiles);
+        onFilesChange?.(newFiles);
+      } catch (err) {
+        console.error("Erro ao gerar previews:", err);
+        setError("Erro ao processar os arquivos");
+      }
     },
     [files, multiple, maxFiles, acceptedTypes, maxSize, onFilesChange],
   );
-
-  const isFileTypeAccepted = (file: File, acceptedTypes: string[]): boolean => {
-    return acceptedTypes.some((type) => {
-      if (type.endsWith("/*")) {
-        const category = type.split("/")[0];
-        return file.type.startsWith(`${category}/`);
-      }
-      return (
-        file.type === type ||
-        file.name.toLowerCase().endsWith(type.toLowerCase())
-      );
-    });
-  };
 
   const handleDelete = (index: number) => {
     const newFiles = files.filter((_, i) => i !== index);
@@ -146,11 +266,39 @@ export const Upload: React.FC<UploadProps> = ({
   };
 
   const getAcceptedTypesString = (): string => {
-    return acceptedTypes.map((type) => type.replace("/*", "")).join(", ");
+    return acceptedTypes
+      .map((type) => {
+        if (type.endsWith("/*")) {
+          return type.replace("/*", "");
+        }
+        return type;
+      })
+      .join(", ");
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const droppedFiles = Array.from(event.dataTransfer.files);
+
+    if (droppedFiles.length > 0) {
+      // Simular um change event para reutilizar a lógica existente
+      const mockEvent = {
+        target: {
+          files: event.dataTransfer.files,
+        },
+      } as React.ChangeEvent<HTMLInputElement>;
+
+      await handleFileSelect(mockEvent);
+    }
   };
 
   return (
     <Box sx={{ width: "100%" }}>
+      {/* Área de Upload */}
       <Paper
         variant="outlined"
         sx={{
@@ -165,6 +313,8 @@ export const Upload: React.FC<UploadProps> = ({
             backgroundColor: "grey.100",
           },
         }}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
       >
         <Button
           component="label"
@@ -193,12 +343,14 @@ export const Upload: React.FC<UploadProps> = ({
         </Typography>
       </Paper>
 
+      {/* Mensagem de erro */}
       {error && (
-        <Alert severity="error" sx={{ mt: 2 }}>
+        <Alert severity="error" sx={{ mt: 2 }} onClose={() => setError("")}>
           {error}
         </Alert>
       )}
 
+      {/* Preview dos arquivos */}
       {files.length > 0 && (
         <Box sx={{ mt: 3 }}>
           <Typography variant="h6" gutterBottom>
@@ -213,7 +365,7 @@ export const Upload: React.FC<UploadProps> = ({
                 sm={6}
                 md={4}
                 lg={3}
-                key={`${file.name}-${index}`}
+                key={`${file.name}-${index}-${file.lastModified}`}
               >
                 <Paper
                   variant="outlined"
@@ -227,6 +379,7 @@ export const Upload: React.FC<UploadProps> = ({
                     alignItems: "center",
                   }}
                 >
+                  {/* Botão de deletar */}
                   <IconButton
                     size="small"
                     onClick={() => handleDelete(index)}
@@ -244,6 +397,7 @@ export const Upload: React.FC<UploadProps> = ({
                     <Delete fontSize="small" />
                   </IconButton>
 
+                  {/* Preview */}
                   <Box
                     sx={{
                       width: 80,
@@ -254,9 +408,11 @@ export const Upload: React.FC<UploadProps> = ({
                       fontSize: "2rem",
                       mb: 1,
                       overflow: "hidden",
+                      backgroundColor: "grey.50",
+                      borderRadius: 1,
                     }}
                   >
-                    {file.type.startsWith("image/") ? (
+                    {file.fileType?.startsWith("image/") ? (
                       <img
                         src={file.preview}
                         alt={file.name}
@@ -266,19 +422,33 @@ export const Upload: React.FC<UploadProps> = ({
                           objectFit: "cover",
                           borderRadius: 4,
                         }}
+                        onError={(e) => {
+                          // Fallback se a imagem não carregar
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = "none";
+                          target.parentElement!.innerHTML = getFileIcon(
+                            file.fileType || "",
+                            file.name,
+                          );
+                        }}
                       />
                     ) : (
-                      <Typography variant="h4">{file.preview}</Typography>
+                      <Typography variant="h4">
+                        {getFileIcon(file.fileType || "", file.name)}
+                      </Typography>
                     )}
                   </Box>
 
+                  {/* Informações do arquivo */}
                   <Typography
                     variant="body2"
                     sx={{
                       fontWeight: "medium",
                       wordBreak: "break-word",
                       textAlign: "center",
+                      width: "100%",
                     }}
+                    noWrap
                   >
                     {file.name}
                   </Typography>
@@ -292,7 +462,11 @@ export const Upload: React.FC<UploadProps> = ({
                   </Typography>
 
                   <Chip
-                    label={file.type.split("/")[1] || file.type}
+                    label={
+                      file.fileType?.split("/")[1] ||
+                      getFileExtension(file.name) ||
+                      "arquivo"
+                    }
                     size="small"
                     variant="outlined"
                     sx={{ mt: 1 }}
