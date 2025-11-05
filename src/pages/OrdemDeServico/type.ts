@@ -1,12 +1,12 @@
 export enum ComoEncontrado {
-  INDIVIDUOS_VIVOS = "INDIVIDUOS_VIVOS",
-  INDIVIDUOS_MORTOS = "INDIVIDUOS_MORTOS",
-  FRAGMENTOS = "FRAGMENTOS",
+  INDIVIDUOS_VIVOS = "Indivíduos Vivos",
+  INDIVIDUOS_MORTOS = "Indivíduos Mortos",
+  FRAGMENTOS = "Fragmentos",
 }
 
 export interface Praga {
   idPraga: number | "";
-  comoEncontrado: ComoEncontrado;
+  comoEncontrado: ComoEncontrado | "";
   ondeEncontrado: string;
   quantidade: number | "";
 }

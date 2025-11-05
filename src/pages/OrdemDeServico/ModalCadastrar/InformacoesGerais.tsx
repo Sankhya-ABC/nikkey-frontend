@@ -1,14 +1,15 @@
 import { Box, Grid, Typography } from "@mui/material";
-import { Select } from "../../../components/Form/Select";
-import { DatePicker } from "../../../components/Form/DatePicker";
-import { TimePicker } from "../../../components/Form/TimePicker";
-import { TextField } from "../../../components/Form/Textfield";
-import { Switch } from "../../../components/Form/Switch";
 import { useFormContext } from "react-hook-form";
+import { DatePicker } from "../../../components/Form/DatePicker";
+import { Select } from "../../../components/Form/Select";
+import { Switch } from "../../../components/Form/Switch";
+import { TextField } from "../../../components/Form/Textfield";
+import { TimePicker } from "../../../components/Form/TimePicker";
+import { OrdemServico } from "../type";
 import { listClientes, listTecnicos } from "./provider";
 
 export const InformacoesGerais = () => {
-  const { control } = useFormContext();
+  const { control } = useFormContext<OrdemServico>();
 
   return (
     <Box>

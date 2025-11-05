@@ -18,10 +18,11 @@ import { DatePicker } from "../../../components/Form/DatePicker";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
+import { OrdemServico } from "../type";
 import { listEquipamentos, listProdutos } from "./provider";
 
 export const ConsumoProdutos = () => {
-  const { control, watch } = useFormContext();
+  const { control, watch } = useFormContext<OrdemServico>();
 
   const flagConsumoProdutos = watch("flagConsumoProdutos");
 

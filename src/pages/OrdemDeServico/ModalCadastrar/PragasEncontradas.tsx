@@ -17,13 +17,39 @@ import { useFormContext } from "react-hook-form";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { ComoEncontrado } from "../type";
+import { ComoEncontrado, OrdemServico } from "../type";
 import { listPragas } from "./provider";
+import { useEffect } from "react";
 
 export const PragasEncontradas = () => {
-  const { control, watch } = useFormContext();
+  const { control, watch, getValues, setValue } =
+    useFormContext<OrdemServico>();
 
+  const pragas = watch("pragas");
   const flagEvidenciasPragas = watch("flagEvidenciasOuFocosPragas");
+
+  const handleAdd = () => {
+    const actualList = getValues("pragas");
+    actualList?.push({
+      idPraga: "",
+      comoEncontrado: "",
+      ondeEncontrado: "",
+      quantidade: "",
+    });
+    setValue("pragas", actualList);
+  };
+
+  const handleDelete = (index: number) => {
+    const actualList = getValues("pragas");
+    actualList?.splice(index, 1);
+    setValue("pragas", actualList);
+  };
+
+  useEffect(() => {
+    if (!flagEvidenciasPragas) {
+      setValue("pragas", []);
+    }
+  }, [flagEvidenciasPragas]);
 
   return (
     <Box>
@@ -39,7 +65,7 @@ export const PragasEncontradas = () => {
           />
         </Grid>
 
-        {flagEvidenciasPragas && (
+        {flagEvidenciasPragas && pragas?.length ? (
           <Grid item size={{ xs: 12 }}>
             <TableContainer component={Paper}>
               <Table>
@@ -53,57 +79,73 @@ export const PragasEncontradas = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <Select
-                        label="Praga"
-                        name="pragas.0.idPraga"
-                        control={control}
-                        propertyLabel="descricao"
-                        propertyValue="id"
-                        options={listPragas}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        label="Como Encontrado"
-                        name="pragas.0.comoEncontrado"
-                        control={control}
-                        propertyLabel="descricao"
-                        propertyValue="value"
-                        options={Object.values(ComoEncontrado).map((value) => ({
-                          id: value,
-                          descricao: value,
-                        }))}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        control={control}
-                        name="pragas.0.ondeEncontrado"
-                        label=""
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        control={control}
-                        name="pragas.0.quantidade"
-                        label=""
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <IconButton>
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
+                  {pragas?.map((_data, index) => {
+                    return (
+                      <TableRow>
+                        <TableCell sx={{ width: "25%" }}>
+                          <Select
+                            label="Praga"
+                            name={`pragas.${index}.idPraga`}
+                            control={control}
+                            propertyLabel="descricao"
+                            propertyValue="id"
+                            options={listPragas}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ width: "25%" }}>
+                          <Select
+                            label="Como Encontrado"
+                            name={`pragas.${index}.comoEncontrado`}
+                            control={control}
+                            propertyLabel="descricao"
+                            propertyValue="id"
+                            options={Object.values(ComoEncontrado).map(
+                              (value) => ({
+                                id: value,
+                                descricao: value,
+                              }),
+                            )}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ width: "25%" }}>
+                          <TextField
+                            control={control}
+                            name={`pragas.${index}.ondeEncontrado`}
+                            label=""
+                          />
+                        </TableCell>
+                        <TableCell sx={{ width: "25%" }}>
+                          <TextField
+                            control={control}
+                            name={`pragas.${index}.quantidade`}
+                            label=""
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <IconButton onClick={() => handleDelete(index)}>
+                            <Delete />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
-            <Button startIcon={<Add />} sx={{ mt: 1 }}>
+          </Grid>
+        ) : null}
+
+        {flagEvidenciasPragas && (
+          <Box>
+            <Button
+              variant="outlined"
+              startIcon={<Add />}
+              sx={{ mt: 1 }}
+              onClick={handleAdd}
+            >
               Adicionar Praga
             </Button>
-          </Grid>
+          </Box>
         )}
       </Grid>
     </Box>
