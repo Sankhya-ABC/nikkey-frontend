@@ -11,6 +11,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { OrdemDeServico } from "./pages/OrdemDeServico";
+import { RelatorioProdutividade } from "./pages/RelatorioProdutividade";
 
 const routes = [
   {
@@ -63,7 +64,7 @@ const routes = [
   },
   {
     path: "relatorio-de-produtividade",
-    element: <span>relatorio-de-produtividade</span>,
+    element: <RelatorioProdutividade />,
     isProtected: true,
     permissions: [],
   },
