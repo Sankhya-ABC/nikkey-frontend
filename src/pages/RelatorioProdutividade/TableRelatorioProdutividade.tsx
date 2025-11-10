@@ -36,6 +36,7 @@ export const TableRelatorioProdutividade: React.FC<
           <TableHead>
             <TableRow>
               <TableCell
+                align="center"
                 sx={{
                   backgroundColor: "primary.main",
                   color: "primary.contrastText",
@@ -44,6 +45,7 @@ export const TableRelatorioProdutividade: React.FC<
                 Técnico
               </TableCell>
               <TableCell
+                align="center"
                 sx={{
                   backgroundColor: "primary.main",
                   color: "primary.contrastText",
@@ -52,6 +54,7 @@ export const TableRelatorioProdutividade: React.FC<
                 Horas Trabalhadas
               </TableCell>
               <TableCell
+                align="center"
                 sx={{
                   backgroundColor: "primary.main",
                   color: "primary.contrastText",
@@ -60,6 +63,7 @@ export const TableRelatorioProdutividade: React.FC<
                 Visitas Agendadas
               </TableCell>
               <TableCell
+                align="center"
                 sx={{
                   backgroundColor: "primary.main",
                   color: "primary.contrastText",
@@ -68,6 +72,7 @@ export const TableRelatorioProdutividade: React.FC<
                 OS Realizadas
               </TableCell>
               <TableCell
+                align="center"
                 sx={{
                   backgroundColor: "primary.main",
                   color: "primary.contrastText",
@@ -100,19 +105,19 @@ export const TableRelatorioProdutividade: React.FC<
                 (relatorioProdutividade: any) => (
                   <TableRow key={relatorioProdutividade?.id} hover>
                     <TableCell>{relatorioProdutividade?.tecnico}</TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       {relatorioProdutividade?.horasTrabalhadas}
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       {relatorioProdutividade?.visitasAgendadas}
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       {relatorioProdutividade?.osRealizadas}
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       {relatorioProdutividade?.osNaoRealizadas}
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       {relatorioProdutividade?.visitasPendentes}
                     </TableCell>
                   </TableRow>
