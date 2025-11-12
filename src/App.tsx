@@ -12,6 +12,7 @@ import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { OrdemDeServico } from "./pages/OrdemDeServico";
 import { RelatorioProdutividade } from "./pages/RelatorioProdutividade";
+import { Visitas } from "./pages/Visitas";
 
 const routes = [
   {
@@ -52,7 +53,7 @@ const routes = [
   },
   {
     path: "visitas",
-    element: <span>visitas</span>,
+    element: <Visitas />,
     isProtected: true,
     permissions: [],
   },
