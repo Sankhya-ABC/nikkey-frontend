@@ -1,5 +1,5 @@
 import { Add, Search } from "@mui/icons-material";
-import { Button, Grid, InputAdornment, TextField } from "@mui/material";
+import { Button, Grid, InputAdornment } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
@@ -9,8 +9,21 @@ import { mockClientes } from "./provider";
 import { TableClientes } from "./TableClientes";
 import { Cliente } from "./types";
 import { CRUDType } from "../../types";
+import { useForm } from "react-hook-form";
+import { TextField } from "../../components/Form/Textfield";
+
+interface ClienteSearch {
+  search: string;
+}
+
+const defaultValues: ClienteSearch = {
+  search: "",
+};
 
 export const Clientes = () => {
+  // hooks
+  const { control, watch } = useForm<ClienteSearch>({ defaultValues });
+
   // useStates
   // -- data
   const [clientes, setClientes] = useState(mockClientes);
@@ -26,7 +39,7 @@ export const Clientes = () => {
 
   // -- search
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const search = watch("search");
 
   // -- table
   const [page, setPage] = useState(0);
@@ -39,10 +52,6 @@ export const Clientes = () => {
   );
 
   // handlers
-  // -- search
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event?.target?.value);
-  };
 
   // -- table
   const handleChangePage = (
@@ -104,14 +113,12 @@ export const Clientes = () => {
       (costumer) =>
         costumer?.nomeFantasia
           ?.toLowerCase()
-          ?.includes(searchTerm?.toLowerCase()) ||
-        costumer?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+          ?.includes(search?.toLowerCase()) ||
+        costumer?.email?.toLowerCase()?.includes(search?.toLowerCase()),
     );
     setFilteredClientes(filtered);
     setPage(0);
-  }, [searchTerm, clientes]);
-
-  console.log(formType, selectedCliente);
+  }, [search, clientes]);
 
   return (
     <Loading {...{ loading, setLoading }}>
@@ -132,19 +139,17 @@ export const Clientes = () => {
 
         <Grid item size={{ xs: 12 }}>
           <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Pesquisar por nome ou email..."
-            value={searchTerm}
-            size="small"
-            autoComplete="no"
-            onChange={handleSearchChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
+            control={control}
+            name="search"
+            TextFieldProps={{
+              InputProps: {
+                placeholder: "Pesquise por nome ou email...",
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              },
             }}
           />
         </Grid>
