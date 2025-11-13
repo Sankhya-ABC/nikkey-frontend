@@ -50,6 +50,7 @@ const defaultValues: Cliente = {
   senha: "",
   confirmarSenha: "",
   ativo: true,
+  dataCadastro: null,
 };
 
 export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
@@ -64,7 +65,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
     if (formType === CRUDType.UPDATE || formType === CRUDType.READ) {
       reset(selected || defaultValues);
     }
-  }, [CRUDType, selected]);
+  }, [formType, selected]);
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
