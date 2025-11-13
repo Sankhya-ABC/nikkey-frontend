@@ -95,7 +95,7 @@ const simulateBackendRequest = (month: number, year: number) => {
 };
 
 export const Visitas = () => {
-  const [view, setView] = useState<"month" | "week">("month");
+  const [view, setView] = useState<"month" | "week" | "day">("month");
   const [activeDate, setActiveDate] = useState<Date>(new Date());
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"list" | "form">("list");
@@ -240,15 +240,12 @@ export const Visitas = () => {
         <RadioGroup
           row
           value={view}
-          onChange={(e) => setView(e.target.value as "month" | "week")}
+          onChange={(e) => setView(e.target.value as "month" | "week" | "day")}
           aria-label="view"
         >
-          <FormControlLabel
-            value="month"
-            control={<Radio />}
-            label="Calendário"
-          />
+          <FormControlLabel value="month" control={<Radio />} label="Mês" />
           <FormControlLabel value="week" control={<Radio />} label="Semana" />
+          <FormControlLabel value="day" control={<Radio />} label="Dia" />
         </RadioGroup>
       </Box>
       <Paper elevation={2} sx={{ p: 2, width: "100%" }}>
@@ -258,7 +255,9 @@ export const Visitas = () => {
           justifyContent="space-between"
           mb={2}
         >
-          <Tooltip title="Mês anterior">
+          <Tooltip
+            title={view === "month" ? "Mês anterior" : "Semana anterior"}
+          >
             <IconButton
               onClick={handlePrev}
               size="small"
@@ -277,7 +276,9 @@ export const Visitas = () => {
               ? formatMonthYear(activeDate)
               : `${formatMonthYear(activeDate)} (Semana)`}
           </Typography>
-          <Tooltip title="Próximo mês">
+          <Tooltip
+            title={view === "month" ? "Mês posterior" : "Semana posterior"}
+          >
             <IconButton
               onClick={handleNext}
               size="small"
