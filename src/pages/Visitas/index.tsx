@@ -9,6 +9,10 @@ import {
   RadioGroup,
   Tooltip,
   Typography,
+  Modal,
+  TextField,
+  Button,
+  MenuItem,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 
@@ -28,15 +32,44 @@ const startOfWeek = (d: Date, weekStartsOnMonday = true) => {
   return result;
 };
 
-const formatMonthYear = (d: Date) =>
-  d.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
-const formatDayShort = (d: Date) =>
-  d.toLocaleDateString("pt-BR", { weekday: "short" });
+const formatMonthYear = (d: Date) => {
+  const formated = d.toLocaleDateString("pt-BR", {
+    month: "long",
+    year: "numeric",
+  });
+  return formated.charAt(0).toUpperCase() + formated.slice(1);
+};
+
+const formatDayShort = (d: Date) => {
+  const formated = d.toLocaleDateString("pt-BR", { weekday: "short" });
+  return formated.charAt(0).toUpperCase() + formated.slice(1).replace(".", "");
+};
+
 const formatDayNumber = (d: Date) => d.getDate();
+
+const generateTimeOptions = () => {
+  const options = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 5) {
+      const timeString = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+      options.push(timeString);
+    }
+  }
+  return options;
+};
 
 export const Visitas = () => {
   const [view, setView] = useState<"month" | "week">("month");
   const [activeDate, setActiveDate] = useState<Date>(new Date());
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [empresa, setEmpresa] = useState("");
+  const [tecnico, setTecnico] = useState("");
+  const [horarioInicial, setHorarioInicial] = useState("");
+  const [horarioFinal, setHorarioFinal] = useState("");
+  const [descricao, setDescricao] = useState("");
+
+  const timeOptions = useMemo(() => generateTimeOptions(), []);
 
   const monthMatrix = useMemo(() => {
     const start = startOfMonth(activeDate);
@@ -76,6 +109,33 @@ export const Visitas = () => {
   const handleNext = () => {
     if (view === "month") setActiveDate((d) => addMonths(d, 1));
     else setActiveDate((d) => addWeeks(d, 1));
+  };
+
+  const handleDayClick = (date: Date) => {
+    setSelectedDate(date);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedDate(null);
+    setEmpresa("");
+    setTecnico("");
+    setHorarioInicial("");
+    setHorarioFinal("");
+    setDescricao("");
+  };
+
+  const handleSubmit = () => {
+    console.log({
+      empresa,
+      tecnico,
+      dataVisita: selectedDate,
+      horarioInicial,
+      horarioFinal,
+      descricao,
+    });
+    handleCloseModal();
   };
 
   return (
@@ -199,7 +259,7 @@ export const Visitas = () => {
                           border: "1px solid",
                           borderColor: "divider",
                         }}
-                        onClick={() => setActiveDate(new Date(day))}
+                        onClick={() => handleDayClick(day)}
                       >
                         <Typography variant="body2">
                           {formatDayNumber(day)}
@@ -248,7 +308,7 @@ export const Visitas = () => {
                     border: "1px solid",
                     borderColor: "divider",
                   }}
-                  onClick={() => setActiveDate(new Date(d))}
+                  onClick={() => handleDayClick(d)}
                 >
                   <Typography variant="body2">{formatDayNumber(d)}</Typography>
                 </Box>
@@ -257,6 +317,99 @@ export const Visitas = () => {
           </Box>
         )}
       </Paper>
+
+      <Modal open={modalOpen} onClose={handleCloseModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 1,
+          }}
+        >
+          <Typography variant="h6" mb={2}>
+            Cadastro - Agendar Visita
+          </Typography>
+
+          <TextField
+            fullWidth
+            label="Empresa"
+            value={empresa}
+            onChange={(e) => setEmpresa(e.target.value)}
+            margin="normal"
+          />
+
+          <TextField
+            fullWidth
+            label="Técnico"
+            value={tecnico}
+            onChange={(e) => setTecnico(e.target.value)}
+            margin="normal"
+          />
+
+          <TextField
+            fullWidth
+            label="Data da Visita"
+            value={selectedDate ? selectedDate.toLocaleDateString("pt-BR") : ""}
+            margin="normal"
+            InputProps={{ readOnly: true }}
+          />
+
+          <TextField
+            fullWidth
+            select
+            label="Horário Inicial"
+            value={horarioInicial}
+            onChange={(e) => setHorarioInicial(e.target.value)}
+            margin="normal"
+          >
+            {timeOptions.map((time) => (
+              <MenuItem key={time} value={time}>
+                {time}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            fullWidth
+            select
+            label="Horário Final"
+            value={horarioFinal}
+            onChange={(e) => setHorarioFinal(e.target.value)}
+            margin="normal"
+          >
+            {timeOptions.map((time) => (
+              <MenuItem key={time} value={time}>
+                {time}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            fullWidth
+            label="Descrição"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            margin="normal"
+            multiline
+            rows={4}
+          />
+
+          <Box
+            sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 2 }}
+          >
+            <Button onClick={handleCloseModal}>Cancelar</Button>
+            <Button variant="contained" onClick={handleSubmit}>
+              Salvar
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </>
   );
 };
