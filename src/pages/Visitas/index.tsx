@@ -1,20 +1,24 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
+  Button,
   FormControlLabel,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  MenuItem,
+  Modal,
   Paper,
   Radio,
   RadioGroup,
+  TextField,
   Tooltip,
   Typography,
-  Modal,
-  TextField,
-  Button,
-  MenuItem,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const startOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth(), 1);
 const endOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth() + 1, 0);
@@ -58,18 +62,83 @@ const generateTimeOptions = () => {
   return options;
 };
 
+const empresasOptions = ["Empresa A", "Empresa B", "Empresa C", "Empresa D"];
+
+const tecnicosOptions = ["Técnico 1", "Técnico 2", "Técnico 3", "Técnico 4"];
+
+const simulateBackendRequest = (month: number, year: number) => {
+  const visits = [];
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 1; i <= daysInMonth; i++) {
+    if (Math.random() > 0.7) {
+      const visitCount = Math.floor(Math.random() * 3) + 1;
+      for (let j = 0; j < visitCount; j++) {
+        visits.push({
+          id: `${year}-${month}-${i}-${j}`,
+          empresa:
+            empresasOptions[Math.floor(Math.random() * empresasOptions.length)],
+          tecnico:
+            tecnicosOptions[Math.floor(Math.random() * tecnicosOptions.length)],
+          dataVisita: new Date(year, month, i),
+          horarioInicial: "08:00",
+          horarioFinal: "09:00",
+          descricao: `Visita ${j + 1} do dia ${i}`,
+        });
+      }
+    }
+  }
+
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(visits), 300);
+  });
+};
+
 export const Visitas = () => {
   const [view, setView] = useState<"month" | "week">("month");
   const [activeDate, setActiveDate] = useState<Date>(new Date());
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"list" | "form">("list");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [empresa, setEmpresa] = useState("");
   const [tecnico, setTecnico] = useState("");
   const [horarioInicial, setHorarioInicial] = useState("");
   const [horarioFinal, setHorarioFinal] = useState("");
   const [descricao, setDescricao] = useState("");
+  const [monthVisits, setMonthVisits] = useState<any[]>([]);
+  const [editingVisit, setEditingVisit] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   const timeOptions = useMemo(() => generateTimeOptions(), []);
+
+  const fetchMonthVisits = async (date: Date) => {
+    setLoading(true);
+    try {
+      const visits = await simulateBackendRequest(
+        date.getMonth(),
+        date.getFullYear(),
+      );
+      setMonthVisits(visits as any[]);
+    } catch (error) {
+      console.error("Erro ao buscar visitas:", error);
+      setMonthVisits([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMonthVisits(activeDate);
+  }, [activeDate]);
+
+  const getVisitsForDay = (date: Date) => {
+    return monthVisits.filter(
+      (visit) =>
+        visit.dataVisita.getDate() === date.getDate() &&
+        visit.dataVisita.getMonth() === date.getMonth() &&
+        visit.dataVisita.getFullYear() === date.getFullYear(),
+    );
+  };
 
   const monthMatrix = useMemo(() => {
     const start = startOfMonth(activeDate);
@@ -106,6 +175,7 @@ export const Visitas = () => {
     if (view === "month") setActiveDate((d) => addMonths(d, -1));
     else setActiveDate((d) => addWeeks(d, -1));
   };
+
   const handleNext = () => {
     if (view === "month") setActiveDate((d) => addMonths(d, 1));
     else setActiveDate((d) => addWeeks(d, 1));
@@ -113,21 +183,45 @@ export const Visitas = () => {
 
   const handleDayClick = (date: Date) => {
     setSelectedDate(date);
+    setModalMode("list");
     setModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedDate(null);
+    setModalMode("list");
+    setEditingVisit(null);
+    resetForm();
+  };
+
+  const resetForm = () => {
     setEmpresa("");
     setTecnico("");
     setHorarioInicial("");
     setHorarioFinal("");
     setDescricao("");
+    setEditingVisit(null);
+  };
+
+  const handleNewVisit = () => {
+    setModalMode("form");
+    resetForm();
+  };
+
+  const handleEditVisit = (visit: any) => {
+    setEditingVisit(visit);
+    setEmpresa(visit.empresa);
+    setTecnico(visit.tecnico);
+    setHorarioInicial(visit.horarioInicial);
+    setHorarioFinal(visit.horarioFinal);
+    setDescricao(visit.descricao);
+    setModalMode("form");
   };
 
   const handleSubmit = () => {
     console.log({
+      id: editingVisit?.id || `new-${Date.now()}`,
       empresa,
       tecnico,
       dataVisita: selectedDate,
@@ -137,6 +231,8 @@ export const Visitas = () => {
     });
     handleCloseModal();
   };
+
+  const dayVisits = selectedDate ? getVisitsForDay(selectedDate) : [];
 
   return (
     <>
@@ -237,17 +333,22 @@ export const Visitas = () => {
                   {week.map((day, di) => {
                     const isCurrentMonth =
                       day.getMonth() === activeDate.getMonth();
+                    const dayVisits = getVisitsForDay(day);
+                    const hasVisits = dayVisits.length > 0;
+
                     return (
                       <Box
                         key={di}
                         sx={{
                           flex: 1,
                           borderRadius: 1,
-                          p: 1,
+                          p: 0.5,
                           textAlign: "center",
-                          bgcolor: isCurrentMonth
-                            ? "background.paper"
-                            : "action.hover",
+                          bgcolor: hasVisits
+                            ? "#fffde7"
+                            : isCurrentMonth
+                              ? "background.paper"
+                              : "action.hover",
                           cursor: "pointer",
                           height: "100%",
                           display: "flex",
@@ -258,12 +359,28 @@ export const Visitas = () => {
                           boxSizing: "border-box",
                           border: "1px solid",
                           borderColor: "divider",
+                          "&:hover": {
+                            bgcolor: hasVisits
+                              ? "#fff9c4"
+                              : isCurrentMonth
+                                ? "action.hover"
+                                : "action.selected",
+                          },
                         }}
                         onClick={() => handleDayClick(day)}
                       >
                         <Typography variant="body2">
                           {formatDayNumber(day)}
                         </Typography>
+                        {hasVisits && (
+                          <Typography
+                            variant="caption"
+                            sx={{ mt: 0.5, fontSize: "0.7rem" }}
+                          >
+                            {dayVisits.length}{" "}
+                            {dayVisits.length === 1 ? "Visita" : "Visitas"}
+                          </Typography>
+                        )}
                       </Box>
                     );
                   })}
@@ -290,29 +407,50 @@ export const Visitas = () => {
             </Box>
 
             <Box sx={{ display: "flex", width: "100%" }}>
-              {weekDays.map((d, i) => (
-                <Box
-                  key={i}
-                  sx={{
-                    flex: 1,
-                    borderRadius: 1,
-                    p: 1,
-                    textAlign: "center",
-                    height: "120px",
-                    display: "flex",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-end",
-                    cursor: "pointer",
-                    mx: 0.5,
-                    boxSizing: "border-box",
-                    border: "1px solid",
-                    borderColor: "divider",
-                  }}
-                  onClick={() => handleDayClick(d)}
-                >
-                  <Typography variant="body2">{formatDayNumber(d)}</Typography>
-                </Box>
-              ))}
+              {weekDays.map((d, i) => {
+                const dayVisits = getVisitsForDay(d);
+                const hasVisits = dayVisits.length > 0;
+
+                return (
+                  <Box
+                    key={i}
+                    sx={{
+                      flex: 1,
+                      borderRadius: 1,
+                      p: 1,
+                      textAlign: "center",
+                      height: "120px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      justifyContent: "flex-start",
+                      cursor: "pointer",
+                      mx: 0.5,
+                      boxSizing: "border-box",
+                      border: "1px solid",
+                      borderColor: "divider",
+                      bgcolor: hasVisits ? "#fffde7" : "background.paper",
+                      "&:hover": {
+                        bgcolor: hasVisits ? "#fff9c4" : "action.hover",
+                      },
+                    }}
+                    onClick={() => handleDayClick(d)}
+                  >
+                    <Typography variant="body2">
+                      {formatDayNumber(d)}
+                    </Typography>
+                    {hasVisits && (
+                      <Typography
+                        variant="caption"
+                        sx={{ mt: 0.5, fontSize: "0.7rem" }}
+                      >
+                        {dayVisits.length}{" "}
+                        {dayVisits.length === 1 ? "Visita" : "Visitas"}
+                      </Typography>
+                    )}
+                  </Box>
+                );
+              })}
             </Box>
           </Box>
         )}
@@ -325,89 +463,166 @@ export const Visitas = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: 500,
+            maxHeight: "80vh",
             bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
             borderRadius: 1,
+            overflow: "auto",
           }}
         >
-          <Typography variant="h6" mb={2}>
-            Cadastro - Agendar Visita
-          </Typography>
+          {modalMode === "list" ? (
+            <>
+              <Typography variant="h6" mb={2}>
+                Visitas do dia {selectedDate?.toLocaleDateString("pt-BR")}
+              </Typography>
 
-          <TextField
-            fullWidth
-            label="Empresa"
-            value={empresa}
-            onChange={(e) => setEmpresa(e.target.value)}
-            margin="normal"
-          />
+              {dayVisits.length > 0 ? (
+                <>
+                  <List>
+                    {dayVisits.map((visit) => (
+                      <ListItem key={visit.id} divider>
+                        <ListItemText
+                          primary={`${visit.empresa} - ${visit.tecnico}`}
+                          secondary={`${visit.horarioInicial} às ${visit.horarioFinal} - ${visit.descricao}`}
+                        />
+                        <IconButton
+                          edge="end"
+                          aria-label="edit"
+                          onClick={() => handleEditVisit(visit)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    onClick={handleNewVisit}
+                    sx={{ mt: 2 }}
+                  >
+                    Agendar Nova Visita
+                  </Button>
+                </>
+              ) : (
+                <Box sx={{ textAlign: "center", py: 4 }}>
+                  <Typography variant="body1" gutterBottom>
+                    Nenhuma visita agendada para{" "}
+                    {selectedDate?.toLocaleDateString("pt-BR")}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    onClick={handleNewVisit}
+                    sx={{ mt: 2 }}
+                  >
+                    Agendar Visita
+                  </Button>
+                </Box>
+              )}
+            </>
+          ) : (
+            <>
+              <Typography variant="h6" mb={2}>
+                {editingVisit ? "Editar Visita" : "Cadastro - Agendar Visita"}
+              </Typography>
 
-          <TextField
-            fullWidth
-            label="Técnico"
-            value={tecnico}
-            onChange={(e) => setTecnico(e.target.value)}
-            margin="normal"
-          />
+              <TextField
+                fullWidth
+                select
+                label="Empresa"
+                value={empresa}
+                onChange={(e) => setEmpresa(e.target.value)}
+                margin="normal"
+              >
+                {empresasOptions.map((emp) => (
+                  <MenuItem key={emp} value={emp}>
+                    {emp}
+                  </MenuItem>
+                ))}
+              </TextField>
 
-          <TextField
-            fullWidth
-            label="Data da Visita"
-            value={selectedDate ? selectedDate.toLocaleDateString("pt-BR") : ""}
-            margin="normal"
-            InputProps={{ readOnly: true }}
-          />
+              <TextField
+                fullWidth
+                select
+                label="Técnico"
+                value={tecnico}
+                onChange={(e) => setTecnico(e.target.value)}
+                margin="normal"
+              >
+                {tecnicosOptions.map((tec) => (
+                  <MenuItem key={tec} value={tec}>
+                    {tec}
+                  </MenuItem>
+                ))}
+              </TextField>
 
-          <TextField
-            fullWidth
-            select
-            label="Horário Inicial"
-            value={horarioInicial}
-            onChange={(e) => setHorarioInicial(e.target.value)}
-            margin="normal"
-          >
-            {timeOptions.map((time) => (
-              <MenuItem key={time} value={time}>
-                {time}
-              </MenuItem>
-            ))}
-          </TextField>
+              <TextField
+                fullWidth
+                label="Data da Visita"
+                value={
+                  selectedDate ? selectedDate.toLocaleDateString("pt-BR") : ""
+                }
+                margin="normal"
+                InputProps={{ readOnly: true }}
+              />
 
-          <TextField
-            fullWidth
-            select
-            label="Horário Final"
-            value={horarioFinal}
-            onChange={(e) => setHorarioFinal(e.target.value)}
-            margin="normal"
-          >
-            {timeOptions.map((time) => (
-              <MenuItem key={time} value={time}>
-                {time}
-              </MenuItem>
-            ))}
-          </TextField>
+              <TextField
+                fullWidth
+                select
+                label="Horário Inicial"
+                value={horarioInicial}
+                onChange={(e) => setHorarioInicial(e.target.value)}
+                margin="normal"
+              >
+                {timeOptions.map((time) => (
+                  <MenuItem key={time} value={time}>
+                    {time}
+                  </MenuItem>
+                ))}
+              </TextField>
 
-          <TextField
-            fullWidth
-            label="Descrição"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-            margin="normal"
-            multiline
-            rows={4}
-          />
+              <TextField
+                fullWidth
+                select
+                label="Horário Final"
+                value={horarioFinal}
+                onChange={(e) => setHorarioFinal(e.target.value)}
+                margin="normal"
+              >
+                {timeOptions.map((time) => (
+                  <MenuItem key={time} value={time}>
+                    {time}
+                  </MenuItem>
+                ))}
+              </TextField>
 
-          <Box
-            sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 2 }}
-          >
-            <Button onClick={handleCloseModal}>Cancelar</Button>
-            <Button variant="contained" onClick={handleSubmit}>
-              Salvar
-            </Button>
-          </Box>
+              <TextField
+                fullWidth
+                label="Descrição"
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
+                margin="normal"
+                multiline
+                rows={4}
+              />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: 1,
+                  mt: 2,
+                }}
+              >
+                <Button onClick={() => setModalMode("list")}>Cancelar</Button>
+                <Button variant="contained" onClick={handleSubmit}>
+                  {editingVisit ? "Atualizar" : "Salvar"}
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       </Modal>
     </>
