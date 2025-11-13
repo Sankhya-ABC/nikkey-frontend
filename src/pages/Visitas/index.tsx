@@ -17,8 +17,15 @@ import {
   TextField,
   Tooltip,
   Typography,
+  Popover,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
+
+enum View {
+  MONTH = "month",
+  WEEK = "week",
+  DAY = "day",
+}
 
 const startOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth(), 1);
 const endOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth() + 1, 0);
@@ -35,6 +42,7 @@ const startOfWeek = (d: Date, weekStartsOnMonday = true) => {
   result.setHours(0, 0, 0, 0);
   return result;
 };
+const endOfWeek = (d: Date) => addDays(startOfWeek(d), 6);
 
 const formatMonthYear = (d: Date) => {
   const formated = d.toLocaleDateString("pt-BR", {
@@ -50,6 +58,8 @@ const formatDayShort = (d: Date) => {
 };
 
 const formatDayNumber = (d: Date) => d.getDate();
+
+const formatDate = (d: Date) => d.toLocaleDateString("pt-BR");
 
 const generateTimeOptions = () => {
   const options = [];
@@ -95,7 +105,7 @@ const simulateBackendRequest = (month: number, year: number) => {
 };
 
 export const Visitas = () => {
-  const [view, setView] = useState<"month" | "week" | "day">("month");
+  const [view, setView] = useState<View>(View.MONTH);
   const [activeDate, setActiveDate] = useState<Date>(new Date());
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"list" | "form">("list");
@@ -108,6 +118,10 @@ export const Visitas = () => {
   const [monthVisits, setMonthVisits] = useState<any[]>([]);
   const [editingVisit, setEditingVisit] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [datePickerAnchor, setDatePickerAnchor] = useState<HTMLElement | null>(
+    null,
+  );
+  const [tempDate, setTempDate] = useState<Date>(new Date());
 
   const timeOptions = useMemo(() => generateTimeOptions(), []);
 
@@ -138,6 +152,21 @@ export const Visitas = () => {
         visit.dataVisita.getMonth() === date.getMonth() &&
         visit.dataVisita.getFullYear() === date.getFullYear(),
     );
+  };
+
+  const getTitle = () => {
+    switch (view) {
+      case View.MONTH:
+        return formatMonthYear(activeDate);
+      case View.WEEK:
+        const weekStart = startOfWeek(activeDate);
+        const weekEnd = endOfWeek(activeDate);
+        return `Semana: ${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+      case View.DAY:
+        return `Dia: ${formatDate(activeDate)}`;
+      default:
+        return formatMonthYear(activeDate);
+    }
   };
 
   const monthMatrix = useMemo(() => {
@@ -172,13 +201,31 @@ export const Visitas = () => {
   }, [activeDate]);
 
   const handlePrev = () => {
-    if (view === "month") setActiveDate((d) => addMonths(d, -1));
-    else setActiveDate((d) => addWeeks(d, -1));
+    switch (view) {
+      case View.MONTH:
+        setActiveDate((d) => addMonths(d, -1));
+        break;
+      case View.WEEK:
+        setActiveDate((d) => addWeeks(d, -1));
+        break;
+      case View.DAY:
+        setActiveDate((d) => addDays(d, -1));
+        break;
+    }
   };
 
   const handleNext = () => {
-    if (view === "month") setActiveDate((d) => addMonths(d, 1));
-    else setActiveDate((d) => addWeeks(d, 1));
+    switch (view) {
+      case View.MONTH:
+        setActiveDate((d) => addMonths(d, 1));
+        break;
+      case View.WEEK:
+        setActiveDate((d) => addWeeks(d, 1));
+        break;
+      case View.DAY:
+        setActiveDate((d) => addDays(d, 1));
+        break;
+    }
   };
 
   const handleDayClick = (date: Date) => {
@@ -232,93 +279,36 @@ export const Visitas = () => {
     handleCloseModal();
   };
 
+  const handleTitleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setTempDate(new Date(activeDate));
+    setDatePickerAnchor(event.currentTarget);
+  };
+
+  const handleDatePickerClose = () => {
+    setDatePickerAnchor(null);
+  };
+
+  const handleDateChange = () => {
+    setActiveDate(new Date(tempDate));
+    handleDatePickerClose();
+  };
+
   const dayVisits = selectedDate ? getVisitsForDay(selectedDate) : [];
 
-  return (
-    <>
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <RadioGroup
-          row
-          value={view}
-          onChange={(e) => setView(e.target.value as "month" | "week" | "day")}
-          aria-label="view"
-        >
-          <FormControlLabel value="month" control={<Radio />} label="Mês" />
-          <FormControlLabel value="week" control={<Radio />} label="Semana" />
-          <FormControlLabel value="day" control={<Radio />} label="Dia" />
-        </RadioGroup>
-      </Box>
-      <Paper elevation={2} sx={{ p: 2, width: "100%" }}>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          mb={2}
-        >
-          <Tooltip
-            title={view === "month" ? "Mês anterior" : "Semana anterior"}
-          >
-            <IconButton
-              onClick={handlePrev}
-              size="small"
-              aria-label="previous"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <ArrowBackIosIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <Typography variant="h6" sx={{ textAlign: "center" }}>
-            {view === "month"
-              ? formatMonthYear(activeDate)
-              : `${formatMonthYear(activeDate)} (Semana)`}
-          </Typography>
-          <Tooltip
-            title={view === "month" ? "Mês posterior" : "Semana posterior"}
-          >
-            <IconButton
-              onClick={handleNext}
-              size="small"
-              aria-label="next"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <ArrowForwardIosIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </Box>
-
-        {view === "month" ? (
+  const renderCalendarContent = () => {
+    switch (view) {
+      case View.MONTH:
+        return (
           <Box sx={{ width: "100%" }}>
-            <Box
-              sx={{
-                display: "flex",
-                width: "100%",
-                mb: 1,
-              }}
-            >
+            <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
               {monthMatrix[0].map((d, i) => (
-                <Box
-                  key={i}
-                  sx={{
-                    flex: 1,
-                    textAlign: "center",
-                    minWidth: 0,
-                  }}
-                >
+                <Box key={i} sx={{ flex: 1, textAlign: "center", minWidth: 0 }}>
                   <Typography variant="caption" sx={{ fontWeight: "bold" }}>
                     {formatDayShort(d)}
                   </Typography>
                 </Box>
               ))}
             </Box>
-
             <Box sx={{ width: "100%" }}>
               {monthMatrix.map((week, wi) => (
                 <Box
@@ -389,24 +379,20 @@ export const Visitas = () => {
               ))}
             </Box>
           </Box>
-        ) : (
+        );
+
+      case View.WEEK:
+        return (
           <Box sx={{ width: "100%" }}>
             <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
               {weekDays.map((d, i) => (
-                <Box
-                  key={i}
-                  sx={{
-                    flex: 1,
-                    textAlign: "center",
-                  }}
-                >
+                <Box key={i} sx={{ flex: 1, textAlign: "center" }}>
                   <Typography variant="caption" sx={{ fontWeight: "bold" }}>
                     {formatDayShort(d)}
                   </Typography>
                 </Box>
               ))}
             </Box>
-
             <Box sx={{ display: "flex", width: "100%" }}>
               {weekDays.map((d, i) => {
                 const dayVisits = getVisitsForDay(d);
@@ -454,8 +440,246 @@ export const Visitas = () => {
               })}
             </Box>
           </Box>
-        )}
+        );
+
+      case View.DAY:
+        const dayVisitsDisplay = getVisitsForDay(activeDate);
+        const hasVisits = dayVisitsDisplay.length > 0;
+        return (
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
+              <Box sx={{ flex: 1, textAlign: "center" }}>
+                <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+                  {formatDayShort(activeDate)}
+                </Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: "flex", width: "100%" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  borderRadius: 1,
+                  p: 1,
+                  textAlign: "center",
+                  height: "120px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                  cursor: "pointer",
+                  mx: 0.5,
+                  boxSizing: "border-box",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  bgcolor: hasVisits ? "#fffde7" : "background.paper",
+                  "&:hover": {
+                    bgcolor: hasVisits ? "#fff9c4" : "action.hover",
+                  },
+                }}
+                onClick={() => handleDayClick(activeDate)}
+              >
+                <Typography variant="body2">
+                  {formatDayNumber(activeDate)}
+                </Typography>
+                {hasVisits && (
+                  <Typography
+                    variant="caption"
+                    sx={{ mt: 0.5, fontSize: "0.7rem" }}
+                  >
+                    {dayVisitsDisplay.length}{" "}
+                    {dayVisitsDisplay.length === 1 ? "Visita" : "Visitas"}
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+          </Box>
+        );
+    }
+  };
+
+  return (
+    <>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <RadioGroup
+          row
+          value={view}
+          onChange={(e) => setView(e.target.value as View)}
+          aria-label="view"
+        >
+          <FormControlLabel
+            value={View.MONTH}
+            control={<Radio />}
+            label="Mês"
+          />
+          <FormControlLabel
+            value={View.WEEK}
+            control={<Radio />}
+            label="Semana"
+          />
+          <FormControlLabel value={View.DAY} control={<Radio />} label="Dia" />
+        </RadioGroup>
+      </Box>
+      <Paper elevation={2} sx={{ p: 2, width: "100%" }}>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={2}
+        >
+          <Tooltip
+            title={
+              view === View.MONTH
+                ? "Mês anterior"
+                : view === View.WEEK
+                  ? "Semana anterior"
+                  : "Dia anterior"
+            }
+          >
+            <IconButton
+              onClick={handlePrev}
+              size="small"
+              aria-label="previous"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <ArrowBackIosIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: "center",
+              cursor: "pointer",
+              "&:hover": { textDecoration: "underline" },
+            }}
+            onClick={handleTitleClick}
+          >
+            {getTitle()}
+          </Typography>
+          <Tooltip
+            title={
+              view === View.MONTH
+                ? "Mês posterior"
+                : view === View.WEEK
+                  ? "Semana posterior"
+                  : "Dia posterior"
+            }
+          >
+            <IconButton
+              onClick={handleNext}
+              size="small"
+              aria-label="next"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <ArrowForwardIosIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+
+        {renderCalendarContent()}
       </Paper>
+
+      <Popover
+        open={Boolean(datePickerAnchor)}
+        anchorEl={datePickerAnchor}
+        onClose={handleDatePickerClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Box sx={{ p: 2, minWidth: 300 }}>
+          <Typography variant="h6" gutterBottom>
+            Selecione a data
+          </Typography>
+
+          {view === View.MONTH && (
+            <>
+              <TextField
+                fullWidth
+                select
+                label="Mês"
+                value={tempDate.getMonth()}
+                onChange={(e) =>
+                  setTempDate(
+                    new Date(
+                      tempDate.getFullYear(),
+                      parseInt(e.target.value),
+                      tempDate.getDate(),
+                    ),
+                  )
+                }
+                margin="normal"
+              >
+                {Array.from({ length: 12 }, (_, i) => (
+                  <MenuItem key={i} value={i}>
+                    {new Date(2000, i, 1).toLocaleDateString("pt-BR", {
+                      month: "long",
+                    })}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                fullWidth
+                select
+                label="Ano"
+                value={tempDate.getFullYear()}
+                onChange={(e) =>
+                  setTempDate(
+                    new Date(
+                      parseInt(e.target.value),
+                      tempDate.getMonth(),
+                      tempDate.getDate(),
+                    ),
+                  )
+                }
+                margin="normal"
+              >
+                {Array.from({ length: 10 }, (_, i) => (
+                  <MenuItem key={i} value={new Date().getFullYear() - 5 + i}>
+                    {new Date().getFullYear() - 5 + i}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </>
+          )}
+
+          {(view === View.WEEK || view === View.DAY) && (
+            <>
+              <TextField
+                fullWidth
+                type="date"
+                label="Data"
+                value={tempDate.toISOString().split("T")[0]}
+                onChange={(e) => setTempDate(new Date(e.target.value))}
+                margin="normal"
+                InputLabelProps={{ shrink: true }}
+              />
+            </>
+          )}
+
+          <Box
+            sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 2 }}
+          >
+            <Button onClick={handleDatePickerClose}>Cancelar</Button>
+            <Button variant="contained" onClick={handleDateChange}>
+              Aplicar
+            </Button>
+          </Box>
+        </Box>
+      </Popover>
 
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box
