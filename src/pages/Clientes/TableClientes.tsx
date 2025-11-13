@@ -15,25 +15,30 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { Cliente } from "./types";
+import { CRUDType } from "../../types";
 
 interface TableClientesProps {
-  paginatedCostumers: any;
-  handleOpenViewDialog: any;
-  handleOpenEditDialog: any;
-  handleOpenDeactivateDialog: any;
-  filteredcostumers: any;
-  rowsPerPage: any;
-  page: any;
-  handleChangePage: any;
-  handleChangeRowsPerPage: any;
+  paginatedList: Cliente[];
+  filteredList: Cliente[];
+
+  rowsPerPage: number;
+  page: number;
+  handleChangePage: (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => void;
+  handleChangeRowsPerPage: (event: any) => void;
+
+  handleOpenFormCRUD: (crudType: CRUDType, costumer?: Cliente | null) => void;
+  handleOpenFormStatus: (costumer?: Cliente | null) => void;
 }
 
 export const TableClientes: React.FC<TableClientesProps> = ({
-  paginatedCostumers,
-  handleOpenViewDialog,
-  handleOpenEditDialog,
-  handleOpenDeactivateDialog,
-  filteredcostumers,
+  paginatedList,
+  handleOpenFormCRUD,
+  handleOpenFormStatus,
+  filteredList,
   rowsPerPage,
   page,
   handleChangePage,
@@ -95,7 +100,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCostumers?.length === 0 ? (
+            {paginatedList?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
                   <Typography variant="body1" color="textSecondary">
@@ -104,12 +109,12 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedCostumers?.map((costumer: any) => (
+              paginatedList?.map((costumer) => (
                 <TableRow key={costumer?.id} hover>
-                  <TableCell>{costumer?.nome}</TableCell>
+                  <TableCell>{costumer?.nomeFantasia}</TableCell>
                   <TableCell>{costumer?.email}</TableCell>
                   <TableCell>{costumer?.departamento}</TableCell>
-                  <TableCell>{costumer?.dataCadastro}</TableCell>
+                  <TableCell>{costumer?.dataCadastro as string}</TableCell>
                   <TableCell>
                     <Chip
                       label={costumer?.ativo ? "Ativo" : "Inativo"}
@@ -125,14 +130,18 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                     </Tooltip>
                     <Tooltip title="Visualizar" arrow placement="top">
                       <IconButton
-                        onClick={() => handleOpenViewDialog(costumer)}
+                        onClick={() =>
+                          handleOpenFormCRUD(CRUDType.READ, costumer)
+                        }
                       >
                         <Visibility />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Editar" arrow placement="top">
                       <IconButton
-                        onClick={() => handleOpenEditDialog(costumer)}
+                        onClick={() =>
+                          handleOpenFormCRUD(CRUDType.UPDATE, costumer)
+                        }
                       >
                         <Edit />
                       </IconButton>
@@ -144,7 +153,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                     >
                       <Switch
                         checked={costumer?.ativo}
-                        onChange={() => handleOpenDeactivateDialog(costumer)}
+                        onChange={() => handleOpenFormStatus(costumer)}
                         color={costumer?.ativo ? "success" : "default"}
                       />
                     </Tooltip>
@@ -159,7 +168,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50]}
         component="div"
-        count={filteredcostumers?.length}
+        count={filteredList?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

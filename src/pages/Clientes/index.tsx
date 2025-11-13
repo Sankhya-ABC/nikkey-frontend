@@ -3,112 +3,115 @@ import { Button, Grid, InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
-import { ModalDesativar } from "./ModaDesativar";
-import { ModalCadastrar } from "./ModalCadastrar";
-import { ModalEditar } from "./ModalEditar";
-import { ModalVisualizar } from "./ModalVisualizar";
+import { FormCRUDCliente } from "./FormCRUDCliente";
+import { FormStatus } from "./FormStatus";
 import { mockClientes } from "./provider";
 import { TableClientes } from "./TableClientes";
+import { Cliente } from "./types";
+import { CRUDType } from "../../types";
 
 export const Clientes = () => {
-  const [costumers, setCostumer] = useState(mockClientes);
-  const [filteredCostumers, setFilteredCostumers] = useState(mockClientes);
+  // useStates
+  // -- data
+  const [clientes, setClientes] = useState(mockClientes);
+  const [filteredClientes, setFilteredClientes] = useState(mockClientes);
+  const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
+
+  // -- crud type
+  const [formType, setFormType] = useState<CRUDType>(CRUDType.CREATE);
+
+  // -- modals
+  const [openFormStatus, setOpenFormStatus] = useState(false);
+  const [openFormCRUDCliente, setOpenFormCRUDCliente] = useState(false);
+
+  // -- search
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const [selectedCostumer, setSelectedCostumer] = useState(null);
-
+  // -- table
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  // variables
+  const paginatedClientes = filteredClientes.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage,
+  );
 
-  const [openViewDialog, setOpenViewDialog] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [openDeactivateDialog, setOpenDeactivateDialog] = useState(false);
-  const [openCreateDialog, setOpenCreateDialog] = useState(false);
-
-  useEffect(() => {
-    const filtered = costumers.filter(
-      (costumer) =>
-        costumer?.nome?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-        costumer?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
-    );
-    setFilteredCostumers(filtered);
-    setPage(0);
-  }, [searchTerm, costumers]);
-
-  const handleSearchChange = (event) => {
+  // handlers
+  // -- search
+  const handleSearchChange = (event: any) => {
     setSearchTerm(event?.target?.value);
   };
 
-  const handleChangePage = (event, newPage) => {
+  // -- table
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(parseInt(event?.target?.value, 10));
     setPage(0);
   };
 
-  const handleOpenViewDialog = (costumer) => {
-    setSelectedCostumer(costumer);
-    setOpenViewDialog(true);
+  // -- crud modals
+  const handleOpenFormCRUDCliente = (
+    crudType: CRUDType,
+    costumer?: Cliente | null,
+  ) => {
+    setFormType(crudType);
+    setSelectedCliente(costumer || null);
+    setOpenFormCRUDCliente(true);
   };
 
-  const handleOpenEditDialog = (costumer) => {
-    setSelectedCostumer(costumer);
-    setOpenEditDialog(true);
+  const handleCloseFormCRUDCliente = () => {
+    setSelectedCliente(null);
+    setOpenFormCRUDCliente(false);
   };
 
-  const handleOpenDeactivateDialog = (costumer) => {
-    setSelectedCostumer(costumer);
-    setOpenDeactivateDialog(true);
+  // -- status modal
+  const handleOpenFormStatus = (costumer?: Cliente | null) => {
+    setSelectedCliente(costumer || null);
+    setOpenFormStatus(true);
   };
 
-  const handleOpenCreateDialog = () => {
-    setSelectedCostumer(null);
-    setOpenCreateDialog(true);
+  const handleCloseFormStatus = () => {
+    setSelectedCliente(null);
+    setOpenFormStatus(false);
   };
 
-  const handleCloseViewDialog = () => {
-    setOpenViewDialog(false);
-    setSelectedCostumer(null);
-  };
-
-  const handleCloseEditDialog = () => {
-    setOpenEditDialog(false);
-    setSelectedCostumer(null);
-  };
-
-  const handleCloseDeactivateDialog = () => {
-    setOpenDeactivateDialog(false);
-    setSelectedCostumer(null);
-  };
-
-  const handleCloseCreateDialog = () => {
-    setOpenCreateDialog(false);
-    setSelectedCostumer(null);
-  };
-
-  const handleToggleCostumerStatus = () => {
-    if (selectedCostumer) {
-      const updatedCostumers = costumers?.map((costumer) =>
-        costumer?.id === selectedCostumer?.id
+  const handleToggleClienteStatus = () => {
+    if (selectedCliente) {
+      const updatedClientes = clientes?.map((costumer) =>
+        costumer?.id === selectedCliente.id
           ? {
               ...costumer,
               ativo: !costumer?.ativo,
             }
           : costumer,
       );
-      setCostumer(updatedCostumers);
-      handleCloseDeactivateDialog();
+      setClientes(updatedClientes);
+      handleCloseFormStatus();
     }
   };
 
-  const paginatedCostumers = filteredCostumers.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage,
-  );
+  // useEffects
+  useEffect(() => {
+    const filtered = clientes.filter(
+      (costumer) =>
+        costumer?.nomeFantasia
+          ?.toLowerCase()
+          ?.includes(searchTerm?.toLowerCase()) ||
+        costumer?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+    );
+    setFilteredClientes(filtered);
+    setPage(0);
+  }, [searchTerm, clientes]);
+
+  console.log(formType, selectedCliente);
 
   return (
     <Loading {...{ loading, setLoading }}>
@@ -121,7 +124,7 @@ export const Clientes = () => {
           <Button
             variant="contained"
             startIcon={<Add />}
-            onClick={handleOpenCreateDialog}
+            onClick={() => handleOpenFormCRUDCliente(CRUDType.CREATE, null)}
           >
             Cadastrar
           </Button>
@@ -134,6 +137,7 @@ export const Clientes = () => {
             placeholder="Pesquisar por nome ou email..."
             value={searchTerm}
             size="small"
+            autoComplete="no"
             onChange={handleSearchChange}
             InputProps={{
               endAdornment: (
@@ -148,11 +152,10 @@ export const Clientes = () => {
         <Grid item size={{ xs: 12 }}>
           <TableClientes
             {...{
-              paginatedCostumers,
-              handleOpenViewDialog,
-              handleOpenEditDialog,
-              handleOpenDeactivateDialog,
-              filteredCostumers,
+              paginatedList: paginatedClientes,
+              handleOpenFormCRUD: handleOpenFormCRUDCliente,
+              handleOpenFormStatus,
+              filteredList: filteredClientes,
               rowsPerPage,
               page,
               handleChangePage,
@@ -161,35 +164,21 @@ export const Clientes = () => {
           />
         </Grid>
 
-        <ModalVisualizar
+        <FormCRUDCliente
           {...{
-            selectedCostumer,
-            openViewDialog,
-            handleCloseViewDialog,
+            open: openFormCRUDCliente,
+            handleClose: handleCloseFormCRUDCliente,
+            selected: selectedCliente,
+            formType,
           }}
         />
 
-        <ModalEditar
+        <FormStatus
           {...{
-            selectedCostumer,
-            openEditDialog,
-            handleCloseEditDialog,
-          }}
-        />
-
-        <ModalDesativar
-          {...{
-            selectedCostumer,
-            handleToggleCostumerStatus,
-            openDeactivateDialog,
-            handleCloseDeactivateDialog,
-          }}
-        />
-
-        <ModalCadastrar
-          {...{
-            openCreateDialog,
-            handleCloseCreateDialog,
+            open: openFormStatus,
+            handleClose: handleCloseFormStatus,
+            selected: selectedCliente,
+            handleToggle: handleToggleClienteStatus,
           }}
         />
       </Layout>
