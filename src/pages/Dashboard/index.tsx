@@ -15,15 +15,9 @@ interface FormDashboard {
   dataFim: Date | null | number | string;
 }
 
-const primeiroDiaMes = new Date();
-primeiroDiaMes.setDate(1);
-
-const ultimoDiaMes = new Date();
-ultimoDiaMes.setMonth(ultimoDiaMes.getMonth() + 1, 0);
-
 const defaultValues: FormDashboard = {
-  dataInicio: primeiroDiaMes,
-  dataFim: ultimoDiaMes,
+  dataInicio: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+  dataFim: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
 };
 
 export const Dashboard = () => {

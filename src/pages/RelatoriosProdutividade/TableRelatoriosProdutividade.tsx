@@ -9,21 +9,26 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { RelatorioProdutividade } from "./types";
 
-interface TableRelatorioProdutividadeProps {
-  paginatedRelatoriosProdutividade: any;
-  filteredRelatoriosProdutividade: any;
-  rowsPerPage: any;
-  page: any;
-  handleChangePage: any;
-  handleChangeRowsPerPage: any;
+interface TableRelatoriosProdutividadeProps {
+  paginatedList: RelatorioProdutividade[];
+  filteredList: RelatorioProdutividade[];
+
+  rowsPerPage: number;
+  page: number;
+  handleChangePage: (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => void;
+  handleChangeRowsPerPage: (event: any) => void;
 }
 
-export const TableRelatorioProdutividade: React.FC<
-  TableRelatorioProdutividadeProps
+export const TableRelatoriosProdutividade: React.FC<
+  TableRelatoriosProdutividadeProps
 > = ({
-  paginatedRelatoriosProdutividade,
-  filteredRelatoriosProdutividade,
+  paginatedList,
+  filteredList,
   rowsPerPage,
   page,
   handleChangePage,
@@ -32,7 +37,7 @@ export const TableRelatorioProdutividade: React.FC<
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
-        <Table stickyHeader aria-label="tabela de clientes">
+        <Table stickyHeader aria-label="tabela de relatórios de produtividade">
           <TableHead>
             <TableRow>
               <TableCell
@@ -92,7 +97,7 @@ export const TableRelatorioProdutividade: React.FC<
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedRelatoriosProdutividade?.length === 0 ? (
+            {paginatedList?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
                   <Typography variant="body1" color="textSecondary">
@@ -101,28 +106,26 @@ export const TableRelatorioProdutividade: React.FC<
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedRelatoriosProdutividade?.map(
-                (relatorioProdutividade: any) => (
-                  <TableRow key={relatorioProdutividade?.id} hover>
-                    <TableCell>{relatorioProdutividade?.tecnico}</TableCell>
-                    <TableCell align="center">
-                      {relatorioProdutividade?.horasTrabalhadas}
-                    </TableCell>
-                    <TableCell align="center">
-                      {relatorioProdutividade?.visitasAgendadas}
-                    </TableCell>
-                    <TableCell align="center">
-                      {relatorioProdutividade?.osRealizadas}
-                    </TableCell>
-                    <TableCell align="center">
-                      {relatorioProdutividade?.osNaoRealizadas}
-                    </TableCell>
-                    <TableCell align="center">
-                      {relatorioProdutividade?.visitasPendentes}
-                    </TableCell>
-                  </TableRow>
-                ),
-              )
+              paginatedList?.map((relatorioProdutividade) => (
+                <TableRow key={relatorioProdutividade?.id} hover>
+                  <TableCell>{relatorioProdutividade?.tecnico}</TableCell>
+                  <TableCell align="center">
+                    {relatorioProdutividade?.horasTrabalhadas}
+                  </TableCell>
+                  <TableCell align="center">
+                    {relatorioProdutividade?.visitasAgendadas}
+                  </TableCell>
+                  <TableCell align="center">
+                    {relatorioProdutividade?.osRealizadas}
+                  </TableCell>
+                  <TableCell align="center">
+                    {relatorioProdutividade?.osNaoRealizadas}
+                  </TableCell>
+                  <TableCell align="center">
+                    {relatorioProdutividade?.visitasPendentes}
+                  </TableCell>
+                </TableRow>
+              ))
             )}
           </TableBody>
         </Table>
@@ -131,7 +134,7 @@ export const TableRelatorioProdutividade: React.FC<
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50]}
         component="div"
-        count={filteredRelatoriosProdutividade?.length}
+        count={filteredList?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

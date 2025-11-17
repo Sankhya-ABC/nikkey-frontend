@@ -1,14 +1,6 @@
-export interface RelatorioProdutividade {
-  id: number;
-  tecnico: string;
-  horasTrabalhadas: string;
-  visitasAgendadas: number;
-  osRealizadas: number;
-  osNaoRealizadas: number;
-  visitasPendentes: number;
-}
+import { RelatorioProdutividade } from "./types";
 
-export const mockRelatorioProdutividade = [
+export const mockRelatoriosProdutividade: RelatorioProdutividade[] = [
   {
     id: 1,
     tecnico: "João Silva",
