@@ -4,13 +4,13 @@ import { useFormContext } from "react-hook-form";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico, TipoContagem } from "../types";
+import { OrdemDeServico, TipoContagem } from "../types";
 import { QuantidadeIdentificacao } from "./QuantidadeIdentificacao";
 import { ContagemEspecie } from "./ContagemEspecie";
 import { ContagemTotal } from "./ContagemTotal";
 
 export const Equipamentos: React.FC = () => {
-  const { control, watch } = useFormContext<OrdemServico>();
+  const { control, watch } = useFormContext<OrdemDeServico>();
 
   const flagRevisaoEquipamentos = watch("flagRevisaoEquipamentos");
   const flagIscagem = watch("iscagem.flag");

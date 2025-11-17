@@ -34,7 +34,7 @@ export interface Consumo {
   idPraga: number | "";
   idProduto: number | "";
   lote: string;
-  validade: Date | null;
+  validade: Date | null | string;
   idEquipamento: number | "";
   quantidade: number | "";
 }
@@ -42,6 +42,7 @@ export interface Consumo {
 export interface InformacoesGerais {
   id: number | null;
   ativo: boolean;
+  dataCadastro: Date | null | string;
   cliente: {
     id: number | "";
     nome: string;
@@ -51,9 +52,9 @@ export interface InformacoesGerais {
     nome: string;
   };
   data: {
-    data: Date | null;
-    horaInicio: Date | null;
-    horaFinal: Date | null;
+    data: Date | null | string;
+    horaInicio: Date | null | string;
+    horaFinal: Date | null | string;
   };
   responsavel: {
     nome: string;
@@ -131,7 +132,7 @@ export interface UploadEvidencias {
   uploads: File[];
 }
 
-export type OrdemServico = InformacoesGerais &
+export type OrdemDeServico = InformacoesGerais &
   InformacoesBasicasServico &
   PragasEncontradas &
   Equipamentos &

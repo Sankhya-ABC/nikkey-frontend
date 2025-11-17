@@ -17,11 +17,11 @@ import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico } from "../types";
+import { OrdemDeServico } from "../types";
 
 export const InformacoesAdicionais = () => {
   const { control, watch, getValues, setValue } =
-    useFormContext<OrdemServico>();
+    useFormContext<OrdemDeServico>();
 
   const naoConformidades = watch("naoConformidades.naoConformidades");
   const flagNaoConformidades = watch("naoConformidades.flag");

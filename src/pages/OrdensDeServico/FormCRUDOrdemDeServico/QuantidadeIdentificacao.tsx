@@ -13,7 +13,7 @@ import {
 import React from "react";
 import { FieldPath, useFormContext } from "react-hook-form";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico } from "../types";
+import { OrdemDeServico } from "../types";
 
 interface QuantidadeIdentificacaoProps {
   title: string;
@@ -23,10 +23,10 @@ interface QuantidadeIdentificacaoProps {
 export const QuantidadeIdentificacao: React.FC<
   QuantidadeIdentificacaoProps
 > = ({ title, property }) => {
-  const { control, watch } = useFormContext<OrdemServico>();
+  const { control, watch } = useFormContext<OrdemDeServico>();
 
   const iscagemMofoDeterioracaoQuantidade = Number(
-    watch(`${property}.quantidade` as FieldPath<OrdemServico>),
+    watch(`${property}.quantidade` as FieldPath<OrdemDeServico>),
   );
 
   return (

@@ -17,13 +17,13 @@ import { useFormContext } from "react-hook-form";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { ComoEncontrado, OrdemServico } from "../types";
+import { ComoEncontrado, OrdemDeServico } from "../types";
 import { listPragas } from "./provider";
 import { useEffect } from "react";
 
 export const PragasEncontradas = () => {
   const { control, watch, getValues, setValue } =
-    useFormContext<OrdemServico>();
+    useFormContext<OrdemDeServico>();
 
   const pragas = watch("pragas");
   const flagEvidenciasPragas = watch("flagEvidenciasOuFocosPragas");

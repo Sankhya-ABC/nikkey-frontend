@@ -10,7 +10,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
-import { OrdemDeServico } from "./pages/OrdemDeServico";
+import { OrdensDeServico } from "./pages/OrdensDeServico";
 import { RelatoriosProdutividade } from "./pages/RelatoriosProdutividade";
 import { Visitas } from "./pages/Visitas";
 
@@ -59,7 +59,7 @@ const routes = [
   },
   {
     path: "ordens-de-servico",
-    element: <OrdemDeServico />,
+    element: <OrdensDeServico />,
     isProtected: true,
     permissions: [],
   },

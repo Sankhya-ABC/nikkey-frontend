@@ -1,4 +1,5 @@
 import { Edit, Visibility } from "@mui/icons-material";
+import LoginIcon from "@mui/icons-material/Login";
 import PrintIcon from "@mui/icons-material/Print";
 import {
   Chip,
@@ -15,25 +16,33 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { CRUDType } from "../../types";
+import { OrdemDeServico } from "./types";
 
-interface TableOrdemDeServicosProps {
-  paginatedOrdemDeServicos: any;
-  handleOpenViewDialog: any;
-  handleOpenEditDialog: any;
-  handleOpenDeactivateDialog: any;
-  filteredOrdemDeServicos: any;
-  rowsPerPage: any;
-  page: any;
-  handleChangePage: any;
-  handleChangeRowsPerPage: any;
+interface TableOrdensDeServicoProps {
+  paginatedList: OrdemDeServico[];
+  filteredList: OrdemDeServico[];
+
+  rowsPerPage: number;
+  page: number;
+  handleChangePage: (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => void;
+  handleChangeRowsPerPage: (event: any) => void;
+
+  handleOpenFormCRUD: (
+    crudType: CRUDType,
+    ordemDeServico?: OrdemDeServico | null,
+  ) => void;
+  handleOpenFormStatus: (ordemDeServico?: OrdemDeServico | null) => void;
 }
 
-export const TableOrdemDeServicos: React.FC<TableOrdemDeServicosProps> = ({
-  paginatedOrdemDeServicos,
-  handleOpenViewDialog,
-  handleOpenEditDialog,
-  handleOpenDeactivateDialog,
-  filteredOrdemDeServicos,
+export const TableOrdensDeServico: React.FC<TableOrdensDeServicoProps> = ({
+  paginatedList,
+  handleOpenFormCRUD,
+  handleOpenFormStatus,
+  filteredList,
   rowsPerPage,
   page,
   handleChangePage,
@@ -42,7 +51,7 @@ export const TableOrdemDeServicos: React.FC<TableOrdemDeServicosProps> = ({
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
-        <Table stickyHeader aria-label="tabela de ordens de servico">
+        <Table stickyHeader aria-label="tabela de ordens de serviço">
           <TableHead>
             <TableRow>
               <TableCell
@@ -95,21 +104,23 @@ export const TableOrdemDeServicos: React.FC<TableOrdemDeServicosProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedOrdemDeServicos?.length === 0 ? (
+            {paginatedList?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
                   <Typography variant="body1" color="textSecondary">
-                    Nenhuma ordem de serviço encontrada
+                    Nenhuma ordem de serviço encontrada.
                   </Typography>
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedOrdemDeServicos?.map((ordemDeServico: any) => (
-                <TableRow key={ordemDeServico?.numero} hover>
-                  <TableCell>{ordemDeServico?.numero}</TableCell>
-                  <TableCell>{ordemDeServico?.cliente}</TableCell>
-                  <TableCell>{ordemDeServico?.tecnico}</TableCell>
-                  <TableCell>{`${ordemDeServico?.dataHora?.data?.split("-").reverse().join("/")} ${ordemDeServico?.dataHora?.horaDe} - ${ordemDeServico?.dataHora?.horaAte}`}</TableCell>
+              paginatedList?.map((ordemDeServico) => (
+                <TableRow key={ordemDeServico?.id} hover>
+                  <TableCell>{ordemDeServico?.cliente.id}</TableCell>
+                  <TableCell>{ordemDeServico?.tecnico.nome}</TableCell>
+                  <TableCell>{`${ordemDeServico?.data?.data} ${ordemDeServico?.data?.horaInicio} - ${ordemDeServico?.data?.horaFinal}`}</TableCell>
+                  <TableCell>
+                    {ordemDeServico?.dataCadastro as string}
+                  </TableCell>
                   <TableCell>
                     <Chip
                       label={ordemDeServico?.ativo ? "Ativo" : "Inativo"}
@@ -118,16 +129,25 @@ export const TableOrdemDeServicos: React.FC<TableOrdemDeServicosProps> = ({
                     />
                   </TableCell>
                   <TableCell align="center">
+                    <Tooltip title="Acessar como" arrow placement="top">
+                      <IconButton onClick={() => null}>
+                        <LoginIcon />
+                      </IconButton>
+                    </Tooltip>
                     <Tooltip title="Visualizar" arrow placement="top">
                       <IconButton
-                        onClick={() => handleOpenViewDialog(ordemDeServico)}
+                        onClick={() =>
+                          handleOpenFormCRUD(CRUDType.READ, ordemDeServico)
+                        }
                       >
                         <Visibility />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Editar" arrow placement="top">
                       <IconButton
-                        onClick={() => handleOpenEditDialog(ordemDeServico)}
+                        onClick={() =>
+                          handleOpenFormCRUD(CRUDType.UPDATE, ordemDeServico)
+                        }
                       >
                         <Edit />
                       </IconButton>
@@ -144,9 +164,7 @@ export const TableOrdemDeServicos: React.FC<TableOrdemDeServicosProps> = ({
                     >
                       <Switch
                         checked={ordemDeServico?.ativo}
-                        onChange={() =>
-                          handleOpenDeactivateDialog(ordemDeServico)
-                        }
+                        onChange={() => handleOpenFormStatus(ordemDeServico)}
                         color={ordemDeServico?.ativo ? "success" : "default"}
                       />
                     </Tooltip>
@@ -161,7 +179,7 @@ export const TableOrdemDeServicos: React.FC<TableOrdemDeServicosProps> = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50]}
         component="div"
-        count={filteredOrdemDeServicos?.length}
+        count={filteredList?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

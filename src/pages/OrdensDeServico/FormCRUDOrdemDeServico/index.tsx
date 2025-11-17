@@ -6,20 +6,29 @@ import {
   DialogTitle,
   Grid,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { OrdemServico } from "../types";
 import { ConsumoProdutos } from "./ConsumoProdutos";
+import { Equipamentos } from "./Equipamentos";
+import { InformacoesAdicionais } from "./InformacoesAdicionais";
 import { InformacoesBasicasServico } from "./InformacoesBasicasServico";
 import { InformacoesGerais } from "./InformacoesGerais";
-import { InformacoesAdicionais } from "./InformacoesAdicionais";
 import { PragasEncontradas } from "./PragasEncontradas";
 import { UploadEvidencias } from "./UploadEvidencias";
-import { Equipamentos } from "./Equipamentos";
+import { CRUDType } from "../../../types";
+import { OrdemDeServico } from "../types";
 
-const defaultValues: OrdemServico = {
+interface FormCRUDOrdemDeServicoProps {
+  open: boolean;
+  handleClose: () => void;
+  formType: CRUDType;
+  selected: OrdemDeServico | null;
+}
+
+const defaultValues: OrdemDeServico = {
   id: null,
   ativo: true,
+  dataCadastro: null,
   cliente: {
     id: "",
     nome: "",
@@ -119,30 +128,27 @@ const defaultValues: OrdemServico = {
   uploads: [],
 };
 
-interface FormCRUDOrdemDeServicoProps {
-  openCreateDialog: any;
-  handleCloseCreateDialog: any;
-}
-
 export const FormCRUDOrdemDeServico: React.FC<FormCRUDOrdemDeServicoProps> = ({
-  openCreateDialog,
-  handleCloseCreateDialog,
+  open,
+  handleClose,
+  formType,
+  selected,
 }) => {
-  const methods = useForm<OrdemServico>({
-    defaultValues,
-  });
+  const methods = useForm<OrdemDeServico>({ defaultValues });
+  const { reset, watch } = methods;
 
-  const { watch } = methods;
   const flagServicoRealizado = watch("flagServicoRealizado");
 
+  useEffect(() => {
+    if (formType === CRUDType.UPDATE || formType === CRUDType.READ) {
+      reset(selected || defaultValues);
+    }
+  }, [formType, selected]);
+
   return (
-    <Dialog
-      open={openCreateDialog}
-      onClose={handleCloseCreateDialog}
-      maxWidth="md"
-    >
+    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
-        Cadastrar
+        {formType}
       </DialogTitle>
       <DialogContent sx={{ overflow: "unset" }}>
         <FormProvider {...methods}>
@@ -181,14 +187,17 @@ export const FormCRUDOrdemDeServico: React.FC<FormCRUDOrdemDeServicoProps> = ({
           </Grid>
         </FormProvider>
       </DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={handleCloseCreateDialog}>
-          Cancelar
-        </Button>
-        <Button variant="contained" onClick={handleCloseCreateDialog}>
-          Salvar
-        </Button>
-      </DialogActions>
+      {formType !== CRUDType.READ && (
+        <DialogActions>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button variant="contained" onClick={handleClose}>
+            {formType === CRUDType.CREATE && "Cadastrar"}
+            {formType === CRUDType.UPDATE && "Editar"}
+          </Button>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

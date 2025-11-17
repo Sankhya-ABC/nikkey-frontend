@@ -3,10 +3,10 @@ import { useFormContext } from "react-hook-form";
 import { FileUpload } from "../../../components/FileUpload";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico } from "../types";
+import { OrdemDeServico } from "../types";
 
 export const UploadEvidencias = () => {
-  const { control, watch } = useFormContext<OrdemServico>();
+  const { control, watch } = useFormContext<OrdemDeServico>();
 
   const flagUploadEvidencias = watch("flagUploadEvidencias");
 

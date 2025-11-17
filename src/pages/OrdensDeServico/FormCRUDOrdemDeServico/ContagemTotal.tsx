@@ -10,10 +10,10 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico } from "../types";
+import { OrdemDeServico } from "../types";
 
 export const ContagemTotal: React.FC = () => {
-  const { control, watch } = useFormContext<OrdemServico>();
+  const { control, watch } = useFormContext<OrdemDeServico>();
 
   const armadilhaLuminosaQuantidade = Number(
     watch("armadilhaLuminosa.quantidade"),

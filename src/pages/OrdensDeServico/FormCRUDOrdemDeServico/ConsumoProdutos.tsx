@@ -19,12 +19,12 @@ import { DatePicker } from "../../../components/Form/DatePicker";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico } from "../types";
+import { OrdemDeServico } from "../types";
 import { listEquipamentos, listProdutos } from "./provider";
 
 export const ConsumoProdutos = () => {
   const { control, watch, getValues, setValue } =
-    useFormContext<OrdemServico>();
+    useFormContext<OrdemDeServico>();
 
   const consumo = watch("consumo");
   const flagConsumoProdutos = watch("flagConsumoProdutos");

@@ -2,10 +2,10 @@ import { Box, Grid, Typography } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico } from "../types";
+import { OrdemDeServico } from "../types";
 
 export const InformacoesBasicasServico = () => {
-  const { control, watch } = useFormContext<OrdemServico>();
+  const { control, watch } = useFormContext<OrdemDeServico>();
 
   const flagServicoRealizado = watch("flagServicoRealizado");
 

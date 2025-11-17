@@ -5,11 +5,11 @@ import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
 import { TimePicker } from "../../../components/Form/TimePicker";
-import { OrdemServico } from "../types";
+import { OrdemDeServico } from "../types";
 import { listClientes, listTecnicos } from "./provider";
 
 export const InformacoesGerais = () => {
-  const { control } = useFormContext<OrdemServico>();
+  const { control } = useFormContext<OrdemDeServico>();
 
   return (
     <Box>
@@ -22,7 +22,7 @@ export const InformacoesGerais = () => {
             label="Cliente"
             name="informacoesGerais.cliente.id"
             control={control}
-            propertyLabel="descricao"
+            propertyLabel="nome"
             propertyValue="id"
             options={listClientes}
           />
@@ -33,7 +33,7 @@ export const InformacoesGerais = () => {
             label="Técnico"
             name="informacoesGerais.tecnico.id"
             control={control}
-            propertyLabel="descricao"
+            propertyLabel="nome"
             propertyValue="id"
             options={listTecnicos}
           />
