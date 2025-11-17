@@ -13,7 +13,7 @@ import {
 import React from "react";
 import { FieldPath, useFormContext } from "react-hook-form";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico } from "../type";
+import { OrdemServico } from "../types";
 
 interface QuantidadeIdentificacaoProps {
   title: string;

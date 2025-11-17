@@ -5,7 +5,7 @@ import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
 import { TimePicker } from "../../../components/Form/TimePicker";
-import { OrdemServico } from "../type";
+import { OrdemServico } from "../types";
 import { listClientes, listTecnicos } from "./provider";
 
 export const InformacoesGerais = () => {
@@ -20,7 +20,7 @@ export const InformacoesGerais = () => {
         <Grid item size={{ xs: 12, md: 6 }}>
           <Select
             label="Cliente"
-            name="informacoesGerais.idCliente"
+            name="informacoesGerais.cliente.id"
             control={control}
             propertyLabel="descricao"
             propertyValue="id"
@@ -31,7 +31,7 @@ export const InformacoesGerais = () => {
         <Grid item size={{ xs: 12, md: 6 }}>
           <Select
             label="Técnico"
-            name="informacoesGerais.idTecnico"
+            name="informacoesGerais.tecnico.id"
             control={control}
             propertyLabel="descricao"
             propertyValue="id"

@@ -40,8 +40,16 @@ export interface Consumo {
 }
 
 export interface InformacoesGerais {
-  idCliente: number | "";
-  idTecnico: number | "";
+  id: number;
+  ativo: boolean;
+  cliente: {
+    id: number | "";
+    nome: string;
+  };
+  tecnico: {
+    id: number | "";
+    nome: string;
+  };
   data: {
     data: Date | null;
     horaInicio: Date | null;

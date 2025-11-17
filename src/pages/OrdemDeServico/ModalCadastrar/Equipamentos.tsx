@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { OrdemServico, TipoContagem } from "../type";
+import { OrdemServico, TipoContagem } from "../types";
 import { QuantidadeIdentificacao } from "./QuantidadeIdentificacao";
 import { ContagemEspecie } from "./ContagemEspecie";
 import { ContagemTotal } from "./ContagemTotal";

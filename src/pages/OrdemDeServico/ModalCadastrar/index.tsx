@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { OrdemServico } from "../type";
+import { OrdemServico } from "../types";
 import { ConsumoProdutos } from "./ConsumoProdutos";
 import { InformacoesBasicasServico } from "./InformacoesBasicasServico";
 import { InformacoesGerais } from "./InformacoesGerais";

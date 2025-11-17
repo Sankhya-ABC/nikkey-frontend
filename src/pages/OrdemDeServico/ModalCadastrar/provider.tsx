@@ -1,11 +1,11 @@
 export const listClientes = [
-  { id: 1, descricao: "Cliente A" },
-  { id: 2, descricao: "Cliente B" },
+  { id: 1, nome: "Cliente A" },
+  { id: 2, nome: "Cliente B" },
 ];
 
 export const listTecnicos = [
-  { id: 1, descricao: "Técnico 1" },
-  { id: 2, descricao: "Técnico 2" },
+  { id: 1, nome: "Técnico 1" },
+  { id: 2, nome: "Técnico 2" },
 ];
 
 export const listPragas = [

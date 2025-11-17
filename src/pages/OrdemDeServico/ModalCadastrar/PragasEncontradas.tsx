@@ -17,7 +17,7 @@ import { useFormContext } from "react-hook-form";
 import { Select } from "../../../components/Form/Select";
 import { Switch } from "../../../components/Form/Switch";
 import { TextField } from "../../../components/Form/Textfield";
-import { ComoEncontrado, OrdemServico } from "../type";
+import { ComoEncontrado, OrdemServico } from "../types";
 import { listPragas } from "./provider";
 import { useEffect } from "react";
 
