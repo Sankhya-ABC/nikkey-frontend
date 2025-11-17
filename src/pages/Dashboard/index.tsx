@@ -1,5 +1,7 @@
 import { Grid } from "@mui/material";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { DatePicker } from "../../components/Form/DatePicker";
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
 import { AtendimentosChart } from "./components/AtendimentosChart";
@@ -8,13 +10,45 @@ import { ConsumoDeProdutosChart } from "./components/ConsumoDeProdutosChart";
 import { OrdensDeServicoChart } from "./components/OrdensDeServicoChart";
 import { ProximasVisitas } from "./components/ProximasVisitas";
 
+interface FormDashboard {
+  dataInicio: Date | null | number | string;
+  dataFim: Date | null | number | string;
+}
+
+const primeiroDiaMes = new Date();
+primeiroDiaMes.setDate(1);
+
+const ultimoDiaMes = new Date();
+ultimoDiaMes.setMonth(ultimoDiaMes.getMonth() + 1, 0);
+
+const defaultValues: FormDashboard = {
+  dataInicio: primeiroDiaMes,
+  dataFim: ultimoDiaMes,
+};
+
 export const Dashboard = () => {
+  const { control } = useForm<FormDashboard>({ defaultValues });
+
   const [loading, setLoading] = useState(true);
 
   return (
     <Loading {...{ loading, setLoading }}>
       <Layout title="Dashboard">
         <Grid container spacing={3}>
+          <Grid item size={{ xs: 12 }}>
+            <Grid container spacing={3} sx={{ justifyContent: "end" }}>
+              <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
+                <DatePicker
+                  label="Data início"
+                  name="dataInicio"
+                  control={control}
+                />
+              </Grid>
+              <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
+                <DatePicker label="Data Fim" name="dataFim" control={control} />
+              </Grid>
+            </Grid>
+          </Grid>
           <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 8, xl: 9 }}>
             <Grid container spacing={3} alignItems="stretch">
               <Grid item size={{ xs: 12, sm: 12, md: 4 }}>

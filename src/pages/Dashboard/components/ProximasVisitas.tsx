@@ -13,8 +13,6 @@ import {
   ListItemIcon,
   Typography,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { DatePicker } from "../../../components/Form/DatePicker";
 
 const proximasVisitas = [
   {
@@ -182,8 +180,6 @@ const proximasVisitas = [
 ];
 
 export const ProximasVisitas = () => {
-  const { control } = useForm();
-
   return (
     <Card>
       <Box sx={{ p: 3 }}>
@@ -195,16 +191,6 @@ export const ProximasVisitas = () => {
             >
               Próximas Visitas
             </Typography>
-          </Grid>
-          <Grid item size={{ xs: 12, sm: 12, md: 6, lg: 12, xl: 6 }}>
-            <DatePicker
-              label="Data início"
-              name="dataInicio"
-              control={control}
-            />
-          </Grid>
-          <Grid item size={{ xs: 12, sm: 12, md: 6, lg: 12, xl: 6 }}>
-            <DatePicker label="Data Fim" name="dataFim" control={control} />
           </Grid>
         </Grid>
       </Box>
