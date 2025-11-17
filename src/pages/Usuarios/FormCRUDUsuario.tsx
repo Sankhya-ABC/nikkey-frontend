@@ -97,7 +97,12 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
           </Grid>
 
           <Grid item size={{ xs: 12, md: 4 }}>
-            <TextField control={control} name="senha" label="Senha" />
+            <TextField
+              control={control}
+              name="senha"
+              label="Senha"
+              type="password"
+            />
           </Grid>
 
           <Grid item size={{ xs: 12, md: 4 }}>
@@ -105,18 +110,22 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
               control={control}
               name="confirmarSenha"
               label="Confirmar Senha"
+              type="password"
             />
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={handleClose}>
-          Cancelar
-        </Button>
-        <Button variant="contained" onClick={handleClose}>
-          Salvar
-        </Button>
-      </DialogActions>
+      {formType !== CRUDType.READ && (
+        <DialogActions>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button variant="contained" onClick={handleClose}>
+            {formType === CRUDType.CREATE && "Cadastrar"}
+            {formType === CRUDType.UPDATE && "Editar"}
+          </Button>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

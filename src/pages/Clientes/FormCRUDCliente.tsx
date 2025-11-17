@@ -249,14 +249,17 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={handleClose}>
-          Cancelar
-        </Button>
-        <Button variant="contained" onClick={handleClose}>
-          Salvar
-        </Button>
-      </DialogActions>
+      {formType !== CRUDType.READ && (
+        <DialogActions>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button variant="contained" onClick={handleClose}>
+            {formType === CRUDType.CREATE && "Cadastrar"}
+            {formType === CRUDType.UPDATE && "Editar"}
+          </Button>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

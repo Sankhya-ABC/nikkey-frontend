@@ -2,13 +2,25 @@ import {
   Button,
   CircularProgress,
   Container,
+  Grid,
   Paper,
-  TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
+import { TextField } from "../../components/Form/Textfield";
+
+interface FormLogin {
+  usuario: string;
+  senha: string;
+}
+
+const defaultValues: FormLogin = {
+  usuario: "",
+  senha: "",
+};
 
 export const Login = () => {
   const auth = useAuth();
@@ -16,20 +28,17 @@ export const Login = () => {
   const location = useLocation();
   const from = (location.state as any)?.from?.pathname || "/";
 
-  const [email, setEmail] = useState("user@example.com");
-  const [password, setPassword] = useState("password");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { control, handleSubmit } = useForm<FormLogin>({ defaultValues });
 
-  const handleSubmit = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    setError(null);
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async ({ usuario, senha }: FormLogin) => {
     setLoading(true);
     try {
-      await auth.login(email, password);
+      await auth.login(usuario, senha);
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err?.message || "Login failed");
+      //
     } finally {
       setLoading(false);
     }
@@ -45,49 +54,47 @@ export const Login = () => {
         height: "100%",
       }}
     >
-      <Paper
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 3,
-          p: 3,
-        }}
-      >
-        <Typography
-          color="primary"
-          variant="h4"
-          sx={{ lineHeight: 1, fontWeight: 600, mb: 2 }}
-        >
-          Login
-        </Typography>
-        <TextField
-          label="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          size="small"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          size="small"
-        />
-        {error && (
-          <Typography color="error" variant="body2">
-            {error}
-          </Typography>
-        )}
-        <Button type="submit" variant="contained" disabled={loading}>
-          {loading ? <CircularProgress size={20} /> : "Entrar"}
-        </Button>
-        <Typography variant="caption">
-          Use <strong>user@example.com</strong> / <strong>password</strong> para
-          testar o mock.
-        </Typography>
+      <Paper sx={{ p: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item size={{ xs: 12 }}>
+            <Typography
+              color="primary"
+              variant="h4"
+              sx={{ lineHeight: 1, fontWeight: 600, mb: 2 }}
+            >
+              Login
+            </Typography>
+          </Grid>
+
+          <Grid item size={{ xs: 12 }}>
+            <TextField control={control} name="usuario" label="Usuário" />
+          </Grid>
+          <Grid item size={{ xs: 12 }}>
+            <TextField
+              control={control}
+              name="senha"
+              label="Senha"
+              type="password"
+            />
+          </Grid>
+
+          <Grid item size={{ xs: 12 }}>
+            <Button
+              variant="contained"
+              disabled={loading}
+              onClick={handleSubmit(onSubmit)}
+              fullWidth
+            >
+              {loading ? <CircularProgress size={20} /> : "Entrar"}
+            </Button>
+          </Grid>
+          <Grid item size={{ xs: 12 }}>
+            <Typography variant="caption">
+              Use <strong>user@example.com</strong> / <strong>password</strong>{" "}
+              para testar o mock.
+            </Typography>
+          </Grid>
+        </Grid>
       </Paper>
     </Container>
   );
