@@ -1,4 +1,5 @@
 import { Edit, Visibility } from "@mui/icons-material";
+import LoginIcon from "@mui/icons-material/Login";
 import {
   Chip,
   IconButton,
@@ -14,25 +15,30 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { Usuario } from "./types";
+import { CRUDType } from "../../types";
 
 interface TableUsuariosProps {
-  paginatedUsers: any;
-  handleOpenViewDialog: any;
-  handleOpenEditDialog: any;
-  handleOpenDeactivateDialog: any;
-  filteredUsers: any;
-  rowsPerPage: any;
-  page: any;
-  handleChangePage: any;
-  handleChangeRowsPerPage: any;
+  paginatedList: Usuario[];
+  filteredList: Usuario[];
+
+  rowsPerPage: number;
+  page: number;
+  handleChangePage: (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => void;
+  handleChangeRowsPerPage: (event: any) => void;
+
+  handleOpenFormCRUD: (crudType: CRUDType, usuario?: Usuario | null) => void;
+  handleOpenFormStatus: (usuario?: Usuario | null) => void;
 }
 
 export const TableUsuarios: React.FC<TableUsuariosProps> = ({
-  paginatedUsers,
-  handleOpenViewDialog,
-  handleOpenEditDialog,
-  handleOpenDeactivateDialog,
-  filteredUsers,
+  paginatedList,
+  handleOpenFormCRUD,
+  handleOpenFormStatus,
+  filteredList,
   rowsPerPage,
   page,
   handleChangePage,
@@ -41,7 +47,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
-        <Table stickyHeader aria-label="tabela de clientes">
+        <Table stickyHeader aria-label="tabela de usuários">
           <TableHead>
             <TableRow>
               <TableCell
@@ -94,48 +100,61 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedUsers?.length === 0 ? (
+            {paginatedList?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
                   <Typography variant="body1" color="textSecondary">
-                    Nenhum cliente encontrado
+                    Nenhum usuário encontrado
                   </Typography>
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedUsers?.map((user: any) => (
-                <TableRow key={user?.id} hover>
-                  <TableCell>{user?.nome}</TableCell>
-                  <TableCell>{user?.email}</TableCell>
-                  <TableCell>{user?.departamento}</TableCell>
-                  <TableCell>{user?.dataCadastro}</TableCell>
+              paginatedList?.map((usuario) => (
+                <TableRow key={usuario?.id} hover>
+                  <TableCell>{usuario?.nome}</TableCell>
+                  <TableCell>{usuario?.email}</TableCell>
+                  <TableCell>{usuario?.departamento}</TableCell>
+                  <TableCell>{usuario?.dataCadastro as string}</TableCell>
                   <TableCell>
                     <Chip
-                      label={user?.ativo ? "Ativo" : "Inativo"}
-                      color={user?.ativo ? "success" : "default"}
+                      label={usuario?.ativo ? "Ativo" : "Inativo"}
+                      color={usuario?.ativo ? "success" : "default"}
                       size="small"
                     />
                   </TableCell>
                   <TableCell align="center">
+                    <Tooltip title="Acessar como" arrow placement="top">
+                      <IconButton onClick={() => null}>
+                        <LoginIcon />
+                      </IconButton>
+                    </Tooltip>
                     <Tooltip title="Visualizar" arrow placement="top">
-                      <IconButton onClick={() => handleOpenViewDialog(user)}>
+                      <IconButton
+                        onClick={() =>
+                          handleOpenFormCRUD(CRUDType.READ, usuario)
+                        }
+                      >
                         <Visibility />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Editar" arrow placement="top">
-                      <IconButton onClick={() => handleOpenEditDialog(user)}>
+                      <IconButton
+                        onClick={() =>
+                          handleOpenFormCRUD(CRUDType.UPDATE, usuario)
+                        }
+                      >
                         <Edit />
                       </IconButton>
                     </Tooltip>
                     <Tooltip
-                      title={user?.ativo ? "Desativar" : "Ativar"}
+                      title={usuario?.ativo ? "Desativar" : "Ativar"}
                       arrow
                       placement="top"
                     >
                       <Switch
-                        checked={user?.ativo}
-                        onChange={() => handleOpenDeactivateDialog(user)}
-                        color={user?.ativo ? "success" : "default"}
+                        checked={usuario?.ativo}
+                        onChange={() => handleOpenFormStatus(usuario)}
+                        color={usuario?.ativo ? "success" : "default"}
                       />
                     </Tooltip>
                   </TableCell>
@@ -149,7 +168,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50]}
         component="div"
-        count={filteredUsers?.length}
+        count={filteredList?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

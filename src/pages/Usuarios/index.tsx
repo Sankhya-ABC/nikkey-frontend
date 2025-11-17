@@ -1,114 +1,122 @@
 import { Add, Search } from "@mui/icons-material";
-import { Button, Grid, InputAdornment, TextField } from "@mui/material";
+import { Button, Grid, InputAdornment } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
-import { ModalDesativar } from "./ModaDesativar";
-import { ModalCadastrar } from "./ModalCadastrar";
-import { ModalEditar } from "./ModalEditar";
-import { ModalVisualizar } from "./ModalVisualizar";
+import { FormCRUDUsuario } from "./FormCRUDUsuario";
+import { FormStatus } from "./FormStatus";
 import { mockUsuarios } from "./provider";
 import { TableUsuarios } from "./TableUsuarios";
+import { Usuario } from "./types";
+import { CRUDType } from "../../types";
+import { useForm } from "react-hook-form";
+import { TextField } from "../../components/Form/Textfield";
+
+interface UsuarioSearch {
+  search: string;
+}
+
+const defaultValues: UsuarioSearch = {
+  search: "",
+};
 
 export const Usuarios = () => {
-  const [users, setUsers] = useState(mockUsuarios);
-  const [filteredUsers, setFilteredUsers] = useState(mockUsuarios);
+  // hooks
+  const { control, watch } = useForm<UsuarioSearch>({ defaultValues });
+
+  // useStates
+  // -- data
+  const [usuarios, setUsuarios] = useState(mockUsuarios);
+  const [filteredUsuarios, setFilteredUsuarios] = useState(mockUsuarios);
+  const [selectedUsuario, setSelectedUsuario] = useState<Usuario | null>(null);
+
+  // -- crud type
+  const [formType, setFormType] = useState<CRUDType>(CRUDType.CREATE);
+
+  // -- modals
+  const [openFormStatus, setOpenFormStatus] = useState(false);
+  const [openFormCRUDUsuario, setOpenFormCRUDUsuario] = useState(false);
+
+  // -- search
   const [loading, setLoading] = useState(true);
+  const search = watch("search");
 
-  const [selectedUser, setSelectedUser] = useState(null);
-
+  // -- table
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  // variables
+  const paginatedUsuarios = filteredUsuarios.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage,
+  );
 
-  const [openViewDialog, setOpenViewDialog] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [openDeactivateDialog, setOpenDeactivateDialog] = useState(false);
-  const [openCreateDialog, setOpenCreateDialog] = useState(false);
+  // handlers
 
-  useEffect(() => {
-    const filtered = users.filter(
-      (user) =>
-        user?.nome?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-        user?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
-    );
-    setFilteredUsers(filtered);
-    setPage(0);
-  }, [searchTerm, users]);
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event?.target?.value);
-  };
-
-  const handleChangePage = (event, newPage) => {
+  // -- table
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(parseInt(event?.target?.value, 10));
     setPage(0);
   };
 
-  const handleOpenViewDialog = (user) => {
-    setSelectedUser(user);
-    setOpenViewDialog(true);
+  // -- crud modals
+  const handleOpenFormCRUDUsuario = (
+    crudType: CRUDType,
+    usuario?: Usuario | null,
+  ) => {
+    setFormType(crudType);
+    setSelectedUsuario(usuario || null);
+    setOpenFormCRUDUsuario(true);
   };
 
-  const handleOpenEditDialog = (user) => {
-    setSelectedUser(user);
-    setOpenEditDialog(true);
+  const handleCloseFormCRUDUsuario = () => {
+    setSelectedUsuario(null);
+    setOpenFormCRUDUsuario(false);
   };
 
-  const handleOpenDeactivateDialog = (user) => {
-    setSelectedUser(user);
-    setOpenDeactivateDialog(true);
+  // -- status modal
+  const handleOpenFormStatus = (usuario?: Usuario | null) => {
+    setSelectedUsuario(usuario || null);
+    setOpenFormStatus(true);
   };
 
-  const handleOpenCreateDialog = () => {
-    setSelectedUser(null);
-    setOpenCreateDialog(true);
+  const handleCloseFormStatus = () => {
+    setSelectedUsuario(null);
+    setOpenFormStatus(false);
   };
 
-  const handleCloseViewDialog = () => {
-    setOpenViewDialog(false);
-    setSelectedUser(null);
-  };
-
-  const handleCloseEditDialog = () => {
-    setOpenEditDialog(false);
-    setSelectedUser(null);
-  };
-
-  const handleCloseDeactivateDialog = () => {
-    setOpenDeactivateDialog(false);
-    setSelectedUser(null);
-  };
-
-  const handleCloseCreateDialog = () => {
-    setOpenCreateDialog(false);
-    setSelectedUser(null);
-  };
-
-  const handleToggleUserStatus = () => {
-    if (selectedUser) {
-      const updatedUsers = users?.map((user) =>
-        user?.id === selectedUser?.id
+  const handleToggleUsuarioStatus = () => {
+    if (selectedUsuario) {
+      const updatedUsuarios = usuarios?.map((usuario) =>
+        usuario?.id === selectedUsuario.id
           ? {
-              ...user,
-              ativo: !user?.ativo,
+              ...usuario,
+              ativo: !usuario?.ativo,
             }
-          : user,
+          : usuario,
       );
-      setUsers(updatedUsers);
-      handleCloseDeactivateDialog();
+      setUsuarios(updatedUsuarios);
+      handleCloseFormStatus();
     }
   };
 
-  const paginatedUsers = filteredUsers.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage,
-  );
+  // useEffects
+  useEffect(() => {
+    const filtered = usuarios.filter(
+      (usuario) =>
+        usuario?.nome?.toLowerCase()?.includes(search?.toLowerCase()) ||
+        usuario?.email?.toLowerCase()?.includes(search?.toLowerCase()),
+    );
+    setFilteredUsuarios(filtered);
+    setPage(0);
+  }, [search, usuarios]);
 
   return (
     <Loading {...{ loading, setLoading }}>
@@ -121,7 +129,7 @@ export const Usuarios = () => {
           <Button
             variant="contained"
             startIcon={<Add />}
-            onClick={handleOpenCreateDialog}
+            onClick={() => handleOpenFormCRUDUsuario(CRUDType.CREATE, null)}
           >
             Cadastrar
           </Button>
@@ -129,18 +137,17 @@ export const Usuarios = () => {
 
         <Grid item size={{ xs: 12 }}>
           <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Pesquisar por nome ou email..."
-            value={searchTerm}
-            size="small"
-            onChange={handleSearchChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
+            control={control}
+            name="search"
+            TextFieldProps={{
+              InputProps: {
+                placeholder: "Pesquise por nome ou email...",
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              },
             }}
           />
         </Grid>
@@ -148,11 +155,10 @@ export const Usuarios = () => {
         <Grid item size={{ xs: 12 }}>
           <TableUsuarios
             {...{
-              paginatedUsers,
-              handleOpenViewDialog,
-              handleOpenEditDialog,
-              handleOpenDeactivateDialog,
-              filteredUsers,
+              paginatedList: paginatedUsuarios,
+              handleOpenFormCRUD: handleOpenFormCRUDUsuario,
+              handleOpenFormStatus,
+              filteredList: filteredUsuarios,
               rowsPerPage,
               page,
               handleChangePage,
@@ -161,35 +167,21 @@ export const Usuarios = () => {
           />
         </Grid>
 
-        <ModalVisualizar
+        <FormCRUDUsuario
           {...{
-            selectedUser,
-            openViewDialog,
-            handleCloseViewDialog,
+            open: openFormCRUDUsuario,
+            handleClose: handleCloseFormCRUDUsuario,
+            selected: selectedUsuario,
+            formType,
           }}
         />
 
-        <ModalEditar
+        <FormStatus
           {...{
-            selectedUser,
-            openEditDialog,
-            handleCloseEditDialog,
-          }}
-        />
-
-        <ModalDesativar
-          {...{
-            selectedUser,
-            handleToggleUserStatus,
-            openDeactivateDialog,
-            handleCloseDeactivateDialog,
-          }}
-        />
-
-        <ModalCadastrar
-          {...{
-            openCreateDialog,
-            handleCloseCreateDialog,
+            open: openFormStatus,
+            handleClose: handleCloseFormStatus,
+            selected: selectedUsuario,
+            handleToggle: handleToggleUsuarioStatus,
           }}
         />
       </Layout>
