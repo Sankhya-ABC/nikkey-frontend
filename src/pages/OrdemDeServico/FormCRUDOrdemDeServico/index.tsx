@@ -18,8 +18,16 @@ import { UploadEvidencias } from "./UploadEvidencias";
 import { Equipamentos } from "./Equipamentos";
 
 const defaultValues: OrdemServico = {
-  idCliente: "",
-  idTecnico: "",
+  id: null,
+  ativo: true,
+  cliente: {
+    id: "",
+    nome: "",
+  },
+  tecnico: {
+    id: "",
+    nome: "",
+  },
   data: {
     data: null,
     horaInicio: null,
@@ -111,12 +119,12 @@ const defaultValues: OrdemServico = {
   uploads: [],
 };
 
-interface ModalCadastrarProps {
+interface FormCRUDOrdemDeServicoProps {
   openCreateDialog: any;
   handleCloseCreateDialog: any;
 }
 
-export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
+export const FormCRUDOrdemDeServico: React.FC<FormCRUDOrdemDeServicoProps> = ({
   openCreateDialog,
   handleCloseCreateDialog,
 }) => {
@@ -174,7 +182,9 @@ export const ModalCadastrar: React.FC<ModalCadastrarProps> = ({
         </FormProvider>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCloseCreateDialog}>Cancelar</Button>
+        <Button variant="outlined" onClick={handleCloseCreateDialog}>
+          Cancelar
+        </Button>
         <Button variant="contained" onClick={handleCloseCreateDialog}>
           Salvar
         </Button>

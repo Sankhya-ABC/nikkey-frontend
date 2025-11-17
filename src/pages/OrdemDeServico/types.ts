@@ -40,7 +40,7 @@ export interface Consumo {
 }
 
 export interface InformacoesGerais {
-  id: number;
+  id: number | null;
   ativo: boolean;
   cliente: {
     id: number | "";

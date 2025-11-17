@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
 import { ModalDesativar } from "./ModaDesativar";
-import { ModalCadastrar } from "./ModalCadastrar";
+import { FormCRUDOrdemDeServico } from "./FormCRUDOrdemDeServico";
 import { ModalEditar } from "./ModalEditar";
 import { ModalVisualizar } from "./ModalVisualizar";
 import { mockOrdemDeServicos } from "./provider";
@@ -203,7 +203,7 @@ export const OrdemDeServico = () => {
           }}
         />
 
-        <ModalCadastrar
+        <FormCRUDOrdemDeServico
           {...{
             openCreateDialog,
             handleCloseCreateDialog,
