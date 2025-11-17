@@ -69,10 +69,10 @@ export const Clientes = () => {
   // -- crud modals
   const handleOpenFormCRUDCliente = (
     crudType: CRUDType,
-    costumer?: Cliente | null,
+    cliente?: Cliente | null,
   ) => {
     setFormType(crudType);
-    setSelectedCliente(costumer || null);
+    setSelectedCliente(cliente || null);
     setOpenFormCRUDCliente(true);
   };
 
@@ -82,8 +82,8 @@ export const Clientes = () => {
   };
 
   // -- status modal
-  const handleOpenFormStatus = (costumer?: Cliente | null) => {
-    setSelectedCliente(costumer || null);
+  const handleOpenFormStatus = (cliente?: Cliente | null) => {
+    setSelectedCliente(cliente || null);
     setOpenFormStatus(true);
   };
 
@@ -94,13 +94,13 @@ export const Clientes = () => {
 
   const handleToggleClienteStatus = () => {
     if (selectedCliente) {
-      const updatedClientes = clientes?.map((costumer) =>
-        costumer?.id === selectedCliente.id
+      const updatedClientes = clientes?.map((cliente) =>
+        cliente?.id === selectedCliente.id
           ? {
-              ...costumer,
-              ativo: !costumer?.ativo,
+              ...cliente,
+              ativo: !cliente?.ativo,
             }
-          : costumer,
+          : cliente,
       );
       setClientes(updatedClientes);
       handleCloseFormStatus();
@@ -110,11 +110,9 @@ export const Clientes = () => {
   // useEffects
   useEffect(() => {
     const filtered = clientes.filter(
-      (costumer) =>
-        costumer?.nomeFantasia
-          ?.toLowerCase()
-          ?.includes(search?.toLowerCase()) ||
-        costumer?.email?.toLowerCase()?.includes(search?.toLowerCase()),
+      (cliente) =>
+        cliente?.nomeFantasia?.toLowerCase()?.includes(search?.toLowerCase()) ||
+        cliente?.email?.toLowerCase()?.includes(search?.toLowerCase()),
     );
     setFilteredClientes(filtered);
     setPage(0);

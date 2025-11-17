@@ -30,8 +30,8 @@ interface TableClientesProps {
   ) => void;
   handleChangeRowsPerPage: (event: any) => void;
 
-  handleOpenFormCRUD: (crudType: CRUDType, costumer?: Cliente | null) => void;
-  handleOpenFormStatus: (costumer?: Cliente | null) => void;
+  handleOpenFormCRUD: (crudType: CRUDType, cliente?: Cliente | null) => void;
+  handleOpenFormStatus: (cliente?: Cliente | null) => void;
 }
 
 export const TableClientes: React.FC<TableClientesProps> = ({
@@ -109,16 +109,16 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedList?.map((costumer) => (
-                <TableRow key={costumer?.id} hover>
-                  <TableCell>{costumer?.nomeFantasia}</TableCell>
-                  <TableCell>{costumer?.email}</TableCell>
-                  <TableCell>{costumer?.departamento}</TableCell>
-                  <TableCell>{costumer?.dataCadastro as string}</TableCell>
+              paginatedList?.map((cliente) => (
+                <TableRow key={cliente?.id} hover>
+                  <TableCell>{cliente?.nomeFantasia}</TableCell>
+                  <TableCell>{cliente?.email}</TableCell>
+                  <TableCell>{cliente?.departamento}</TableCell>
+                  <TableCell>{cliente?.dataCadastro as string}</TableCell>
                   <TableCell>
                     <Chip
-                      label={costumer?.ativo ? "Ativo" : "Inativo"}
-                      color={costumer?.ativo ? "success" : "default"}
+                      label={cliente?.ativo ? "Ativo" : "Inativo"}
+                      color={cliente?.ativo ? "success" : "default"}
                       size="small"
                     />
                   </TableCell>
@@ -131,7 +131,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                     <Tooltip title="Visualizar" arrow placement="top">
                       <IconButton
                         onClick={() =>
-                          handleOpenFormCRUD(CRUDType.READ, costumer)
+                          handleOpenFormCRUD(CRUDType.READ, cliente)
                         }
                       >
                         <Visibility />
@@ -140,21 +140,21 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                     <Tooltip title="Editar" arrow placement="top">
                       <IconButton
                         onClick={() =>
-                          handleOpenFormCRUD(CRUDType.UPDATE, costumer)
+                          handleOpenFormCRUD(CRUDType.UPDATE, cliente)
                         }
                       >
                         <Edit />
                       </IconButton>
                     </Tooltip>
                     <Tooltip
-                      title={costumer?.ativo ? "Desativar" : "Ativar"}
+                      title={cliente?.ativo ? "Desativar" : "Ativar"}
                       arrow
                       placement="top"
                     >
                       <Switch
-                        checked={costumer?.ativo}
-                        onChange={() => handleOpenFormStatus(costumer)}
-                        color={costumer?.ativo ? "success" : "default"}
+                        checked={cliente?.ativo}
+                        onChange={() => handleOpenFormStatus(cliente)}
+                        color={cliente?.ativo ? "success" : "default"}
                       />
                     </Tooltip>
                   </TableCell>
