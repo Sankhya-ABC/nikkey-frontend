@@ -383,114 +383,294 @@ export const Visitas = () => {
 
       case View.WEEK:
         return (
-          <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%", overflow: "auto" }}>
             <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
+              <Box sx={{ width: 80, minWidth: 80 }}></Box>
               {weekDays.map((d, i) => (
-                <Box key={i} sx={{ flex: 1, textAlign: "center" }}>
+                <Box
+                  key={i}
+                  sx={{ flex: 1, textAlign: "center", minWidth: 120 }}
+                >
                   <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                    {formatDayShort(d)}
+                    {formatDayShort(d)} {formatDayNumber(d)}
                   </Typography>
                 </Box>
               ))}
             </Box>
-            <Box sx={{ display: "flex", width: "100%" }}>
-              {weekDays.map((d, i) => {
-                const dayVisits = getVisitsForDay(d);
-                const hasVisits = dayVisits.length > 0;
 
-                return (
+            {/* Grade de horários */}
+            <Box sx={{ width: "100%" }}>
+              {Array.from({ length: 24 }, (_, hour) => (
+                <Box
+                  key={hour}
+                  sx={{
+                    display: "flex",
+                    width: "100%",
+                    borderBottom: "1px solid #e0e0e0",
+                  }}
+                >
+                  {/* Coluna de horários */}
                   <Box
-                    key={i}
                     sx={{
-                      flex: 1,
-                      borderRadius: 1,
-                      p: 1,
+                      width: 80,
+                      minWidth: 80,
+                      py: 1,
                       textAlign: "center",
-                      height: "120px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      justifyContent: "flex-start",
-                      cursor: "pointer",
-                      mx: 0.5,
-                      boxSizing: "border-box",
-                      border: "1px solid",
-                      borderColor: "divider",
-                      bgcolor: hasVisits ? "#fffde7" : "background.paper",
-                      "&:hover": {
-                        bgcolor: hasVisits ? "#fff9c4" : "action.hover",
-                      },
+                      borderRight: "1px solid #e0e0e0",
+                      bgcolor: "background.default",
                     }}
-                    onClick={() => handleDayClick(d)}
                   >
-                    <Typography variant="body2">
-                      {formatDayNumber(d)}
+                    <Typography variant="caption">
+                      {hour.toString().padStart(2, "0")}:00
                     </Typography>
-                    {hasVisits && (
-                      <Typography
-                        variant="caption"
-                        sx={{ mt: 0.5, fontSize: "0.7rem" }}
-                      >
-                        {dayVisits.length}{" "}
-                        {dayVisits.length === 1 ? "Visita" : "Visitas"}
-                      </Typography>
-                    )}
                   </Box>
-                );
-              })}
+
+                  {/* Colunas dos dias */}
+                  {weekDays.map((day, dayIndex) => {
+                    const dayVisits = getVisitsForDay(day);
+                    const hourVisits = dayVisits.filter((visit) => {
+                      const visitHour = parseInt(
+                        visit.horarioInicial.split(":")[0],
+                      );
+                      return visitHour === hour;
+                    });
+
+                    return (
+                      <Box
+                        key={dayIndex}
+                        sx={{
+                          flex: 1,
+                          minWidth: 120,
+                          minHeight: 60,
+                          position: "relative",
+                          borderRight: "1px solid #e0e0e0",
+                          bgcolor: "background.paper",
+                          "&:hover": {
+                            bgcolor: "action.hover",
+                          },
+                        }}
+                        onClick={() => handleDayClick(day)}
+                      >
+                        {/* Divisões de 5 minutos */}
+                        {Array.from({ length: 12 }, (_, minuteIndex) => (
+                          <Box
+                            key={minuteIndex}
+                            sx={{
+                              height: 5,
+                              borderBottom: "1px solid #f0f0f0",
+                            }}
+                          />
+                        ))}
+
+                        {/* Visitas */}
+                        {hourVisits.map((visit, visitIndex) => {
+                          const startMinutes = parseInt(
+                            visit.horarioInicial.split(":")[1],
+                          );
+                          const endMinutes = parseInt(
+                            visit.horarioFinal.split(":")[1],
+                          );
+                          const startHour = parseInt(
+                            visit.horarioInicial.split(":")[0],
+                          );
+                          const endHour = parseInt(
+                            visit.horarioFinal.split(":")[0],
+                          );
+
+                          const duration =
+                            (endHour - startHour) * 60 +
+                            (endMinutes - startMinutes);
+                          const height = (duration / 60) * 60; // altura proporcional
+
+                          return (
+                            <Box
+                              key={visitIndex}
+                              sx={{
+                                position: "absolute",
+                                top: (startMinutes / 60) * 60,
+                                left: 4,
+                                right: 4,
+                                height: height,
+                                bgcolor: "#fffde7",
+                                border: "1px solid #ffeb3b",
+                                borderRadius: 1,
+                                p: 0.5,
+                                cursor: "pointer",
+                                zIndex: 1,
+                                "&:hover": {
+                                  bgcolor: "#fff9c4",
+                                },
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditVisit(visit);
+                              }}
+                            >
+                              <Typography
+                                variant="caption"
+                                sx={{ fontWeight: "bold", fontSize: "0.6rem" }}
+                              >
+                                {visit.empresa}
+                              </Typography>
+                              <Typography
+                                variant="caption"
+                                display="block"
+                                sx={{ fontSize: "0.55rem" }}
+                              >
+                                {visit.horarioInicial} - {visit.horarioFinal}
+                              </Typography>
+                            </Box>
+                          );
+                        })}
+                      </Box>
+                    );
+                  })}
+                </Box>
+              ))}
             </Box>
           </Box>
         );
 
       case View.DAY:
         const dayVisitsDisplay = getVisitsForDay(activeDate);
-        const hasVisits = dayVisitsDisplay.length > 0;
         return (
-          <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%", overflow: "auto" }}>
             <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
+              <Box sx={{ width: 80, minWidth: 80 }}></Box>
               <Box sx={{ flex: 1, textAlign: "center" }}>
                 <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                  {formatDayShort(activeDate)}
+                  {formatDayShort(activeDate)} {formatDayNumber(activeDate)}
                 </Typography>
               </Box>
             </Box>
-            <Box sx={{ display: "flex", width: "100%" }}>
-              <Box
-                sx={{
-                  flex: 1,
-                  borderRadius: 1,
-                  p: 1,
-                  textAlign: "center",
-                  height: "120px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                  cursor: "pointer",
-                  mx: 0.5,
-                  boxSizing: "border-box",
-                  border: "1px solid",
-                  borderColor: "divider",
-                  bgcolor: hasVisits ? "#fffde7" : "background.paper",
-                  "&:hover": {
-                    bgcolor: hasVisits ? "#fff9c4" : "action.hover",
-                  },
-                }}
-                onClick={() => handleDayClick(activeDate)}
-              >
-                <Typography variant="body2">
-                  {formatDayNumber(activeDate)}
-                </Typography>
-                {hasVisits && (
-                  <Typography
-                    variant="caption"
-                    sx={{ mt: 0.5, fontSize: "0.7rem" }}
+
+            {/* Grade de horários */}
+            <Box sx={{ width: "100%" }}>
+              {Array.from({ length: 24 }, (_, hour) => (
+                <Box
+                  key={hour}
+                  sx={{
+                    display: "flex",
+                    width: "100%",
+                    borderBottom: "1px solid #e0e0e0",
+                  }}
+                >
+                  {/* Coluna de horários */}
+                  <Box
+                    sx={{
+                      width: 80,
+                      minWidth: 80,
+                      py: 1,
+                      textAlign: "center",
+                      borderRight: "1px solid #e0e0e0",
+                      bgcolor: "background.default",
+                    }}
                   >
-                    {dayVisitsDisplay.length}{" "}
-                    {dayVisitsDisplay.length === 1 ? "Visita" : "Visitas"}
-                  </Typography>
-                )}
-              </Box>
+                    <Typography variant="caption">
+                      {hour.toString().padStart(2, "0")}:00
+                    </Typography>
+                  </Box>
+
+                  {/* Coluna do dia */}
+                  <Box
+                    sx={{
+                      flex: 1,
+                      minHeight: 60,
+                      position: "relative",
+                      bgcolor: "background.paper",
+                      "&:hover": {
+                        bgcolor: "action.hover",
+                      },
+                    }}
+                    onClick={() => handleDayClick(activeDate)}
+                  >
+                    {/* Divisões de 5 minutos */}
+                    {Array.from({ length: 12 }, (_, minuteIndex) => (
+                      <Box
+                        key={minuteIndex}
+                        sx={{
+                          height: 5,
+                          borderBottom: "1px solid #f0f0f0",
+                        }}
+                      />
+                    ))}
+
+                    {/* Visitas */}
+                    {dayVisitsDisplay
+                      .filter((visit) => {
+                        const visitHour = parseInt(
+                          visit.horarioInicial.split(":")[0],
+                        );
+                        return visitHour === hour;
+                      })
+                      .map((visit, visitIndex) => {
+                        const startMinutes = parseInt(
+                          visit.horarioInicial.split(":")[1],
+                        );
+                        const endMinutes = parseInt(
+                          visit.horarioFinal.split(":")[1],
+                        );
+                        const startHour = parseInt(
+                          visit.horarioInicial.split(":")[0],
+                        );
+                        const endHour = parseInt(
+                          visit.horarioFinal.split(":")[0],
+                        );
+
+                        const duration =
+                          (endHour - startHour) * 60 +
+                          (endMinutes - startMinutes);
+                        const height = (duration / 60) * 60;
+
+                        return (
+                          <Box
+                            key={visitIndex}
+                            sx={{
+                              position: "absolute",
+                              top: (startMinutes / 60) * 60,
+                              left: 4,
+                              right: 4,
+                              height: height,
+                              bgcolor: "#fffde7",
+                              border: "1px solid #ffeb3b",
+                              borderRadius: 1,
+                              p: 0.5,
+                              cursor: "pointer",
+                              zIndex: 1,
+                              "&:hover": {
+                                bgcolor: "#fff9c4",
+                              },
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditVisit(visit);
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              sx={{ fontWeight: "bold", fontSize: "0.6rem" }}
+                            >
+                              {visit.empresa} - {visit.tecnico}
+                            </Typography>
+                            <Typography
+                              variant="caption"
+                              display="block"
+                              sx={{ fontSize: "0.55rem" }}
+                            >
+                              {visit.horarioInicial} - {visit.horarioFinal}
+                            </Typography>
+                            <Typography
+                              variant="caption"
+                              sx={{ fontSize: "0.55rem" }}
+                            >
+                              {visit.descricao}
+                            </Typography>
+                          </Box>
+                        );
+                      })}
+                  </Box>
+                </Box>
+              ))}
             </Box>
           </Box>
         );
