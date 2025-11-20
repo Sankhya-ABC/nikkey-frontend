@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { VisitaForm } from ".";
+import { VisitaForm } from "./type";
 
 interface MonthProps {
   activeDate: Date;

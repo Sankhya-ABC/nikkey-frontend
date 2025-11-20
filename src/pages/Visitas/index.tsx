@@ -1,27 +1,13 @@
-import { Box, FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";
 import { Modal } from "./Modal";
 import { Month } from "./Month";
 import { SelectCalendarDate } from "./SelectCalendarDate";
+import { SelectCalendarView } from "./SelectCalendarView";
 import { Week } from "./Week";
-
-export enum View {
-  MONTH = "month",
-  WEEK = "week",
-  DAY = "day",
-}
-
-export interface VisitaForm {
-  id: string;
-  empresa: string;
-  tecnico: string;
-  dataVisita: Date;
-  horaInicial: string;
-  horaFinal: string;
-  descricao: string;
-}
+import { View, VisitaForm } from "./type";
+import { empresasOptions, tecnicosOptions } from "./provider";
 
 const startOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth(), 1);
 const endOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth() + 1, 0);
@@ -67,10 +53,6 @@ const generateTimeOptions = () => {
   }
   return options;
 };
-
-const empresasOptions = ["Empresa A", "Empresa B", "Empresa C", "Empresa D"];
-
-const tecnicosOptions = ["Técnico 1", "Técnico 2", "Técnico 3", "Técnico 4"];
 
 const simulateBackendRequest = (month: number, year: number) => {
   const visits: VisitaForm[] = [];
@@ -275,7 +257,7 @@ export const Visitas = () => {
     handleCloseModal();
   };
 
-  const handleTitleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleSelectCalendarDate = (event: React.MouseEvent<HTMLElement>) => {
     setTempDate(new Date(activeDate));
     setDatePickerAnchor(event.currentTarget);
   };
@@ -337,32 +319,13 @@ export const Visitas = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <RadioGroup
-          row
-          value={view}
-          onChange={(e) => setView(e.target.value as View)}
-          aria-label="view"
-        >
-          <FormControlLabel
-            value={View.MONTH}
-            control={<Radio />}
-            label="Mês"
-          />
-          <FormControlLabel
-            value={View.WEEK}
-            control={<Radio />}
-            label="Semana"
-          />
-          <FormControlLabel value={View.DAY} control={<Radio />} label="Dia" />
-        </RadioGroup>
-      </Box>
+      <SelectCalendarView {...{ view, setView }} />
 
       <CalendarContainer
         {...{
           view,
           handlePrev,
-          handleTitleClick,
+          handleSelectCalendarDate,
           getTitle,
           handleNext,
         }}

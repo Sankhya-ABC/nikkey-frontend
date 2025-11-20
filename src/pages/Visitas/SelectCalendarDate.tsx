@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { View } from ".";
+import { View } from "./type";
 
 interface SelectCalendarDateProps {
   datePickerAnchor: HTMLElement | null;

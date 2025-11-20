@@ -1,24 +1,24 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Box, IconButton, Paper, Tooltip, Typography } from "@mui/material";
-import { View } from ".";
 import { ReactNode } from "react";
+import { View } from "./type";
 
 interface CalendarContainerProps {
   view: any;
   handlePrev: any;
-  handleTitleClick: any;
-  getTitle: any;
   handleNext: any;
+  handleSelectCalendarDate: any;
+  getTitle: any;
   children: ReactNode;
 }
 
 export const CalendarContainer: React.FC<CalendarContainerProps> = ({
   view,
   handlePrev,
-  handleTitleClick,
-  getTitle,
   handleNext,
+  handleSelectCalendarDate,
+  getTitle,
   children,
 }) => {
   return (
@@ -59,7 +59,7 @@ export const CalendarContainer: React.FC<CalendarContainerProps> = ({
             cursor: "pointer",
             "&:hover": { textDecoration: "underline" },
           }}
-          onClick={handleTitleClick}
+          onClick={handleSelectCalendarDate}
         >
           {getTitle()}
         </Typography>
