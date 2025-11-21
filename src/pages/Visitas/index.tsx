@@ -1,31 +1,24 @@
 import { useEffect, useState } from "react";
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";
-import { Modal } from "./Modal";
 import { Month } from "./Month";
 import { SelectCalendarDate } from "./SelectCalendarDate";
 import { SelectCalendarView } from "./SelectCalendarView";
+import { VisitaModal } from "./VisitaModal";
 import { Week } from "./Week";
-import {
-  empresasOptions,
-  simulateBackendRequest,
-  tecnicosOptions,
-} from "./provider";
-import { View, VisitaForm } from "./type";
+import { simulateBackendRequest } from "./provider";
+import { ModalMode, View, VisitaForm } from "./type";
+import { CRUDType } from "../../types";
 
 export const Visitas = () => {
   const [view, setView] = useState<View>(View.MONTH);
   const [activeDate, setActiveDate] = useState<Date>(new Date());
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<"list" | "form">("list");
+  const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.LIST);
+  const [formType, setFormType] = useState<CRUDType>(CRUDType.CREATE);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [empresa, setEmpresa] = useState("");
-  const [tecnico, setTecnico] = useState("");
-  const [horaInicial, sethoraInicial] = useState("");
-  const [horaFinal, sethoraFinal] = useState("");
-  const [descricao, setDescricao] = useState("");
+  const [selectedVisit, setSelectedVisit] = useState<VisitaForm | null>(null);
   const [monthVisits, setMonthVisits] = useState<VisitaForm[]>([]);
-  const [editingVisit, setEditingVisit] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [datePickerAnchor, setDatePickerAnchor] = useState<HTMLElement | null>(
     null,
@@ -34,57 +27,52 @@ export const Visitas = () => {
 
   const handleDayClick = (date: Date) => {
     setSelectedDate(date);
-    setModalMode("list");
+    setModalMode(ModalMode.LIST);
+    setFormType(CRUDType.CREATE);
     setModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedDate(null);
-    setModalMode("list");
-    setEditingVisit(null);
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setEmpresa("");
-    setTecnico("");
-    sethoraInicial("");
-    sethoraFinal("");
-    setDescricao("");
-    setEditingVisit(null);
+    setModalMode(ModalMode.LIST);
+    setSelectedVisit(null);
+    setFormType(CRUDType.CREATE);
   };
 
   const handleNewVisit = () => {
-    setModalMode("form");
-    resetForm();
+    setModalMode(ModalMode.FORM);
+    setFormType(CRUDType.CREATE);
+    setSelectedVisit(null);
   };
 
   const handleEditVisit = (visit: VisitaForm) => {
-    setEditingVisit(visit);
-    setEmpresa(visit.empresa);
-    setTecnico(visit.tecnico);
-    sethoraInicial(visit.horaInicial);
-    sethoraFinal(visit.horaFinal);
-    setDescricao(visit.descricao);
-    setModalMode("form");
+    setSelectedVisit(visit);
+    setModalMode(ModalMode.FORM);
+    setFormType(CRUDType.UPDATE);
   };
 
-  const handleSubmit = () => {
-    console.log({
-      id: editingVisit?.id || `new-${Date.now()}`,
-      empresa,
-      tecnico,
-      dataVisita: selectedDate,
-      horaInicial,
-      horaFinal,
-      descricao,
+  const handleModeChange = (mode: ModalMode) => {
+    setModalMode(mode);
+    if (mode === ModalMode.LIST) {
+      setFormType(CRUDType.CREATE);
+      setSelectedVisit(null);
+    }
+  };
+
+  const handleCRUDSubmit = (data: VisitaForm) => {
+    console.log("Dados do formulário:", {
+      ...data,
+      id: formType === CRUDType.UPDATE ? selectedVisit?.id : null,
     });
+
     handleCloseModal();
+
+    fetchMonthVisits(activeDate);
   };
 
   // handlers
-  // -- select caldendar date
+  // -- select calendar date
   const handleDatePickerClose = () => {
     setDatePickerAnchor(null);
   };
@@ -188,30 +176,19 @@ export const Visitas = () => {
         }}
       />
 
-      <Modal
+      <VisitaModal
         {...{
           modalOpen,
           handleCloseModal,
+          modalMode,
+          formType,
           selectedDate,
           dayVisits,
+          selectedVisit,
           handleEditVisit,
           handleNewVisit,
-          editingVisit,
-          setEmpresa,
-          empresasOptions,
-          tecnico,
-          setTecnico,
-          modalMode,
-          empresa,
-          tecnicosOptions,
-          horaInicial,
-          sethoraInicial,
-          horaFinal,
-          sethoraFinal,
-          descricao,
-          setDescricao,
-          setModalMode,
-          handleSubmit,
+          handleCRUDSubmit,
+          handleModeChange,
         }}
       />
     </>

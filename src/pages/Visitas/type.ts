@@ -5,11 +5,16 @@ export enum View {
 }
 
 export interface VisitaForm {
-  id: string;
+  id: string | null;
   empresa: string;
   tecnico: string;
   dataVisita: Date;
   horaInicial: string;
   horaFinal: string;
   descricao: string;
+}
+
+export enum ModalMode {
+  LIST = "list",
+  FORM = "form",
 }
