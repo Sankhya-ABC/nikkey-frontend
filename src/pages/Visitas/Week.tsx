@@ -1,25 +1,30 @@
 import { Box, Typography } from "@mui/material";
 import { VisitaForm } from "./type";
+import { addDays, formatDayNumber, formatDayShort, startOfWeek } from "./utils";
+import { useMemo } from "react";
 
 interface WeekProps {
-  weekDays: Date[];
-
-  formatDayShort: (d: Date) => string;
-  getVisitsForDay: (date: Date) => VisitaForm[];
+  activeDate: Date;
+  handleGetVisitsForDay: (date: Date) => VisitaForm[];
   handleDayClick: (date: Date) => void;
-  formatDayNumber: (d: Date) => number;
-
   handleEditVisit: (visit: VisitaForm) => void;
 }
 
 export const Week: React.FC<WeekProps> = ({
-  weekDays,
-  formatDayShort,
-  getVisitsForDay,
+  activeDate,
+  handleGetVisitsForDay,
   handleDayClick,
-  formatDayNumber,
   handleEditVisit,
 }) => {
+  const weekDays = useMemo(() => {
+    const start = startOfWeek(activeDate);
+    const days: Date[] = [];
+    for (let i = 0; i < 7; i++) {
+      days.push(addDays(start, i));
+    }
+    return days;
+  }, [activeDate]);
+
   return (
     <Box sx={{ width: "100%", overflow: "auto" }}>
       <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
@@ -59,7 +64,7 @@ export const Week: React.FC<WeekProps> = ({
             </Box>
 
             {weekDays.map((day, dayIndex) => {
-              const dayVisits = getVisitsForDay(day);
+              const dayVisits = handleGetVisitsForDay(day);
               const hourVisits = dayVisits.filter((visit) => {
                 const visitHour = parseInt(visit.horaInicial.split(":")[0]);
                 return visitHour === hour;

@@ -14,7 +14,7 @@ interface SelectCalendarDateProps {
   view: View;
   tempDate: Date;
   setTempDate: React.Dispatch<React.SetStateAction<Date>>;
-  handleDateChange: () => void;
+  handleCalendarDateChange: () => void;
 }
 
 export const SelectCalendarDate: React.FC<SelectCalendarDateProps> = ({
@@ -23,7 +23,7 @@ export const SelectCalendarDate: React.FC<SelectCalendarDateProps> = ({
   view,
   tempDate,
   setTempDate,
-  handleDateChange,
+  handleCalendarDateChange,
 }) => {
   return (
     <Popover
@@ -113,7 +113,7 @@ export const SelectCalendarDate: React.FC<SelectCalendarDateProps> = ({
           sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 2 }}
         >
           <Button onClick={handleDatePickerClose}>Cancelar</Button>
-          <Button variant="contained" onClick={handleDateChange}>
+          <Button variant="contained" onClick={handleCalendarDateChange}>
             Aplicar
           </Button>
         </Box>

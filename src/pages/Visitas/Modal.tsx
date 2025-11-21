@@ -1,3 +1,4 @@
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
   Button,
@@ -10,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import { generateTimeOptions } from "./utils";
 
 interface ModalProps {
   modalOpen: any;
@@ -29,7 +30,6 @@ interface ModalProps {
   tecnicosOptions: any;
   horaInicial: any;
   sethoraInicial: any;
-  timeOptions: any;
   horaFinal: any;
   sethoraFinal: any;
   descricao: any;
@@ -55,7 +55,6 @@ export const Modal: React.FC<ModalProps> = ({
   tecnicosOptions,
   horaInicial,
   sethoraInicial,
-  timeOptions,
   horaFinal,
   sethoraFinal,
   descricao,
@@ -63,6 +62,8 @@ export const Modal: React.FC<ModalProps> = ({
   setModalMode,
   handleSubmit,
 }) => {
+  const timeOptions = generateTimeOptions();
+
   return (
     <ModalUI open={modalOpen} onClose={handleCloseModal}>
       <Box

@@ -1,23 +1,48 @@
 import { Box, Typography } from "@mui/material";
 import { VisitaForm } from "./type";
+import { useMemo } from "react";
+import {
+  addDays,
+  endOfMonth,
+  formatDayNumber,
+  formatDayShort,
+  startOfMonth,
+  startOfWeek,
+} from "./utils";
 
 interface MonthProps {
   activeDate: Date;
-  monthMatrix: Date[][];
-  formatDayShort: (d: Date) => string;
-  getVisitsForDay: (date: Date) => VisitaForm[];
+  handleGetVisitsForDay: (date: Date) => VisitaForm[];
   handleDayClick: (date: Date) => void;
-  formatDayNumber: (d: Date) => number;
 }
 
 export const Month: React.FC<MonthProps> = ({
   activeDate,
-  monthMatrix,
-  formatDayShort,
-  getVisitsForDay,
+  handleGetVisitsForDay,
   handleDayClick,
-  formatDayNumber,
 }) => {
+  const monthMatrix = useMemo(() => {
+    const start = startOfMonth(activeDate);
+    const end = endOfMonth(activeDate);
+
+    const firstCell = startOfWeek(start);
+    const weeks: Date[][] = [];
+    let cursor = new Date(firstCell);
+    while (cursor <= end || weeks.length < 6) {
+      const week: Date[] = [];
+      for (let i = 0; i < 7; i++) {
+        week.push(new Date(cursor));
+        cursor = addDays(cursor, 1);
+      }
+      weeks.push(week);
+
+      if (cursor > end && weeks.length >= 4) {
+        break;
+      }
+    }
+    return weeks;
+  }, [activeDate]);
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
@@ -43,7 +68,7 @@ export const Month: React.FC<MonthProps> = ({
           >
             {week.map((day, di) => {
               const isCurrentMonth = day.getMonth() === activeDate.getMonth();
-              const dayVisits = getVisitsForDay(day);
+              const dayVisits = handleGetVisitsForDay(day);
               const hasVisits = dayVisits.length > 0;
 
               return (

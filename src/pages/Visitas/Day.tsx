@@ -1,23 +1,18 @@
 import { Box, Typography } from "@mui/material";
 import { VisitaForm } from "./type";
+import { formatDayNumber, formatDayShort } from "./utils";
 
 interface DayProps {
   dayVisitsDisplay: VisitaForm[];
-
   activeDate: Date;
-  formatDayShort: (d: Date) => string;
   handleDayClick: (date: Date) => void;
-  formatDayNumber: (d: Date) => number;
-
   handleEditVisit: (visit: VisitaForm) => void;
 }
 
 export const Day: React.FC<DayProps> = ({
   dayVisitsDisplay,
   activeDate,
-  formatDayShort,
   handleDayClick,
-  formatDayNumber,
   handleEditVisit,
 }) => {
   return (

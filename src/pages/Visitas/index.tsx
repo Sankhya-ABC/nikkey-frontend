@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";
 import { Modal } from "./Modal";
@@ -6,81 +6,12 @@ import { Month } from "./Month";
 import { SelectCalendarDate } from "./SelectCalendarDate";
 import { SelectCalendarView } from "./SelectCalendarView";
 import { Week } from "./Week";
+import {
+  empresasOptions,
+  simulateBackendRequest,
+  tecnicosOptions,
+} from "./provider";
 import { View, VisitaForm } from "./type";
-import { empresasOptions, tecnicosOptions } from "./provider";
-
-const startOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth(), 1);
-const endOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth() + 1, 0);
-const addMonths = (d: Date, n: number) =>
-  new Date(d.getFullYear(), d.getMonth() + n, 1);
-const addDays = (d: Date, n: number) =>
-  new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
-const addWeeks = (d: Date, n: number) => addDays(d, n * 7);
-const startOfWeek = (d: Date, weekStartsOnMonday = true) => {
-  const day = d.getDay();
-  const diff = weekStartsOnMonday ? (day === 0 ? -6 : 1 - day) : -day;
-  const result = new Date(d);
-  result.setDate(d.getDate() + diff);
-  result.setHours(0, 0, 0, 0);
-  return result;
-};
-const endOfWeek = (d: Date) => addDays(startOfWeek(d), 6);
-
-const formatMonthYear = (d: Date) => {
-  const formated = d.toLocaleDateString("pt-BR", {
-    month: "long",
-    year: "numeric",
-  });
-  return formated.charAt(0).toUpperCase() + formated.slice(1);
-};
-
-const formatDayShort = (d: Date) => {
-  const formated = d.toLocaleDateString("pt-BR", { weekday: "short" });
-  return formated.charAt(0).toUpperCase() + formated.slice(1).replace(".", "");
-};
-
-const formatDayNumber = (d: Date) => d.getDate();
-
-const formatDate = (d: Date) => d.toLocaleDateString("pt-BR");
-
-const generateTimeOptions = () => {
-  const options = [];
-  for (let hour = 0; hour < 24; hour++) {
-    for (let minute = 0; minute < 60; minute += 5) {
-      const timeString = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-      options.push(timeString);
-    }
-  }
-  return options;
-};
-
-const simulateBackendRequest = (month: number, year: number) => {
-  const visits: VisitaForm[] = [];
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  for (let i = 1; i <= daysInMonth; i++) {
-    if (Math.random() > 0.7) {
-      const visitCount = Math.floor(Math.random() * 3) + 1;
-      for (let j = 0; j < visitCount; j++) {
-        visits.push({
-          id: `${year}-${month}-${i}-${j}`,
-          empresa:
-            empresasOptions[Math.floor(Math.random() * empresasOptions.length)],
-          tecnico:
-            tecnicosOptions[Math.floor(Math.random() * tecnicosOptions.length)],
-          dataVisita: new Date(year, month, i),
-          horaInicial: "08:00",
-          horaFinal: "09:00",
-          descricao: `Visita ${j + 1} do dia ${i}`,
-        });
-      }
-    }
-  }
-
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(visits), 300);
-  });
-};
 
 export const Visitas = () => {
   const [view, setView] = useState<View>(View.MONTH);
@@ -100,111 +31,6 @@ export const Visitas = () => {
     null,
   );
   const [tempDate, setTempDate] = useState<Date>(new Date());
-
-  const timeOptions = useMemo(() => generateTimeOptions(), []);
-
-  const fetchMonthVisits = async (date: Date) => {
-    setLoading(true);
-    try {
-      const visits = await simulateBackendRequest(
-        date.getMonth(),
-        date.getFullYear(),
-      );
-      setMonthVisits(visits as any[]);
-    } catch (error) {
-      console.error("Erro ao buscar visitas:", error);
-      setMonthVisits([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMonthVisits(activeDate);
-  }, [activeDate]);
-
-  const getVisitsForDay = (date: Date) => {
-    return monthVisits.filter(
-      (visit) =>
-        visit.dataVisita!.getDate() === date.getDate() &&
-        visit.dataVisita!.getMonth() === date.getMonth() &&
-        visit.dataVisita!.getFullYear() === date.getFullYear(),
-    );
-  };
-
-  const getTitle = () => {
-    switch (view) {
-      case View.MONTH:
-        return formatMonthYear(activeDate);
-      case View.WEEK:
-        const weekStart = startOfWeek(activeDate);
-        const weekEnd = endOfWeek(activeDate);
-        return `Semana: ${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
-      case View.DAY:
-        return `Dia: ${formatDate(activeDate)}`;
-      default:
-        return formatMonthYear(activeDate);
-    }
-  };
-
-  const monthMatrix = useMemo(() => {
-    const start = startOfMonth(activeDate);
-    const end = endOfMonth(activeDate);
-
-    const firstCell = startOfWeek(start);
-    const weeks: Date[][] = [];
-    let cursor = new Date(firstCell);
-    while (cursor <= end || weeks.length < 6) {
-      const week: Date[] = [];
-      for (let i = 0; i < 7; i++) {
-        week.push(new Date(cursor));
-        cursor = addDays(cursor, 1);
-      }
-      weeks.push(week);
-
-      if (cursor > end && weeks.length >= 4) {
-        break;
-      }
-    }
-    return weeks;
-  }, [activeDate]);
-
-  const weekDays = useMemo(() => {
-    const start = startOfWeek(activeDate);
-    const days: Date[] = [];
-    for (let i = 0; i < 7; i++) {
-      days.push(addDays(start, i));
-    }
-    return days;
-  }, [activeDate]);
-
-  const handlePrev = () => {
-    switch (view) {
-      case View.MONTH:
-        setActiveDate((d) => addMonths(d, -1));
-        break;
-      case View.WEEK:
-        setActiveDate((d) => addWeeks(d, -1));
-        break;
-      case View.DAY:
-        setActiveDate((d) => addDays(d, -1));
-        break;
-    }
-  };
-
-  const handleNext = () => {
-    switch (view) {
-      case View.MONTH:
-        setActiveDate((d) => addMonths(d, 1));
-        break;
-      case View.WEEK:
-        setActiveDate((d) => addWeeks(d, 1));
-        break;
-      case View.DAY:
-        setActiveDate((d) => addDays(d, 1));
-        break;
-    }
-  };
 
   const handleDayClick = (date: Date) => {
     setSelectedDate(date);
@@ -257,65 +83,54 @@ export const Visitas = () => {
     handleCloseModal();
   };
 
+  // handlers
+  // -- select caldendar date
+  const handleDatePickerClose = () => {
+    setDatePickerAnchor(null);
+  };
+
   const handleSelectCalendarDate = (event: React.MouseEvent<HTMLElement>) => {
     setTempDate(new Date(activeDate));
     setDatePickerAnchor(event.currentTarget);
   };
 
-  const handleDatePickerClose = () => {
-    setDatePickerAnchor(null);
-  };
-
-  const handleDateChange = () => {
+  const handleCalendarDateChange = () => {
     setActiveDate(new Date(tempDate));
     handleDatePickerClose();
   };
 
-  const dayVisits = selectedDate ? getVisitsForDay(selectedDate) : [];
+  // -- calendar day's visits
+  const handleGetVisitsForDay = (date: Date) => {
+    return monthVisits.filter(
+      (visit) =>
+        visit.dataVisita!.getDate() === date.getDate() &&
+        visit.dataVisita!.getMonth() === date.getMonth() &&
+        visit.dataVisita!.getFullYear() === date.getFullYear(),
+    );
+  };
 
-  const renderCalendarContent = () => {
-    switch (view) {
-      case View.MONTH:
-        return (
-          <Month
-            {...{
-              activeDate,
-              monthMatrix,
-              formatDayShort,
-              getVisitsForDay,
-              handleDayClick,
-              formatDayNumber,
-            }}
-          />
-        );
-      case View.WEEK:
-        return (
-          <Week
-            {...{
-              weekDays,
-              formatDayShort,
-              getVisitsForDay,
-              handleDayClick,
-              formatDayNumber,
-              handleEditVisit,
-            }}
-          />
-        );
-      case View.DAY:
-        return (
-          <Day
-            {...{
-              dayVisitsDisplay: getVisitsForDay(activeDate),
-              activeDate,
-              formatDayShort,
-              handleDayClick,
-              formatDayNumber,
-              handleEditVisit,
-            }}
-          />
-        );
+  const dayVisits = selectedDate ? handleGetVisitsForDay(selectedDate) : [];
+
+  // requisitions
+  const fetchMonthVisits = async (date: Date) => {
+    setLoading(true);
+    try {
+      const visits = await simulateBackendRequest(
+        date.getMonth(),
+        date.getFullYear(),
+      );
+      setMonthVisits(visits);
+    } catch (error) {
+      console.error("Erro ao buscar visitas:", error);
+      setMonthVisits([]);
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchMonthVisits(activeDate);
+  }, [activeDate]);
 
   return (
     <>
@@ -324,13 +139,42 @@ export const Visitas = () => {
       <CalendarContainer
         {...{
           view,
-          handlePrev,
           handleSelectCalendarDate,
-          getTitle,
-          handleNext,
+          activeDate,
+          setActiveDate,
         }}
       >
-        {renderCalendarContent()}
+        {view === View.MONTH && (
+          <Month
+            {...{
+              activeDate,
+              handleGetVisitsForDay,
+              handleDayClick,
+            }}
+          />
+        )}
+
+        {view === View.WEEK && (
+          <Week
+            {...{
+              activeDate,
+              handleGetVisitsForDay,
+              handleDayClick,
+              handleEditVisit,
+            }}
+          />
+        )}
+
+        {view === View.DAY && (
+          <Day
+            {...{
+              dayVisitsDisplay: handleGetVisitsForDay(activeDate),
+              activeDate,
+              handleDayClick,
+              handleEditVisit,
+            }}
+          />
+        )}
       </CalendarContainer>
 
       <SelectCalendarDate
@@ -340,7 +184,7 @@ export const Visitas = () => {
           view,
           tempDate,
           setTempDate,
-          handleDateChange,
+          handleCalendarDateChange,
         }}
       />
 
@@ -362,7 +206,6 @@ export const Visitas = () => {
           tecnicosOptions,
           horaInicial,
           sethoraInicial,
-          timeOptions,
           horaFinal,
           sethoraFinal,
           descricao,
