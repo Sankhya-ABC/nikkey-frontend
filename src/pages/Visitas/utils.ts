@@ -1,3 +1,5 @@
+import { View } from "./type";
+
 export const startOfMonth = (d: Date) =>
   new Date(d.getFullYear(), d.getMonth(), 1);
 
@@ -49,4 +51,35 @@ export const generateTimeOptions = () => {
     }
   }
   return options;
+};
+
+export const getDateRange = (date: Date, currentView: View) => {
+  switch (currentView) {
+    case View.MONTH:
+      return {
+        startDate: startOfMonth(date),
+        endDate: endOfMonth(date),
+      };
+    case View.WEEK:
+      const weekStart = startOfWeek(date);
+      const weekEnd = endOfWeek(weekStart);
+      return {
+        startDate: weekStart,
+        endDate: weekEnd,
+      };
+    case View.DAY:
+      return {
+        startDate: new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+        ),
+        endDate: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+      };
+    default:
+      return {
+        startDate: startOfMonth(date),
+        endDate: endOfMonth(date),
+      };
+  }
 };

@@ -64,9 +64,11 @@ export const SelectCalendarDate: React.FC<SelectCalendarDateProps> = ({
             >
               {Array.from({ length: 12 }, (_, i) => (
                 <MenuItem key={i} value={i}>
-                  {new Date(2000, i, 1).toLocaleDateString("pt-BR", {
-                    month: "long",
-                  })}
+                  {new Date(2000, i, 1)
+                    .toLocaleDateString("pt-BR", {
+                      month: "long",
+                    })
+                    .replace(/^\w/, (c) => c.toUpperCase())}
                 </MenuItem>
               ))}
             </TextField>

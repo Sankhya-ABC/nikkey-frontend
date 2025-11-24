@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
+import { CRUDType } from "../../types";
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";
+import { FormCRUDVisita } from "./FormCRUDVisita";
+import { ListOfVisitsPerDay } from "./ListOfVisitsPerDay";
 import { Month } from "./Month";
 import { SelectCalendarDate } from "./SelectCalendarDate";
 import { SelectCalendarView } from "./SelectCalendarView";
 import { Week } from "./Week";
 import { simulateBackendRequest } from "./provider";
 import { ModalMode, View, VisitaForm } from "./type";
-import { CRUDType } from "../../types";
-import { ListOfVisitsPerDay } from "./ListOfVisitsPerDay";
-import { FormCRUDVisita } from "./FormCRUDVisita";
+import { getDateRange } from "./utils";
 
 export const Visitas = () => {
   const [view, setView] = useState<View>(View.MONTH);
@@ -53,14 +54,6 @@ export const Visitas = () => {
     setFormType(CRUDType.UPDATE);
   };
 
-  const handleModeChange = (mode: ModalMode) => {
-    setModalMode(mode);
-    if (mode === ModalMode.LIST) {
-      setFormType(CRUDType.CREATE);
-      setSelectedVisit(null);
-    }
-  };
-
   const handleCRUDSubmit = (data: VisitaForm) => {
     console.log("Dados do formulário:", {
       ...data,
@@ -69,7 +62,7 @@ export const Visitas = () => {
 
     handleCloseModal();
 
-    fetchMonthVisits(activeDate);
+    fetchMonthVisits(activeDate, view);
   };
 
   // handlers
@@ -101,13 +94,11 @@ export const Visitas = () => {
   const dayVisits = selectedDate ? handleGetVisitsForDay(selectedDate) : [];
 
   // requisitions
-  const fetchMonthVisits = async (date: Date) => {
+  const fetchMonthVisits = async (date: Date, currentView: View) => {
     setLoading(true);
     try {
-      const visits = await simulateBackendRequest(
-        date.getMonth(),
-        date.getFullYear(),
-      );
+      const { startDate, endDate } = getDateRange(date, currentView);
+      const visits = await simulateBackendRequest(startDate, endDate);
       setMonthVisits(visits);
     } catch (error) {
       console.error("Erro ao buscar visitas:", error);
@@ -118,8 +109,8 @@ export const Visitas = () => {
   };
 
   useEffect(() => {
-    fetchMonthVisits(activeDate);
-  }, [activeDate]);
+    fetchMonthVisits(activeDate, view);
+  }, [activeDate, view]);
 
   return (
     <>
