@@ -56,9 +56,14 @@ export const generateTimeOptions = () => {
 export const getDateRange = (date: Date, currentView: View) => {
   switch (currentView) {
     case View.MONTH:
+      const firstDayOfMonth = startOfMonth(date);
+      const lastDayOfMonth = endOfMonth(date);
+      const calendarStart = startOfWeek(firstDayOfMonth);
+      const calendarEnd = endOfWeek(lastDayOfMonth);
+
       return {
-        startDate: startOfMonth(date),
-        endDate: endOfMonth(date),
+        startDate: calendarStart,
+        endDate: calendarEnd,
       };
     case View.WEEK:
       const weekStart = startOfWeek(date);
@@ -77,9 +82,11 @@ export const getDateRange = (date: Date, currentView: View) => {
         endDate: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       };
     default:
+      const firstDay = startOfMonth(date);
+      const lastDay = endOfMonth(date);
       return {
-        startDate: startOfMonth(date),
-        endDate: endOfMonth(date),
+        startDate: startOfWeek(firstDay),
+        endDate: endOfWeek(lastDay),
       };
   }
 };
