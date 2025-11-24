@@ -90,7 +90,10 @@ export const Login = () => {
           </Grid>
           <Grid item size={{ xs: 12 }}>
             <Typography variant="caption">
-              Use <strong>user@example.com</strong> / <strong>password</strong>{" "}
+              Use <strong>admin@example.com</strong> / <strong>123</strong> para
+              testar o mock.
+              <br />
+              Use <strong>common@example.com</strong> / <strong>123</strong>{" "}
               para testar o mock.
             </Typography>
           </Grid>

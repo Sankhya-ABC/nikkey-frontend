@@ -8,10 +8,16 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 
-interface User {
-  id: string;
+export enum Role {
+  ADMIN = "ADMIN",
+  COMMON = "COMMON",
+}
+
+export interface User {
+  id: number | null;
   name: string;
   email: string;
+  role?: Role;
 }
 
 interface AuthResponse {
@@ -23,14 +29,19 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   getUser: () => User | null;
+  getOriginalUser: () => User | null;
   isAuthenticated: () => boolean;
   getSessionRemaining: () => number;
+  impersonate: (user: User) => void;
+  stopImpersonating: () => void;
+  isImpersonating: () => boolean;
 }
 
 const STORAGE_KEYS = {
   token: "auth_token",
   user: "auth_user",
   expiresAt: "auth_expiresAt",
+  originalUser: "auth_original_user",
 };
 
 const SESSION_DURATION_MS = 120 * 60 * 1000;
@@ -40,12 +51,31 @@ const fakeApiLogin = async (
   password: string,
 ): Promise<AuthResponse> => {
   await new Promise((r) => setTimeout(r, 700));
-  if (email === "user@example.com" && password === "password") {
+
+  if (email === "admin@example.com" && password === "123") {
     return {
-      token: "fake-jwt-token-123",
-      user: { id: "1", name: "Demo User", email },
+      token: "fake-jwt-token-admin",
+      user: {
+        id: 1,
+        name: "Admin User",
+        email,
+        role: Role.ADMIN,
+      },
     };
   }
+
+  if (email === "common@example.com" && password === "123") {
+    return {
+      token: "fake-jwt-token-common",
+      user: {
+        id: 2,
+        name: "Common User",
+        email,
+        role: Role.COMMON,
+      },
+    };
+  }
+
   throw new Error("Usuário ou senha errados");
 };
 
@@ -55,6 +85,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(() => {
     const raw = localStorage.getItem(STORAGE_KEYS.user);
+    return raw ? (JSON.parse(raw) as User) : null;
+  });
+
+  const [originalUser, setOriginalUser] = useState<User | null>(() => {
+    const raw = localStorage.getItem(STORAGE_KEYS.originalUser);
     return raw ? (JSON.parse(raw) as User) : null;
   });
 
@@ -79,8 +114,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem(STORAGE_KEYS.token, resp.token);
     localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(resp.user));
     localStorage.setItem(STORAGE_KEYS.expiresAt, String(newExpires));
+
+    localStorage.removeItem(STORAGE_KEYS.originalUser);
+
     setToken(resp.token);
     setUser(resp.user);
+    setOriginalUser(null);
     setExpiresAt(newExpires);
   };
 
@@ -88,9 +127,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem(STORAGE_KEYS.token);
     localStorage.removeItem(STORAGE_KEYS.user);
     localStorage.removeItem(STORAGE_KEYS.expiresAt);
+    localStorage.removeItem(STORAGE_KEYS.originalUser);
+
     setToken(null);
     setUser(null);
+    setOriginalUser(null);
     setExpiresAt(null);
+
     navigate("/login", { replace: true });
   };
 
@@ -99,11 +142,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     persistSession(resp);
   };
 
+  const impersonate = (user: User) => {
+    if (!isAuthenticated()) {
+      throw new Error("Precisa estar autenticado para impersonar");
+    }
+
+    if (!originalUser) {
+      const currentUser = getUser();
+      setOriginalUser(currentUser);
+      localStorage.setItem(
+        STORAGE_KEYS.originalUser,
+        JSON.stringify(currentUser),
+      );
+    }
+
+    setUser(user);
+    localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user));
+  };
+
+  const stopImpersonating = () => {
+    if (originalUser) {
+      setUser(originalUser);
+      localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(originalUser));
+
+      setOriginalUser(null);
+      localStorage.removeItem(STORAGE_KEYS.originalUser);
+    }
+  };
+
+  const isImpersonating = () => {
+    return originalUser !== null;
+  };
+
   const isAuthenticated = () => {
     return !!token && !!expiresAt && expiresAt > Date.now();
   };
 
   const getUser = () => user;
+
+  const getOriginalUser = () => originalUser;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -117,19 +194,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
-      if (
-        e.key === STORAGE_KEYS.token ||
-        e.key === STORAGE_KEYS.user ||
-        e.key === STORAGE_KEYS.expiresAt
-      ) {
+      if (e.key === STORAGE_KEYS.token) {
         const newToken = localStorage.getItem(STORAGE_KEYS.token);
-        const newUser = localStorage.getItem(STORAGE_KEYS.user);
-        const newExpires = localStorage.getItem(STORAGE_KEYS.expiresAt);
         setToken(newToken);
+      } else if (e.key === STORAGE_KEYS.user) {
+        const newUser = localStorage.getItem(STORAGE_KEYS.user);
         setUser(newUser ? JSON.parse(newUser) : null);
+      } else if (e.key === STORAGE_KEYS.expiresAt) {
+        const newExpires = localStorage.getItem(STORAGE_KEYS.expiresAt);
         setExpiresAt(newExpires ? Number(newExpires) : null);
+      } else if (e.key === STORAGE_KEYS.originalUser) {
+        const newOriginalUser = localStorage.getItem(STORAGE_KEYS.originalUser);
+        setOriginalUser(newOriginalUser ? JSON.parse(newOriginalUser) : null);
       }
     };
+
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, []);
@@ -141,8 +220,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const value = useMemo<AuthContextValue>(
-    () => ({ login, logout, getUser, isAuthenticated, getSessionRemaining }),
-    [token, user, expiresAt],
+    () => ({
+      login,
+      logout,
+      getUser,
+      getOriginalUser,
+      isAuthenticated,
+      getSessionRemaining,
+      impersonate,
+      stopImpersonating,
+      isImpersonating,
+    }),
+    [token, user, originalUser, expiresAt],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

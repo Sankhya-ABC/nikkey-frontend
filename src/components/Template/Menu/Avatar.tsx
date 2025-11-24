@@ -1,17 +1,17 @@
 import {
+  Avatar as AvatarUI,
   Box,
   IconButton,
   Menu,
   MenuItem,
   Tooltip,
   Typography,
-  Avatar as AvatarUI,
 } from "@mui/material";
 import * as React from "react";
 import { useAuth } from "../../../hooks/useAuth";
 
 export const Avatar = () => {
-  const { logout } = useAuth();
+  const { logout, getOriginalUser, getUser, isImpersonating } = useAuth();
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
@@ -32,12 +32,17 @@ export const Avatar = () => {
     },
   ];
 
+  const currentName = getUser()?.name || getOriginalUser()?.name;
+
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Conta">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <AvatarUI alt="Amanda Souza" src="/static/images/avatar/2.jpg">
-            AS
+          <AvatarUI
+            alt={currentName}
+            sx={{ background: isImpersonating() ? "orange" : "gray" }}
+          >
+            {currentName?.substring(0, 2)?.toUpperCase()}
           </AvatarUI>
         </IconButton>
       </Tooltip>

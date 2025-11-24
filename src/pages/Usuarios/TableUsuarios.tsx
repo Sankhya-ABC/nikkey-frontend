@@ -15,8 +15,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Usuario } from "./types";
+import { Role, useAuth } from "../../hooks/useAuth";
 import { CRUDType } from "../../types";
+import { Usuario } from "./types";
 
 interface TableUsuariosProps {
   paginatedList: Usuario[];
@@ -44,6 +45,8 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
   handleChangePage,
   handleChangeRowsPerPage,
 }) => {
+  const { impersonate } = useAuth();
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
@@ -124,7 +127,16 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                   </TableCell>
                   <TableCell align="center">
                     <Tooltip title="Acessar como" arrow placement="top">
-                      <IconButton onClick={() => null}>
+                      <IconButton
+                        onClick={() =>
+                          impersonate({
+                            id: usuario?.id,
+                            name: usuario?.nome,
+                            email: usuario?.email,
+                            role: Role.COMMON,
+                          })
+                        }
+                      >
                         <LoginIcon />
                       </IconButton>
                     </Tooltip>

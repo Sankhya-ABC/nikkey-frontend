@@ -1,9 +1,11 @@
+import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import { Outlet } from "react-router";
+import { useAuth } from "../../hooks/useAuth";
 import { Drawer } from "./Drawer";
 import { Menu } from "./Menu";
-import { useAuth } from "../../hooks/useAuth";
+import { StyledAlert } from "./style";
 
 const Main = styled("main")(({ theme }) => ({
   flexGrow: 1,
@@ -15,7 +17,14 @@ const Main = styled("main")(({ theme }) => ({
 }));
 
 export const Template = () => {
-  const { isAuthenticated } = useAuth();
+  const {
+    isAuthenticated,
+    isImpersonating,
+    getUser,
+    stopImpersonating,
+    getOriginalUser,
+  } = useAuth();
+
   return (
     <Box sx={{ display: "flex" }}>
       <Menu />
@@ -23,6 +32,33 @@ export const Template = () => {
       {isAuthenticated() && <Drawer />}
 
       <Main>
+        {isImpersonating() && (
+          <StyledAlert sx={{ mb: 3 }} severity="warning">
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                mt: -0.5,
+              }}
+            >
+              <Typography>
+                Você está acessando como <strong>{getUser()!.name}</strong>
+              </Typography>
+
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => stopImpersonating()}
+                variant="text"
+              >
+                Retomar acesso como {getOriginalUser()!.name}
+              </Button>
+            </Box>
+          </StyledAlert>
+        )}
         <Outlet />
       </Main>
     </Box>
