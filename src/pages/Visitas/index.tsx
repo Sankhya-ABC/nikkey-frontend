@@ -4,11 +4,12 @@ import { Day } from "./Day";
 import { Month } from "./Month";
 import { SelectCalendarDate } from "./SelectCalendarDate";
 import { SelectCalendarView } from "./SelectCalendarView";
-import { VisitaModal } from "./VisitaModal";
 import { Week } from "./Week";
 import { simulateBackendRequest } from "./provider";
 import { ModalMode, View, VisitaForm } from "./type";
 import { CRUDType } from "../../types";
+import { ListOfVisitsPerDay } from "./ListOfVisitsPerDay";
+import { FormCRUDVisita } from "./FormCRUDVisita";
 
 export const Visitas = () => {
   const [view, setView] = useState<View>(View.MONTH);
@@ -41,14 +42,14 @@ export const Visitas = () => {
   };
 
   const handleNewVisit = () => {
-    setModalMode(ModalMode.FORM);
+    setModalMode(ModalMode.CRUD);
     setFormType(CRUDType.CREATE);
     setSelectedVisit(null);
   };
 
   const handleEditVisit = (visit: VisitaForm) => {
     setSelectedVisit(visit);
-    setModalMode(ModalMode.FORM);
+    setModalMode(ModalMode.CRUD);
     setFormType(CRUDType.UPDATE);
   };
 
@@ -176,19 +177,25 @@ export const Visitas = () => {
         }}
       />
 
-      <VisitaModal
+      <ListOfVisitsPerDay
         {...{
-          modalOpen,
+          modalOpen: modalOpen && modalMode === ModalMode.LIST,
           handleCloseModal,
-          modalMode,
-          formType,
           selectedDate,
           dayVisits,
-          selectedVisit,
           handleEditVisit,
           handleNewVisit,
+        }}
+      />
+
+      <FormCRUDVisita
+        {...{
+          modalOpen: modalOpen && modalMode === ModalMode.CRUD,
+          handleCloseModal,
+          formType,
+          selectedDate,
+          selectedVisit,
           handleCRUDSubmit,
-          handleModeChange,
         }}
       />
     </>

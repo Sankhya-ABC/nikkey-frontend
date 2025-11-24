@@ -1,40 +1,28 @@
-import EditIcon from "@mui/icons-material/Edit";
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { DatePicker } from "../../components/Form/DatePicker";
 import { Select } from "../../components/Form/Select";
 import { TextField } from "../../components/Form/Textfield";
 import { CRUDType } from "../../types";
 import { empresasOptions, tecnicosOptions } from "./provider";
-import { ModalMode, VisitaForm } from "./type";
+import { VisitaForm } from "./type";
 import { generateTimeOptions } from "./utils";
-import { DatePicker } from "../../components/Form/DatePicker";
 
 interface VisitaModalProps {
   modalOpen: boolean;
   handleCloseModal: () => void;
-  modalMode: ModalMode;
   formType: CRUDType;
   selectedDate: Date | null;
-  dayVisits: VisitaForm[];
   selectedVisit: VisitaForm | null;
-  handleEditVisit: (visit: VisitaForm) => void;
-  handleNewVisit: () => void;
   handleCRUDSubmit: (data: VisitaForm) => void;
-  handleModeChange: (mode: ModalMode) => void;
 }
 
 const defaultValues: VisitaForm = {
@@ -47,18 +35,13 @@ const defaultValues: VisitaForm = {
   descricao: "",
 };
 
-export const VisitaModal: React.FC<VisitaModalProps> = ({
+export const FormCRUDVisita: React.FC<VisitaModalProps> = ({
   modalOpen,
   handleCloseModal,
-  modalMode,
   formType,
   selectedDate,
-  dayVisits,
   selectedVisit,
-  handleEditVisit,
-  handleNewVisit,
   handleCRUDSubmit,
-  handleModeChange,
 }) => {
   const { control, handleSubmit, reset } = useForm<VisitaForm>({
     defaultValues: {
@@ -96,66 +79,16 @@ export const VisitaModal: React.FC<VisitaModalProps> = ({
     handleCloseModal();
   };
 
-  const renderListMode = () => (
-    <>
-      <DialogTitle color="primary" variant="h5" fontWeight="bold">
-        Visitas ({selectedDate?.toLocaleDateString("pt-BR")})
-      </DialogTitle>
-      <DialogContent sx={{ overflow: "unset", minHeight: 400 }}>
-        {dayVisits.length > 0 ? (
-          <List sx={{ mt: 2 }}>
-            {dayVisits.map((visit) => (
-              <ListItem
-                key={visit.id}
-                divider
-                secondaryAction={
-                  <IconButton
-                    edge="end"
-                    aria-label="edit"
-                    onClick={() => handleEditVisit(visit)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                }
-              >
-                <ListItemText
-                  primary={`${visit.empresa} - ${visit.tecnico}`}
-                  secondary={
-                    <>
-                      <Typography variant="body2" component="span">
-                        {visit.horaInicial} às {visit.horaFinal}
-                      </Typography>
-                      <br />
-                      <Typography variant="body2" color="text.secondary">
-                        {visit.descricao}
-                      </Typography>
-                    </>
-                  }
-                />
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          <Box sx={{ textAlign: "center", py: 4 }}>
-            <Typography variant="body1" gutterBottom>
-              Nenhuma visita agendada para esse dia
-            </Typography>
-          </Box>
-        )}
-      </DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={handleClose}>
-          Fechar
-        </Button>
-        <Button variant="contained" onClick={handleNewVisit}>
-          Agendar Nova Visita
-        </Button>
-      </DialogActions>
-    </>
-  );
-
-  const renderFormMode = () => (
-    <>
+  return (
+    <Dialog
+      open={modalOpen}
+      onClose={handleClose}
+      maxWidth="md"
+      fullWidth
+      PaperProps={{
+        sx: { maxHeight: "90vh" },
+      }}
+    >
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
         {formType === CRUDType.CREATE ? "Agendar Visita" : "Editar Visita"}
       </DialogTitle>
@@ -237,34 +170,13 @@ export const VisitaModal: React.FC<VisitaModalProps> = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="outlined"
-          onClick={() =>
-            formType === CRUDType.CREATE
-              ? handleModeChange(ModalMode.LIST)
-              : handleCloseModal()
-          }
-        >
+        <Button variant="outlined" onClick={() => handleCloseModal()}>
           Cancelar
         </Button>
         <Button variant="contained" onClick={handleSubmit(handleFormSubmit)}>
           {formType === CRUDType.CREATE ? "Agendar" : "Atualizar"}
         </Button>
       </DialogActions>
-    </>
-  );
-
-  return (
-    <Dialog
-      open={modalOpen}
-      onClose={handleClose}
-      maxWidth="md"
-      fullWidth
-      PaperProps={{
-        sx: { maxHeight: "90vh" },
-      }}
-    >
-      {modalMode === ModalMode.LIST ? renderListMode() : renderFormMode()}
     </Dialog>
   );
 };

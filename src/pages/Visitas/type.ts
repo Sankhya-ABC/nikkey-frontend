@@ -15,6 +15,6 @@ export interface VisitaForm {
 }
 
 export enum ModalMode {
-  LIST = "list",
-  FORM = "form",
+  LIST = "LIST",
+  CRUD = "CRUD",
 }
