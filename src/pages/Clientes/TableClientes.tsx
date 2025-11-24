@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { Cliente } from "./types";
 import { CRUDType } from "../../types";
+import { Role, useAuth } from "../../hooks/useAuth";
 
 interface TableClientesProps {
   paginatedList: Cliente[];
@@ -44,6 +45,8 @@ export const TableClientes: React.FC<TableClientesProps> = ({
   handleChangePage,
   handleChangeRowsPerPage,
 }) => {
+  const { impersonate } = useAuth();
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
@@ -56,7 +59,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Nome
+                Razão Social
               </TableCell>
               <TableCell
                 sx={{
@@ -64,7 +67,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Email
+                CPF/CNPJ
               </TableCell>
               <TableCell
                 sx={{
@@ -72,7 +75,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Departamento
+                Endereco
               </TableCell>
               <TableCell
                 sx={{
@@ -80,7 +83,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Data de Cadastro
+                Contato
               </TableCell>
               <TableCell
                 sx={{
@@ -111,10 +114,12 @@ export const TableClientes: React.FC<TableClientesProps> = ({
             ) : (
               paginatedList?.map((cliente) => (
                 <TableRow key={cliente?.id} hover>
-                  <TableCell>{cliente?.nomeFantasia}</TableCell>
-                  <TableCell>{cliente?.email}</TableCell>
-                  <TableCell>{cliente?.departamento}</TableCell>
-                  <TableCell>{cliente?.dataCadastro as string}</TableCell>
+                  <TableCell>{cliente?.razaoSocial}</TableCell>
+                  <TableCell>{cliente?.cnpjCpf}</TableCell>
+                  <TableCell>
+                    {cliente?.logradouro}, {cliente?.numero}
+                  </TableCell>
+                  <TableCell>{cliente?.telefone}</TableCell>
                   <TableCell>
                     <Chip
                       label={cliente?.ativo ? "Ativo" : "Inativo"}
@@ -124,7 +129,16 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   </TableCell>
                   <TableCell align="center">
                     <Tooltip title="Acessar como" arrow placement="top">
-                      <IconButton onClick={() => null}>
+                      <IconButton
+                        onClick={() =>
+                          impersonate({
+                            id: cliente?.id,
+                            name: cliente?.razaoSocial,
+                            email: cliente?.email,
+                            role: Role.COMMON,
+                          })
+                        }
+                      >
                         <LoginIcon />
                       </IconButton>
                     </Tooltip>

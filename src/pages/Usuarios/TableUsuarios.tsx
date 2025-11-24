@@ -126,20 +126,6 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                     />
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title="Acessar como" arrow placement="top">
-                      <IconButton
-                        onClick={() =>
-                          impersonate({
-                            id: usuario?.id,
-                            name: usuario?.nome,
-                            email: usuario?.email,
-                            role: Role.COMMON,
-                          })
-                        }
-                      >
-                        <LoginIcon />
-                      </IconButton>
-                    </Tooltip>
                     <Tooltip title="Visualizar" arrow placement="top">
                       <IconButton
                         onClick={() =>
