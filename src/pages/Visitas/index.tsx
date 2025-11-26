@@ -1,4 +1,7 @@
+import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Loading } from "../../components/Loading";
+import { Layout } from "../../components/Template/Layout";
 import { CRUDType } from "../../types";
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";
@@ -113,82 +116,88 @@ export const Visitas = () => {
   }, [activeDate, view]);
 
   return (
-    <>
-      <SelectCalendarView {...{ view, setView }} />
+    <Loading {...{ loading, setLoading }}>
+      <Layout title="Visitas" spacing={0}>
+        <Grid item size={{ xs: 12 }}>
+          <SelectCalendarView {...{ view, setView }} />
+        </Grid>
 
-      <CalendarContainer
-        {...{
-          view,
-          handleSelectCalendarDate,
-          activeDate,
-          setActiveDate,
-        }}
-      >
-        {view === View.MONTH && (
-          <Month
+        <Grid item size={{ xs: 12 }}>
+          <CalendarContainer
             {...{
+              view,
+              handleSelectCalendarDate,
               activeDate,
-              handleGetVisitsForDay,
-              handleDayClick,
+              setActiveDate,
             }}
-          />
-        )}
+          >
+            {view === View.MONTH && (
+              <Month
+                {...{
+                  activeDate,
+                  handleGetVisitsForDay,
+                  handleDayClick,
+                }}
+              />
+            )}
 
-        {view === View.WEEK && (
-          <Week
-            {...{
-              activeDate,
-              handleGetVisitsForDay,
-              handleDayClick,
-              handleEditVisit,
-            }}
-          />
-        )}
+            {view === View.WEEK && (
+              <Week
+                {...{
+                  activeDate,
+                  handleGetVisitsForDay,
+                  handleDayClick,
+                  handleEditVisit,
+                }}
+              />
+            )}
 
-        {view === View.DAY && (
-          <Day
-            {...{
-              dayVisitsDisplay: handleGetVisitsForDay(activeDate),
-              activeDate,
-              handleDayClick,
-              handleEditVisit,
-            }}
-          />
-        )}
-      </CalendarContainer>
+            {view === View.DAY && (
+              <Day
+                {...{
+                  dayVisitsDisplay: handleGetVisitsForDay(activeDate),
+                  activeDate,
+                  handleDayClick,
+                  handleEditVisit,
+                }}
+              />
+            )}
+          </CalendarContainer>
+        </Grid>
 
-      <SelectCalendarDate
-        {...{
-          datePickerAnchor,
-          handleDatePickerClose,
-          view,
-          tempDate,
-          setTempDate,
-          handleCalendarDateChange,
-        }}
-      />
+        <SelectCalendarDate
+          {...{
+            datePickerAnchor,
+            handleDatePickerClose,
+            view,
+            tempDate,
+            setTempDate,
+            handleCalendarDateChange,
+          }}
+        />
 
-      <ListOfVisitsPerDay
-        {...{
-          modalOpen: modalOpen && modalMode === ModalMode.LIST,
-          handleCloseModal,
-          selectedDate,
-          dayVisits,
-          handleEditVisit,
-          handleNewVisit,
-        }}
-      />
+        <ListOfVisitsPerDay
+          {...{
+            modalOpen: modalOpen && modalMode === ModalMode.LIST,
+            handleCloseModal,
+            selectedDate,
+            dayVisits,
+            handleEditVisit,
+            handleNewVisit,
+          }}
+        />
 
-      <FormCRUDVisita
-        {...{
-          modalOpen: modalOpen && modalMode === ModalMode.CRUD,
-          handleCloseModal,
-          formType,
-          selectedDate,
-          selectedVisit,
-          handleCRUDSubmit,
-        }}
-      />
-    </>
+        <FormCRUDVisita
+          {...{
+            modalOpen: modalOpen && modalMode === ModalMode.CRUD,
+            handleCloseModal,
+            formType,
+            selectedDate,
+            selectedVisit,
+            handleCRUDSubmit,
+          }}
+        />
+      </Layout>
+    </Loading>
   );
 };

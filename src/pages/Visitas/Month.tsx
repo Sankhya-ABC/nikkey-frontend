@@ -62,7 +62,7 @@ export const Month: React.FC<MonthProps> = ({
               display: "flex",
               width: "100%",
               mb: 1,
-              height: `calc((100vh - 300px) / ${monthMatrix.length})`,
+              height: `calc((100vh - 340px) / ${monthMatrix.length})`,
               minHeight: "60px",
             }}
           >

@@ -4,11 +4,16 @@ import { ReactNode } from "react";
 interface LayoutProps {
   title: string;
   children: ReactNode;
+  spacing?: number;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ title, children }) => {
+export const Layout: React.FC<LayoutProps> = ({
+  title,
+  children,
+  spacing = 3,
+}) => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={spacing}>
       <Grid item size={{ xs: 12 }}>
         <Typography
           color="primary"

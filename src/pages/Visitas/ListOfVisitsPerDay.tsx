@@ -40,7 +40,7 @@ export const ListOfVisitsPerDay: React.FC<ListOfVisitsPerDayProps> = ({
     <Dialog
       open={modalOpen}
       onClose={handleClose}
-      maxWidth="md"
+      maxWidth="sm"
       fullWidth
       PaperProps={{
         sx: { maxHeight: "90vh" },
@@ -49,7 +49,7 @@ export const ListOfVisitsPerDay: React.FC<ListOfVisitsPerDayProps> = ({
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
         Visitas ({selectedDate?.toLocaleDateString("pt-BR")})
       </DialogTitle>
-      <DialogContent sx={{ overflow: "unset", minHeight: 400 }}>
+      <DialogContent sx={{ overflow: "unset" }}>
         {dayVisits.length > 0 ? (
           <List sx={{ mt: 2 }}>
             {dayVisits.map((visit) => (

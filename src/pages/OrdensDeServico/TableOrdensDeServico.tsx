@@ -115,12 +115,10 @@ export const TableOrdensDeServico: React.FC<TableOrdensDeServicoProps> = ({
             ) : (
               paginatedList?.map((ordemDeServico) => (
                 <TableRow key={ordemDeServico?.id} hover>
-                  <TableCell>{ordemDeServico?.cliente.id}</TableCell>
+                  <TableCell>{ordemDeServico?.id}</TableCell>
+                  <TableCell>{ordemDeServico?.cliente.nome}</TableCell>
                   <TableCell>{ordemDeServico?.tecnico.nome}</TableCell>
                   <TableCell>{`${ordemDeServico?.data?.data} ${ordemDeServico?.data?.horaInicio} - ${ordemDeServico?.data?.horaFinal}`}</TableCell>
-                  <TableCell>
-                    {ordemDeServico?.dataCadastro as string}
-                  </TableCell>
                   <TableCell>
                     <Chip
                       label={ordemDeServico?.ativo ? "Ativo" : "Inativo"}
