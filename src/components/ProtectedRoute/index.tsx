@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router";
 import { useAuth, Role } from "../../hooks/useAuth";
+import { Unauthorized } from "../../pages/Unauthorized";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -13,7 +14,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requiredRole,
   requiredAnyRole,
-  fallback = <div>Acesso negado</div>,
+  fallback = <Unauthorized />,
 }) => {
   const auth = useAuth();
   const location = useLocation();
