@@ -1,82 +1,11 @@
-import { Grid } from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { DatePicker } from "../../components/Form/DatePicker";
-import { Loading } from "../../components/Loading";
-import { Layout } from "../../components/Template/Layout";
-import { AtendimentosChart } from "./components/AtendimentosChart";
-import { CardQuantity } from "./components/CardQuantity";
-import { ConsumoDeProdutosChart } from "./components/ConsumoDeProdutosChart";
-import { OrdensDeServicoChart } from "./components/OrdensDeServicoChart";
-import { ProximasVisitas } from "./components/ProximasVisitas";
-
-interface FormDashboard {
-  dataInicio: Date | null | number | string;
-  dataFim: Date | null | number | string;
-}
-
-const defaultValues: FormDashboard = {
-  dataInicio: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-  dataFim: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
-};
+import { Role, useAuth } from "../../hooks/useAuth";
 
 export const Dashboard = () => {
-  const { control } = useForm<FormDashboard>({ defaultValues });
+  const { hasRole } = useAuth();
 
-  const [loading, setLoading] = useState(true);
+  if (hasRole(Role.ADMIN)) {
+    return <Dashboard />;
+  }
 
-  return (
-    <Loading {...{ loading, setLoading }}>
-      <Layout title="Dashboard">
-        <Grid container spacing={3}>
-          <Grid item size={{ xs: 12 }}>
-            <Grid container spacing={3} sx={{ justifyContent: "end" }}>
-              <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
-                <DatePicker
-                  label="Data início"
-                  name="dataInicio"
-                  control={control}
-                />
-              </Grid>
-              <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
-                <DatePicker label="Data Fim" name="dataFim" control={control} />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 8, xl: 9 }}>
-            <Grid container spacing={3} alignItems="stretch">
-              <Grid item size={{ xs: 12, sm: 12, md: 4 }}>
-                <CardQuantity quantity={11} type="Ordens de Serviço" />
-              </Grid>
-              <Grid item size={{ xs: 12, sm: 12, md: 4 }}>
-                <CardQuantity quantity={163} type="Clientes" />
-              </Grid>
-              <Grid item size={{ xs: 12, sm: 12, md: 4 }}>
-                <CardQuantity quantity={20} type="Equipes" />
-              </Grid>
-
-              <Grid item size={{ xs: 12 }}>
-                <OrdensDeServicoChart />
-              </Grid>
-
-              <Grid item size={{ xs: 12, md: 6 }}>
-                <AtendimentosChart />
-              </Grid>
-              <Grid item size={{ xs: 12, md: 6 }}>
-                <ConsumoDeProdutosChart />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 4, xl: 3 }}>
-            <Grid container spacing={3}>
-              <Grid item size={{ xs: 12 }}>
-                <ProximasVisitas />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Layout>
-    </Loading>
-  );
+  return <Dashboard />;
 };
