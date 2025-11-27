@@ -19,6 +19,8 @@ import { Cliente } from "../../services/Clientes/types";
 import { CRUDType } from "../../services/types";
 import { useAuth } from "../../hooks/useAuth";
 import { Role } from "../../types";
+import { ROUTES } from "../../routes";
+import { useNavigate } from "react-router";
 
 interface TableClientesProps {
   paginatedList: Cliente[];
@@ -47,6 +49,7 @@ export const TableClientes: React.FC<TableClientesProps> = ({
   handleChangeRowsPerPage,
 }) => {
   const { impersonate } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -131,14 +134,15 @@ export const TableClientes: React.FC<TableClientesProps> = ({
                   <TableCell align="center">
                     <Tooltip title="Acessar como" arrow placement="top">
                       <IconButton
-                        onClick={() =>
+                        onClick={() => {
                           impersonate({
                             id: cliente?.id,
                             name: cliente?.razaoSocial,
                             email: cliente?.email,
                             role: Role.COMMON,
-                          })
-                        }
+                          });
+                          navigate(ROUTES.HOME);
+                        }}
                       >
                         <LoginIcon />
                       </IconButton>

@@ -1,11 +1,12 @@
 import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { Drawer } from "./Drawer";
 import { Menu } from "./Menu";
 import { StyledAlert } from "./style";
+import { ROUTES } from "../../routes";
 
 const Main = styled("main")(({ theme }) => ({
   flexGrow: 1,
@@ -24,6 +25,7 @@ export const Template = () => {
     stopImpersonating,
     getOriginalUser,
   } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -51,7 +53,10 @@ export const Template = () => {
               <Button
                 color="inherit"
                 size="small"
-                onClick={() => stopImpersonating()}
+                onClick={() => {
+                  stopImpersonating();
+                  navigate(ROUTES.CLIENTES);
+                }}
                 variant="text"
               >
                 Retomar acesso como {getOriginalUser()!.name}
