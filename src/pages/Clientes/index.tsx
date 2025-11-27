@@ -7,8 +7,8 @@ import { FormCRUDCliente } from "./FormCRUDCliente";
 import { FormStatus } from "./FormStatus";
 import { mockClientes } from "./provider";
 import { TableClientes } from "./TableClientes";
-import { Cliente } from "./types";
-import { CRUDType } from "../../types";
+import { Cliente } from "../../services/Clientes/types";
+import { CRUDType } from "../../services/types";
 import { useForm } from "react-hook-form";
 import { TextField } from "../../components/Form/Textfield";
 

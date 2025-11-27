@@ -16,7 +16,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { CRUDType } from "../../types";
+import { CRUDType } from "../../services/types";
 import { OrdemDeServico } from "./types";
 
 interface TableOrdensDeServicoProps {

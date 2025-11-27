@@ -15,8 +15,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Cliente } from "./types";
-import { CRUDType } from "../../types";
+import { Cliente } from "../../services/Clientes/types";
+import { CRUDType } from "../../services/types";
 import { Role, useAuth } from "../../hooks/useAuth";
 
 interface TableClientesProps {

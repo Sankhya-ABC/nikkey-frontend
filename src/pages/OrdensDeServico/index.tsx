@@ -8,7 +8,7 @@ import { FormStatus } from "./FormStatus";
 import { mockOrdensDeServico } from "./provider";
 import { TableOrdensDeServico } from "./TableOrdensDeServico";
 import { OrdemDeServico } from "./types";
-import { CRUDType } from "../../types";
+import { CRUDType } from "../../services/types";
 import { useForm } from "react-hook-form";
 import { TextField } from "../../components/Form/Textfield";
 

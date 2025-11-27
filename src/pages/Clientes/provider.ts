@@ -1,4 +1,4 @@
-import { Cliente } from "./types";
+import { Cliente } from "../../services/Clientes/types";
 
 export const estados = [
   "Acre",

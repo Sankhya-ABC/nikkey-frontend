@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
-import { CRUDType } from "../../types";
+import { CRUDType } from "../../services/types";
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";
 import { FormCRUDVisita } from "./FormCRUDVisita";

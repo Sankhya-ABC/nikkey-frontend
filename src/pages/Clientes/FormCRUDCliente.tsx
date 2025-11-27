@@ -13,8 +13,8 @@ import { Switch } from "../../components/Form/Switch";
 import { TextField } from "../../components/Form/Textfield";
 import { estados } from "./provider";
 import { useEffect } from "react";
-import { Cliente } from "./types";
-import { CRUDType } from "../../types";
+import { Cliente } from "../../services/Clientes/types";
+import { CRUDType } from "../../services/types";
 
 interface FormCRUDClienteProps {
   open: boolean;

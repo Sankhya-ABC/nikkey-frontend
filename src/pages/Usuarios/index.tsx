@@ -8,7 +8,7 @@ import { FormStatus } from "./FormStatus";
 import { mockUsuarios } from "./provider";
 import { TableUsuarios } from "./TableUsuarios";
 import { Usuario } from "./types";
-import { CRUDType } from "../../types";
+import { CRUDType } from "../../services/types";
 import { useForm } from "react-hook-form";
 import { TextField } from "../../components/Form/Textfield";
 

@@ -6,7 +6,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { Cliente } from "./types";
+import { Cliente } from "../../services/Clientes/types";
 
 interface FormStatusProps {
   open: boolean;

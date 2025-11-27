@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Role, useAuth } from "../../hooks/useAuth";
-import { CRUDType } from "../../types";
+import { CRUDType } from "../../services/types";
 import { Usuario } from "./types";
 
 interface TableUsuariosProps {
