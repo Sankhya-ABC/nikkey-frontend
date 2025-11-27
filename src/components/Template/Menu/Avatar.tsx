@@ -32,17 +32,17 @@ export const Avatar = () => {
     },
   ];
 
-  const currentName = getUser()?.name || getOriginalUser()?.name;
+  const userName = getUser()?.name;
 
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Conta">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <AvatarUI
-            alt={currentName}
+            alt={userName}
             sx={{ background: isImpersonating() ? "orange" : "gray" }}
           >
-            {currentName?.substring(0, 2)?.toUpperCase()}
+            {userName?.substring(0, 2)?.toUpperCase()}
           </AvatarUI>
         </IconButton>
       </Tooltip>
