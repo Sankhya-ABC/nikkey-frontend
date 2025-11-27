@@ -15,20 +15,33 @@ export const App: React.FC = () => {
           <AuthProvider>
             <Routes>
               <Route element={<Template />}>
-                {routes.map(({ path, element, isProtected }) => {
-                  return (
-                    <Route
-                      path={path}
-                      element={
-                        isProtected ? (
-                          <ProtectedRoute>{element}</ProtectedRoute>
-                        ) : (
-                          element
-                        )
-                      }
-                    />
-                  );
-                })}
+                {routes.map(
+                  ({
+                    path,
+                    element,
+                    isProtected,
+                    requiredRole,
+                    requiredAnyRole,
+                  }) => {
+                    return (
+                      <Route
+                        path={path}
+                        element={
+                          isProtected ? (
+                            <ProtectedRoute
+                              requiredRole={requiredRole}
+                              requiredAnyRole={requiredAnyRole}
+                            >
+                              {element}
+                            </ProtectedRoute>
+                          ) : (
+                            element
+                          )
+                        }
+                      />
+                    );
+                  },
+                )}
               </Route>
             </Routes>
           </AuthProvider>

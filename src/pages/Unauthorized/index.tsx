@@ -22,10 +22,6 @@ export const Unauthorized: React.FC = () => {
     navigate(-1);
   };
 
-  const handleContactSupport = () => {
-    window.location.href = "mailto:suporte@empresa.com?subject=Acesso Negado";
-  };
-
   return (
     <Box
       sx={{
@@ -134,50 +130,6 @@ export const Unauthorized: React.FC = () => {
           Página Inicial
         </Button>
       </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 1,
-          alignItems: "center",
-        }}
-      >
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          sx={{
-            display: "block",
-            opacity: 0.7,
-          }}
-        >
-          Precisa de acesso a esta página?
-        </Typography>
-
-        <Button
-          variant="text"
-          size="small"
-          onClick={handleContactSupport}
-          sx={{
-            textTransform: "none",
-            color: theme.palette.info.main,
-          }}
-        >
-          Solicitar acesso ao administrador
-        </Button>
-      </Box>
-
-      <Typography
-        variant="caption"
-        color="text.secondary"
-        sx={{
-          display: "block",
-          mt: 4,
-          opacity: 0.7,
-        }}
-      >
-        Código do erro: 403 - Forbidden
-      </Typography>
     </Box>
   );
 };
