@@ -30,7 +30,7 @@ export const Drawer = () => {
     return shouldDisplayOnMenu && (hasRequiredRole || hasRequiredAnyRole);
   });
 
-  const isActive = (route) => {
+  const isActive = (route: string) => {
     return (
       location.pathname === route ||
       (location.pathname === "/" && route === "/dashboard")

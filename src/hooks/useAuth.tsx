@@ -108,21 +108,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const [, setTick] = useState(0);
 
-  const hasRole = (role: Role | Role[]): boolean => {
-    if (!user || !user.role) return false;
-
-    if (Array.isArray(role)) {
-      return role.includes(user.role);
-    }
-
-    return user.role === role;
-  };
-
-  const hasAnyRole = (roles: Role[]): boolean => {
-    if (!user || !user.role) return false;
-    return roles.includes(user.role);
-  };
-
   const getSessionRemaining = () => {
     if (!expiresAt) return 0;
     const remainingMs = expiresAt - Date.now();
@@ -201,6 +186,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const getUser = () => user;
 
   const getOriginalUser = () => originalUser;
+
+  const currentUser = getUser() || getOriginalUser();
+
+  const hasRole = (role: Role | Role[]): boolean => {
+    if (!currentUser || !currentUser.role) return false;
+
+    if (Array.isArray(role)) {
+      return role.includes(currentUser.role);
+    }
+
+    return currentUser.role === role;
+  };
+
+  const hasAnyRole = (roles: Role[]): boolean => {
+    if (!currentUser || !currentUser.role) return false;
+    return roles.includes(currentUser.role);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
