@@ -12,12 +12,23 @@ import {
 import IconButton from "@mui/material/IconButton";
 import { Link, useLocation } from "react-router";
 import { useDrawer } from "../../../hooks/useDrawer";
-import { functionalities } from "./provider";
 import { DrawerHeader, Drawer as DrawerUI } from "./styles";
+import { routes } from "../../../routes";
+import { useAuth } from "../../../hooks/useAuth";
 
 export const Drawer = () => {
+  const { hasRole, hasAnyRole } = useAuth();
   const { isDrawerOpen, openDrawer, closeDrawer } = useDrawer();
   const location = useLocation();
+
+  const functionalities = routes?.filter((route) => {
+    const shouldDisplayOnMenu = route?.menu !== undefined;
+    const hasRequiredRole = route?.requiredRole && hasRole(route?.requiredRole);
+    const hasRequiredAnyRole =
+      route?.requiredAnyRole && hasAnyRole(route?.requiredAnyRole);
+
+    return shouldDisplayOnMenu && (hasRequiredRole || hasRequiredAnyRole);
+  });
 
   const isActive = (route) => {
     return (
@@ -45,15 +56,15 @@ export const Drawer = () => {
       </DrawerHeader>
       <Divider />
       <List sx={{ padding: 0 }}>
-        {functionalities.map(({ name, icon, route }) => (
+        {functionalities.map(({ menu, path }) => (
           <Link
-            to={route}
-            key={name}
+            to={path}
+            key={menu?.name}
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <ListItem disablePadding>
               <Tooltip
-                title={name}
+                title={menu?.name}
                 placement="right"
                 arrow
                 disableHoverListener={isDrawerOpen}
@@ -63,11 +74,11 @@ export const Drawer = () => {
                     minHeight: 48,
                     justifyContent: isDrawerOpen ? "initial" : "center",
                     px: 2.5,
-                    backgroundColor: isActive(route)
+                    backgroundColor: isActive(path)
                       ? "primary.main"
                       : "transparent",
                     "&:hover": {
-                      backgroundColor: isActive(route)
+                      backgroundColor: isActive(path)
                         ? "primary.dark"
                         : "action.hover",
                     },
@@ -78,22 +89,22 @@ export const Drawer = () => {
                       minWidth: 0,
                       mr: isDrawerOpen ? 3 : "auto",
                       justifyContent: "center",
-                      color: isActive(route)
+                      color: isActive(path)
                         ? "primary.contrastText"
                         : "inherit",
                     }}
                   >
-                    {icon}
+                    {menu?.icon}
                   </ListItemIcon>
                   <ListItemText
-                    primary={name}
+                    primary={menu?.name}
                     sx={{
                       opacity: isDrawerOpen ? 1 : 0,
                       transition: ({ transitions }) =>
                         transitions.create("opacity", {
                           duration: transitions.duration.leavingScreen,
                         }),
-                      color: isActive(route)
+                      color: isActive(path)
                         ? "primary.contrastText"
                         : "inherit",
                     }}

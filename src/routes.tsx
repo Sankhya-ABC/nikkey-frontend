@@ -29,23 +29,23 @@ interface Routes {
 
 export const routes: Routes[] = [
   {
-    path: "login",
-    element: <Login />,
-    isProtected: false,
-  },
-  {
     path: "*",
     element: <NotFound />,
     isProtected: false,
   },
   {
-    path: "",
+    path: "/login",
+    element: <Login />,
+    isProtected: false,
+  },
+  {
+    path: "/",
     element: <Dashboard />,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
   },
   {
-    path: "dashboard",
+    path: "/dashboard",
     element: <Dashboard />,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
@@ -55,7 +55,7 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: "Clientes",
+    path: "/Clientes",
     element: <Clientes />,
     isProtected: true,
     requiredRole: [Role.ADMIN],
@@ -66,7 +66,7 @@ export const routes: Routes[] = [
   },
   {
     element: <Usuarios />,
-    path: "usuarios",
+    path: "/usuarios",
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
     menu: {
@@ -75,7 +75,7 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: "visitas",
+    path: "/visitas",
     element: <Visitas />,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
@@ -85,7 +85,7 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: "ordens-de-servico",
+    path: "/ordens-de-servico",
     element: <OrdensDeServico />,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
@@ -95,7 +95,7 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: "relatorio-de-produtividade",
+    path: "/relatorio-de-produtividade",
     element: <RelatoriosProdutividade />,
     isProtected: true,
     requiredRole: [Role.ADMIN],
