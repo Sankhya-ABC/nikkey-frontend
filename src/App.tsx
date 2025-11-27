@@ -10,9 +10,9 @@ import { routes } from "./routes";
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <DrawerProvider>
-        <BrowserRouter>
-          <AuthProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <DrawerProvider>
             <Routes>
               <Route element={<Template />}>
                 {routes.map(
@@ -44,9 +44,9 @@ export const App: React.FC = () => {
                 )}
               </Route>
             </Routes>
-          </AuthProvider>
-        </BrowserRouter>
-      </DrawerProvider>
+          </DrawerProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };
