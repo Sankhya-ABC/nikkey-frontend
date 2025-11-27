@@ -27,7 +27,7 @@ export const DashboardCommon = () => {
 
   return (
     <Loading {...{ loading, setLoading }}>
-      <Layout title="Dashboard">
+      <Layout title="Dashboard Common">
         <Grid container spacing={3}>
           <Grid item size={{ xs: 12 }}>
             <Grid container spacing={3} sx={{ justifyContent: "end" }}>
