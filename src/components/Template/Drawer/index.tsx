@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import { Link, useLocation } from "react-router";
 import { useDrawer } from "../../../hooks/useDrawer";
 import { DrawerHeader, Drawer as DrawerUI } from "./styles";
-import { routes } from "../../../routes";
+import { ROUTES, routes } from "../../../routes";
 import { useAuth } from "../../../hooks/useAuth";
 
 export const Drawer = () => {
@@ -33,7 +33,7 @@ export const Drawer = () => {
   const isActive = (route: string) => {
     return (
       location.pathname === route ||
-      (location.pathname === "/" && route === "/dashboard")
+      (location.pathname === ROUTES.HOME && route === ROUTES.DASHBOARD)
     );
   };
 

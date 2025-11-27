@@ -7,13 +7,10 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router";
+import { ROUTES } from "../routes";
+import { Role } from "../types";
 
-export enum Role {
-  ADMIN = "ADMIN",
-  COMMON = "COMMON",
-}
-
-export interface User {
+interface User {
   id: number | null;
   name: string;
   email: string;
@@ -139,7 +136,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setOriginalUser(null);
     setExpiresAt(null);
 
-    navigate("/login", { replace: true });
+    navigate(ROUTES.LOGIN, { replace: true });
   };
 
   const login = async (email: string, password: string) => {

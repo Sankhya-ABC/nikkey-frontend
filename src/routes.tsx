@@ -5,7 +5,6 @@ import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import TourIcon from "@mui/icons-material/Tour";
 import WorkIcon from "@mui/icons-material/Work";
 import { ReactNode } from "react";
-import { Role } from "./hooks/useAuth";
 import { Clientes } from "./pages/Clientes";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
@@ -14,6 +13,7 @@ import { OrdensDeServico } from "./pages/OrdensDeServico";
 import { RelatoriosProdutividade } from "./pages/RelatoriosProdutividade";
 import { Usuarios } from "./pages/Usuarios";
 import { Visitas } from "./pages/Visitas";
+import { Role } from "./types";
 
 interface Routes {
   path: string;
@@ -27,7 +27,7 @@ interface Routes {
   };
 }
 
-enum ROUTES {
+export enum ROUTES {
   NOT_FOUND = "*",
   LOGIN = "/login",
   HOME = "/",

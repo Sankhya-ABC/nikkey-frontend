@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { TextField } from "../../components/Form/Textfield";
+import { ROUTES } from "../../routes";
 
 interface FormLogin {
   usuario: string;
@@ -26,7 +27,7 @@ export const Login = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as any)?.from?.pathname || "/";
+  const from = (location.state as any)?.from?.pathname || ROUTES.HOME;
 
   const { control, handleSubmit } = useForm<FormLogin>({ defaultValues });
 

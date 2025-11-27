@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router";
+import { ROUTES } from "../../routes";
 
 export const NotFound: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export const NotFound: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleGoHome = () => {
-    navigate("/");
+    navigate(ROUTES.HOME);
   };
 
   const handleGoBack = () => {

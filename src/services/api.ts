@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ROUTES } from "../routes";
 
 export const api = axios.create({
   baseURL: "http://erp.optecit.com.br:61872/api",
@@ -23,7 +24,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      window.location.href = "/login";
+      window.location.href = ROUTES.LOGIN;
     }
     return Promise.reject(error);
   },

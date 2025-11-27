@@ -17,7 +17,8 @@ import {
 } from "@mui/material";
 import { Cliente } from "../../services/Clientes/types";
 import { CRUDType } from "../../services/types";
-import { Role, useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
+import { Role } from "../../types";
 
 interface TableClientesProps {
   paginatedList: Cliente[];

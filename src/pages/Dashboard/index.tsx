@@ -1,4 +1,5 @@
-import { Role, useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
+import { Role } from "../../types";
 import { DashboardAdmin } from "./DashboardAdmin";
 import { DashboardCommon } from "./DashboardCommon";
 

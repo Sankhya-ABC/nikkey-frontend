@@ -15,6 +15,7 @@ import { CountdownTimer } from "../../CountdownTimer";
 import { ThemeMode } from "../tokens";
 import { Avatar } from "./Avatar";
 import nikkeyNameLogo from "/nikkey-name-logo.png";
+import { ROUTES } from "../../../routes";
 
 export const Menu: React.FC = () => {
   const { themeMode, toggleTheme } = useTheme();
@@ -30,7 +31,7 @@ export const Menu: React.FC = () => {
       <Toolbar sx={{ backgroundColor: "background.paper" }}>
         <Box sx={{ flexGrow: 1 }}>
           <Link
-            to="/"
+            to={ROUTES.HOME}
             style={{
               display: "flex",
               alignItems: "center",
