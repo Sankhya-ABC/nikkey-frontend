@@ -1,17 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { CardInfo } from "./CardInfo";
+import { CardInfo } from "../components/CardInfo";
 
 const data = [
-  { name: "David Silva", value: 40, color: "#578ab4" },
-  { name: "José Rodrigues", value: 30, color: "#7e68aa" },
-  { name: "João Victor", value: 20, color: "#e7a48f" },
-  { name: "Wellington Rufino", value: 10, color: "#7bac7e" },
+  { name: "Fipronil", value: 56, color: "#43a0a0" },
+  { name: "Deltametrina", value: 37, color: "#b34083" },
+  { name: "Imidacloprido", value: 65, color: "#74c774" },
+  { name: "Ácido Bórico", value: 18, color: "#cfb833" },
 ];
 
-export const AtendimentosChart = () => {
+export const ConsumoDeProdutosChart = () => {
   return (
-    <CardInfo title="Atendimentos por Técnico">
+    <CardInfo title="Consumo de Produtos">
       <ResponsiveContainer width="100%" height={105}>
         <PieChart>
           <Tooltip
@@ -28,7 +28,6 @@ export const AtendimentosChart = () => {
             outerRadius={40}
             innerRadius={20}
             paddingAngle={2}
-            cursor="pointer"
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />

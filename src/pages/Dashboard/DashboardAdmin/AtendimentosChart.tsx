@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { CardInfo } from "./CardInfo";
+import { CardInfo } from "../components/CardInfo";
 
 const data = [
   { name: "David Silva", value: 40, color: "#578ab4" },

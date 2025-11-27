@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Loading } from "../../../components/Loading";
 import { Layout } from "../../../components/Template/Layout";
-import { AtendimentosChart } from "./components/AtendimentosChart";
-import { CardQuantity } from "./components/CardQuantity";
-import { ConsumoDeProdutosChart } from "./components/ConsumoDeProdutosChart";
-import { OrdensDeServicoChart } from "./components/OrdensDeServicoChart";
-import { ProximasVisitas } from "./components/ProximasVisitas";
+import { AtendimentosChart } from "./AtendimentosChart";
+import { CardQuantity } from "../components/CardQuantity";
+import { ConsumoDeProdutosChart } from "./ConsumoDeProdutosChart";
+import { OrdensDeServicoChart } from "./OrdensDeServicoChart";
+import { ProximasVisitas } from "../ProximasVisitas";
 
 interface FormDashboard {
   dataInicio: Date | null | number | string;
@@ -27,7 +27,7 @@ export const DashboardAdmin = () => {
 
   return (
     <Loading {...{ loading, setLoading }}>
-      <Layout title="Dashboard Admin">
+      <Layout title="Dashboard">
         <Grid container spacing={3}>
           <Grid item size={{ xs: 12 }}>
             <Grid container spacing={3} sx={{ justifyContent: "end" }}>
