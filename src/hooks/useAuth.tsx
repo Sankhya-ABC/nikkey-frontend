@@ -28,13 +28,18 @@ interface AuthResponse {
 interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+
   getUser: () => User | null;
   getOriginalUser: () => User | null;
   isAuthenticated: () => boolean;
+
   getSessionRemaining: () => number;
   impersonate: (user: User) => void;
   stopImpersonating: () => void;
   isImpersonating: () => boolean;
+
+  hasRole: (role: Role | Role[]) => boolean;
+  hasAnyRole: (roles: Role[]) => boolean;
 }
 
 const STORAGE_KEYS = {
@@ -102,6 +107,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const [, setTick] = useState(0);
+
+  const hasRole = (role: Role | Role[]): boolean => {
+    if (!user || !user.role) return false;
+
+    if (Array.isArray(role)) {
+      return role.includes(user.role);
+    }
+
+    return user.role === role;
+  };
+
+  const hasAnyRole = (roles: Role[]): boolean => {
+    if (!user || !user.role) return false;
+    return roles.includes(user.role);
+  };
 
   const getSessionRemaining = () => {
     if (!expiresAt) return 0;
@@ -230,6 +250,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       impersonate,
       stopImpersonating,
       isImpersonating,
+      hasRole,
+      hasAnyRole,
     }),
     [token, user, originalUser, expiresAt],
   );
