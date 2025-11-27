@@ -27,25 +27,37 @@ interface Routes {
   };
 }
 
+enum ROUTES {
+  NOT_FOUND = "*",
+  LOGIN = "/login",
+  HOME = "/",
+  DASHBOARD = "/dashboard",
+  CLIENTES = "/clientes",
+  USUARIOS = "/usuarios",
+  VISITAS = "/visitas",
+  ORDENS_DE_SERVICO = "/ordens-de-servico",
+  RELATORIO_DE_PRODUTIVIDADE = "/relatorio-de-produtividade",
+}
+
 export const routes: Routes[] = [
   {
-    path: "*",
+    path: ROUTES.NOT_FOUND,
     element: <NotFound />,
     isProtected: false,
   },
   {
-    path: "/login",
+    path: ROUTES.LOGIN,
     element: <Login />,
     isProtected: false,
   },
   {
-    path: "/",
+    path: ROUTES.HOME,
     element: <Dashboard />,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
   },
   {
-    path: "/dashboard",
+    path: ROUTES.DASHBOARD,
     element: <Dashboard />,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
@@ -55,7 +67,7 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: "/Clientes",
+    path: ROUTES.CLIENTES,
     element: <Clientes />,
     isProtected: true,
     requiredRole: [Role.ADMIN],
@@ -66,7 +78,7 @@ export const routes: Routes[] = [
   },
   {
     element: <Usuarios />,
-    path: "/usuarios",
+    path: ROUTES.USUARIOS,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
     menu: {
@@ -75,7 +87,7 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: "/visitas",
+    path: ROUTES.VISITAS,
     element: <Visitas />,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
@@ -85,7 +97,7 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: "/ordens-de-servico",
+    path: ROUTES.ORDENS_DE_SERVICO,
     element: <OrdensDeServico />,
     isProtected: true,
     requiredAnyRole: [Role.ADMIN, Role.COMMON],
@@ -95,7 +107,7 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: "/relatorio-de-produtividade",
+    path: ROUTES.RELATORIO_DE_PRODUTIVIDADE,
     element: <RelatoriosProdutividade />,
     isProtected: true,
     requiredRole: [Role.ADMIN],
