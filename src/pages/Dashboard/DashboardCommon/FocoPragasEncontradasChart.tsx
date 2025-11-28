@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-import { useFormContext } from "react-hook-form";
 import {
   Bar,
   BarChart,
@@ -11,7 +9,9 @@ import {
   YAxis,
 } from "recharts";
 import { CardInfo } from "../components/CardInfo";
+import { useFormContext } from "react-hook-form";
 import { FormDashboard } from "./types";
+import { useMemo } from "react";
 
 type DateRangeType = "day" | "month" | "year";
 
@@ -20,6 +20,10 @@ interface ChartData {
   dateDisplay: string;
   casos: number;
 }
+
+const normalizeDate = (date: Date): Date => {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+};
 
 const getRangeType = (startDate: Date, endDate: Date): DateRangeType => {
   const startYear = startDate.getFullYear();
@@ -35,9 +39,10 @@ const getRangeType = (startDate: Date, endDate: Date): DateRangeType => {
 const generateDayRange = (startDate: Date, endDate: Date): string[] => {
   const dates: string[] = [];
   const currentDate = new Date(startDate);
+  const normalizedEndDate = new Date(endDate);
 
-  while (currentDate <= endDate) {
-    dates.push(new Date(currentDate).toISOString().split("T")[0]);
+  while (currentDate <= normalizedEndDate) {
+    dates.push(currentDate.toISOString().split("T")[0]);
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
@@ -75,14 +80,19 @@ const generateYearRange = (startDate: Date, endDate: Date): string[] => {
   return years;
 };
 
+const createUTCDate = (dateString: string): Date => {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day));
+};
+
 const formatDateForDisplay = (
   dateString: string,
   rangeType: DateRangeType,
 ): string => {
   switch (rangeType) {
     case "day":
-      const dayDate = new Date(dateString);
-      return `${String(dayDate.getDate()).padStart(2, "0")}/${String(dayDate.getMonth() + 1).padStart(2, "0")}`;
+      const utcDate = createUTCDate(dateString);
+      return `${String(utcDate.getUTCDate()).padStart(2, "0")}/${String(utcDate.getUTCMonth() + 1).padStart(2, "0")}`;
 
     case "month":
       const [year, month] = dateString.split("-");
@@ -135,15 +145,16 @@ export const FocoPragasEncontradasChart = () => {
   const dataInicio = watch("dataInicio");
   const dataFim = watch("dataFim");
 
-  console.log({ dataInicio, dataFim });
-
   const { chartData, rangeType } = useMemo(() => {
     if (!dataInicio || !dataFim) {
-      return { chartData: [], rangeType: "day" as DateRangeType };
+      return {
+        chartData: [],
+        rangeType: "day" as DateRangeType,
+      };
     }
 
-    const startDate = new Date(dataInicio);
-    const endDate = new Date(dataFim);
+    const startDate = normalizeDate(new Date(dataInicio));
+    const endDate = normalizeDate(new Date(dataFim));
 
     const currentRangeType = getRangeType(startDate, endDate);
 
@@ -175,7 +186,8 @@ export const FocoPragasEncontradasChart = () => {
         return {
           dataKey: "dateDisplay",
           tick: { fontSize: 10 },
-          interval: Math.ceil(chartData.length / 10),
+          interval:
+            chartData.length > 15 ? Math.ceil(chartData.length / 15) : 0,
         };
       case "month":
         return {
@@ -199,12 +211,16 @@ export const FocoPragasEncontradasChart = () => {
 
     switch (rangeType) {
       case "day":
-        const dayDate = new Date(data.date);
+        const dayDate = createUTCDate(data.date);
         return `Data: ${dayDate.toLocaleDateString("pt-BR")}`;
 
       case "month":
         const [year, month] = data.date.split("-");
-        return `Mês: ${month}/${year}`;
+        const monthName = new Date(
+          parseInt(year),
+          parseInt(month) - 1,
+        ).toLocaleDateString("pt-BR", { month: "long" });
+        return `Mês: ${monthName}/${year}`;
 
       case "year":
         return `Ano: ${data.date}`;
