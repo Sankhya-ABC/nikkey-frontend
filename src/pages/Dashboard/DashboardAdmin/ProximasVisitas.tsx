@@ -12,6 +12,8 @@ import {
   ListItemButton,
   ListItemIcon,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 const proximasVisitas = [
@@ -180,6 +182,9 @@ const proximasVisitas = [
 ];
 
 export const ProximasVisitas = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
   return (
     <Card>
       <Box sx={{ p: 3 }}>
@@ -209,8 +214,8 @@ export const ProximasVisitas = () => {
             <List
               sx={{
                 padding: 0,
-                height: 585,
-                //  height: 266,
+                minHeight: isMobile ? undefined : 328,
+                maxHeight: isMobile ? undefined : 633,
                 overflowY: "auto",
               }}
             >
