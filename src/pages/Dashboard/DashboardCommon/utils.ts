@@ -1,11 +1,5 @@
 export type DateRangeType = "day" | "month" | "year";
 
-export interface ChartData {
-  date: string;
-  dateDisplay: string;
-  casos: number;
-}
-
 export const normalizeDate = (date: Date): Date => {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 };
@@ -121,37 +115,4 @@ export const formatDateForTooltip = (
     default:
       return dateString;
   }
-};
-
-export const generateMockData = (
-  dateRange: string[],
-  rangeType: DateRangeType,
-): ChartData[] => {
-  return dateRange.map((date) => {
-    let baseCases: number;
-
-    switch (rangeType) {
-      case "day":
-        baseCases = Math.floor(Math.random() * 6);
-        break;
-      case "month":
-        baseCases = Math.floor(Math.random() * 41) + 10;
-        break;
-      case "year":
-        baseCases = Math.floor(Math.random() * 401) + 100;
-        break;
-      default:
-        baseCases = 0;
-    }
-
-    const variation =
-      Math.random() > 0.7 ? Math.floor(Math.random() * baseCases * 0.5) : 0;
-    const casos = baseCases + variation;
-
-    return {
-      date,
-      dateDisplay: formatDateForDisplay(date, rangeType),
-      casos,
-    };
-  });
 };

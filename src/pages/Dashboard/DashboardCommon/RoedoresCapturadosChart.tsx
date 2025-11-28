@@ -62,7 +62,7 @@ const generateMockData = (
   });
 };
 
-export const FocoPragasEncontradasChart = () => {
+export const RoedoresCapturadosChart = () => {
   const { watch } = useFormContext<FormDashboard>();
 
   const dataInicio = watch("dataInicio");
@@ -167,8 +167,14 @@ export const FocoPragasEncontradasChart = () => {
           <Legend verticalAlign="bottom" height={36} />
           <Bar
             dataKey="casos"
-            fill="#c26a17"
-            name="Pragas Encontradas"
+            fill="#1551ac"
+            name="Placas de Cola"
+            radius={[4, 4, 0, 0]}
+          />
+          <Bar
+            dataKey="casos"
+            fill="#6f17c2"
+            name="Roedores Mortos"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>
