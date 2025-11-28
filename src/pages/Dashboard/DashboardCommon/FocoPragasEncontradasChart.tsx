@@ -106,6 +106,41 @@ const formatDateForDisplay = (
   }
 };
 
+const formatDateForTooltip = (
+  dateString: string,
+  rangeType: DateRangeType,
+): string => {
+  switch (rangeType) {
+    case "day":
+      const utcDate = createUTCDate(dateString);
+      return `${String(utcDate.getUTCDate()).padStart(2, "0")}/${String(utcDate.getUTCMonth() + 1).padStart(2, "0")}/${utcDate.getUTCFullYear()}`;
+
+    case "month":
+      const [year, month] = dateString.split("-");
+      const monthNames = [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro",
+      ];
+      return `${monthNames[parseInt(month) - 1]}/${year}`;
+
+    case "year":
+      return `Ano ${dateString}`;
+
+    default:
+      return dateString;
+  }
+};
+
 const generateMockData = (
   dateRange: string[],
   rangeType: DateRangeType,
@@ -208,26 +243,7 @@ export const FocoPragasEncontradasChart = () => {
     if (!payload || !payload[0]) return label;
 
     const data = payload[0].payload;
-
-    switch (rangeType) {
-      case "day":
-        const dayDate = createUTCDate(data.date);
-        return `Data: ${dayDate.toLocaleDateString("pt-BR")}`;
-
-      case "month":
-        const [year, month] = data.date.split("-");
-        const monthName = new Date(
-          parseInt(year),
-          parseInt(month) - 1,
-        ).toLocaleDateString("pt-BR", { month: "long" });
-        return `Mês: ${monthName}/${year}`;
-
-      case "year":
-        return `Ano: ${data.date}`;
-
-      default:
-        return label;
-    }
+    return formatDateForTooltip(data.date, rangeType);
   };
 
   if (!dataInicio || !dataFim) {
