@@ -167,7 +167,7 @@ export const FocoPragasEncontradasChart = () => {
           <Legend verticalAlign="bottom" height={36} />
           <Bar
             dataKey="casos"
-            fill="#c26a17"
+            fill="#b0b325"
             name="Pragas Encontradas"
             radius={[4, 4, 0, 0]}
           />
