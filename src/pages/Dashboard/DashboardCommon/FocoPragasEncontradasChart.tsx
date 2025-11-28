@@ -154,14 +154,14 @@ export const FocoPragasEncontradasChart = () => {
           <XAxis {...getXAxisConfig()} />
           <YAxis
             label={{
-              value: "Quantidade",
+              value: "Unidade",
               angle: -90,
               position: "insideLeft",
               fontSize: 12,
             }}
           />
           <Tooltip
-            formatter={(value: number) => [`${value} casos`, "Quantidade"]}
+            formatter={(value: number) => [`${value} casos`, "Unidade"]}
             labelFormatter={formatTooltipLabel}
           />
           <Legend verticalAlign="bottom" height={36} />

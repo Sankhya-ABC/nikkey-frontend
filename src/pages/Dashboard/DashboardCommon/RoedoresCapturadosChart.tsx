@@ -26,7 +26,8 @@ import {
 interface ChartData {
   date: string;
   dateDisplay: string;
-  casos: number;
+  placasCola: number;
+  roedoresMortos: number;
 }
 
 const generateMockData = (
@@ -34,30 +35,41 @@ const generateMockData = (
   rangeType: DateRangeType,
 ): ChartData[] => {
   return dateRange.map((date) => {
-    let baseCases: number;
+    let basePlacasCola: number;
+    let baseRoedoresMortos: number;
 
     switch (rangeType) {
       case "day":
-        baseCases = Math.floor(Math.random() * 6);
+        basePlacasCola = Math.floor(Math.random() * 4);
+        baseRoedoresMortos = Math.floor(Math.random() * 3);
         break;
       case "month":
-        baseCases = Math.floor(Math.random() * 41) + 10;
+        basePlacasCola = Math.floor(Math.random() * 31) + 5;
+        baseRoedoresMortos = Math.floor(Math.random() * 21) + 5;
         break;
       case "year":
-        baseCases = Math.floor(Math.random() * 401) + 100;
+        basePlacasCola = Math.floor(Math.random() * 201) + 50;
+        baseRoedoresMortos = Math.floor(Math.random() * 151) + 50;
         break;
       default:
-        baseCases = 0;
+        basePlacasCola = 0;
+        baseRoedoresMortos = 0;
     }
 
-    const variation =
-      Math.random() > 0.7 ? Math.floor(Math.random() * baseCases * 0.5) : 0;
-    const casos = baseCases + variation;
+    const variationPlacas =
+      Math.random() > 0.7
+        ? Math.floor(Math.random() * basePlacasCola * 0.5)
+        : 0;
+    const variationRoedores =
+      Math.random() > 0.7
+        ? Math.floor(Math.random() * baseRoedoresMortos * 0.5)
+        : 0;
 
     return {
       date,
       dateDisplay: formatDateForDisplay(date, rangeType),
-      casos,
+      placasCola: basePlacasCola + variationPlacas,
+      roedoresMortos: baseRoedoresMortos + variationRoedores,
     };
   });
 };
@@ -133,7 +145,7 @@ export const RoedoresCapturadosChart = () => {
 
   if (!dataInicio || !dataFim) {
     return (
-      <CardInfo title="Foco/Pragas Encontradas">
+      <CardInfo title="Roedores Capturados">
         <div className="flex items-center justify-center h-48">
           <p className="text-gray-500">
             Selecione as datas para visualizar o gráfico
@@ -144,7 +156,7 @@ export const RoedoresCapturadosChart = () => {
   }
 
   return (
-    <CardInfo title="Foco/Pragas Encontradas">
+    <CardInfo title="Roedores Capturados">
       <ResponsiveContainer width="100%" height={200}>
         <BarChart
           data={chartData}
@@ -154,25 +166,25 @@ export const RoedoresCapturadosChart = () => {
           <XAxis {...getXAxisConfig()} />
           <YAxis
             label={{
-              value: "Quantidade",
+              value: "Unidade",
               angle: -90,
               position: "insideLeft",
               fontSize: 12,
             }}
           />
           <Tooltip
-            formatter={(value: number) => [`${value} casos`, "Quantidade"]}
+            formatter={(value: number, name: string) => [`${value}`, name]}
             labelFormatter={formatTooltipLabel}
           />
           <Legend verticalAlign="bottom" height={36} />
           <Bar
-            dataKey="casos"
+            dataKey="placasCola"
             fill="#1551ac"
             name="Placas de Cola"
             radius={[4, 4, 0, 0]}
           />
           <Bar
-            dataKey="casos"
+            dataKey="roedoresMortos"
             fill="#6f17c2"
             name="Roedores Mortos"
             radius={[4, 4, 0, 0]}
