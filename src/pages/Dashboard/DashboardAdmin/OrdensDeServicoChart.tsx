@@ -22,7 +22,7 @@ const data = [
 
 export const OrdensDeServicoChart = () => {
   return (
-    <CardInfo title="Ordens de Serviço ">
+    <CardInfo title="Ordens de Serviço">
       <ResponsiveContainer width="100%" height={200}>
         <BarChart
           data={data}

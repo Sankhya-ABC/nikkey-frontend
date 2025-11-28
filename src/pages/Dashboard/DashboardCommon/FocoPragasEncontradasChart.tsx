@@ -9,6 +9,8 @@ import {
   YAxis,
 } from "recharts";
 import { CardInfo } from "../components/CardInfo";
+import { useFormContext } from "react-hook-form";
+import { FormDashboard } from "./types";
 
 const data = [
   { name: "4", os: 1 },
@@ -20,16 +22,21 @@ const data = [
   { name: "12", os: 1 },
 ];
 
-export const OrdensDeServicoChart = () => {
+export const FocoPragasEncontradasChart = () => {
+  const { watch } = useFormContext<FormDashboard>();
+
+  const dataInicio = watch("dataInicio");
+  const dataFim = watch("dataFim");
+
   return (
-    <CardInfo title="Ordens de Serviço ">
+    <CardInfo title="Foco/Pragas Encontradas">
       <ResponsiveContainer width="100%" height={200}>
         <BarChart
           data={data}
           margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="name" />
+          <XAxis />
           <YAxis
             label={{ value: "unidade", angle: -90, position: "insideLeft" }}
           />
@@ -38,7 +45,7 @@ export const OrdensDeServicoChart = () => {
           <Bar
             dataKey="os"
             fill="#c26a17"
-            name="OS Atendidas"
+            name="Pragas Encontradas"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>
