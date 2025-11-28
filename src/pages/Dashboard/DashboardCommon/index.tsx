@@ -9,6 +9,7 @@ import { FocoPragasEncontradasChart } from "./FocoPragasEncontradasChart";
 import { RoedoresCapturadosChart } from "./RoedoresCapturadosChart";
 import { UltimaVisita } from "./UltimaVisita";
 import { FormDashboard } from "./types";
+import { ConsumoDeProdutosChart } from "./ConsumoDeProdutosChart";
 
 const defaultValues: FormDashboard = {
   dataInicio: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
@@ -57,7 +58,7 @@ export const DashboardCommon = () => {
                   <RoedoresCapturadosChart />
                 </Grid>
                 <Grid item size={{ xs: 12 }}>
-                  <FocoPragasEncontradasChart />
+                  <ConsumoDeProdutosChart />
                 </Grid>
               </Grid>
             </Grid>
