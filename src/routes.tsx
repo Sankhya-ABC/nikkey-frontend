@@ -1,31 +1,34 @@
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import ArticleIcon from "@mui/icons-material/Article";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import PeopleIcon from "@mui/icons-material/People";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import TourIcon from "@mui/icons-material/Tour";
 import WorkIcon from "@mui/icons-material/Work";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { ReactNode } from "react";
+import { Certificados } from "./pages/Certificados";
 import { Clientes } from "./pages/Clientes";
+import { CronogramasDeVisitas } from "./pages/CronogramaDeVisitas";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
+import { OrdensDeServico } from "./pages/OrdensDeServico";
 import { RelatoriosProdutividade } from "./pages/RelatoriosProdutividade";
 import { Usuarios } from "./pages/Usuarios";
 import { Visitas } from "./pages/Visitas";
 import { Role } from "./types";
-import { CronogramasDeVisitas } from "./pages/CronogramaDeVisitas";
-import { OrdensDeServico } from "./pages/OrdensDeServico";
-import { Certificados } from "./pages/Certificados";
 
 interface Routes {
-  path: string;
-  element: ReactNode;
+  path?: string;
+  element?: ReactNode | Routes[];
   isProtected: boolean;
   requiredRole?: Role | Role[];
   requiredAnyRole?: Role[];
   menu?: {
     name: string;
     icon: ReactNode;
+    isDropdown?: boolean;
   };
 }
 
@@ -121,13 +124,22 @@ export const routes: Routes[] = [
     },
   },
   {
+    isProtected: true,
+    requiredAnyRole: [Role.COMMON],
+    menu: {
+      name: "Relatórios",
+      icon: <ArticleIcon />,
+      isDropdown: true,
+    },
+  },
+  {
     path: ROUTES.CERTIFICADOS,
     element: <Certificados />,
     isProtected: true,
     requiredAnyRole: [Role.COMMON],
     menu: {
       name: "Certificados",
-      icon: <WorkIcon />,
+      icon: <WorkspacePremiumIcon />,
     },
   },
   {
@@ -137,7 +149,7 @@ export const routes: Routes[] = [
     requiredRole: [Role.ADMIN],
     menu: {
       name: "Relatório de Produtividade",
-      icon: <AssignmentIcon />,
+      icon: <ShowChartIcon />,
     },
   },
 ];
