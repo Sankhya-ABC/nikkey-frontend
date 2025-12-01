@@ -1,6 +1,6 @@
 import {
-  Bar,
-  BarChart,
+  Line,
+  LineChart,
   CartesianGrid,
   Legend,
   ResponsiveContainer,
@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { CardInfo } from "../components/CardInfo";
 import { useFormContext } from "react-hook-form";
-import { FormDashboard } from "./types";
+import { FormRelatorio } from "./types";
 import { useMemo } from "react";
 import {
   DateRangeType,
@@ -26,44 +26,69 @@ import {
 interface ChartData {
   date: string;
   dateDisplay: string;
-  casos: number;
+  inseticidaLiquido: number;
+  inseticidaSolido: number;
+  rodenticida: number;
 }
 
 const generateMockData = (
   dateRange: string[],
   rangeType: DateRangeType,
 ): ChartData[] => {
-  return dateRange.map((date) => {
-    let baseCases: number;
+  return dateRange.map((date, index) => {
+    let baseInseticidaLiquido: number;
+    let baseInseticidaSolido: number;
+    let baseRodenticida: number;
+
+    const trend = Math.sin(index * 0.3) * 0.5 + 0.5;
 
     switch (rangeType) {
       case "day":
-        baseCases = Math.floor(Math.random() * 6);
+        baseInseticidaLiquido = Math.floor(50 + trend * 200);
+        baseInseticidaSolido = Math.floor(100 + trend * 150);
+        baseRodenticida = Math.floor(50 + trend * 100);
         break;
       case "month":
-        baseCases = Math.floor(Math.random() * 41) + 10;
+        baseInseticidaLiquido = Math.floor(1000 + trend * 2000);
+        baseInseticidaSolido = Math.floor(1000 + trend * 1500);
+        baseRodenticida = Math.floor(500 + trend * 1000);
         break;
       case "year":
-        baseCases = Math.floor(Math.random() * 401) + 100;
+        baseInseticidaLiquido = Math.floor(10000 + trend * 15000);
+        baseInseticidaSolido = Math.floor(8000 + trend * 12000);
+        baseRodenticida = Math.floor(5000 + trend * 8000);
         break;
       default:
-        baseCases = 0;
+        baseInseticidaLiquido = 0;
+        baseInseticidaSolido = 0;
+        baseRodenticida = 0;
     }
 
-    const variation =
-      Math.random() > 0.7 ? Math.floor(Math.random() * baseCases * 0.5) : 0;
-    const casos = baseCases + variation;
+    const variationLiquido =
+      Math.random() > 0.8
+        ? Math.floor(Math.random() * baseInseticidaLiquido * 0.2)
+        : 0;
+    const variationSolido =
+      Math.random() > 0.8
+        ? Math.floor(Math.random() * baseInseticidaSolido * 0.2)
+        : 0;
+    const variationRodenticida =
+      Math.random() > 0.8
+        ? Math.floor(Math.random() * baseRodenticida * 0.2)
+        : 0;
 
     return {
       date,
       dateDisplay: formatDateForDisplay(date, rangeType),
-      casos,
+      inseticidaLiquido: baseInseticidaLiquido + variationLiquido,
+      inseticidaSolido: baseInseticidaSolido + variationSolido,
+      rodenticida: baseRodenticida + variationRodenticida,
     };
   });
 };
 
-export const FocoPragasEncontradasChart = () => {
-  const { watch } = useFormContext<FormDashboard>();
+export const ConsumoDeProdutosChart = () => {
+  const { watch } = useFormContext<FormRelatorio>();
 
   const dataInicio = watch("dataInicio");
   const dataFim = watch("dataFim");
@@ -131,22 +156,19 @@ export const FocoPragasEncontradasChart = () => {
     return formatDateForTooltip(data.date, rangeType);
   };
 
-  if (!dataInicio || !dataFim) {
-    return (
-      <CardInfo title="Foco/Pragas Encontradas">
-        <div className="flex items-center justify-center h-48">
-          <p className="text-gray-500">
-            Selecione as datas para visualizar o gráfico
-          </p>
-        </div>
-      </CardInfo>
-    );
-  }
+  const formatTooltipValue = (value: number, name: string) => {
+    const unit = name.includes("LÍQUIDO")
+      ? " ml"
+      : name.includes("SÓLIDO") || name.includes("RODENTICIDA")
+        ? " g"
+        : "";
+    return [`${value}${unit}`, name];
+  };
 
   return (
-    <CardInfo title="Foco/Pragas Encontradas">
-      <ResponsiveContainer width="100%" height={200}>
-        <BarChart
+    <CardInfo>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart
           data={chartData}
           margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
         >
@@ -161,17 +183,38 @@ export const FocoPragasEncontradasChart = () => {
             }}
           />
           <Tooltip
-            formatter={(value: number) => [`${value} casos`, "Unidade"]}
+            formatter={formatTooltipValue}
             labelFormatter={formatTooltipLabel}
           />
           <Legend verticalAlign="bottom" height={36} />
-          <Bar
-            dataKey="casos"
-            fill="#b0b325"
-            name="Pragas Encontradas"
-            radius={[4, 4, 0, 0]}
+          <Line
+            type="monotone"
+            dataKey="inseticidaLiquido"
+            stroke="#3799d1"
+            name="Inseticida Líquido (ml)"
+            strokeWidth={2}
+            dot={{ r: 3 }}
+            activeDot={{ r: 6 }}
           />
-        </BarChart>
+          <Line
+            type="monotone"
+            dataKey="inseticidaSolido"
+            stroke="#e45f2b"
+            name="Inseticida Sólido (g)"
+            strokeWidth={2}
+            dot={{ r: 3 }}
+            activeDot={{ r: 6 }}
+          />
+          <Line
+            type="monotone"
+            dataKey="rodenticida"
+            stroke="#41c228"
+            name="Rodenticida (g)"
+            strokeWidth={2}
+            dot={{ r: 3 }}
+            activeDot={{ r: 6 }}
+          />
+        </LineChart>
       </ResponsiveContainer>
     </CardInfo>
   );

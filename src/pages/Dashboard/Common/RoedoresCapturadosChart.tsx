@@ -21,7 +21,7 @@ import {
   generateYearRange,
   getRangeType,
   normalizeDate,
-} from "./utils";
+} from "../../../utils/chart";
 
 interface ChartData {
   date: string;

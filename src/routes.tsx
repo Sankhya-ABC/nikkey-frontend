@@ -18,6 +18,7 @@ import { RelatoriosProdutividade } from "./pages/RelatoriosProdutividade";
 import { Usuarios } from "./pages/Usuarios";
 import { Visitas } from "./pages/Visitas";
 import { Role } from "./types";
+import { RelatorioConsumoDeProdutos } from "./pages/Relatorios/ConsumoDeProdutos";
 
 interface Routes {
   path: string;
@@ -171,7 +172,7 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.RELATORIO_CONSUMO_PRODUTOS,
-    element: <span>RELATORIO_CONSUMO_PRODUTOS</span>,
+    element: <RelatorioConsumoDeProdutos />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {
