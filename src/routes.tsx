@@ -163,7 +163,7 @@ export const routes: Routes[] = [
     path: "#",
     element: null,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Relatórios",
       icon: <DescriptionIcon />,
@@ -173,7 +173,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_CONSUMO_PRODUTOS,
     element: <span>RELATORIO_CONSUMO_PRODUTOS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Consumo de Produtos",
       icon: <DescriptionIcon />,
@@ -184,7 +184,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_CONSUMO_INSUMOS,
     element: <span>RELATORIO_CONSUMO_INSUMOS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Consumo de Insumos",
       icon: <DescriptionIcon />,
@@ -195,7 +195,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_FOCO_PRAGAS,
     element: <span>RELATORIO_FOCO_PRAGAS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Foco/Pragas encontradas",
       icon: <DescriptionIcon />,
@@ -206,7 +206,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_INSETICIDAS_PRAGAS,
     element: <span>RELATORIO_INSETICIDAS_PRAGAS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Inseticidas X Pragas",
       icon: <DescriptionIcon />,
@@ -217,7 +217,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_ARMADILHAS_FEROMONIOS,
     element: <span>RELATORIO_ARMADILHAS_FEROMONIOS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Armadilhas de Feromônios",
       icon: <DescriptionIcon />,
@@ -228,7 +228,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_ARMADILHAS_LUMINOSAS,
     element: <span>RELATORIO_ARMADILHAS_LUMINOSAS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Armadilhas Luminosas",
       icon: <DescriptionIcon />,
@@ -239,7 +239,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_ROEDORES_MORTOS,
     element: <span>RELATORIO_ROEDORES_MORTOS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Roedores Mortos",
       icon: <DescriptionIcon />,
@@ -250,7 +250,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_PLACA_COLA,
     element: <span>RELATORIO_PLACA_COLA</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Placa de Cola/Armadilha Mecânica",
       icon: <DescriptionIcon />,
@@ -261,7 +261,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_ISCAS_ROIDAS,
     element: <span>RELATORIO_ISCAS_ROIDAS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Iscas Roídas",
       icon: <DescriptionIcon />,
@@ -272,7 +272,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_RODENTICIDAS_ROEDORES,
     element: <span>RELATORIO_RODENTICIDAS_ROEDORES</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Rodenticidas x Roedores",
       icon: <DescriptionIcon />,
@@ -283,7 +283,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_NAO_CONFORMIDADES,
     element: <span>RELATORIO_NAO_CONFORMIDADES</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Não Conformidades",
       icon: <DescriptionIcon />,
@@ -294,7 +294,7 @@ export const routes: Routes[] = [
     path: ROUTES.RELATORIO_CERTIFICADOS,
     element: <span>RELATORIO_CERTIFICADOS</span>,
     isProtected: true,
-    requiredRole: [Role.ADMIN],
+    requiredRole: [Role.COMMON],
     menu: {
       name: "Certificados",
       icon: <DescriptionIcon />,
