@@ -8,6 +8,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Certificado } from "./types";
@@ -86,9 +87,11 @@ export const TableCertificados: React.FC<TableCertificadosProps> = ({
                     {`${certificado?.dataInicio as string} - ${certificado?.dataFim as string}`}
                   </TableCell>
                   <TableCell align="center">
-                    <IconButton onClick={() => null}>
-                      <WorkspacePremiumIcon />
-                    </IconButton>
+                    <Tooltip title="Baixar certificado" arrow placement="top">
+                      <IconButton onClick={() => null}>
+                        <WorkspacePremiumIcon />
+                      </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))
