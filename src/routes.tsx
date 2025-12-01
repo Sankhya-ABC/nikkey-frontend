@@ -14,6 +14,7 @@ import { RelatoriosProdutividade } from "./pages/RelatoriosProdutividade";
 import { Usuarios } from "./pages/Usuarios";
 import { Visitas } from "./pages/Visitas";
 import { Role } from "./types";
+import { CronogramasDeVisitas } from "./pages/CronogramaDeVisitas";
 
 interface Routes {
   path: string;
@@ -35,6 +36,7 @@ export enum ROUTES {
   CLIENTES = "/clientes",
   USUARIOS = "/usuarios",
   VISITAS = "/visitas",
+  CRONOGRAMA_DE_VISITAS = "/cronograma-de-visitas",
   ORDENS_DE_SERVICO = "/ordens-de-servico",
   RELATORIO_DE_PRODUTIVIDADE = "/relatorio-de-produtividade",
 }
@@ -90,9 +92,19 @@ export const routes: Routes[] = [
     path: ROUTES.VISITAS,
     element: <Visitas />,
     isProtected: true,
-    requiredAnyRole: [Role.ADMIN, Role.COMMON],
+    requiredAnyRole: [Role.ADMIN],
     menu: {
       name: "Visitas",
+      icon: <TourIcon />,
+    },
+  },
+  {
+    path: ROUTES.CRONOGRAMA_DE_VISITAS,
+    element: <CronogramasDeVisitas />,
+    isProtected: true,
+    requiredAnyRole: [Role.COMMON],
+    menu: {
+      name: "Cronograma de Visitas",
       icon: <TourIcon />,
     },
   },
