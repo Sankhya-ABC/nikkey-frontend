@@ -55,6 +55,7 @@ export const Visitas = () => {
     setSelectedVisit(visit);
     setModalMode(ModalMode.CRUD);
     setFormType(CRUDType.UPDATE);
+    setModalOpen(true);
   };
 
   const handleCRUDSubmit = (data: VisitaForm) => {

@@ -56,7 +56,7 @@ export const FormCRUDVisita: React.FC<VisitaModalProps> = ({
     if (formType === CRUDType.UPDATE && selectedVisit) {
       reset({
         ...selectedVisit,
-        dataVisita: selectedDate || new Date(),
+        dataVisita: selectedDate || selectedVisit?.dataVisita,
       });
     } else if (formType === CRUDType.CREATE) {
       reset({

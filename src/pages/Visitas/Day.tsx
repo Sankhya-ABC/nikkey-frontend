@@ -61,7 +61,6 @@ export const Day: React.FC<DayProps> = ({
                   bgcolor: "action.hover",
                 },
               }}
-              onClick={() => handleDayClick(activeDate)}
             >
               {Array.from({ length: 12 }, (_, minuteIndex) => (
                 <Box
