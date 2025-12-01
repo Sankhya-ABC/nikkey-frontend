@@ -1,7 +1,7 @@
 import { useAuth } from "../../hooks/useAuth";
 import { Role } from "../../types";
-import { DashboardAdmin } from "./DashboardAdmin";
-import { DashboardCommon } from "./DashboardCommon";
+import { DashboardAdmin } from "./Admin";
+import { DashboardCommon } from "./Common";
 
 export const Dashboard = () => {
   const { hasRole } = useAuth();
