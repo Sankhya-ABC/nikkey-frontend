@@ -15,7 +15,7 @@ import { InformacoesBasicasServico } from "./InformacoesBasicasServico";
 import { InformacoesGerais } from "./InformacoesGerais";
 import { PragasEncontradas } from "./PragasEncontradas";
 import { UploadEvidencias } from "./UploadEvidencias";
-import { CRUDType } from "../../../services/types";
+import { CRUDType } from "../../../../services/types";
 import { OrdemDeServico } from "../types";
 
 interface FormCRUDOrdemDeServicoProps {

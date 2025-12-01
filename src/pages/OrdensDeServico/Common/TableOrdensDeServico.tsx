@@ -1,4 +1,5 @@
 import {
+  Chip,
   Paper,
   Table,
   TableBody,
@@ -9,11 +10,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { RelatorioProdutividade } from "./types";
+import { OrdemDeServico, StatusColors } from "./types";
+import { format } from "date-fns";
 
-interface TableRelatoriosProdutividadeProps {
-  paginatedList: RelatorioProdutividade[];
-  filteredList: RelatorioProdutividade[];
+interface TableOrdensDeServicoProps {
+  paginatedList: OrdemDeServico[];
+  filteredList: OrdemDeServico[];
 
   rowsPerPage: number;
   page: number;
@@ -24,9 +26,7 @@ interface TableRelatoriosProdutividadeProps {
   handleChangeRowsPerPage: (event: any) => void;
 }
 
-export const TableRelatoriosProdutividade: React.FC<
-  TableRelatoriosProdutividadeProps
-> = ({
+export const TableOrdensDeServico: React.FC<TableOrdensDeServicoProps> = ({
   paginatedList,
   filteredList,
   rowsPerPage,
@@ -37,9 +37,18 @@ export const TableRelatoriosProdutividade: React.FC<
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
-        <Table stickyHeader aria-label="tabela de relatórios de produtividade">
+        <Table stickyHeader aria-label="tabela de ordens de serviço">
           <TableHead>
             <TableRow>
+              <TableCell
+                align="center"
+                sx={{
+                  backgroundColor: "primary.main",
+                  color: "primary.contrastText",
+                }}
+              >
+                Nº OS
+              </TableCell>
               <TableCell
                 align="center"
                 sx={{
@@ -56,7 +65,7 @@ export const TableRelatoriosProdutividade: React.FC<
                   color: "primary.contrastText",
                 }}
               >
-                Horas Trabalhadas
+                Data
               </TableCell>
               <TableCell
                 align="center"
@@ -65,7 +74,7 @@ export const TableRelatoriosProdutividade: React.FC<
                   color: "primary.contrastText",
                 }}
               >
-                Visitas Agendadas
+                Hora Início/Hora Fim
               </TableCell>
               <TableCell
                 align="center"
@@ -74,57 +83,43 @@ export const TableRelatoriosProdutividade: React.FC<
                   color: "primary.contrastText",
                 }}
               >
-                OS Realizadas
-              </TableCell>
-              <TableCell
-                align="center"
-                sx={{
-                  backgroundColor: "primary.main",
-                  color: "primary.contrastText",
-                }}
-              >
-                OS Não Realizadas
-              </TableCell>
-              <TableCell
-                align="center"
-                sx={{
-                  backgroundColor: "primary.main",
-                  color: "primary.contrastText",
-                }}
-              >
-                Visitas Pendentes
+                Status
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedList?.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} align="center">
+                <TableCell align="center" colSpan={6} align="center">
                   <Typography variant="body1" color="textSecondary">
-                    Nenhum relatório encontrado
+                    Nenhuma ordem de serviço encontrada
                   </Typography>
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedList?.map((relatorioProdutividade) => (
-                <TableRow key={relatorioProdutividade?.id} hover>
+              paginatedList?.map((ordemDeServico) => (
+                <TableRow key={ordemDeServico?.id} hover>
+                  <TableCell align="center">{ordemDeServico?.id}</TableCell>
                   <TableCell align="center">
-                    {relatorioProdutividade?.tecnico}
+                    {ordemDeServico?.tecnico?.nome}
                   </TableCell>
                   <TableCell align="center">
-                    {relatorioProdutividade?.horasTrabalhadas}
+                    {
+                      format(
+                        ordemDeServico?.data as string,
+                        "dd/MM/yyyy",
+                      ) as string
+                    }
                   </TableCell>
                   <TableCell align="center">
-                    {relatorioProdutividade?.visitasAgendadas}
+                    {`${ordemDeServico?.horaInicio as string} - ${ordemDeServico?.horaFim as string}`}
                   </TableCell>
                   <TableCell align="center">
-                    {relatorioProdutividade?.osRealizadas}
-                  </TableCell>
-                  <TableCell align="center">
-                    {relatorioProdutividade?.osNaoRealizadas}
-                  </TableCell>
-                  <TableCell align="center">
-                    {relatorioProdutividade?.visitasPendentes}
+                    <Chip
+                      label={ordemDeServico?.status}
+                      color={StatusColors[ordemDeServico?.status]}
+                      size="small"
+                    />
                   </TableCell>
                 </TableRow>
               ))

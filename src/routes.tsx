@@ -9,12 +9,12 @@ import { Clientes } from "./pages/Clientes";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
-import { OrdensDeServico } from "./pages/OrdensDeServico";
 import { RelatoriosProdutividade } from "./pages/RelatoriosProdutividade";
 import { Usuarios } from "./pages/Usuarios";
 import { Visitas } from "./pages/Visitas";
 import { Role } from "./types";
 import { CronogramasDeVisitas } from "./pages/CronogramaDeVisitas";
+import { OrdensDeServico } from "./pages/OrdensDeServico";
 
 interface Routes {
   path: string;

@@ -14,9 +14,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import { Select } from "../../../components/Form/Select";
-import { Switch } from "../../../components/Form/Switch";
-import { TextField } from "../../../components/Form/Textfield";
+import { Select } from "../../../../components/Form/Select";
+import { Switch } from "../../../../components/Form/Switch";
+import { TextField } from "../../../../components/Form/Textfield";
 import { ComoEncontrado, OrdemDeServico } from "../types";
 import { listPragas } from "./provider";
 import { useEffect } from "react";
