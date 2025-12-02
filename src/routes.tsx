@@ -21,6 +21,7 @@ import { Role } from "./types";
 import { RelatorioConsumoDeProdutos } from "./pages/Relatorios/ConsumoDeProdutos";
 import { RelatorioConsumoDeInsumos } from "./pages/Relatorios/ConsumoDeInsumos";
 import { RelatorioFocoPragasEncontradas } from "./pages/Relatorios/FocoPragasEncontradas";
+import { RelatorioInseticidaXPragas } from "./pages/Relatorios/InseticidaXPragas";
 
 interface Routes {
   path: string;
@@ -207,7 +208,7 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.RELATORIO_INSETICIDAS_PRAGAS,
-    element: <span>RELATORIO_INSETICIDAS_PRAGAS</span>,
+    element: <RelatorioInseticidaXPragas />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {
