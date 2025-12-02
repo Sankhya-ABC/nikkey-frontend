@@ -5,5 +5,6 @@ export interface FormRelatorio {
 
 export interface InseticidaXPragas {
   periodo: Date | null | string;
-  quantidade: number;
+  pragasEncontradas: number;
+  consumo: number;
 }

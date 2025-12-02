@@ -45,7 +45,7 @@ export const TableConsumoDeProdutos: React.FC<TableConsumoDeProdutosProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Data
+                Período
               </TableCell>
               <TableCell
                 align="center"

@@ -54,7 +54,16 @@ export const TableInseticidaXPragas: React.FC<TableInseticidaXPragasProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Pragas Encontradas
+                Pragas Encontradas (un)
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{
+                  backgroundColor: "primary.main",
+                  color: "primary.contrastText",
+                }}
+              >
+                Pragas Encontradas (mL)
               </TableCell>
             </TableRow>
           </TableHead>
@@ -74,7 +83,10 @@ export const TableInseticidaXPragas: React.FC<TableInseticidaXPragasProps> = ({
                     {inseticidaXPragas?.periodo as string}
                   </TableCell>
                   <TableCell align="center">
-                    {inseticidaXPragas?.quantidade}
+                    {inseticidaXPragas?.pragasEncontradas}
+                  </TableCell>
+                  <TableCell align="center">
+                    {inseticidaXPragas?.consumo}
                   </TableCell>
                 </TableRow>
               ))
