@@ -5,6 +5,8 @@ import { DatePicker } from "../../../components/Form/DatePicker";
 import { Loading } from "../../../components/Loading";
 import { Layout } from "../../../components/Template/Layout";
 import { ConsumoDeProdutosChart } from "./ConsumoDeProdutosChart";
+import { mockConsumoDeProdutos } from "./provider";
+import { TableConsumoDeProdutos } from "./TableConsumoDeProdutos";
 import { FormRelatorio } from "./types";
 
 const defaultValues: FormRelatorio = {
@@ -13,10 +15,40 @@ const defaultValues: FormRelatorio = {
 };
 
 export const RelatorioConsumoDeProdutos = () => {
+  // hooks
   const methods = useForm<FormRelatorio>({ defaultValues });
   const { control } = methods;
 
+  // useStates
+  // -- data
+  const [filteredConsumoDeProdutos] = useState(mockConsumoDeProdutos);
+
+  // -- search
   const [loading, setLoading] = useState(true);
+
+  // -- table
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  // variables
+  const paginatedConsumoDeProdutos = filteredConsumoDeProdutos.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage,
+  );
+
+  // handlers
+  // -- table
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: any) => {
+    setRowsPerPage(parseInt(event?.target?.value, 10));
+    setPage(0);
+  };
 
   return (
     <Loading {...{ loading, setLoading }}>
@@ -42,8 +74,22 @@ export const RelatorioConsumoDeProdutos = () => {
                   </Grid>
                 </Grid>
               </Grid>
+
               <Grid item size={{ xs: 12 }}>
                 <ConsumoDeProdutosChart />
+              </Grid>
+
+              <Grid item size={{ xs: 12 }}>
+                <TableConsumoDeProdutos
+                  {...{
+                    paginatedList: paginatedConsumoDeProdutos,
+                    filteredList: filteredConsumoDeProdutos,
+                    rowsPerPage,
+                    page,
+                    handleChangePage,
+                    handleChangeRowsPerPage,
+                  }}
+                />
               </Grid>
             </Grid>
           </Box>
