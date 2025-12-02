@@ -6,8 +6,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ComposedChart,
-  Line,
+  BarChart,
 } from "recharts";
 import { CardInfo } from "../components/CardInfo";
 import { useFormContext } from "react-hook-form";
@@ -44,15 +43,15 @@ const generateMockData = (
     switch (rangeType) {
       case "day":
         baseGachon = Math.floor(10 + trend * 40);
-        baseBioSerrico = Math.floor(50 + trend * 150);
+        baseBioSerrico = Math.floor(5 + trend * 25);
         break;
       case "month":
         baseGachon = Math.floor(50 + trend * 200);
-        baseBioSerrico = Math.floor(200 + trend * 800);
+        baseBioSerrico = Math.floor(30 + trend * 120);
         break;
       case "year":
         baseGachon = Math.floor(300 + trend * 700);
-        baseBioSerrico = Math.floor(1000 + trend * 3000);
+        baseBioSerrico = Math.floor(200 + trend * 600);
         break;
       default:
         baseGachon = 0;
@@ -145,10 +144,10 @@ export const ArmadilhasDeFeromoniosChart = () => {
   };
 
   const formatTooltipValue = (value: number, name: string) => {
-    if (name.includes("PRAGAS")) {
-      return [`${value} gachon`, "Gachon Encontradas"];
+    if (name === "Gachon") {
+      return [`${value} unidades`, "Gachon"];
     }
-    if (name.includes("BioSerrico")) {
+    if (name === "BioSerrico") {
       return [`${value} ml`, "BioSerrico"];
     }
     return [value, name];
@@ -157,28 +156,17 @@ export const ArmadilhasDeFeromoniosChart = () => {
   return (
     <CardInfo>
       <ResponsiveContainer width="100%" height={300}>
-        <ComposedChart
+        <BarChart
           data={chartData}
           margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis {...getXAxisConfig()} />
           <YAxis
-            yAxisId="left"
             label={{
-              value: "Gachon",
+              value: "Unidades",
               angle: -90,
               position: "insideLeft",
-              fontSize: 12,
-            }}
-          />
-          <YAxis
-            yAxisId="right"
-            orientation="right"
-            label={{
-              value: "BioSerrico (ml)",
-              angle: 90,
-              position: "insideRight",
               fontSize: 12,
             }}
           />
@@ -191,34 +179,22 @@ export const ArmadilhasDeFeromoniosChart = () => {
               borderRadius: "4px",
             }}
           />
-          <Legend
-            verticalAlign="bottom"
-            height={36}
-            formatter={(value) => {
-              if (value === "gachon") return "Gachon Encontradas";
-              if (value === "bioSerrico") return "BioSerrico (mL)";
-              return value;
-            }}
-          />
+          <Legend verticalAlign="bottom" height={36} />
           <Bar
-            yAxisId="left"
             dataKey="gachon"
             fill="#3799d1"
-            name="Gachon Encontradas"
+            name="Gachon"
             radius={[4, 4, 0, 0]}
             barSize={rangeType === "day" ? 30 : 20}
           />
-          <Line
-            yAxisId="right"
-            type="monotone"
+          <Bar
             dataKey="bioSerrico"
-            stroke="#6f17c2"
-            name="BioSerrico"
-            strokeWidth={2}
-            dot={{ r: 3 }}
-            activeDot={{ r: 6 }}
+            fill="#6f17c2"
+            name="Bio Serrico"
+            radius={[4, 4, 0, 0]}
+            barSize={rangeType === "day" ? 30 : 20}
           />
-        </ComposedChart>
+        </BarChart>
       </ResponsiveContainer>
     </CardInfo>
   );
