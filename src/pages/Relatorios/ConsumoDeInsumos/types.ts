@@ -4,8 +4,6 @@ export interface FormRelatorio {
 }
 
 export interface ConsumoDeInsumos {
-  data: Date | null | string;
-  inseticidadeLiquido: number;
-  inseticidadeSolido: number;
-  rodenticida: number;
+  periodo: Date | null | string;
+  quantidade: number;
 }

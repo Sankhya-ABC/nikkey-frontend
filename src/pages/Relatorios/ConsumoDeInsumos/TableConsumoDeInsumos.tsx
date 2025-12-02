@@ -45,7 +45,7 @@ export const TableConsumoDeInsumos: React.FC<TableConsumoDeInsumosProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Data
+                Período
               </TableCell>
               <TableCell
                 align="center"
@@ -54,25 +54,7 @@ export const TableConsumoDeInsumos: React.FC<TableConsumoDeInsumosProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Inseticida Líquido (mL)
-              </TableCell>
-              <TableCell
-                align="center"
-                sx={{
-                  backgroundColor: "primary.main",
-                  color: "primary.contrastText",
-                }}
-              >
-                Inseticida Sólido (mL)
-              </TableCell>
-              <TableCell
-                align="center"
-                sx={{
-                  backgroundColor: "primary.main",
-                  color: "primary.contrastText",
-                }}
-              >
-                Rodenticida (mL)
+                Insumos
               </TableCell>
             </TableRow>
           </TableHead>
@@ -87,18 +69,12 @@ export const TableConsumoDeInsumos: React.FC<TableConsumoDeInsumosProps> = ({
               </TableRow>
             ) : (
               paginatedList?.map((consumoDeInsumo) => (
-                <TableRow key={consumoDeInsumo?.data as string} hover>
+                <TableRow key={consumoDeInsumo?.periodo as string} hover>
                   <TableCell align="center">
-                    {consumoDeInsumo?.data as string}
+                    {consumoDeInsumo?.periodo as string}
                   </TableCell>
                   <TableCell align="center">
-                    {consumoDeInsumo?.inseticidadeLiquido}
-                  </TableCell>
-                  <TableCell align="center">
-                    {consumoDeInsumo?.inseticidadeSolido}
-                  </TableCell>
-                  <TableCell align="center">
-                    {consumoDeInsumo?.rodenticida}
+                    {consumoDeInsumo?.quantidade}
                   </TableCell>
                 </TableRow>
               ))

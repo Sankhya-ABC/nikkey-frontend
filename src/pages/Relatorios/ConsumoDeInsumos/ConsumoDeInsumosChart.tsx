@@ -1,6 +1,6 @@
 import {
-  Line,
-  LineChart,
+  Bar,
+  BarChart,
   CartesianGrid,
   Legend,
   ResponsiveContainer,
@@ -26,63 +26,38 @@ import {
 interface ChartData {
   date: string;
   dateDisplay: string;
-  inseticidaLiquido: number;
-  inseticidaSolido: number;
-  rodenticida: number;
+  consumos: number;
 }
 
 const generateMockData = (
   dateRange: string[],
   rangeType: DateRangeType,
 ): ChartData[] => {
-  return dateRange.map((date, index) => {
-    let baseInseticidaLiquido: number;
-    let baseInseticidaSolido: number;
-    let baseRodenticida: number;
-
-    const trend = Math.sin(index * 0.3) * 0.5 + 0.5;
+  return dateRange.map((date) => {
+    let baseConsumos: number;
 
     switch (rangeType) {
       case "day":
-        baseInseticidaLiquido = Math.floor(50 + trend * 200);
-        baseInseticidaSolido = Math.floor(100 + trend * 150);
-        baseRodenticida = Math.floor(50 + trend * 100);
+        baseConsumos = Math.floor(Math.random() * 6);
         break;
       case "month":
-        baseInseticidaLiquido = Math.floor(1000 + trend * 2000);
-        baseInseticidaSolido = Math.floor(1000 + trend * 1500);
-        baseRodenticida = Math.floor(500 + trend * 1000);
+        baseConsumos = Math.floor(Math.random() * 41) + 10;
         break;
       case "year":
-        baseInseticidaLiquido = Math.floor(10000 + trend * 15000);
-        baseInseticidaSolido = Math.floor(8000 + trend * 12000);
-        baseRodenticida = Math.floor(5000 + trend * 8000);
+        baseConsumos = Math.floor(Math.random() * 401) + 100;
         break;
       default:
-        baseInseticidaLiquido = 0;
-        baseInseticidaSolido = 0;
-        baseRodenticida = 0;
+        baseConsumos = 0;
     }
 
-    const variationLiquido =
-      Math.random() > 0.8
-        ? Math.floor(Math.random() * baseInseticidaLiquido * 0.2)
-        : 0;
-    const variationSolido =
-      Math.random() > 0.8
-        ? Math.floor(Math.random() * baseInseticidaSolido * 0.2)
-        : 0;
-    const variationRodenticida =
-      Math.random() > 0.8
-        ? Math.floor(Math.random() * baseRodenticida * 0.2)
-        : 0;
+    const variation =
+      Math.random() > 0.7 ? Math.floor(Math.random() * baseConsumos * 0.5) : 0;
+    const consumos = baseConsumos + variation;
 
     return {
       date,
       dateDisplay: formatDateForDisplay(date, rangeType),
-      inseticidaLiquido: baseInseticidaLiquido + variationLiquido,
-      inseticidaSolido: baseInseticidaSolido + variationSolido,
-      rodenticida: baseRodenticida + variationRodenticida,
+      consumos,
     };
   });
 };
@@ -156,19 +131,10 @@ export const ConsumoDeInsumosChart = () => {
     return formatDateForTooltip(data.date, rangeType);
   };
 
-  const formatTooltipValue = (value: number, name: string) => {
-    const unit = name.includes("LÍQUIDO")
-      ? " ml"
-      : name.includes("SÓLIDO") || name.includes("RODENTICIDA")
-        ? " g"
-        : "";
-    return [`${value}${unit}`, name];
-  };
-
   return (
     <CardInfo>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart
           data={chartData}
           margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
         >
@@ -183,38 +149,17 @@ export const ConsumoDeInsumosChart = () => {
             }}
           />
           <Tooltip
-            formatter={formatTooltipValue}
+            formatter={(value: number) => [`${value} consumos`, "Unidade"]}
             labelFormatter={formatTooltipLabel}
           />
           <Legend verticalAlign="bottom" height={36} />
-          <Line
-            type="monotone"
-            dataKey="inseticidaLiquido"
-            stroke="#3799d1"
-            name="Inseticida Líquido (ml)"
-            strokeWidth={2}
-            dot={{ r: 3 }}
-            activeDot={{ r: 6 }}
+          <Bar
+            dataKey="consumos"
+            fill="#3799d1"
+            name="Consumo de Insumos"
+            radius={[4, 4, 0, 0]}
           />
-          <Line
-            type="monotone"
-            dataKey="inseticidaSolido"
-            stroke="#e45f2b"
-            name="Inseticida Sólido (g)"
-            strokeWidth={2}
-            dot={{ r: 3 }}
-            activeDot={{ r: 6 }}
-          />
-          <Line
-            type="monotone"
-            dataKey="rodenticida"
-            stroke="#41c228"
-            name="Rodenticida (g)"
-            strokeWidth={2}
-            dot={{ r: 3 }}
-            activeDot={{ r: 6 }}
-          />
-        </LineChart>
+        </BarChart>
       </ResponsiveContainer>
     </CardInfo>
   );
