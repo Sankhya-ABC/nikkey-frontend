@@ -20,6 +20,7 @@ import { Visitas } from "./pages/Visitas";
 import { Role } from "./types";
 import { RelatorioConsumoDeProdutos } from "./pages/Relatorios/ConsumoDeProdutos";
 import { RelatorioConsumoDeInsumos } from "./pages/Relatorios/ConsumoDeInsumos";
+import { RelatorioFocoPragasEncontradas } from "./pages/Relatorios/FocoPragasEncontradas";
 
 interface Routes {
   path: string;
@@ -195,7 +196,7 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.RELATORIO_FOCO_PRAGAS,
-    element: <span>RELATORIO_FOCO_PRAGAS</span>,
+    element: <RelatorioFocoPragasEncontradas />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {
