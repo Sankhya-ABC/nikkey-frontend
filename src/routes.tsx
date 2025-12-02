@@ -19,6 +19,7 @@ import { Usuarios } from "./pages/Usuarios";
 import { Visitas } from "./pages/Visitas";
 import { Role } from "./types";
 import { RelatorioConsumoDeProdutos } from "./pages/Relatorios/ConsumoDeProdutos";
+import { RelatorioConsumoDeInsumos } from "./pages/Relatorios/ConsumoDeInsumos";
 
 interface Routes {
   path: string;
@@ -183,7 +184,7 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.RELATORIO_CONSUMO_INSUMOS,
-    element: <span>RELATORIO_CONSUMO_INSUMOS</span>,
+    element: <RelatorioConsumoDeInsumos />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {

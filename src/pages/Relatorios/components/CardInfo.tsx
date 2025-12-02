@@ -1,7 +1,7 @@
 import { Card, CardContent, SxProps, Theme, Typography } from "@mui/material";
 
 interface CardInfoProps {
-  title: string;
+  title?: string;
   children: React.ReactNode;
   sxCard?: SxProps<Theme>;
   sxContent?: SxProps<Theme>;
