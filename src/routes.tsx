@@ -25,6 +25,7 @@ import { RelatorioInseticidaXPragas } from "./pages/Relatorios/InseticidaXPragas
 import { RelatorioArmadilhasDeFeromonios } from "./pages/Relatorios/ArmadilhasDeFeromonios";
 import { RelatorioArmadilhasLuminosas } from "./pages/Relatorios/ArmadilhasLuminosas";
 import { RelatorioRoedoresMortos } from "./pages/Relatorios/RoedoresMortos";
+import { RelatorioPlacaDeColaArmadilhaMecanica } from "./pages/Relatorios/PlacaDeColaArmadilhaMecanica";
 
 interface Routes {
   path: string;
@@ -62,7 +63,7 @@ export enum ROUTES {
   RELATORIO_ARMADILHAS_FEROMONIOS = "/relatorios/armadilhas-feromonios",
   RELATORIO_ARMADILHAS_LUMINOSAS = "/relatorios/armadilhas-luminosas",
   RELATORIO_ROEDORES_MORTOS = "/relatorios/roedores-mortos",
-  RELATORIO_PLACA_COLA = "/relatorios/placa-cola",
+  RELATORIO_PLACA_COLA_ARMADILHA_MECANICA = "/relatorios/placa-cola-armadilha-mecanica",
   RELATORIO_ISCAS_ROIDAS = "/relatorios/iscas-roidas",
   RELATORIO_RODENTICIDAS_ROEDORES = "/relatorios/rodenticidas-roedores",
   RELATORIO_NAO_CONFORMIDADES = "/relatorios/nao-conformidades",
@@ -254,8 +255,8 @@ export const routes: Routes[] = [
     },
   },
   {
-    path: ROUTES.RELATORIO_PLACA_COLA,
-    element: <span>RELATORIO_PLACA_COLA</span>,
+    path: ROUTES.RELATORIO_PLACA_COLA_ARMADILHA_MECANICA,
+    element: <RelatorioPlacaDeColaArmadilhaMecanica />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {
