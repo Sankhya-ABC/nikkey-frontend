@@ -4,9 +4,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Loading } from "../../../components/Loading";
 import { Layout } from "../../../components/Template/Layout";
-import { InseticidasXPragasChart } from "./InseticidasXPragasChart";
-import { mockInseticidasXPragas } from "./provider";
-import { TableInseticidasXPragas } from "./TableInseticidasXPragas";
+import { RodenticidasXRoedoresChart } from "./RodenticidasXRoedoresChart";
+import { mockRodenticidasXRoedores } from "./provider";
+import { TableRodenticidasXRoedores } from "./TableRodenticidasXRoedores";
 import { FormRelatorio } from "./types";
 
 const defaultValues: FormRelatorio = {
@@ -14,14 +14,14 @@ const defaultValues: FormRelatorio = {
   dataFim: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
 };
 
-export const RelatorioInseticidasXPragas = () => {
+export const RelatorioRodenticidasXRoedores = () => {
   // hooks
   const methods = useForm<FormRelatorio>({ defaultValues });
   const { control } = methods;
 
   // useStates
   // -- data
-  const [filteredInseticidasXPragas] = useState(mockInseticidasXPragas);
+  const [filteredRodenticidasXRoedores] = useState(mockRodenticidasXRoedores);
 
   // -- search
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ export const RelatorioInseticidasXPragas = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // variables
-  const paginatedInseticidasXPragas = filteredInseticidasXPragas.slice(
+  const paginatedRodenticidasXRoedores = filteredRodenticidasXRoedores.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage,
   );
@@ -52,7 +52,7 @@ export const RelatorioInseticidasXPragas = () => {
 
   return (
     <Loading {...{ loading, setLoading }}>
-      <Layout title="Inseticidas X Pragas">
+      <Layout title="Rodenticidas x Roedores Mortos">
         <FormProvider {...methods}>
           <Box sx={{ width: "100%" }}>
             <Grid container spacing={3}>
@@ -76,14 +76,14 @@ export const RelatorioInseticidasXPragas = () => {
               </Grid>
 
               <Grid item size={{ xs: 12 }}>
-                <InseticidasXPragasChart />
+                <RodenticidasXRoedoresChart />
               </Grid>
 
               <Grid item size={{ xs: 12 }}>
-                <TableInseticidasXPragas
+                <TableRodenticidasXRoedores
                   {...{
-                    paginatedList: paginatedInseticidasXPragas,
-                    filteredList: filteredInseticidasXPragas,
+                    paginatedList: paginatedRodenticidasXRoedores,
+                    filteredList: filteredRodenticidasXRoedores,
                     rowsPerPage,
                     page,
                     handleChangePage,

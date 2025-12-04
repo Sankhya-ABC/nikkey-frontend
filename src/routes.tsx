@@ -27,6 +27,7 @@ import { RelatorioArmadilhasLuminosas } from "./pages/Relatorios/ArmadilhasLumin
 import { RelatorioRoedoresMortos } from "./pages/Relatorios/RoedoresMortos";
 import { RelatorioPlacaDeColaArmadilhaMecanica } from "./pages/Relatorios/PlacaDeColaArmadilhaMecanica";
 import { RelatorioIscasRoidas } from "./pages/Relatorios/IscasRoidas";
+import { RelatorioRodenticidasXRoedores } from "./pages/Relatorios/RodenticidasXRoedores";
 
 interface Routes {
   path: string;
@@ -279,7 +280,7 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.RELATORIO_RODENTICIDAS_ROEDORES,
-    element: <span>RELATORIO_RODENTICIDAS_ROEDORES</span>,
+    element: <RelatorioRodenticidasXRoedores />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {

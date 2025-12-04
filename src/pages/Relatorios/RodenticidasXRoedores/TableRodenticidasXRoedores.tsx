@@ -9,11 +9,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { InseticidasXPragas } from "./types";
+import { RodenticidasXRoedores } from "./types";
 
-interface TableInseticidasXPragasProps {
-  paginatedList: InseticidasXPragas[];
-  filteredList: InseticidasXPragas[];
+interface TableRodenticidasXRoedoresProps {
+  paginatedList: RodenticidasXRoedores[];
+  filteredList: RodenticidasXRoedores[];
 
   rowsPerPage: number;
   page: number;
@@ -24,8 +24,8 @@ interface TableInseticidasXPragasProps {
   handleChangeRowsPerPage: (event: any) => void;
 }
 
-export const TableInseticidasXPragas: React.FC<
-  TableInseticidasXPragasProps
+export const TableRodenticidasXRoedores: React.FC<
+  TableRodenticidasXRoedoresProps
 > = ({
   paginatedList,
   filteredList,
@@ -37,7 +37,7 @@ export const TableInseticidasXPragas: React.FC<
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
-        <Table stickyHeader aria-label="tabela de inseticidas x pragas">
+        <Table stickyHeader aria-label="tabela de rodenticidas x roedores">
           <TableHead>
             <TableRow>
               <TableCell
@@ -79,16 +79,16 @@ export const TableInseticidasXPragas: React.FC<
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedList?.map((inseticidaXPraga) => (
-                <TableRow key={inseticidaXPraga?.periodo as string} hover>
+              paginatedList?.map((rodenticidaXRoedor) => (
+                <TableRow key={rodenticidaXRoedor?.periodo as string} hover>
                   <TableCell align="center">
-                    {inseticidaXPraga?.periodo as string}
+                    {rodenticidaXRoedor?.periodo as string}
                   </TableCell>
                   <TableCell align="center">
-                    {inseticidaXPraga?.pragasEncontradas}
+                    {rodenticidaXRoedor?.mortos}
                   </TableCell>
                   <TableCell align="center">
-                    {inseticidaXPraga?.consumo}
+                    {rodenticidaXRoedor?.rodenticida}
                   </TableCell>
                 </TableRow>
               ))
