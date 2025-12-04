@@ -9,11 +9,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { InseticidaXPragas } from "./types";
+import { InseticidasXPragas } from "./types";
 
-interface TableInseticidaXPragasProps {
-  paginatedList: InseticidaXPragas[];
-  filteredList: InseticidaXPragas[];
+interface TableInseticidasXPragasProps {
+  paginatedList: InseticidasXPragas[];
+  filteredList: InseticidasXPragas[];
 
   rowsPerPage: number;
   page: number;
@@ -24,7 +24,9 @@ interface TableInseticidaXPragasProps {
   handleChangeRowsPerPage: (event: any) => void;
 }
 
-export const TableInseticidaXPragas: React.FC<TableInseticidaXPragasProps> = ({
+export const TableInseticidasXPragas: React.FC<
+  TableInseticidasXPragasProps
+> = ({
   paginatedList,
   filteredList,
   rowsPerPage,
@@ -77,16 +79,16 @@ export const TableInseticidaXPragas: React.FC<TableInseticidaXPragasProps> = ({
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedList?.map((inseticidaXPragas) => (
-                <TableRow key={inseticidaXPragas?.periodo as string} hover>
+              paginatedList?.map((inseticidaXPraga) => (
+                <TableRow key={inseticidaXPraga?.periodo as string} hover>
                   <TableCell align="center">
-                    {inseticidaXPragas?.periodo as string}
+                    {inseticidaXPraga?.periodo as string}
                   </TableCell>
                   <TableCell align="center">
-                    {inseticidaXPragas?.pragasEncontradas}
+                    {inseticidaXPraga?.pragasEncontradas}
                   </TableCell>
                   <TableCell align="center">
-                    {inseticidaXPragas?.consumo}
+                    {inseticidaXPraga?.consumo}
                   </TableCell>
                 </TableRow>
               ))

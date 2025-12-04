@@ -21,7 +21,7 @@ import { Role } from "./types";
 import { RelatorioConsumoDeProdutos } from "./pages/Relatorios/ConsumoDeProdutos";
 import { RelatorioConsumoDeInsumos } from "./pages/Relatorios/ConsumoDeInsumos";
 import { RelatorioFocoPragasEncontradas } from "./pages/Relatorios/FocoPragasEncontradas";
-import { RelatorioInseticidaXPragas } from "./pages/Relatorios/InseticidaXPragas";
+import { RelatorioInseticidasXPragas } from "./pages/Relatorios/InseticidasXPragas";
 import { RelatorioArmadilhasDeFeromonios } from "./pages/Relatorios/ArmadilhasDeFeromonios";
 import { RelatorioArmadilhasLuminosas } from "./pages/Relatorios/ArmadilhasLuminosas";
 import { RelatorioRoedoresMortos } from "./pages/Relatorios/RoedoresMortos";
@@ -213,7 +213,7 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.RELATORIO_INSETICIDAS_PRAGAS,
-    element: <RelatorioInseticidaXPragas />,
+    element: <RelatorioInseticidasXPragas />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {

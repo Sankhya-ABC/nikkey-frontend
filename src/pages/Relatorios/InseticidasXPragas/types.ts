@@ -3,7 +3,7 @@ export interface FormRelatorio {
   dataFim: Date | null | number | string;
 }
 
-export interface InseticidaXPragas {
+export interface InseticidasXPragas {
   periodo: Date | null | string;
   pragasEncontradas: number;
   consumo: number;

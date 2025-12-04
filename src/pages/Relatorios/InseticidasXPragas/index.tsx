@@ -4,9 +4,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Loading } from "../../../components/Loading";
 import { Layout } from "../../../components/Template/Layout";
-import { InseticidaXPragasChart } from "./InseticidaXPragasChart";
-import { mockInseticidaXPragas } from "./provider";
-import { TableInseticidaXPragas } from "./TableInseticidaXPragas";
+import { InseticidasXPragasChart } from "./InseticidasXPragasChart";
+import { mockInseticidasXPragas } from "./provider";
+import { TableInseticidasXPragas } from "./TableInseticidasXPragas";
 import { FormRelatorio } from "./types";
 
 const defaultValues: FormRelatorio = {
@@ -14,14 +14,14 @@ const defaultValues: FormRelatorio = {
   dataFim: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
 };
 
-export const RelatorioInseticidaXPragas = () => {
+export const RelatorioInseticidasXPragas = () => {
   // hooks
   const methods = useForm<FormRelatorio>({ defaultValues });
   const { control } = methods;
 
   // useStates
   // -- data
-  const [filteredInseticidaXPragas] = useState(mockInseticidaXPragas);
+  const [filteredInseticidasXPragas] = useState(mockInseticidasXPragas);
 
   // -- search
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ export const RelatorioInseticidaXPragas = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // variables
-  const paginatedInseticidaXPragas = filteredInseticidaXPragas.slice(
+  const paginatedInseticidasXPragas = filteredInseticidasXPragas.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage,
   );
@@ -76,14 +76,14 @@ export const RelatorioInseticidaXPragas = () => {
               </Grid>
 
               <Grid item size={{ xs: 12 }}>
-                <InseticidaXPragasChart />
+                <InseticidasXPragasChart />
               </Grid>
 
               <Grid item size={{ xs: 12 }}>
-                <TableInseticidaXPragas
+                <TableInseticidasXPragas
                   {...{
-                    paginatedList: paginatedInseticidaXPragas,
-                    filteredList: filteredInseticidaXPragas,
+                    paginatedList: paginatedInseticidasXPragas,
+                    filteredList: filteredInseticidasXPragas,
                     rowsPerPage,
                     page,
                     handleChangePage,

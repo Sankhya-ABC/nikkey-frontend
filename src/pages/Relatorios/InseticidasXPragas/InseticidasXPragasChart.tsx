@@ -75,7 +75,7 @@ const generateMockData = (
   });
 };
 
-export const InseticidaXPragasChart = () => {
+export const InseticidasXPragasChart = () => {
   const { watch } = useFormContext<FormRelatorio>();
 
   const dataInicio = watch("dataInicio");

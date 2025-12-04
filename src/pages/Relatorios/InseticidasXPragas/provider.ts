@@ -1,6 +1,6 @@
-import { InseticidaXPragas } from "./types";
+import { InseticidasXPragas } from "./types";
 
-export const mockInseticidaXPragas: InseticidaXPragas[] = [
+export const mockInseticidasXPragas: InseticidasXPragas[] = [
   {
     periodo: "15/01/2025",
     consumo: 120,
