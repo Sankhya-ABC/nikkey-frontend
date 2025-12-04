@@ -28,6 +28,7 @@ import { RelatorioRoedoresMortos } from "./pages/Relatorios/RoedoresMortos";
 import { RelatorioPlacaDeColaArmadilhaMecanica } from "./pages/Relatorios/PlacaDeColaArmadilhaMecanica";
 import { RelatorioIscasRoidas } from "./pages/Relatorios/IscasRoidas";
 import { RelatorioRodenticidasXRoedores } from "./pages/Relatorios/RodenticidasXRoedores";
+import { RelatorioNaoConformidades } from "./pages/Relatorios/NaoConformidades";
 
 interface Routes {
   path: string;
@@ -291,22 +292,11 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.RELATORIO_NAO_CONFORMIDADES,
-    element: <span>RELATORIO_NAO_CONFORMIDADES</span>,
+    element: <RelatorioNaoConformidades />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {
       name: "Não Conformidades",
-      icon: <DescriptionIcon />,
-      parent: "Relatórios",
-    },
-  },
-  {
-    path: ROUTES.RELATORIO_CERTIFICADOS,
-    element: <span>RELATORIO_CERTIFICADOS</span>,
-    isProtected: true,
-    requiredRole: [Role.COMMON],
-    menu: {
-      name: "Certificados",
       icon: <DescriptionIcon />,
       parent: "Relatórios",
     },
