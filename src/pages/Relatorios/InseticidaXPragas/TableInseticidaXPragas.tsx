@@ -63,7 +63,7 @@ export const TableInseticidaXPragas: React.FC<TableInseticidaXPragasProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Pragas Encontradas (mL)
+                Consumo (mL)
               </TableCell>
             </TableRow>
           </TableHead>

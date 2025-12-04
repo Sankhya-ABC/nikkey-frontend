@@ -63,7 +63,7 @@ export const TableConsumoDeProdutos: React.FC<TableConsumoDeProdutosProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Inseticida Sólido (mL)
+                Inseticida Sólido (g)
               </TableCell>
               <TableCell
                 align="center"
@@ -72,7 +72,7 @@ export const TableConsumoDeProdutos: React.FC<TableConsumoDeProdutosProps> = ({
                   color: "primary.contrastText",
                 }}
               >
-                Rodenticida (mL)
+                Rodenticida (g)
               </TableCell>
             </TableRow>
           </TableHead>

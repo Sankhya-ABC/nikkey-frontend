@@ -191,7 +191,7 @@ export const ConsumoDeProdutosChart = () => {
             type="monotone"
             dataKey="inseticidaLiquido"
             stroke="#3799d1"
-            name="Inseticida Líquido (ml)"
+            name="Inseticida Líquido (mL)"
             strokeWidth={2}
             dot={{ r: 3 }}
             activeDot={{ r: 6 }}

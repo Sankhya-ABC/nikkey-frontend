@@ -152,7 +152,7 @@ export const ArmadilhasLuminosasChart = () => {
           />
           <Tooltip
             formatter={(value: number) => [
-              `${value} armadilhasLuminosas`,
+              `${value} encontrados em armadilhas luminosas`,
               "Unidade",
             ]}
             labelFormatter={formatTooltipLabel}

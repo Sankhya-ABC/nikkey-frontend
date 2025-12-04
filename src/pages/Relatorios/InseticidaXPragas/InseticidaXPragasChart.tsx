@@ -149,7 +149,7 @@ export const InseticidaXPragasChart = () => {
       return [`${value} pragas`, "Pragas Encontradas"];
     }
     if (name.includes("Inseticida")) {
-      return [`${value} ml`, "Inseticida"];
+      return [`${value} mL`, "Inseticida"];
     }
     return [value, name];
   };
@@ -176,7 +176,7 @@ export const InseticidaXPragasChart = () => {
             yAxisId="right"
             orientation="right"
             label={{
-              value: "Inseticida (ml)",
+              value: "Inseticida (mL)",
               angle: 90,
               position: "insideRight",
               fontSize: 12,
