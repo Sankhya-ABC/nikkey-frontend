@@ -26,6 +26,7 @@ import { RelatorioArmadilhasDeFeromonios } from "./pages/Relatorios/ArmadilhasDe
 import { RelatorioArmadilhasLuminosas } from "./pages/Relatorios/ArmadilhasLuminosas";
 import { RelatorioRoedoresMortos } from "./pages/Relatorios/RoedoresMortos";
 import { RelatorioPlacaDeColaArmadilhaMecanica } from "./pages/Relatorios/PlacaDeColaArmadilhaMecanica";
+import { RelatorioIscasRoidas } from "./pages/Relatorios/IscasRoidas";
 
 interface Routes {
   path: string;
@@ -267,7 +268,7 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.RELATORIO_ISCAS_ROIDAS,
-    element: <span>RELATORIO_ISCAS_ROIDAS</span>,
+    element: <RelatorioIscasRoidas />,
     isProtected: true,
     requiredRole: [Role.COMMON],
     menu: {
