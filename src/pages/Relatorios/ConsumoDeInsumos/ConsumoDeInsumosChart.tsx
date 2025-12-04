@@ -149,7 +149,7 @@ export const ConsumoDeInsumosChart = () => {
             }}
           />
           <Tooltip
-            formatter={(value: number) => [`${value} consumos`, "Unidade"]}
+            formatter={(value: number) => [`${value}`, "Unidade"]}
             labelFormatter={formatTooltipLabel}
           />
           <Legend verticalAlign="bottom" height={36} />

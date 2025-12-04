@@ -26,7 +26,7 @@ import {
 interface ChartData {
   date: string;
   dateDisplay: string;
-  focoPragasEncontradas: number;
+  quantidade: number;
 }
 
 const generateMockData = (
@@ -34,37 +34,37 @@ const generateMockData = (
   rangeType: DateRangeType,
 ): ChartData[] => {
   return dateRange.map((date) => {
-    let baseFocoPragasEncontradas: number;
+    let baseQuantidade: number;
 
     switch (rangeType) {
       case "day":
-        baseFocoPragasEncontradas = Math.floor(Math.random() * 6);
+        baseQuantidade = Math.floor(Math.random() * 6);
         break;
       case "month":
-        baseFocoPragasEncontradas = Math.floor(Math.random() * 41) + 10;
+        baseQuantidade = Math.floor(Math.random() * 41) + 10;
         break;
       case "year":
-        baseFocoPragasEncontradas = Math.floor(Math.random() * 401) + 100;
+        baseQuantidade = Math.floor(Math.random() * 401) + 100;
         break;
       default:
-        baseFocoPragasEncontradas = 0;
+        baseQuantidade = 0;
     }
 
     const variation =
       Math.random() > 0.7
-        ? Math.floor(Math.random() * baseFocoPragasEncontradas * 0.5)
+        ? Math.floor(Math.random() * baseQuantidade * 0.5)
         : 0;
-    const focoPragasEncontradas = baseFocoPragasEncontradas + variation;
+    const quantidade = baseQuantidade + variation;
 
     return {
       date,
       dateDisplay: formatDateForDisplay(date, rangeType),
-      focoPragasEncontradas,
+      quantidade,
     };
   });
 };
 
-export const FocoPragasEncontradasChart = () => {
+export const RoedoresMortosChart = () => {
   const { watch } = useFormContext<FormRelatorio>();
 
   const dataInicio = watch("dataInicio");
@@ -156,9 +156,9 @@ export const FocoPragasEncontradasChart = () => {
           />
           <Legend verticalAlign="bottom" height={36} />
           <Bar
-            dataKey="focoPragasEncontradas"
+            dataKey="quantidade"
             fill="#3799d1"
-            name="Pragas Encontradas"
+            name="Roedores Mortos"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>

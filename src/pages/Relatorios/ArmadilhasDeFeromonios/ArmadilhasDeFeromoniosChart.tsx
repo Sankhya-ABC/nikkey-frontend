@@ -145,10 +145,10 @@ export const ArmadilhasDeFeromoniosChart = () => {
 
   const formatTooltipValue = (value: number, name: string) => {
     if (name === "Gachon") {
-      return [`${value} unidades`, "Gachon"];
+      return [`${value}`, "Gachon"];
     }
-    if (name === "BioSerrico") {
-      return [`${value} ml`, "BioSerrico"];
+    if (name === "Bio Serrico") {
+      return [`${value}`, "Bio Serrico"];
     }
     return [value, name];
   };
