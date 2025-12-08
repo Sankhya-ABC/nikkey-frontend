@@ -189,7 +189,7 @@ export const ProximasVisitas = () => {
     <Card>
       <Box sx={{ p: 3 }}>
         <Grid container spacing={1}>
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Typography
               variant="h6"
               sx={{ fontWeight: 600, lineHeight: 1, mb: 1.5 }}
@@ -210,7 +210,7 @@ export const ProximasVisitas = () => {
         }}
       >
         <Grid container spacing={3}>
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <List
               sx={{
                 padding: 0,

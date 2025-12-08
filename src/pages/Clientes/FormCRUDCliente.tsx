@@ -74,13 +74,13 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
       </DialogTitle>
       <DialogContent sx={{ overflow: "unset" }}>
         <Grid container spacing={2}>
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">
               Dados Básicos
             </Typography>
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               control={control}
               name="razaoSocial"
@@ -88,7 +88,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               control={control}
               name="nomeFantasia"
@@ -96,11 +96,11 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 6 }}>
+          <Grid size={{ xs: 6 }}>
             <TextField control={control} name="cnpjCpf" label="CNPJ/CPF" />
           </Grid>
 
-          <Grid item size={{ xs: 6 }}>
+          <Grid size={{ xs: 6 }}>
             <TextField
               control={control}
               name="validadeCertificado"
@@ -108,7 +108,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               control={control}
               name="tipoAtividade"
@@ -116,7 +116,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Switch
               control={control}
               name="possuiContrato"
@@ -124,21 +124,21 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">
               Endereço
             </Typography>
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField control={control} name="logradouro" label="Logradouro" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 3 }}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <TextField control={control} name="numero" label="Número" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 9 }}>
+          <Grid size={{ xs: 12, md: 9 }}>
             <TextField
               control={control}
               name="complemento"
@@ -146,11 +146,11 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 6, md: 3 }}>
+          <Grid size={{ xs: 6, md: 3 }}>
             <TextField control={control} name="bairro" label="Bairro" />
           </Grid>
 
-          <Grid item size={{ xs: 6, md: 3 }}>
+          <Grid size={{ xs: 6, md: 3 }}>
             <Select
               control={control}
               name="estado"
@@ -164,41 +164,41 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 3 }}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <TextField control={control} name="cidade" label="Cidade" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 3 }}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <TextField control={control} name="cep" label="CEP" />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">
               Contato
             </Typography>
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField control={control} name="contato" label="Contato" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField control={control} name="telefone" label="Telefone" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField control={control} name="funcao" label="Função" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField control={control} name="fax" label="Fax" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 8 }}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <TextField control={control} name="email" label="E-mail" />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               control={control}
               name="observacoes"
@@ -208,21 +208,21 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">
               Dados de Acesso
             </Typography>
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField control={control} name="nomeAcesso" label="Nome" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField control={control} name="emailAcesso" label="E-mail" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField
               control={control}
               name="departamento"
@@ -230,7 +230,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField
               control={control}
               name="senha"
@@ -239,7 +239,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField
               control={control}
               name="confirmarSenha"

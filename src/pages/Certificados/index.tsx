@@ -71,15 +71,15 @@ export const Certificados = () => {
   return (
     <Loading {...{ loading, setLoading }}>
       <Layout title="Certificados">
-        <Grid item size={{ xs: 12, md: 3 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <DatePicker label="Data início" name="dataInicio" control={control} />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 3 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <DatePicker label="Data fim" name="dataFim" control={control} />
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TableCertificados
             {...{
               paginatedList: paginatedCertificados,

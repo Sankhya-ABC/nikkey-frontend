@@ -57,7 +57,7 @@ export const Login = () => {
     >
       <Paper sx={{ p: 3 }}>
         <Grid container spacing={2}>
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Typography
               color="primary"
               variant="h4"
@@ -67,10 +67,10 @@ export const Login = () => {
             </Typography>
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField control={control} name="usuario" label="Usuário" />
           </Grid>
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               control={control}
               name="senha"
@@ -79,7 +79,7 @@ export const Login = () => {
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Button
               variant="contained"
               disabled={loading}
@@ -89,7 +89,7 @@ export const Login = () => {
               {loading ? <CircularProgress size={20} /> : "Entrar"}
             </Button>
           </Grid>
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Typography variant="caption">
               Use <strong>admin@example.com</strong> / <strong>123</strong> para
               testar o mock.

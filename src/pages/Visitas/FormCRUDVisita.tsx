@@ -94,7 +94,7 @@ export const FormCRUDVisita: React.FC<VisitaModalProps> = ({
       </DialogTitle>
       <DialogContent sx={{ overflow: "unset" }}>
         <Grid container spacing={2}>
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <DatePicker
               control={control}
               name="dataVisita"
@@ -102,7 +102,7 @@ export const FormCRUDVisita: React.FC<VisitaModalProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Select
               control={control}
               name="empresa"
@@ -116,7 +116,7 @@ export const FormCRUDVisita: React.FC<VisitaModalProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Select
               control={control}
               name="tecnico"
@@ -130,7 +130,7 @@ export const FormCRUDVisita: React.FC<VisitaModalProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 6 }}>
+          <Grid size={{ xs: 6 }}>
             <Select
               control={control}
               name="horaInicial"
@@ -144,7 +144,7 @@ export const FormCRUDVisita: React.FC<VisitaModalProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 6 }}>
+          <Grid size={{ xs: 6 }}>
             <Select
               control={control}
               name="horaFinal"
@@ -158,7 +158,7 @@ export const FormCRUDVisita: React.FC<VisitaModalProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               control={control}
               name="descricao"

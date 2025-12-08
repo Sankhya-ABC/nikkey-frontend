@@ -15,7 +15,7 @@ export const InformacoesBasicasServico = () => {
         Informações Básicas do Serviço
       </Typography>
       <Grid container spacing={2}>
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <Switch
             control={control}
             name="flagServicoRealizado"
@@ -24,7 +24,7 @@ export const InformacoesBasicasServico = () => {
         </Grid>
 
         {!flagServicoRealizado && (
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               control={control}
               name="motivoNaoRealizacao"

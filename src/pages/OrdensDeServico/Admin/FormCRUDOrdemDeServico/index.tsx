@@ -153,33 +153,33 @@ export const FormCRUDOrdemDeServico: React.FC<FormCRUDOrdemDeServicoProps> = ({
       <DialogContent sx={{ overflow: "unset" }}>
         <FormProvider {...methods}>
           <Grid container spacing={2}>
-            <Grid item size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }}>
               <InformacoesGerais />
             </Grid>
 
-            <Grid item size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }}>
               <InformacoesBasicasServico />
             </Grid>
 
             {flagServicoRealizado && (
               <>
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <PragasEncontradas />
                 </Grid>
 
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <Equipamentos />
                 </Grid>
 
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <ConsumoProdutos />
                 </Grid>
 
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <InformacoesAdicionais />
                 </Grid>
 
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <UploadEvidencias />
                 </Grid>
               </>

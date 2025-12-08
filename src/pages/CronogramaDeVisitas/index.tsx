@@ -71,7 +71,7 @@ export const CronogramasDeVisitas = () => {
   return (
     <Loading {...{ loading, setLoading }}>
       <Layout title="Cronograma de Visitas">
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TextField
             control={control}
             name="search"
@@ -88,7 +88,7 @@ export const CronogramasDeVisitas = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TableCronogramasDeVisitas
             {...{
               paginatedList: paginatedCronogramasDeVisitas,

@@ -26,7 +26,7 @@ export const UltimaVisita = () => {
   return (
     <CardInfo title="Última Visita">
       <Grid container spacing={3} width="100%">
-        <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
           <TextField
             control={control}
             name="numeroOS"
@@ -34,7 +34,7 @@ export const UltimaVisita = () => {
             TextFieldProps={{ inputProps: { readOnly: true } }}
           />
         </Grid>
-        <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
           <DateTimePicker
             control={control}
             name="dataHora"
@@ -42,7 +42,7 @@ export const UltimaVisita = () => {
             inputProps={{ readOnly: true }}
           />
         </Grid>
-        <Grid item size={{ xs: 12, md: 4, lg: 4 }}>
+        <Grid size={{ xs: 12, md: 4, lg: 4 }}>
           <Button variant="contained" endIcon={<DownloadIcon />} fullWidth>
             Baixar Certificado
           </Button>

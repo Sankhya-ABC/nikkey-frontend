@@ -14,7 +14,7 @@ export const Layout: React.FC<LayoutProps> = ({
 }) => {
   return (
     <Grid container spacing={spacing}>
-      <Grid item size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }}>
         <Typography
           color="primary"
           variant="h4"

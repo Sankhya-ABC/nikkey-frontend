@@ -76,7 +76,7 @@ export const RelatoriosProdutividade = () => {
   return (
     <Loading {...{ loading, setLoading }}>
       <Layout title="Relatório de Produtividade">
-        <Grid item size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <TextField
             control={control}
             name="search"
@@ -93,15 +93,15 @@ export const RelatoriosProdutividade = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 3 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <DatePicker label="Data início" name="dataInicio" control={control} />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 3 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <DatePicker label="Data fim" name="dataFim" control={control} />
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TableRelatoriosProdutividade
             {...{
               paginatedList: paginatedRelatoriosProdutividade,

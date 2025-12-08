@@ -119,11 +119,11 @@ export const Visitas = () => {
   return (
     <Loading {...{ loading, setLoading }}>
       <Layout title="Visitas" spacing={0}>
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <SelectCalendarView {...{ view, setView }} />
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <CalendarContainer
             {...{
               view,

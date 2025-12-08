@@ -16,7 +16,7 @@ export const UploadEvidencias = () => {
         Upload de Evidências
       </Typography>
       <Grid container spacing={2}>
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <Switch
             control={control}
             name="flagUploadEvidencias"
@@ -25,7 +25,7 @@ export const UploadEvidencias = () => {
         </Grid>
 
         {flagUploadEvidencias && (
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <FileUpload
               acceptedTypes={["image/*"]}
               maxSizeInMB={5}
@@ -35,7 +35,7 @@ export const UploadEvidencias = () => {
           </Grid>
         )}
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TextField
             control={control}
             name="observacoes"

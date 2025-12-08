@@ -27,16 +27,16 @@ export const DashboardCommon = () => {
       <Layout title="Dashboard">
         <FormProvider {...methods}>
           <Grid container spacing={3}>
-            <Grid item size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }}>
               <Grid container spacing={3} sx={{ justifyContent: "end" }}>
-                <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
                   <DatePicker
                     label="Data início"
                     name="dataInicio"
                     control={control}
                   />
                 </Grid>
-                <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
                   <DatePicker
                     label="Data Fim"
                     name="dataFim"
@@ -45,27 +45,27 @@ export const DashboardCommon = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 8, xl: 9 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 8, xl: 9 }}>
               <Grid container spacing={3} alignItems="stretch">
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <UltimaVisita />
                 </Grid>
 
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <FocoPragasEncontradasChart />
                 </Grid>
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <RoedoresCapturadosChart />
                 </Grid>
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <ConsumoDeProdutosChart />
                 </Grid>
               </Grid>
             </Grid>
 
-            <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 4, xl: 3 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 4, xl: 3 }}>
               <Grid container spacing={3}>
-                <Grid item size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }}>
                   <ProximasVisitas />
                 </Grid>
               </Grid>

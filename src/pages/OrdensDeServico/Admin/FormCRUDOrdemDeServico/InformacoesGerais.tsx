@@ -17,7 +17,7 @@ export const InformacoesGerais = () => {
         Informações Gerais
       </Typography>
       <Grid container spacing={2}>
-        <Grid item size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Select
             label="Cliente"
             name="informacoesGerais.cliente.id"
@@ -28,7 +28,7 @@ export const InformacoesGerais = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Select
             label="Técnico"
             name="informacoesGerais.tecnico.id"
@@ -39,7 +39,7 @@ export const InformacoesGerais = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 4 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <DatePicker
             label="Data Visita"
             name="informacoesGerais.data.data"
@@ -47,7 +47,7 @@ export const InformacoesGerais = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 4 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <TimePicker
             label="Hora início"
             name="informacoesGerais.data.horaInicio"
@@ -55,7 +55,7 @@ export const InformacoesGerais = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 4 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <TimePicker
             label="Hora final"
             name="informacoesGerais.data.horaFinal"
@@ -63,7 +63,7 @@ export const InformacoesGerais = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <TextField
             control={control}
             name="informacoesGerais.responsavel.nome"
@@ -71,7 +71,7 @@ export const InformacoesGerais = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <TextField
             control={control}
             name="informacoesGerais.responsavel.cargo"
@@ -79,7 +79,7 @@ export const InformacoesGerais = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <Switch
             control={control}
             name="informacoesGerais.flagPossuiVisitaPendente"

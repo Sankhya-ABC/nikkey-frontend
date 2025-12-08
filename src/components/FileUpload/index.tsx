@@ -311,7 +311,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           <Grid container spacing={2}>
             {files.map((fileData, index) => (
               <Grid
-                item
                 key={`${fileData.file.name}-${index}-${fileData.file.lastModified}`}
               >
                 <Paper
@@ -399,7 +398,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                         wordBreak: "break-word",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        display: "-webkit-box",
                         WebkitLineClamp: 2,
                         WebkitBoxOrient: "vertical",
                         lineHeight: 1.2,

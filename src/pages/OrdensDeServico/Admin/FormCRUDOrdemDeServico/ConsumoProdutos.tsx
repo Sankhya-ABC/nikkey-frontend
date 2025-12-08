@@ -60,7 +60,7 @@ export const ConsumoProdutos = () => {
         Consumo de Produtos
       </Typography>
       <Grid container spacing={2}>
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <Switch
             control={control}
             name="flagConsumoProdutos"
@@ -69,7 +69,7 @@ export const ConsumoProdutos = () => {
         </Grid>
 
         {flagConsumoProdutos && consumo?.length ? (
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>

@@ -31,7 +31,7 @@ export const Equipamentos: React.FC = () => {
         Equipamentos
       </Typography>
       <Grid container spacing={2}>
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <Switch
             control={control}
             name="flagRevisaoEquipamentos"
@@ -41,7 +41,7 @@ export const Equipamentos: React.FC = () => {
 
         {flagRevisaoEquipamentos && (
           <>
-            <Grid item size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }}>
               <Box
                 sx={{
                   border: 1,
@@ -54,7 +54,7 @@ export const Equipamentos: React.FC = () => {
                   Iscagem
                 </Typography>
                 <Grid container spacing={2}>
-                  <Grid item size={{ xs: 12 }}>
+                  <Grid size={{ xs: 12 }}>
                     <Switch
                       control={control}
                       name="iscagem.flag"
@@ -64,7 +64,7 @@ export const Equipamentos: React.FC = () => {
 
                   {flagIscagem && (
                     <>
-                      <Grid item size={{ xs: 12, md: 6 }}>
+                      <Grid size={{ xs: 12, md: 6 }}>
                         <TextField
                           control={control}
                           name="iscagem.quantidade"
@@ -73,21 +73,21 @@ export const Equipamentos: React.FC = () => {
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
+                      <Grid size={{ xs: 12 }}>
                         <QuantidadeIdentificacao
                           title="Mofo/Deterioração"
                           property="iscagem.mofoDeterioracao"
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
+                      <Grid size={{ xs: 12 }}>
                         <QuantidadeIdentificacao
                           title="Roído"
                           property="iscagem.roido"
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
+                      <Grid size={{ xs: 12 }}>
                         <QuantidadeIdentificacao
                           title="Obstruído/Quebrado/Extraviado"
                           property="iscagem.obstruidoQuebradoExtraviado"
@@ -99,7 +99,7 @@ export const Equipamentos: React.FC = () => {
               </Box>
             </Grid>
 
-            <Grid item size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }}>
               <Box
                 sx={{
                   border: 1,
@@ -113,7 +113,7 @@ export const Equipamentos: React.FC = () => {
                   Placa Cola/Armadilha Mecânica
                 </Typography>
                 <Grid container spacing={2}>
-                  <Grid item size={{ xs: 12 }}>
+                  <Grid size={{ xs: 12 }}>
                     <Switch
                       control={control}
                       name="placaColaArmadilhaMecanica.flag"
@@ -123,7 +123,7 @@ export const Equipamentos: React.FC = () => {
 
                   {flagPlacaCola && (
                     <>
-                      <Grid item size={{ xs: 12, md: 6 }}>
+                      <Grid size={{ xs: 12, md: 6 }}>
                         <TextField
                           control={control}
                           name="placaColaArmadilhaMecanica.quantidade"
@@ -132,21 +132,21 @@ export const Equipamentos: React.FC = () => {
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
+                      <Grid size={{ xs: 12 }}>
                         <QuantidadeIdentificacao
                           title="Sujeira/Deterioração"
                           property="placaColaArmadilhaMecanica.sujeiraDeterioracao"
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
+                      <Grid size={{ xs: 12 }}>
                         <QuantidadeIdentificacao
                           title="Roedor Aderido"
                           property="placaColaArmadilhaMecanica.roedorAderido"
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
+                      <Grid size={{ xs: 12 }}>
                         <QuantidadeIdentificacao
                           title=" Obstruído/Quebrado/Extraviado"
                           property="placaColaArmadilhaMecanica.obstruidoQuebradoExtraviado"
@@ -158,7 +158,7 @@ export const Equipamentos: React.FC = () => {
               </Box>
             </Grid>
 
-            <Grid item size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }}>
               <Box
                 sx={{
                   border: 1,
@@ -172,7 +172,7 @@ export const Equipamentos: React.FC = () => {
                   Armadilha Luminosa
                 </Typography>
                 <Grid container spacing={2}>
-                  <Grid item size={{ xs: 12 }}>
+                  <Grid size={{ xs: 12 }}>
                     <Switch
                       control={control}
                       name="armadilhaLuminosa.flag"
@@ -182,7 +182,7 @@ export const Equipamentos: React.FC = () => {
 
                   {flagArmadilhaLuminosa && (
                     <>
-                      <Grid item size={{ xs: 12, md: 6 }}>
+                      <Grid size={{ xs: 12, md: 6 }}>
                         <TextField
                           control={control}
                           name="armadilhaLuminosa.quantidade"
@@ -193,7 +193,7 @@ export const Equipamentos: React.FC = () => {
 
                       {armadilhaLuminosaQuantidade > 0 && (
                         <>
-                          <Grid item size={{ xs: 12 }}>
+                          <Grid size={{ xs: 12 }}>
                             <Switch
                               control={control}
                               name="armadilhaLuminosa.flagClienteExigeContagemInsetosPorArmadilha"
@@ -203,7 +203,7 @@ export const Equipamentos: React.FC = () => {
 
                           {flagContagemInsetos && (
                             <>
-                              <Grid item size={{ xs: 12, md: 6 }}>
+                              <Grid size={{ xs: 12, md: 6 }}>
                                 <Select
                                   label="Tipo de Contagem"
                                   name="armadilhaLuminosa.tipoContagem"
@@ -219,7 +219,7 @@ export const Equipamentos: React.FC = () => {
                                 />
                               </Grid>
 
-                              <Grid item size={{ xs: 12 }}>
+                              <Grid size={{ xs: 12 }}>
                                 {tipoContagem && (
                                   <Typography variant="subtitle1" gutterBottom>
                                     Contagem de Insetos
@@ -244,7 +244,7 @@ export const Equipamentos: React.FC = () => {
               </Box>
             </Grid>
 
-            <Grid item size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }}>
               <Box
                 sx={{
                   border: 1,
@@ -258,7 +258,7 @@ export const Equipamentos: React.FC = () => {
                   Armadilha Feromônio
                 </Typography>
                 <Grid container spacing={2}>
-                  <Grid item size={{ xs: 12 }}>
+                  <Grid size={{ xs: 12 }}>
                     <Switch
                       control={control}
                       name="armadilhaFeromonio.flag"
@@ -268,7 +268,7 @@ export const Equipamentos: React.FC = () => {
 
                   {flagArmadilhaFeromonio && (
                     <>
-                      <Grid item size={{ xs: 12, md: 6 }}>
+                      <Grid size={{ xs: 12, md: 6 }}>
                         <TextField
                           control={control}
                           name="armadilhaFeromonio.quantidade"
@@ -277,14 +277,14 @@ export const Equipamentos: React.FC = () => {
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
+                      <Grid size={{ xs: 12 }}>
                         <QuantidadeIdentificacao
                           title="Guachon"
                           property="armadilhaFeromonio.guachon"
                         />
                       </Grid>
 
-                      <Grid item size={{ xs: 12 }}>
+                      <Grid size={{ xs: 12 }}>
                         <QuantidadeIdentificacao
                           title="Bio Serrico"
                           property="armadilhaFeromonio.bioSerrico"

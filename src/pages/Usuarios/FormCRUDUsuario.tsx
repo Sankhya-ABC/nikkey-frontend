@@ -56,21 +56,21 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
       </DialogTitle>
       <DialogContent sx={{ overflow: "unset" }}>
         <Grid container spacing={2}>
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Typography variant="h6" color="primary">
               Dados Básicos
             </Typography>
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField control={control} name="nome" label="Nome" />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TextField control={control} name="email" label="Email" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 8 }}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <TextField
               control={control}
               name="departamento"
@@ -78,7 +78,7 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Select
               control={control}
               name="perfil"
@@ -92,11 +92,11 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField control={control} name="telefone" label="Telefone" />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField
               control={control}
               name="senha"
@@ -105,7 +105,7 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField
               control={control}
               name="confirmarSenha"

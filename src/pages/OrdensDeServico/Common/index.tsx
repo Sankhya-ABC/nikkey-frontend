@@ -71,7 +71,7 @@ export const OrdensDeServicoCommon = () => {
   return (
     <Loading {...{ loading, setLoading }}>
       <Layout title="Ordens de Serviço">
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TextField
             control={control}
             name="search"
@@ -88,7 +88,7 @@ export const OrdensDeServicoCommon = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TableOrdensDeServico
             {...{
               paginatedList: paginatedOrdensDeServico,

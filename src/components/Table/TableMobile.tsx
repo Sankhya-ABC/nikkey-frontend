@@ -24,7 +24,7 @@ export const TableMobile: React.FC<TableProps> = ({
   return (
     <Grid container spacing={2}>
       {paginatedList?.map((data) => (
-        <Grid item size={{ xs: 12 }} key={itemId(data)}>
+        <Grid size={{ xs: 12 }} key={itemId(data)}>
           <Paper
             sx={{
               p: 3,

@@ -35,7 +35,7 @@ export const QuantidadeIdentificacao: React.FC<
         {title}
       </Typography>
       <Grid container spacing={2}>
-        <Grid item size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <TextField
             control={control}
             name={`${property}.quantidade`}
@@ -44,7 +44,7 @@ export const QuantidadeIdentificacao: React.FC<
           />
         </Grid>
         {iscagemMofoDeterioracaoQuantidade > 0 && (
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>

@@ -54,7 +54,7 @@ export const InformacoesAdicionais = () => {
         Informações Adicionais
       </Typography>
       <Grid container spacing={2}>
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <Switch
             control={control}
             name="naoConformidades.flag"
@@ -63,7 +63,7 @@ export const InformacoesAdicionais = () => {
         </Grid>
 
         {flagNaoConformidades && naoConformidades?.length ? (
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>

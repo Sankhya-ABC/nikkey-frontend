@@ -59,16 +59,16 @@ export const RelatorioPlacaDeColaArmadilhaMecanica = () => {
         <FormProvider {...methods}>
           <Box sx={{ width: "100%" }}>
             <Grid container spacing={3}>
-              <Grid item size={{ xs: 12 }}>
+              <Grid size={{ xs: 12 }}>
                 <Grid container spacing={3} sx={{ justifyContent: "end" }}>
-                  <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
                     <DatePicker
                       label="Data início"
                       name="dataInicio"
                       control={control}
                     />
                   </Grid>
-                  <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 3 }}>
                     <DatePicker
                       label="Data Fim"
                       name="dataFim"
@@ -78,11 +78,11 @@ export const RelatorioPlacaDeColaArmadilhaMecanica = () => {
                 </Grid>
               </Grid>
 
-              <Grid item size={{ xs: 12 }}>
+              <Grid size={{ xs: 12 }}>
                 <PlacaDeColaArmadilhaMecanicaChart />
               </Grid>
 
-              <Grid item size={{ xs: 12 }}>
+              <Grid size={{ xs: 12 }}>
                 <TablePlacaDeColaArmadilhaMecanica
                   {...{
                     paginatedList: paginatedPlacaDeColaArmadilhaMecanica,

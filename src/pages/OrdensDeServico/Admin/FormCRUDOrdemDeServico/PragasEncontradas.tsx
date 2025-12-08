@@ -57,7 +57,7 @@ export const PragasEncontradas = () => {
         Pragas Encontradas
       </Typography>
       <Grid container spacing={2}>
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <Switch
             control={control}
             name="flagEvidenciasOuFocosPragas"
@@ -66,7 +66,7 @@ export const PragasEncontradas = () => {
         </Grid>
 
         {flagEvidenciasPragas && pragas?.length ? (
-          <Grid item size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>

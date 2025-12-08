@@ -128,11 +128,7 @@ export const OrdensDeServicoAdmin = () => {
   return (
     <Loading {...{ loading, setLoading }}>
       <Layout title="Ordens de Serviço">
-        <Grid
-          item
-          size={{ xs: 12 }}
-          sx={{ display: "flex", justifyContent: "end" }}
-        >
+        <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "end" }}>
           <Button
             variant="contained"
             startIcon={<Add />}
@@ -144,7 +140,7 @@ export const OrdensDeServicoAdmin = () => {
           </Button>
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TextField
             control={control}
             name="search"
@@ -161,7 +157,7 @@ export const OrdensDeServicoAdmin = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TableOrdensDeServico
             {...{
               paginatedList: paginatedOrdensDeServico,

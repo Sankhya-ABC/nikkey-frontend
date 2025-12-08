@@ -121,11 +121,7 @@ export const Usuarios = () => {
   return (
     <Loading {...{ loading, setLoading }}>
       <Layout title="Usuários">
-        <Grid
-          item
-          size={{ xs: 12 }}
-          sx={{ display: "flex", justifyContent: "end" }}
-        >
+        <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "end" }}>
           <Button
             variant="contained"
             startIcon={<Add />}
@@ -135,7 +131,7 @@ export const Usuarios = () => {
           </Button>
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TextField
             control={control}
             name="search"
@@ -152,7 +148,7 @@ export const Usuarios = () => {
           />
         </Grid>
 
-        <Grid item size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }}>
           <TableUsuarios
             {...{
               paginatedList: paginatedUsuarios,
