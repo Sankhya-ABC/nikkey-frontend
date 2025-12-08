@@ -9,29 +9,19 @@ import {
 import { useNavigate } from "react-router";
 import { ROUTES } from "../routes";
 import { Role } from "../types";
-
-interface User {
-  id: number | null;
-  name: string;
-  email: string;
-  role?: Role;
-}
-
-interface AuthResponse {
-  token: string;
-  user: User;
-}
+import { loginService } from "../services/Login";
+import { LoginResponse, UserResponse } from "../services/Login/types";
 
 interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 
-  getUser: () => User | null;
-  getOriginalUser: () => User | null;
+  getUser: () => UserResponse | null;
+  getOriginalUser: () => UserResponse | null;
   isAuthenticated: () => boolean;
 
   getSessionRemaining: () => number;
-  impersonate: (user: User) => void;
+  impersonate: (user: UserResponse) => void;
   stopImpersonating: () => void;
   isImpersonating: () => boolean;
 
@@ -46,53 +36,18 @@ const STORAGE_KEYS = {
   originalUser: "auth_original_user",
 };
 
-const SESSION_DURATION_MS = 120 * 60 * 1000;
-
-const fakeApiLogin = async (
-  email: string,
-  password: string,
-): Promise<AuthResponse> => {
-  await new Promise((r) => setTimeout(r, 700));
-
-  if (email === "admin@example.com" && password === "123") {
-    return {
-      token: "fake-jwt-token-admin",
-      user: {
-        id: 1,
-        name: "Admin User",
-        email,
-        role: Role.ADMIN,
-      },
-    };
-  }
-
-  if (email === "common@example.com" && password === "123") {
-    return {
-      token: "fake-jwt-token-common",
-      user: {
-        id: 2,
-        name: "Common User",
-        email,
-        role: Role.COMMON,
-      },
-    };
-  }
-
-  throw new Error("Usuário ou senha errados");
-};
-
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(() => {
+  const [user, setUser] = useState<UserResponse | null>(() => {
     const raw = localStorage.getItem(STORAGE_KEYS.user);
-    return raw ? (JSON.parse(raw) as User) : null;
+    return raw ? (JSON.parse(raw) as UserResponse) : null;
   });
 
-  const [originalUser, setOriginalUser] = useState<User | null>(() => {
+  const [originalUser, setOriginalUser] = useState<UserResponse | null>(() => {
     const raw = localStorage.getItem(STORAGE_KEYS.originalUser);
-    return raw ? (JSON.parse(raw) as User) : null;
+    return raw ? (JSON.parse(raw) as UserResponse) : null;
   });
 
   const [token, setToken] = useState<string | null>(() =>
@@ -111,7 +66,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return Math.max(0, Math.floor(remainingMs / 1000));
   };
 
-  const persistSession = (resp: AuthResponse) => {
+  const persistSession = (resp: LoginResponse) => {
+    const SESSION_DURATION_MS = resp?.expires_in * 60 * 1000;
     const newExpires = Date.now() + SESSION_DURATION_MS;
     localStorage.setItem(STORAGE_KEYS.token, resp.token);
     localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(resp.user));
@@ -140,11 +96,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const login = async (email: string, password: string) => {
-    const resp = await fakeApiLogin(email, password);
+    const resp = await loginService.logar({ email, password });
     persistSession(resp);
   };
 
-  const impersonate = (user: User) => {
+  const impersonate = (user: UserResponse) => {
     if (!isAuthenticated()) {
       throw new Error("Precisa estar autenticado para impersonar");
     }
@@ -187,20 +143,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const hasRole = (role: Role | Role[]): boolean => {
     const userToCheck = getUser();
 
-    if (!userToCheck || !userToCheck.role) return false;
+    if (!userToCheck || !userToCheck.tipo_usuario) return false;
 
     if (Array.isArray(role)) {
-      return role.includes(userToCheck.role);
+      return role.includes(userToCheck.tipo_usuario);
     }
 
-    return userToCheck.role === role;
+    return userToCheck.tipo_usuario === role;
   };
 
   const hasAnyRole = (roles: Role[]): boolean => {
     const userToCheck = getUser();
 
-    if (!userToCheck || !userToCheck.role) return false;
-    return roles.includes(userToCheck.role);
+    if (!userToCheck || !userToCheck.tipo_usuario) return false;
+    return roles.includes(userToCheck.tipo_usuario);
   };
 
   useEffect(() => {
