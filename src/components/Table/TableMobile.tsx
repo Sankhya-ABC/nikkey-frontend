@@ -37,39 +37,41 @@ export const TableMobile: React.FC<TableProps> = ({
               ),
             )}
 
-            <Box>
-              {actions?.map((action, index) => {
-                return (
-                  <Tooltip
-                    title={
-                      typeof action?.tooltip === "function"
-                        ? action?.tooltip(data)
-                        : action?.tooltip
-                    }
-                    key={index}
-                    arrow
-                    placement="top"
-                  >
-                    <IconButton
-                      onClick={
-                        action?.onClick
-                          ? () => action?.onClick!(data)
-                          : undefined
+            {actions && actions.length > 0 && (
+              <Box>
+                {actions?.map((action, index) => {
+                  return (
+                    <Tooltip
+                      title={
+                        typeof action?.tooltip === "function"
+                          ? action?.tooltip(data)
+                          : action?.tooltip
                       }
-                      disabled={
-                        typeof action?.disabled === "function"
-                          ? action?.disabled(data)
-                          : action?.disabled
-                      }
+                      key={index}
+                      arrow
+                      placement="top"
                     >
-                      {typeof action?.element === "function"
-                        ? action?.element(data)
-                        : action?.element}
-                    </IconButton>
-                  </Tooltip>
-                );
-              })}
-            </Box>
+                      <IconButton
+                        onClick={
+                          action?.onClick
+                            ? () => action?.onClick!(data)
+                            : undefined
+                        }
+                        disabled={
+                          typeof action?.disabled === "function"
+                            ? action?.disabled(data)
+                            : action?.disabled
+                        }
+                      >
+                        {typeof action?.element === "function"
+                          ? action?.element(data)
+                          : action?.element}
+                      </IconButton>
+                    </Tooltip>
+                  );
+                })}
+              </Box>
+            )}
           </Paper>
         </Grid>
       ))}

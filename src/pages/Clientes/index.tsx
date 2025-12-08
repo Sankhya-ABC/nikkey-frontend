@@ -1,16 +1,22 @@
-import { Add, Search } from "@mui/icons-material";
-import { Button, Grid, InputAdornment } from "@mui/material";
+import { Add, Edit, Search, Visibility } from "@mui/icons-material";
+import LoginIcon from "@mui/icons-material/Login";
+import { Button, Grid, InputAdornment, Switch } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { TextField } from "../../components/Form/Textfield";
 import { Loading } from "../../components/Loading";
+import { Table } from "../../components/Table";
 import { Layout } from "../../components/Template/Layout";
+import { useAuth } from "../../hooks/useAuth";
+import { ROUTES } from "../../routes";
+import { Cliente } from "../../services/Clientes/types";
+import { CRUDType } from "../../services/types";
+import { Role } from "../../types";
 import { FormCRUDCliente } from "./FormCRUDCliente";
 import { FormStatus } from "./FormStatus";
 import { mockClientes } from "./provider";
 import { TableClientes } from "./TableClientes";
-import { Cliente } from "../../services/Clientes/types";
-import { CRUDType } from "../../services/types";
-import { useForm } from "react-hook-form";
-import { TextField } from "../../components/Form/Textfield";
 
 interface ClienteSearch {
   search: string;
@@ -23,6 +29,8 @@ const defaultValues: ClienteSearch = {
 export const Clientes = () => {
   // hooks
   const { control, watch } = useForm<ClienteSearch>({ defaultValues });
+  const { impersonate } = useAuth();
+  const navigate = useNavigate();
 
   // useStates
   // -- data
@@ -149,6 +157,83 @@ export const Clientes = () => {
                 ),
               },
             }}
+          />
+        </Grid>
+
+        <Grid item size={{ xs: 12 }}>
+          <Table
+            headers={[
+              {
+                text: "Razão Social",
+                value: (cliente: Cliente) => cliente?.razaoSocial,
+              },
+              {
+                text: "CPF/CNPJ",
+                value: (cliente: Cliente) => cliente?.razaoSocial,
+              },
+              {
+                text: "Endereco",
+                value: (cliente: Cliente) => cliente?.razaoSocial,
+              },
+              {
+                text: "Contato",
+                value: (cliente: Cliente) => cliente?.razaoSocial,
+              },
+              {
+                text: "Ativo",
+                value: (cliente: Cliente) => cliente?.razaoSocial,
+              },
+            ]}
+            actions={[
+              {
+                tooltip: "Acessar como",
+                element: <LoginIcon />,
+                onClick: (cliente: Cliente) => () => {
+                  impersonate({
+                    id: cliente?.id,
+                    name: cliente?.razaoSocial,
+                    email: cliente?.email,
+                    role: Role.COMMON,
+                  });
+                  navigate(ROUTES.HOME);
+                },
+              },
+              {
+                tooltip: "Visualizar",
+                element: <Visibility />,
+                onClick: (cliente: Cliente) =>
+                  handleOpenFormCRUDCliente(CRUDType.READ, cliente),
+              },
+              {
+                tooltip: "Editar",
+                element: <Edit />,
+                onClick: (cliente: Cliente) =>
+                  handleOpenFormCRUDCliente(CRUDType.UPDATE, cliente),
+              },
+              {
+                tooltip: (cliente: Cliente) =>
+                  cliente?.ativo ? "Desativar" : "Ativar",
+                element: (cliente: Cliente) => (
+                  <Switch
+                    checked={cliente?.ativo}
+                    onChange={() => handleOpenFormStatus(cliente)}
+                    color={cliente?.ativo ? "success" : "default"}
+                  />
+                ),
+              },
+            ]}
+            pagination={{
+              rowsPerPage,
+              page,
+              handleChangePage,
+              handleChangeRowsPerPage,
+            }}
+            lists={{
+              paginatedList: paginatedClientes,
+              filteredList: filteredClientes,
+            }}
+            itemId={(cliente: Cliente) => cliente?.id!.toString()}
+            noResultsMessage={"Nenhum cliente encontrado."}
           />
         </Grid>
 

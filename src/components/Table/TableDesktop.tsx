@@ -8,7 +8,6 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { TableProps } from "./types";
 
@@ -27,17 +26,6 @@ export const TableDesktop: React.FC<TableProps> = ({
         <Table stickyHeader aria-label="tabela de clientes">
           <TableHead>
             <TableRow>
-              {headers?.map((header, index) =>
-                header?.totalCustomElement ? (
-                  header?.totalCustomElement
-                ) : (
-                  <Typography sx={{ ...header?.elementStyle }} key={index}>
-                    <strong>{header?.text}: </strong>
-                    {header?.value(header)}
-                  </Typography>
-                ),
-              )}
-
               {headers?.map((header, index) => (
                 <TableCell
                   sx={{
@@ -54,7 +42,7 @@ export const TableDesktop: React.FC<TableProps> = ({
                 </TableCell>
               ))}
 
-              {actions?.length && (
+              {actions && actions.length > 0 && (
                 <TableCell
                   align="center"
                   sx={{
@@ -79,7 +67,7 @@ export const TableDesktop: React.FC<TableProps> = ({
                     {headers?.map((header) => {
                       return <TableCell>{header?.value(data)}</TableCell>;
                     })}
-                    {actions?.length && (
+                    {actions && actions.length > 0 && (
                       <TableCell align="center">
                         {actions?.map((action, index) => {
                           return (
