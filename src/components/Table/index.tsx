@@ -18,21 +18,19 @@ export const Table: React.FC<TableProps> = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  // const table = isMobile ? (
-  //   <TableMobile
-  //     {...{ headers, actions, pagination, lists, itemId, noResultsMessage }}
-  //   />
-  // ) : (
-  //   <TableDesktop
-  //     {...{ headers, actions, pagination, lists, itemId, noResultsMessage }}
-  //   />
-  // );
+  const table = isMobile ? (
+    <TableMobile
+      {...{ headers, actions, pagination, lists, itemId, noResultsMessage }}
+    />
+  ) : (
+    <TableDesktop
+      {...{ headers, actions, pagination, lists, itemId, noResultsMessage }}
+    />
+  );
 
   return (
     <>
-      <TableDesktop
-        {...{ headers, actions, pagination, lists, itemId, noResultsMessage }}
-      />
+      {table}
 
       {pagination && (
         <TablePagination
