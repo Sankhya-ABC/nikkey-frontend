@@ -1,3 +1,4 @@
+import { Breakpoint } from "@mui/material";
 import { ReactNode } from "react";
 
 export interface HeaderAndValues {
@@ -43,4 +44,5 @@ export interface TableProps {
   lists: List;
   itemId: (value: any) => string | number; // any should be generic T
   noResultsMessage?: string | ReactNode;
+  isMobileBreakpoint?: Breakpoint;
 }
