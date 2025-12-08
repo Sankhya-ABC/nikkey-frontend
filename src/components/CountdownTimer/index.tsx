@@ -1,39 +1,33 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "../../hooks/useTheme";
 import { ThemeMode } from "../Template/tokens";
+import { useAuth } from "../../hooks/useAuth";
 
-interface CountdownTimerProps {
-  initialMinutes?: number;
-}
-
-export const CountdownTimer: React.FC<CountdownTimerProps> = ({
-  initialMinutes = 120,
-}) => {
+export const CountdownTimer: React.FC = () => {
+  const { getSessionRemaining } = useAuth();
   const { themeMode } = useTheme();
-  const [timeLeft, setTimeLeft] = useState<number>(
-    Math.min(initialMinutes, 120),
-  );
+  const [timeLeft, setTimeLeft] = useState<number>(0);
 
-  const formatTime = useCallback((minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
     return {
       hours: hours.toString().padStart(2, "0").split(""),
-      minutes: remainingMinutes.toString().padStart(2, "0").split(""),
+      minutes: minutes.toString().padStart(2, "0").split(""),
     };
-  }, []);
+  };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 60000);
+    const updateTimer = () => {
+      const remaining = getSessionRemaining();
+      setTimeLeft(remaining);
+    };
+
+    updateTimer();
+
+    const interval = setInterval(updateTimer, 1000);
 
     return () => clearInterval(interval);
   }, []);
