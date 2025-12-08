@@ -25,7 +25,13 @@ export const TableMobile: React.FC<TableProps> = ({
     <Grid container spacing={2}>
       {paginatedList?.map((data) => (
         <Grid item size={{ xs: 12 }} key={itemId(data)}>
-          <Paper sx={{ p: 3 }}>
+          <Paper
+            sx={{
+              p: 3,
+              borderTop: ({ palette }) => `5px solid ${palette?.primary?.main}`,
+              borderRadius: `0px 0px 8px 8px`,
+            }}
+          >
             {headers?.map((header, index) =>
               header?.totalCustomElement ? (
                 header?.totalCustomElement
@@ -38,7 +44,7 @@ export const TableMobile: React.FC<TableProps> = ({
             )}
 
             {actions && actions.length > 0 && (
-              <Box>
+              <Box mt={1}>
                 {actions?.map((action, index) => {
                   return (
                     <Tooltip
