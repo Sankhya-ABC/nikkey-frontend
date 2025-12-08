@@ -51,22 +51,24 @@ export const TableMobile: React.FC<TableProps> = ({
                       arrow
                       placement="top"
                     >
-                      <IconButton
-                        onClick={
-                          action?.onClick
-                            ? () => action?.onClick!(data)
-                            : undefined
-                        }
-                        disabled={
-                          typeof action?.disabled === "function"
-                            ? action?.disabled(data)
-                            : action?.disabled
-                        }
-                      >
-                        {typeof action?.element === "function"
-                          ? action?.element(data)
-                          : action?.element}
-                      </IconButton>
+                      {typeof action?.element === "function" ? (
+                        (action?.element(data) as React.JSX.Element)
+                      ) : (
+                        <IconButton
+                          onClick={
+                            action?.onClick
+                              ? () => action?.onClick!(data)
+                              : undefined
+                          }
+                          disabled={
+                            typeof action?.disabled === "function"
+                              ? action?.disabled(data)
+                              : action?.disabled
+                          }
+                        >
+                          {action?.element}
+                        </IconButton>
+                      )}
                     </Tooltip>
                   );
                 })}

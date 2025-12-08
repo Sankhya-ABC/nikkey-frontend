@@ -1,6 +1,6 @@
 import { Add, Edit, Search, Visibility } from "@mui/icons-material";
 import LoginIcon from "@mui/icons-material/Login";
-import { Button, Grid, InputAdornment, Switch } from "@mui/material";
+import { Button, Chip, Grid, InputAdornment, Switch } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -169,19 +169,26 @@ export const Clientes = () => {
               },
               {
                 text: "CPF/CNPJ",
-                value: (cliente: Cliente) => cliente?.razaoSocial,
+                value: (cliente: Cliente) => cliente?.cnpjCpf,
               },
               {
                 text: "Endereco",
-                value: (cliente: Cliente) => cliente?.razaoSocial,
+                value: (cliente: Cliente) =>
+                  `${cliente?.logradouro}, ${cliente?.numero}`,
               },
               {
                 text: "Contato",
-                value: (cliente: Cliente) => cliente?.razaoSocial,
+                value: (cliente: Cliente) => cliente?.telefone,
               },
               {
                 text: "Ativo",
-                value: (cliente: Cliente) => cliente?.razaoSocial,
+                value: (cliente: Cliente) => (
+                  <Chip
+                    label={cliente?.ativo ? "Ativo" : "Inativo"}
+                    color={cliente?.ativo ? "success" : "default"}
+                    size="small"
+                  />
+                ),
               },
             ]}
             actions={[
