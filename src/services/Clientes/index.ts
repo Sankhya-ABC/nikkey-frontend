@@ -1,16 +1,15 @@
 import axios, { AxiosResponse } from "axios";
-import { Cliente } from "./types";
 import { api } from "../api";
-import { ApiResponse } from "../types";
+import { Cliente } from "./types";
 
 class ClienteService {
   async criarCliente(cliente: Omit<Cliente, "id">): Promise<Cliente> {
     try {
-      const response: AxiosResponse<ApiResponse<Cliente>> = await api.post(
+      const response: AxiosResponse<Cliente> = await api.post(
         "/clientes",
         cliente,
       );
-      return response.data.data;
+      return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
@@ -18,9 +17,8 @@ class ClienteService {
 
   async buscarTodosClientes(): Promise<Cliente[]> {
     try {
-      const response: AxiosResponse<ApiResponse<Cliente[]>> =
-        await api.get("/clientes");
-      return response.data.data;
+      const response: AxiosResponse<Cliente[]> = await api.get("/clientes");
+      return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
@@ -28,10 +26,8 @@ class ClienteService {
 
   async buscarClientePorId(id: number): Promise<Cliente> {
     try {
-      const response: AxiosResponse<ApiResponse<Cliente>> = await api.get(
-        `/clientes/${id}`,
-      );
-      return response.data.data;
+      const response: AxiosResponse<Cliente> = await api.get(`/clientes/${id}`);
+      return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
@@ -42,11 +38,11 @@ class ClienteService {
     cliente: Partial<Cliente>,
   ): Promise<Cliente> {
     try {
-      const response: AxiosResponse<ApiResponse<Cliente>> = await api.put(
+      const response: AxiosResponse<Cliente> = await api.put(
         `/clientes/${id}`,
         cliente,
       );
-      return response.data.data;
+      return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
@@ -62,10 +58,10 @@ class ClienteService {
 
   async pesquisarClientes(termo: string): Promise<Cliente[]> {
     try {
-      const response: AxiosResponse<ApiResponse<Cliente[]>> = await api.get(
+      const response: AxiosResponse<Cliente[]> = await api.get(
         `/clientes/search?q=${termo}`,
       );
-      return response.data.data;
+      return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
