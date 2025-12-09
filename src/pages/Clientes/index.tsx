@@ -3,20 +3,20 @@ import LoginIcon from "@mui/icons-material/Login";
 import { Button, Chip, Grid, InputAdornment, Switch } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 import { TextField } from "../../components/Form/Textfield";
 import { Loading } from "../../components/Loading";
 import { Table } from "../../components/Table";
 import { Layout } from "../../components/Template/Layout";
-import { useAuth } from "../../hooks/useAuth";
-import { ROUTES } from "../../routes";
+import { clienteService } from "../../services/Clientes";
 import { Cliente } from "../../services/Clientes/types";
-import { CRUDType } from "../../services/types";
-import { Role } from "../../types";
+import { CRUDType, GetAllPaginated } from "../../services/types";
 import { FormCRUDCliente } from "./FormCRUDCliente";
 import { FormStatus } from "./FormStatus";
-import { mockClientes } from "./provider";
-import { TableClientes } from "./TableClientes";
+import { usuarioService } from "../../services/Usuarios";
+import { ROUTES } from "../../routes";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
+import { DEFAULT_ROWS_PER_PAGE, DEFAULT_PAGE } from "../../utils/constants";
 
 interface ClienteSearch {
   search: string;
@@ -33,9 +33,14 @@ export const Clientes = () => {
   const navigate = useNavigate();
 
   // useStates
+  // -- table
+  const [page, setPage] = useState(DEFAULT_PAGE);
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE);
+
   // -- data
-  const [clientes, setClientes] = useState(mockClientes);
-  const [filteredClientes, setFilteredClientes] = useState(mockClientes);
+  const [clientes, setClientes] = useState<GetAllPaginated<Cliente> | null>(
+    null,
+  );
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
 
   // -- crud type
@@ -49,29 +54,21 @@ export const Clientes = () => {
   const [loading, setLoading] = useState(true);
   const search = watch("search");
 
-  // -- table
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  // variables
-  const paginatedClientes = filteredClientes.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage,
-  );
-
   // handlers
-
   // -- table
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
     setPage(newPage);
+    buscarTodosClientes(rowsPerPage, newPage, search);
   };
 
   const handleChangeRowsPerPage = (event: any) => {
-    setRowsPerPage(parseInt(event?.target?.value, 10));
-    setPage(0);
+    const newRowsPerPage = parseInt(event?.target?.value, 10);
+    setRowsPerPage(newRowsPerPage);
+    setPage(DEFAULT_PAGE);
+    buscarTodosClientes(newRowsPerPage, DEFAULT_PAGE, search);
   };
 
   // -- crud modals
@@ -100,31 +97,57 @@ export const Clientes = () => {
     setOpenFormStatus(false);
   };
 
-  const handleToggleClienteStatus = () => {
-    if (selectedCliente) {
-      const updatedClientes = clientes?.map((cliente) =>
-        cliente?.id === selectedCliente.id
-          ? {
-              ...cliente,
-              ativo: !cliente?.ativo,
-            }
-          : cliente,
-      );
-      setClientes(updatedClientes);
-      handleCloseFormStatus();
+  // -- impersonate
+  const handleAcessarComo = async (id: number) => {
+    setLoading(true);
+    try {
+      const resp = await usuarioService.buscarUsuarioPorId(id);
+      impersonate(resp);
+      navigate(ROUTES.HOME);
+    } catch (err: any) {
+      //
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // requests
+  const buscarTodosClientes = async (
+    per_page: number,
+    current_page: number,
+    search: string,
+  ) => {
+    setLoading(true);
+    try {
+      const resp = await clienteService.buscarTodosClientes({
+        per_page,
+        current_page,
+        search,
+      });
+      setClientes(resp);
+    } catch (err: any) {
+      //
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const atualizarStatusCliente = async () => {
+    setLoading(true);
+    try {
+      await clienteService.atualizarStatusCliente(selectedCliente?.id!);
+      buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
+    } catch (err: any) {
+      //
+    } finally {
+      setLoading(false);
     }
   };
 
   // useEffects
   useEffect(() => {
-    const filtered = clientes.filter(
-      (cliente) =>
-        cliente?.nomeFantasia?.toLowerCase()?.includes(search?.toLowerCase()) ||
-        cliente?.email?.toLowerCase()?.includes(search?.toLowerCase()),
-    );
-    setFilteredClientes(filtered);
-    setPage(0);
-  }, [search, clientes]);
+    buscarTodosClientes(rowsPerPage, page, search);
+  }, []);
 
   return (
     <Loading {...{ loading, setLoading }}>
@@ -191,15 +214,8 @@ export const Clientes = () => {
               {
                 tooltip: "Acessar como",
                 element: <LoginIcon />,
-                onClick: (cliente: Cliente) => () => {
-                  impersonate({
-                    id: cliente?.id,
-                    name: cliente?.razaoSocial,
-                    email: cliente?.email,
-                    role: Role.COMMON,
-                  });
-                  navigate(ROUTES.HOME);
-                },
+                onClick: (cliente: Cliente) => () =>
+                  handleAcessarComo(cliente?.id!),
               },
               {
                 tooltip: "Visualizar",
@@ -231,27 +247,9 @@ export const Clientes = () => {
               handleChangePage,
               handleChangeRowsPerPage,
             }}
-            lists={{
-              paginatedList: paginatedClientes,
-              filteredList: filteredClientes,
-            }}
+            dataList={clientes}
             itemId={(cliente: Cliente) => cliente?.id!.toString()}
             noResultsMessage={"Nenhum cliente encontrado."}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12 }}>
-          <TableClientes
-            {...{
-              paginatedList: paginatedClientes,
-              handleOpenFormCRUD: handleOpenFormCRUDCliente,
-              handleOpenFormStatus,
-              filteredList: filteredClientes,
-              rowsPerPage,
-              page,
-              handleChangePage,
-              handleChangeRowsPerPage,
-            }}
           />
         </Grid>
 
@@ -269,7 +267,7 @@ export const Clientes = () => {
             open: openFormStatus,
             handleClose: handleCloseFormStatus,
             selected: selectedCliente,
-            handleToggle: handleToggleClienteStatus,
+            handleToggle: atualizarStatusCliente,
           }}
         />
       </Layout>
