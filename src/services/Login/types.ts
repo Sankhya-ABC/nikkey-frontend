@@ -1,16 +1,4 @@
-import { Role } from "../../types";
-
-export interface UserResponse {
-  id: number;
-  name: string;
-  email: string;
-  cliente_id: number | null;
-  cliente: string;
-  tipo_usuario_id: number;
-  tipo_usuario: Role;
-  departamento_id: number;
-  departamento: string;
-}
+import { Usuario } from "../Usuarios/types";
 
 export interface LoginRequest {
   email: string;
@@ -19,7 +7,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   message: string;
-  user: UserResponse;
+  user: Usuario;
   token: string;
   expires_in: number;
 }
