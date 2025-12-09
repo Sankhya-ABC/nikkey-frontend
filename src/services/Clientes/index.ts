@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { api } from "../api";
 import { Cliente } from "./types";
+import { ParamsForPagination, GetAllPaginated } from "../types";
 
 class ClienteService {
   async criarCliente(cliente: Omit<Cliente, "id">): Promise<Cliente> {
@@ -15,9 +16,13 @@ class ClienteService {
     }
   }
 
-  async buscarTodosClientes(): Promise<Cliente[]> {
+  async buscarTodosClientes(
+    params: ParamsForPagination,
+  ): Promise<GetAllPaginated<Cliente>> {
     try {
-      const response: AxiosResponse<Cliente[]> = await api.get("/clientes");
+      const response = await api.get<GetAllPaginated<Cliente>>("/clientes", {
+        params,
+      });
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -41,6 +46,17 @@ class ClienteService {
       const response: AxiosResponse<Cliente> = await api.put(
         `/clientes/${id}`,
         cliente,
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  async atualizarStatusCliente(id: number): Promise<Cliente> {
+    try {
+      const response: AxiosResponse<Cliente> = await api.patch(
+        `/clientes/${id}`,
       );
       return response.data;
     } catch (error) {
