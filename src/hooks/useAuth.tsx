@@ -8,20 +8,22 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../routes";
-import { Role } from "../types";
 import { loginService } from "../services/Login";
-import { LoginResponse, UserResponse } from "../services/Login/types";
+import { LoginResponse } from "../services/Login/types";
+import { Usuario } from "../services/Usuarios/types";
+import { Role } from "../types";
+import { STORAGE_KEYS } from "../utils/constants";
 
 interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 
-  getUser: () => UserResponse | null;
-  getOriginalUser: () => UserResponse | null;
+  getUser: () => Usuario | null;
+  getOriginalUser: () => Usuario | null;
   isAuthenticated: () => boolean;
 
   getSessionRemaining: () => number;
-  impersonate: (user: UserResponse) => void;
+  impersonate: (user: Usuario) => void;
   stopImpersonating: () => void;
   isImpersonating: () => boolean;
 
@@ -29,25 +31,18 @@ interface AuthContextValue {
   hasAnyRole: (roles: Role[]) => boolean;
 }
 
-const STORAGE_KEYS = {
-  token: "auth_token",
-  user: "auth_user",
-  expiresAt: "auth_expiresAt",
-  originalUser: "auth_original_user",
-};
-
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<UserResponse | null>(() => {
+  const [user, setUser] = useState<Usuario | null>(() => {
     const raw = localStorage.getItem(STORAGE_KEYS.user);
-    return raw ? (JSON.parse(raw) as UserResponse) : null;
+    return raw ? (JSON.parse(raw) as Usuario) : null;
   });
 
-  const [originalUser, setOriginalUser] = useState<UserResponse | null>(() => {
+  const [originalUser, setOriginalUser] = useState<Usuario | null>(() => {
     const raw = localStorage.getItem(STORAGE_KEYS.originalUser);
-    return raw ? (JSON.parse(raw) as UserResponse) : null;
+    return raw ? (JSON.parse(raw) as Usuario) : null;
   });
 
   const [token, setToken] = useState<string | null>(() =>
@@ -100,7 +95,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     persistSession(resp);
   };
 
-  const impersonate = (user: UserResponse) => {
+  const impersonate = (user: Usuario) => {
     if (!isAuthenticated()) {
       throw new Error("Precisa estar autenticado para impersonar");
     }
