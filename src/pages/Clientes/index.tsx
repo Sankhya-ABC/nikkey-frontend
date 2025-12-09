@@ -3,20 +3,20 @@ import LoginIcon from "@mui/icons-material/Login";
 import { Button, Chip, Grid, InputAdornment, Switch } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { TextField } from "../../components/Form/Textfield";
 import { Loading } from "../../components/Loading";
 import { Table } from "../../components/Table";
 import { Layout } from "../../components/Template/Layout";
+import { useAuth } from "../../hooks/useAuth";
+import { ROUTES } from "../../routes";
 import { clienteService } from "../../services/Clientes";
 import { Cliente } from "../../services/Clientes/types";
 import { CRUDType, GetAllPaginated } from "../../services/types";
+import { usuarioService } from "../../services/Usuarios";
+import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "../../utils/constants";
 import { FormCRUDCliente } from "./FormCRUDCliente";
 import { FormStatus } from "./FormStatus";
-import { usuarioService } from "../../services/Usuarios";
-import { ROUTES } from "../../routes";
-import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router";
-import { DEFAULT_ROWS_PER_PAGE, DEFAULT_PAGE } from "../../utils/constants";
 
 interface ClienteSearch {
   search: string;
@@ -180,7 +180,7 @@ export const Clientes = () => {
         </Grid>
 
         <Grid size={{ xs: 12 }}>
-          <Table
+          <Table<Cliente>
             headers={[
               {
                 text: "Razão Social",

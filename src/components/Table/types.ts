@@ -1,12 +1,12 @@
 import { Breakpoint } from "@mui/material";
-import { ReactNode } from "react";
+import { ChangeEvent, CSSProperties, ReactNode } from "react";
 import { GetAllPaginated } from "../../services/types";
 
-export interface HeaderAndValues {
+export interface HeaderAndValues<T> {
   text?: string;
   totalCustomElement?: ReactNode;
-  elementStyle?: any; // any should be CSSProperties
-  value: (value: any) => string | ReactNode; // any should be generic T
+  elementStyle?: CSSProperties;
+  value: (value: T) => string | ReactNode;
   columnAlignment?:
     | "left"
     | "center"
@@ -16,11 +16,11 @@ export interface HeaderAndValues {
     | undefined;
 }
 
-export interface Action {
-  tooltip: string | ReactNode | ((value: any) => ReactNode);
-  element: ReactNode | ((value: any) => ReactNode);
-  onClick?: (value: any) => void;
-  disabled?: boolean | ((value: any) => boolean);
+export interface Action<T> {
+  tooltip: string | ReactNode | ((value: T) => ReactNode);
+  element: ReactNode | ((value: T) => ReactNode);
+  onClick?: (value: T) => void;
+  disabled?: boolean | ((value: T) => boolean);
 }
 
 export interface Pagination {
@@ -30,15 +30,15 @@ export interface Pagination {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => void;
-  handleChangeRowsPerPage: (event: any) => void;
+  handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface TableProps {
-  headers: HeaderAndValues[];
-  actions?: Action[];
+export interface TableProps<T> {
+  headers: HeaderAndValues<T>[];
+  actions?: Action<T>[];
   pagination?: Pagination;
-  dataList: GetAllPaginated<any> | null; // any should be generic T
-  itemId: (value: any) => string | number; // any should be generic T
+  dataList: GetAllPaginated<T> | null;
+  itemId: (value: T) => string | number;
   noResultsMessage?: string | ReactNode;
   isMobileBreakpoint?: Breakpoint;
 }

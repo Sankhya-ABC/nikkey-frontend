@@ -8,13 +8,13 @@ import {
 } from "@mui/material";
 import { TableProps } from "./types";
 
-export const TableMobile: React.FC<TableProps> = ({
+export const TableMobile = <T,>({
   headers,
   actions,
   dataList,
-  noResultsMessage,
   itemId,
-}) => {
+  noResultsMessage,
+}: TableProps<T>) => {
   const list = dataList?.data || [];
   const total = dataList?.meta?.total || 0;
 

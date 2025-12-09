@@ -1,9 +1,9 @@
 import { TablePagination, useMediaQuery, useTheme } from "@mui/material";
-import { TableProps } from "./types";
-import { TableMobile } from "./TableMobile";
 import { TableDesktop } from "./TableDesktop";
+import { TableMobile } from "./TableMobile";
+import { TableProps } from "./types";
 
-export const Table: React.FC<TableProps> = ({
+export const Table = <T,>({
   headers,
   actions,
   pagination,
@@ -11,7 +11,7 @@ export const Table: React.FC<TableProps> = ({
   itemId,
   noResultsMessage,
   isMobileBreakpoint = "md",
-}) => {
+}: TableProps<T>) => {
   const { rowsPerPage, page, handleChangePage, handleChangeRowsPerPage } =
     pagination!;
 
