@@ -11,19 +11,20 @@ import { TableProps } from "./types";
 export const TableMobile: React.FC<TableProps> = ({
   headers,
   actions,
-  lists,
+  dataList,
   noResultsMessage,
   itemId,
 }) => {
-  const { paginatedList } = lists;
+  const list = dataList?.data || [];
+  const total = dataList?.meta?.total || 0;
 
-  if (paginatedList?.length === 0) {
+  if (total === 0) {
     return <Typography>{noResultsMessage}</Typography>;
   }
 
   return (
     <Grid container spacing={2}>
-      {paginatedList?.map((data) => (
+      {list?.map((data) => (
         <Grid size={{ xs: 12 }} key={itemId(data)}>
           <Paper
             sx={{

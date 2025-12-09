@@ -7,17 +7,17 @@ export const Table: React.FC<TableProps> = ({
   headers,
   actions,
   pagination,
-  lists,
+  dataList,
   itemId,
   noResultsMessage,
   isMobileBreakpoint = "md",
 }) => {
   const { rowsPerPage, page, handleChangePage, handleChangeRowsPerPage } =
     pagination!;
-  const { filteredList } = lists;
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down(isMobileBreakpoint));
+  const total = dataList?.meta?.total || 0;
 
   const table = isMobile ? (
     <TableMobile
@@ -25,7 +25,7 @@ export const Table: React.FC<TableProps> = ({
         headers,
         actions,
         pagination,
-        lists,
+        dataList,
         itemId,
         noResultsMessage,
         isMobileBreakpoint,
@@ -37,7 +37,7 @@ export const Table: React.FC<TableProps> = ({
         headers,
         actions,
         pagination,
-        lists,
+        dataList,
         itemId,
         noResultsMessage,
         isMobileBreakpoint,
@@ -53,7 +53,7 @@ export const Table: React.FC<TableProps> = ({
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}
           component="div"
-          count={filteredList?.length}
+          count={total}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

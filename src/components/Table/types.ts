@@ -1,5 +1,6 @@
 import { Breakpoint } from "@mui/material";
 import { ReactNode } from "react";
+import { GetAllPaginated } from "../../services/types";
 
 export interface HeaderAndValues {
   text?: string;
@@ -32,16 +33,11 @@ export interface Pagination {
   handleChangeRowsPerPage: (event: any) => void;
 }
 
-export interface List {
-  paginatedList: any[]; // any should be generic T
-  filteredList: any[]; // any should be generic T
-}
-
 export interface TableProps {
   headers: HeaderAndValues[];
   actions?: Action[];
   pagination?: Pagination;
-  lists: List;
+  dataList: GetAllPaginated<any> | null; // any should be generic T
   itemId: (value: any) => string | number; // any should be generic T
   noResultsMessage?: string | ReactNode;
   isMobileBreakpoint?: Breakpoint;

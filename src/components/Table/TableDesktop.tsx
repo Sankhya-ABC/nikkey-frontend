@@ -14,11 +14,12 @@ import { TableProps } from "./types";
 export const TableDesktop: React.FC<TableProps> = ({
   headers,
   actions,
-  lists,
+  dataList,
   noResultsMessage,
   itemId,
 }) => {
-  const { paginatedList } = lists;
+  const list = dataList?.data || [];
+  const total = dataList?.meta?.total || 0;
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -54,14 +55,14 @@ export const TableDesktop: React.FC<TableProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedList?.length === 0 ? (
+            {total === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
                   {noResultsMessage}
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedList?.map((data) => {
+              list?.map((data) => {
                 return (
                   <TableRow key={itemId(data)} hover>
                     {headers?.map((header) => {
