@@ -27,14 +27,15 @@ export const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-  ...(!isDrawerOpen && {
-    marginLeft: `calc(${theme.spacing(7)} + 1px)`,
-    width: `calc(100% - calc(${theme.spacing(7)} + 1px))`,
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: `calc(${theme.spacing(8)} + 1px)`,
-      width: `calc(100% - calc(${theme.spacing(8)} + 1px))`,
-    },
-  }),
+  ...(!isDrawerOpen &&
+    isAuthenticated && {
+      marginLeft: `calc(${theme.spacing(7)} + 1px)`,
+      width: `calc(100% - calc(${theme.spacing(7)} + 1px))`,
+      [theme.breakpoints.up("sm")]: {
+        marginLeft: `calc(${theme.spacing(8)} + 1px)`,
+        width: `calc(100% - calc(${theme.spacing(8)} + 1px))`,
+      },
+    }),
   ...(!isAuthenticated && {
     width: "100%",
   }),
