@@ -1,3 +1,5 @@
+import BadgeIcon from "@mui/icons-material/Badge";
+import EngineeringIcon from "@mui/icons-material/Engineering";
 import {
   Box,
   Card,
@@ -9,11 +11,7 @@ import {
   ListItemButton,
   ListItemIcon,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
-import BadgeIcon from "@mui/icons-material/Badge";
-import EngineeringIcon from "@mui/icons-material/Engineering";
 
 const proximasVisitas = [
   {
@@ -49,9 +47,6 @@ const proximasVisitas = [
 ];
 
 export const ProximasVisitas = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-
   return (
     <Card>
       <Box sx={{ p: 3 }}>
@@ -67,80 +62,85 @@ export const ProximasVisitas = () => {
         </Grid>
       </Box>
 
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 1,
-          padding: 0,
-          paddingBottom: 3,
-        }}
-      >
-        <Grid container spacing={3}>
-          <Grid size={{ xs: 12 }}>
-            <List
-              sx={{
-                padding: 0,
-                minHeight: isMobile ? undefined : 328,
-                maxHeight: isMobile ? undefined : 1043,
-                overflowY: "auto",
-              }}
-            >
-              {proximasVisitas?.map(({ tenico, data, hora, icone }, index) => {
-                return (
-                  <ListItem disablePadding key={index}>
-                    <ListItemButton sx={{ px: 3, py: 2 }}>
-                      <Box
+      <CardContent sx={{ p: 0 }}>
+        <List
+          sx={{
+            p: 0,
+            maxHeight: { xs: 400, sm: 500, md: 1043 },
+            overflowY: "auto",
+          }}
+        >
+          {proximasVisitas?.map(({ tenico, data, hora, icone }, index) => {
+            return (
+              <ListItem
+                disablePadding
+                key={index}
+                sx={{ borderBottom: "1px solid rgba(0,0,0,0.05)" }}
+              >
+                <ListItemButton
+                  sx={{
+                    px: 3,
+                    py: { xs: 1, sm: 1.5, md: 2 },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "end",
+                      justifyContent: "space-between",
+                      width: "100%",
+                      flexDirection: { xs: "column", sm: "row" },
+                      gap: { xs: 1, sm: 0 },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        minWidth: 0,
+                        flex: 1,
+                        width: "100%",
+                      }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 0, pr: 1 }}>
+                        {icone}
+                      </ListItemIcon>
+                      <Typography
                         sx={{
-                          display: "flex",
-                          alignItems: "end",
-                          justifyContent: "space-between",
-                          width: "100%",
+                          fontSize: { xs: "0.875rem", sm: "1rem" },
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          maxWidth: { xs: "200px", sm: "300px", md: "400px" },
                         }}
                       >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "end",
-                            minWidth: 0,
-                            flex: 1,
-                            mr: 2,
-                          }}
-                        >
-                          <ListItemIcon sx={{ minWidth: 0, pb: "3px", pr: 1 }}>
-                            {icone}
-                          </ListItemIcon>
-                          <Typography
-                            sx={{
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                              minWidth: 0,
-                            }}
-                          >
-                            {tenico}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: "flex", flexShrink: 0 }}>
-                          <Chip
-                            label={new Date(data).toLocaleDateString("pt-BR", {
-                              day: "2-digit",
-                              month: "2-digit",
-                            })}
-                            sx={{ ml: 2 }}
-                            variant="outlined"
-                            size="small"
-                          />
-                          <Chip label={hora} sx={{ ml: 0.5 }} size="small" />
-                        </Box>
-                      </Box>
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
-            </List>
-          </Grid>
-        </Grid>
+                        {tenico}
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: { xs: 0.5, sm: 1 },
+                        alignItems: "center",
+                      }}
+                    >
+                      <Chip
+                        label={new Date(data).toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                        })}
+                        variant="outlined"
+                        size="small"
+                      />
+                      <Chip label={hora} size="small" />
+                    </Box>
+                  </Box>
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
       </CardContent>
     </Card>
   );
