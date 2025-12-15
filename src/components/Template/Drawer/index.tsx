@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "../../../hooks/useAuth";
 import { useDrawer } from "../../../hooks/useDrawer";
@@ -28,11 +28,33 @@ export const Drawer = () => {
     {},
   );
 
+  useEffect(() => {
+    const newOpenDropdowns = { ...openDropdowns };
+
+    functionalities.forEach((route) => {
+      if (route.menu?.parent) {
+        if (isRouteActive(route.path)) {
+          newOpenDropdowns[route.menu.parent] = true;
+        }
+      }
+    });
+
+    setOpenDropdowns(newOpenDropdowns);
+  }, [location.pathname]);
+
   const handleDropdownClick = (menuName: string) => {
-    setOpenDropdowns((prev) => ({
-      ...prev,
-      [menuName]: !prev[menuName],
-    }));
+    if (!isDrawerOpen) {
+      openDrawer();
+      setOpenDropdowns((prev) => ({
+        ...prev,
+        [menuName]: true,
+      }));
+    } else {
+      setOpenDropdowns((prev) => ({
+        ...prev,
+        [menuName]: !prev[menuName],
+      }));
+    }
   };
 
   const functionalities = routes?.filter((route) => {
@@ -58,11 +80,36 @@ export const Drawer = () => {
     }
   });
 
-  const isActive = (route: string) => {
+  const isRouteActive = (routePath: string) => {
     return (
-      location.pathname === route ||
-      (location.pathname === ROUTES.HOME && route === ROUTES.DASHBOARD)
+      location.pathname === routePath ||
+      (location.pathname === ROUTES.HOME && routePath === ROUTES.DASHBOARD)
     );
+  };
+
+  const isRouteOrChildActive = (route: any) => {
+    const { path, menu } = route;
+
+    if (isRouteActive(path)) {
+      return true;
+    }
+
+    if (menu?.name && groupedRoutes[menu.name]) {
+      const hasActiveChild = groupedRoutes[menu.name].some((childRoute) =>
+        isRouteActive(childRoute.path),
+      );
+      return hasActiveChild;
+    }
+
+    return false;
+  };
+
+  const handleMenuItemClick = (isParentItem: boolean, menuName: string) => {
+    if (isParentItem) {
+      handleDropdownClick(menuName);
+      return false;
+    }
+    return true;
   };
 
   const renderMenuItem = (route: any, level = 0) => {
@@ -75,75 +122,69 @@ export const Drawer = () => {
       (subRoute) => subRoute.menu?.parent === menu?.name,
     );
 
+    const isActive = isRouteOrChildActive(route);
+
     return (
-      <Link
-        to={isParentItem ? "#" : path}
-        key={menu?.name}
-        style={{ textDecoration: "none", color: "inherit" }}
-        onClick={(e) => {
-          if (isParentItem) {
-            e.preventDefault();
-            handleDropdownClick(menu?.name);
-          }
-        }}
-      >
-        <ListItem disablePadding>
-          <Tooltip
-            title={menu?.name}
-            placement="right"
-            arrow
-            disableHoverListener={isDrawerOpen}
+      <ListItem disablePadding key={menu?.name}>
+        <Tooltip
+          title={menu?.name}
+          placement="right"
+          arrow
+          disableHoverListener={isDrawerOpen}
+        >
+          <ListItemButton
+            component={isParentItem ? "button" : Link}
+            to={isParentItem ? undefined : path}
+            sx={{
+              minHeight: 48,
+              justifyContent: isDrawerOpen ? "initial" : "center",
+              px: paddingLeft,
+              pl: isDrawerOpen ? paddingLeft : 2.5,
+              backgroundColor: isActive ? "primary.main" : "transparent",
+              "&:hover": {
+                backgroundColor: isActive ? "primary.dark" : "action.hover",
+              },
+            }}
+            onClick={(e) => {
+              if (isParentItem) {
+                e.preventDefault();
+                handleMenuItemClick(isParentItem, menu?.name);
+              }
+            }}
           >
-            <ListItemButton
+            <ListItemIcon
               sx={{
-                minHeight: 48,
-                justifyContent: isDrawerOpen ? "initial" : "center",
-                px: paddingLeft,
-                pl: isDrawerOpen ? paddingLeft : 2.5,
-                backgroundColor: isActive(path)
-                  ? "primary.main"
-                  : "transparent",
-                "&:hover": {
-                  backgroundColor: isActive(path)
-                    ? "primary.dark"
-                    : "action.hover",
-                },
+                minWidth: 0,
+                mr: isDrawerOpen ? 3 : "auto",
+                justifyContent: "center",
+                color: isActive ? "primary.contrastText" : "inherit",
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: isDrawerOpen ? 3 : "auto",
-                  justifyContent: "center",
-                  color: isActive(path) ? "primary.contrastText" : "inherit",
-                }}
-              >
-                {menu?.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={menu?.name}
-                sx={{
-                  opacity: isDrawerOpen ? 1 : 0,
-                  transition: ({ transitions }) =>
-                    transitions.create("opacity", {
-                      duration: transitions.duration.leavingScreen,
-                    }),
-                  color: isActive(path) ? "primary.contrastText" : "inherit",
-                }}
-              />
-              {isParentItem &&
-                isDrawerOpen &&
-                (hasSubItems ? (
-                  isDropdownOpen ? (
-                    <ExpandLess />
-                  ) : (
-                    <ExpandMore />
-                  )
-                ) : null)}
-            </ListItemButton>
-          </Tooltip>
-        </ListItem>
-      </Link>
+              {menu?.icon}
+            </ListItemIcon>
+            <ListItemText
+              primary={menu?.name}
+              sx={{
+                opacity: isDrawerOpen ? 1 : 0,
+                transition: ({ transitions }) =>
+                  transitions.create("opacity", {
+                    duration: transitions.duration.leavingScreen,
+                  }),
+                color: isActive ? "primary.contrastText" : "inherit",
+              }}
+            />
+            {isParentItem &&
+              isDrawerOpen &&
+              (hasSubItems ? (
+                isDropdownOpen ? (
+                  <ExpandLess />
+                ) : (
+                  <ExpandMore />
+                )
+              ) : null)}
+          </ListItemButton>
+        </Tooltip>
+      </ListItem>
     );
   };
 
@@ -168,17 +209,14 @@ export const Drawer = () => {
       <List sx={{ padding: 0 }}>
         {mainRoutes.map((route) => {
           const hasChildren = groupedRoutes[route.menu?.name]?.length > 0;
+          const isDropdownOpen = openDropdowns[route.menu?.name] || false;
 
           return (
             <div key={route.menu?.name}>
               {renderMenuItem(route)}
 
               {hasChildren && isDrawerOpen && (
-                <Collapse
-                  in={openDropdowns[route.menu?.name] || false}
-                  timeout="auto"
-                  unmountOnExit
-                >
+                <Collapse in={isDropdownOpen} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     {groupedRoutes[route.menu?.name]?.map((subRoute) => (
                       <div key={subRoute.menu?.name}>
