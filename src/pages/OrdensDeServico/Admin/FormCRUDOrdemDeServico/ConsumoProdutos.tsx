@@ -15,11 +15,13 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+
 import { DatePicker } from "../../../../components/Form/DatePicker";
 import { Select } from "../../../../components/Form/Select";
 import { Switch } from "../../../../components/Form/Switch";
 import { TextField } from "../../../../components/Form/Textfield";
 import { OrdemDeServico } from "../types";
+
 import { listEquipamentos, listProdutos } from "./provider";
 
 export const ConsumoProdutos = () => {

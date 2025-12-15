@@ -5,7 +5,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { ptBR } from "date-fns/locale/pt-BR";
 import React from "react";
 import { Controller } from "react-hook-form";
+
 import { IFormProps } from "../@types/form";
+
 import { StyledDatePicker } from "./styles";
 
 type IViews = "year" | "month" | "day";

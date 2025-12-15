@@ -8,6 +8,10 @@ import {
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+
+import { CRUDType } from "../../../../services/types";
+import { OrdemDeServico } from "../types";
+
 import { ConsumoProdutos } from "./ConsumoProdutos";
 import { Equipamentos } from "./Equipamentos";
 import { InformacoesAdicionais } from "./InformacoesAdicionais";
@@ -15,8 +19,6 @@ import { InformacoesBasicasServico } from "./InformacoesBasicasServico";
 import { InformacoesGerais } from "./InformacoesGerais";
 import { PragasEncontradas } from "./PragasEncontradas";
 import { UploadEvidencias } from "./UploadEvidencias";
-import { CRUDType } from "../../../../services/types";
-import { OrdemDeServico } from "../types";
 
 interface FormCRUDOrdemDeServicoProps {
   open: boolean;

@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+
 import { CardInfo } from "../components/CardInfo";
 
 const data = [

@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 import {
   Bar,
   BarChart,
@@ -8,10 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CardInfo } from "../components/CardInfo";
-import { useFormContext } from "react-hook-form";
-import { FormDashboard } from "./types";
-import { useMemo } from "react";
+
 import {
   DateRangeType,
   formatDateForDisplay,
@@ -22,6 +21,9 @@ import {
   getRangeType,
   normalizeDate,
 } from "../../../utils/chart";
+import { CardInfo } from "../components/CardInfo";
+
+import { FormDashboard } from "./types";
 
 interface ChartData {
   date: string;

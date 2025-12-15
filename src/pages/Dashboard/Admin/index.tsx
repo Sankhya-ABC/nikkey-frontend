@@ -1,14 +1,16 @@
 import { Grid } from "@mui/material";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Loading } from "../../../components/Loading";
 import { Layout } from "../../../components/Template/Layout";
 import { CardQuantity } from "../components/CardQuantity";
-import { ProximasVisitas } from "./ProximasVisitas";
+
 import { AtendimentosChart } from "./AtendimentosChart";
 import { ConsumoDeProdutosChart } from "./ConsumoDeProdutosChart";
 import { OrdensDeServicoChart } from "./OrdensDeServicoChart";
+import { ProximasVisitas } from "./ProximasVisitas";
 import { FormDashboard } from "./types";
 
 const defaultValues: FormDashboard = {

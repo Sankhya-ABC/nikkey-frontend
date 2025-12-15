@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
+
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Template } from "./components/Template";
 import { AuthProvider } from "./hooks/useAuth";

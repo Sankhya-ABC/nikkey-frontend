@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+
+import { useAuth } from "../../hooks/useAuth";
 import { useTheme } from "../../hooks/useTheme";
 import { ThemeMode } from "../Template/tokens";
-import { useAuth } from "../../hooks/useAuth";
 
 export const CountdownTimer: React.FC = () => {
   const { getSessionRemaining } = useAuth();

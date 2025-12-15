@@ -15,9 +15,11 @@ import {
 import IconButton from "@mui/material/IconButton";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
+
 import { useAuth } from "../../../hooks/useAuth";
 import { useDrawer } from "../../../hooks/useDrawer";
 import { ROUTES, routes } from "../../../routes";
+
 import { DrawerHeader, Drawer as DrawerUI } from "./styles";
 
 export const Drawer = () => {

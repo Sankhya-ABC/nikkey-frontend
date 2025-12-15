@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
 import { PlacaDeColaArmadilhaMecanica } from "./types";
 
 interface TablePlacaDeColaArmadilhaMecanicaProps {

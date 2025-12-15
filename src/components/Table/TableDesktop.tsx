@@ -9,6 +9,7 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
+
 import { TableProps } from "./types";
 
 export const TableDesktop = <T,>({

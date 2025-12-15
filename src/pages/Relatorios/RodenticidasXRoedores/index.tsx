@@ -1,11 +1,13 @@
 import { Box, Grid } from "@mui/material";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Loading } from "../../../components/Loading";
 import { Layout } from "../../../components/Template/Layout";
-import { RodenticidasXRoedoresChart } from "./RodenticidasXRoedoresChart";
+
 import { mockRodenticidasXRoedores } from "./provider";
+import { RodenticidasXRoedoresChart } from "./RodenticidasXRoedoresChart";
 import { TableRodenticidasXRoedores } from "./TableRodenticidasXRoedores";
 import { FormRelatorio } from "./types";
 

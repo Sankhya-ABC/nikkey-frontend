@@ -1,21 +1,23 @@
-import React from "react";
-import { useDrawer } from "../../../hooks/useDrawer";
-import { useTheme } from "../../../hooks/useTheme";
-import { AppBar } from "./styles";
-
 import {
   Brightness4 as DarkModeIcon,
   Brightness7 as LightModeIcon,
   Settings as SettingsIcon,
 } from "@mui/icons-material";
 import { Box, IconButton, Toolbar, Tooltip } from "@mui/material";
+import React from "react";
 import { Link } from "react-router";
+
 import { useAuth } from "../../../hooks/useAuth";
-import { CountdownTimer } from "../../CountdownTimer";
-import { ThemeMode } from "../tokens";
-import { Avatar } from "./Avatar";
+import { useDrawer } from "../../../hooks/useDrawer";
+import { useTheme } from "../../../hooks/useTheme";
+
 import nikkeyNameLogo from "/nikkey-name-logo.png";
 import { ROUTES } from "../../../routes";
+import { CountdownTimer } from "../../CountdownTimer";
+import { ThemeMode } from "../tokens";
+
+import { Avatar } from "./Avatar";
+import { AppBar } from "./styles";
 
 export const Menu: React.FC = () => {
   const { themeMode, toggleTheme } = useTheme();

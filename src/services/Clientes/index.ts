@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from "axios";
+
 import { api } from "../api";
-import { Cliente } from "./types";
 import { ParamsForPagination, GetAllPaginated } from "../types";
+
+import { Cliente } from "./types";
 
 class ClienteService {
   async criarCliente(cliente: Omit<Cliente, "id">): Promise<Cliente> {

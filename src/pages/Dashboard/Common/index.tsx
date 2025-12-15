@@ -1,15 +1,17 @@
 import { Grid } from "@mui/material";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Loading } from "../../../components/Loading";
 import { Layout } from "../../../components/Template/Layout";
+
 import { ConsumoDeProdutosChart } from "./ConsumoDeProdutosChart";
 import { FocoPragasEncontradasChart } from "./FocoPragasEncontradasChart";
 import { ProximasVisitas } from "./ProximasVisitas";
 import { RoedoresCapturadosChart } from "./RoedoresCapturadosChart";
-import { UltimaVisita } from "./UltimaVisita";
 import { FormDashboard } from "./types";
+import { UltimaVisita } from "./UltimaVisita";
 
 const defaultValues: FormDashboard = {
   dataInicio: new Date(new Date().getFullYear(), new Date().getMonth(), 1),

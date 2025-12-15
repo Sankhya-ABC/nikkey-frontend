@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router";
+
 import { ROUTES } from "../../routes";
 
 export const NotFound: React.FC = () => {

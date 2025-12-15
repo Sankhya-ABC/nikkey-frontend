@@ -1,3 +1,4 @@
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import {
   IconButton,
   Paper,
@@ -11,8 +12,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+
 import { Certificado } from "./types";
-import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 
 interface TableCertificadosProps {
   paginatedList: Certificado[];

@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
 import { ConsumoDeProdutos } from "./types";
 
 interface TableConsumoDeProdutosProps {

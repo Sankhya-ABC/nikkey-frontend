@@ -1,9 +1,11 @@
 import { Box, Grid } from "@mui/material";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+
 import { DatePicker } from "../../../components/Form/DatePicker";
 import { Loading } from "../../../components/Loading";
 import { Layout } from "../../../components/Template/Layout";
+
 import { FocoPragasEncontradasChart } from "./FocoPragasEncontradasChart";
 import { mockFocoPragasEncontradas } from "./provider";
 import { TableFocoPragasEncontradas } from "./TableFocoPragasEncontradas";

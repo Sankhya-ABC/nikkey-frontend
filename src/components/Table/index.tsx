@@ -1,4 +1,5 @@
 import { TablePagination, useMediaQuery, useTheme } from "@mui/material";
+
 import { TableDesktop } from "./TableDesktop";
 import { TableMobile } from "./TableMobile";
 import { TableProps } from "./types";

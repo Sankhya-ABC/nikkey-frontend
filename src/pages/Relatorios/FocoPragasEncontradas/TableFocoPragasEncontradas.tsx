@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
 import { FocoPragasEncontradas } from "./types";
 
 interface TableFocoPragasEncontradasProps {

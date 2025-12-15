@@ -1,19 +1,21 @@
 import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
+
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
 import { CRUDType } from "../../services/types";
+
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";
 import { FormCRUDVisita } from "./FormCRUDVisita";
 import { ListOfVisitsPerDay } from "./ListOfVisitsPerDay";
 import { Month } from "./Month";
+import { simulateBackendRequest } from "./provider";
 import { SelectCalendarDate } from "./SelectCalendarDate";
 import { SelectCalendarView } from "./SelectCalendarView";
-import { Week } from "./Week";
-import { simulateBackendRequest } from "./provider";
 import { ModalMode, View, VisitaForm } from "./type";
 import { getDateRange } from "./utils";
+import { Week } from "./Week";
 
 export const Visitas = () => {
   const [view, setView] = useState<View>(View.MONTH);

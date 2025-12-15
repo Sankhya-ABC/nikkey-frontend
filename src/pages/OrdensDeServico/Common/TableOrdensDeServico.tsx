@@ -10,8 +10,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { OrdemDeServico, StatusColors } from "./types";
 import { format } from "date-fns";
+
+import { OrdemDeServico, StatusColors } from "./types";
 
 interface TableOrdensDeServicoProps {
   paginatedList: OrdemDeServico[];

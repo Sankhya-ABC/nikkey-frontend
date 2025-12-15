@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
 import { RoedoresMortos } from "./types";
 
 interface TableRoedoresMortosProps {

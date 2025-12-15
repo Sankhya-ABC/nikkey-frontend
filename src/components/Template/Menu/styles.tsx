@@ -2,6 +2,7 @@ import MuiAppBar, {
   type AppBarProps as MuiAppBarProps,
 } from "@mui/material/AppBar";
 import { styled } from "@mui/material/styles";
+
 import { DRAWER_WIDTH } from "../Drawer/styles";
 
 interface AppBarProps extends MuiAppBarProps {

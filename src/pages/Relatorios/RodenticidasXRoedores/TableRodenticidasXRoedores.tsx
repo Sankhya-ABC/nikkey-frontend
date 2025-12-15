@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
 import { RodenticidasXRoedores } from "./types";
 
 interface TableRodenticidasXRoedoresProps {

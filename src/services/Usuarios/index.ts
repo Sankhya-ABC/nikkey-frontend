@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from "axios";
+
 import { api } from "../api";
-import { Usuario } from "./types";
 import { ParamsForPagination, GetAllPaginated } from "../types";
+
+import { Usuario } from "./types";
 
 class UsuarioService {
   async criarUsuario(usuario: Omit<Usuario, "id">): Promise<Usuario> {

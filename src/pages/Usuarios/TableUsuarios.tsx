@@ -1,5 +1,4 @@
 import { Edit, Visibility } from "@mui/icons-material";
-import LoginIcon from "@mui/icons-material/Login";
 import {
   Chip,
   IconButton,
@@ -15,8 +14,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Role, useAuth } from "../../hooks/useAuth";
+
 import { CRUDType } from "../../services/types";
+
 import { Usuario } from "./types";
 
 interface TableUsuariosProps {
@@ -45,8 +45,6 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
   handleChangePage,
   handleChangeRowsPerPage,
 }) => {
-  const { impersonate } = useAuth();
-
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>

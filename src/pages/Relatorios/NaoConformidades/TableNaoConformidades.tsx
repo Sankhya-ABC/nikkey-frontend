@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
 import { NaoConformidades } from "./types";
 
 interface TableNaoConformidadesProps {

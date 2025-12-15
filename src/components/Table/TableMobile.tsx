@@ -6,6 +6,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+
 import { TableProps } from "./types";
 
 export const TableMobile = <T,>({

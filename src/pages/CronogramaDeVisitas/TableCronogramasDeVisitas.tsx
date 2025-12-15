@@ -10,8 +10,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { CronogramaDeVisitas, StatusColors } from "./types";
 import { format } from "date-fns";
+
+import { CronogramaDeVisitas, StatusColors } from "./types";
 
 interface TableCronogramasDeVisitasProps {
   paginatedList: CronogramaDeVisitas[];

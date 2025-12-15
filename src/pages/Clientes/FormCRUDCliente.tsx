@@ -7,14 +7,16 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+
 import { Select } from "../../components/Form/Select";
 import { Switch } from "../../components/Form/Switch";
 import { TextField } from "../../components/Form/Textfield";
-import { estados } from "./provider";
-import { useEffect } from "react";
 import { Cliente } from "../../services/Clientes/types";
 import { CRUDType } from "../../services/types";
+
+import { estados } from "./provider";
 
 interface FormCRUDClienteProps {
   open: boolean;

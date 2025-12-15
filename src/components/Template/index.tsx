@@ -2,11 +2,13 @@ import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import { Outlet, useNavigate } from "react-router";
+
 import { useAuth } from "../../hooks/useAuth";
+import { ROUTES } from "../../routes";
+
 import { Drawer } from "./Drawer";
 import { Menu } from "./Menu";
 import { StyledAlert } from "./style";
-import { ROUTES } from "../../routes";
 
 const Main = styled("main")(({ theme }) => ({
   flexGrow: 1,

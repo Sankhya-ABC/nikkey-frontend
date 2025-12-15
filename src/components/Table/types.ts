@@ -1,5 +1,6 @@
 import { Breakpoint } from "@mui/material";
 import { ChangeEvent, CSSProperties, ReactNode } from "react";
+
 import { GetAllPaginated } from "../../services/types";
 
 export interface HeaderAndValues<T> {

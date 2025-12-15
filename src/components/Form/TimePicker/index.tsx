@@ -1,13 +1,14 @@
 import { InputBaseComponentProps } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import {
   TimePicker as TimePickerMui,
   TimePickerProps as MuiTimePickerProps,
 } from "@mui/x-date-pickers/TimePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { ptBR } from "date-fns/locale/pt-BR";
 import React from "react";
 import { Controller } from "react-hook-form";
+
 import { IFormProps } from "../@types/form";
 
 type ITimeView = "hours" | "minutes" | "seconds";
