@@ -20,3 +20,19 @@ export interface GetAllPaginated<T> {
     last_page: number;
   };
 }
+
+export interface ErrorMessage {
+  message: string;
+  exception: string;
+  file: string;
+  line: number;
+  trace: [];
+}
+
+export interface Trace {
+  file: string;
+  line: number;
+  function: string;
+  class: string;
+  type: string;
+}

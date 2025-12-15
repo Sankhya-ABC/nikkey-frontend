@@ -136,18 +136,19 @@ export const Clientes = () => {
     setLoading(true);
     try {
       await clienteService.atualizarStatusCliente(selectedCliente?.id!);
-      buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
+      await buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
     } catch (err: any) {
       //
     } finally {
       setLoading(false);
+      handleCloseFormStatus();
     }
   };
 
   // useEffects
   useEffect(() => {
     buscarTodosClientes(rowsPerPage, page, search);
-  }, []);
+  }, [search]);
 
   return (
     <Loading {...{ loading, setLoading }}>
@@ -214,8 +215,7 @@ export const Clientes = () => {
               {
                 tooltip: "Acessar como",
                 element: <LoginIcon />,
-                onClick: (cliente: Cliente) => () =>
-                  handleAcessarComo(cliente?.id!),
+                onClick: (cliente: Cliente) => handleAcessarComo(cliente?.id!),
               },
               {
                 tooltip: "Visualizar",
