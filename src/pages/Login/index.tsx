@@ -89,15 +89,6 @@ export const Login = () => {
               {loading ? <CircularProgress size={20} /> : "Entrar"}
             </Button>
           </Grid>
-          <Grid size={{ xs: 12 }}>
-            <Typography variant="caption">
-              Use <strong>admin@example.com</strong> / <strong>123</strong> para
-              testar o mock.
-              <br />
-              Use <strong>common@example.com</strong> / <strong>123</strong>{" "}
-              para testar o mock.
-            </Typography>
-          </Grid>
         </Grid>
       </Paper>
     </Container>
