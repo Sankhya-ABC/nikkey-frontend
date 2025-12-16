@@ -116,14 +116,14 @@ export const Clientes = () => {
   // requests
   const buscarTodosClientes = async (
     per_page: number,
-    current_page: number,
+    page: number,
     search: string,
   ) => {
     setLoading(true);
     try {
       const resp = await clienteService.buscarTodosClientes({
         per_page,
-        current_page,
+        page: page + 1,
         search,
       });
       setClientes(resp);

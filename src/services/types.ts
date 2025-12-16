@@ -7,7 +7,7 @@ export enum CRUDType {
 
 export interface ParamsForPagination {
   per_page: number;
-  current_page: number;
+  page: number;
   search?: string;
 }
 
