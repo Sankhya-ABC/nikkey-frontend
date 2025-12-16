@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { format } from "date-fns";
+import { ChangeEvent } from "react";
 
 import { CronogramaDeVisitas, StatusColors } from "./types";
 
@@ -24,7 +25,7 @@ interface TableCronogramasDeVisitasProps {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => void;
-  handleChangeRowsPerPage: (event: any) => void;
+  handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TableCronogramasDeVisitas: React.FC<

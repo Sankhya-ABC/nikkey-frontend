@@ -12,6 +12,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { ChangeEvent } from "react";
 
 import { Certificado } from "./types";
 
@@ -25,7 +26,7 @@ interface TableCertificadosProps {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => void;
-  handleChangeRowsPerPage: (event: any) => void;
+  handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TableCertificados: React.FC<TableCertificadosProps> = ({

@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Theme, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import { useAuth } from "../../hooks/useAuth";
@@ -37,7 +37,7 @@ export const CountdownTimer: React.FC = () => {
   const isLight = themeMode === ThemeMode.LIGHT;
 
   const boxStyle = {
-    backgroundColor: ({ palette }: any) =>
+    backgroundColor: ({ palette }: Theme) =>
       isLight ? palette.grey[300] : palette.grey[600],
     padding: "1px 6px",
     margin: "2px",

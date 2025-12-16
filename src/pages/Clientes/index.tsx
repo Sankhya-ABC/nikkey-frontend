@@ -106,7 +106,7 @@ export const Clientes = () => {
       const resp = await usuarioService.buscarUsuarioPorId(id);
       impersonate(resp);
       navigate(ROUTES.HOME);
-    } catch (err: any) {
+    } catch (error: unknown) {
       //
     } finally {
       setLoading(false);
@@ -127,7 +127,7 @@ export const Clientes = () => {
         search,
       });
       setClientes(resp);
-    } catch (err: any) {
+    } catch (error: unknown) {
       //
     } finally {
       setLoading(false);
@@ -139,7 +139,7 @@ export const Clientes = () => {
     try {
       await clienteService.atualizarStatusCliente(selectedCliente?.id!);
       await buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
-    } catch (err: any) {
+    } catch (error: unknown) {
       //
     } finally {
       setLoading(false);

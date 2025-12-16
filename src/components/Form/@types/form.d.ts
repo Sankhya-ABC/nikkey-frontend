@@ -5,5 +5,4 @@ interface IFormProps {
   name: string;
 
   control: Control<any>;
-  setValue?: any;
 }

@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { ChangeEvent } from "react";
 
 import { InseticidasXPragas } from "./types";
 
@@ -22,7 +23,7 @@ interface TableInseticidasXPragasProps {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => void;
-  handleChangeRowsPerPage: (event: any) => void;
+  handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TableInseticidasXPragas: React.FC<

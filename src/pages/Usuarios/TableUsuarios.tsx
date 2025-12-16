@@ -14,6 +14,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { ChangeEvent } from "react";
 
 import { CRUDType } from "../../services/types";
 
@@ -29,7 +30,7 @@ interface TableUsuariosProps {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => void;
-  handleChangeRowsPerPage: (event: any) => void;
+  handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement>) => void;
 
   handleOpenFormCRUD: (crudType: CRUDType, usuario?: Usuario | null) => void;
   handleOpenFormStatus: (usuario?: Usuario | null) => void;

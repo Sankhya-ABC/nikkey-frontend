@@ -17,6 +17,7 @@ import { Cliente } from "../../services/Clientes/types";
 import { CRUDType } from "../../services/types";
 
 import { estados } from "./provider";
+import { clienteService } from "@/services/Clientes";
 
 interface FormCRUDClienteProps {
   open: boolean;
@@ -61,13 +62,21 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
   formType,
   selected,
 }) => {
-  const { control, reset } = useForm<Cliente>({ defaultValues });
+  const { control, reset, handleSubmit } = useForm<Cliente>({ defaultValues });
 
   useEffect(() => {
     if (formType === CRUDType.UPDATE || formType === CRUDType.READ) {
       reset(selected || defaultValues);
     }
   }, [formType, selected]);
+
+  const onSubmit = async (data: Cliente) => {
+    try {
+      await clienteService.criarCliente(data);
+    } catch (error) {
+      //
+    }
+  };
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -256,7 +265,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
           <Button variant="outlined" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" onClick={() => handleSubmit(onSubmit)()}>
             {formType === CRUDType.CREATE && "Cadastrar"}
             {formType === CRUDType.UPDATE && "Editar"}
           </Button>

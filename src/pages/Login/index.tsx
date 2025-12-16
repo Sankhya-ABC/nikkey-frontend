@@ -39,7 +39,7 @@ export const Login = () => {
     try {
       await auth.login(usuario, senha);
       navigate(from, { replace: true });
-    } catch (err: any) {
+    } catch (error: unknown) {
       //
     } finally {
       setLoading(false);

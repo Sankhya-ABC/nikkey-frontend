@@ -182,7 +182,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             preview,
             fileType,
           });
-        } catch (err) {
+        } catch (_error) {
           validFiles.push({
             file,
             preview: "",

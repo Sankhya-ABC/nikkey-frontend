@@ -16,7 +16,7 @@ export interface OrdemDeServico {
   };
 }
 
-export const StatusColors: Record<Status, string> = {
+export const StatusColors: Record<Status, "warning" | "success" | "error"> = {
   [Status.PENDENTE]: "warning",
   [Status.REALIZADO]: "success",
   [Status.CANCELADO]: "error",

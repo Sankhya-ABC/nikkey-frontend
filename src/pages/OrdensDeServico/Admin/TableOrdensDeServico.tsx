@@ -16,6 +16,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { ChangeEvent } from "react";
 
 import { CRUDType } from "../../../services/types";
 
@@ -31,7 +32,7 @@ interface TableOrdensDeServicoProps {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => void;
-  handleChangeRowsPerPage: (event: any) => void;
+  handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement>) => void;
 
   handleOpenFormCRUD: (
     crudType: CRUDType,

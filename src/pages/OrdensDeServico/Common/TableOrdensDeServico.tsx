@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { format } from "date-fns";
+import { ChangeEvent } from "react";
 
 import { OrdemDeServico, StatusColors } from "./types";
 
@@ -24,7 +25,7 @@ interface TableOrdensDeServicoProps {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => void;
-  handleChangeRowsPerPage: (event: any) => void;
+  handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TableOrdensDeServico: React.FC<TableOrdensDeServicoProps> = ({
@@ -91,7 +92,7 @@ export const TableOrdensDeServico: React.FC<TableOrdensDeServicoProps> = ({
           <TableBody>
             {paginatedList?.length === 0 ? (
               <TableRow>
-                <TableCell align="center" colSpan={6} align="center">
+                <TableCell align="center" colSpan={6}>
                   <Typography variant="body1" color="textSecondary">
                     Nenhuma ordem de serviço encontrada
                   </Typography>

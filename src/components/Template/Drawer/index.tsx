@@ -13,12 +13,12 @@ import {
   Tooltip,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { useState, useEffect } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 
 import { useAuth } from "../../../hooks/useAuth";
 import { useDrawer } from "../../../hooks/useDrawer";
-import { ROUTES, routes } from "../../../routes";
+import { Routes, ROUTES, routes } from "../../../routes";
 
 import { DrawerHeader, Drawer as DrawerUI } from "./styles";
 
@@ -114,13 +114,13 @@ export const Drawer = () => {
     return true;
   };
 
-  const renderMenuItem = (route: any, level = 0) => {
+  const renderMenuItem = (route: Routes, level = 0) => {
     const { menu, path } = route;
     const isSubItem = level > 0;
     const paddingLeft = isSubItem ? 4 : 2.5;
-    const isParentItem = groupedRoutes[menu?.name]?.length > 0;
-    const isDropdownOpen = openDropdowns[menu?.name] || false;
-    const hasSubItems = groupedRoutes[menu?.name]?.some(
+    const isParentItem = groupedRoutes[menu?.name!]?.length > 0;
+    const isDropdownOpen = openDropdowns[menu?.name!] || false;
+    const hasSubItems = groupedRoutes[menu?.name!]?.some(
       (subRoute) => subRoute.menu?.parent === menu?.name,
     );
 
@@ -147,10 +147,10 @@ export const Drawer = () => {
                 backgroundColor: isActive ? "primary.dark" : "action.hover",
               },
             }}
-            onClick={(e) => {
+            onClick={(e: MouseEvent) => {
               if (isParentItem) {
                 e.preventDefault();
-                handleMenuItemClick(isParentItem, menu?.name);
+                handleMenuItemClick(isParentItem, menu?.name!);
               }
             }}
           >

@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { ChangeEvent } from "react";
 
 import { ConsumoDeInsumos } from "./types";
 
@@ -22,7 +23,7 @@ interface TableConsumoDeInsumosProps {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => void;
-  handleChangeRowsPerPage: (event: any) => void;
+  handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TableConsumoDeInsumos: React.FC<TableConsumoDeInsumosProps> = ({

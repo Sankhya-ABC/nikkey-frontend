@@ -74,7 +74,7 @@ class UsuarioService {
     }
   }
 
-  private handleError(error: any): Error {
+  private handleError(error: unknown): Error {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message || error.message;
       return new Error(message);

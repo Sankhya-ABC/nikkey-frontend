@@ -31,7 +31,7 @@ import { Usuarios } from "./pages/Usuarios";
 import { Visitas } from "./pages/Visitas";
 import { Role } from "./types";
 
-interface Routes {
+export interface Routes {
   path: string;
   element: ReactNode;
   isProtected: boolean;
