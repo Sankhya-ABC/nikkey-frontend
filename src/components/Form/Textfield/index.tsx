@@ -23,6 +23,10 @@ export const TextField: React.FC<ITextFieldProps> = ({
   multiline = false,
   rows = 4,
 }) => {
+  const fieldId = React.useRef(
+    `field-${Math.random().toString(36).substring(2, 11)}`,
+  );
+
   return (
     <Controller
       name={name}
@@ -30,24 +34,38 @@ export const TextField: React.FC<ITextFieldProps> = ({
       render={({
         field: { ref, value, onChange, onBlur },
         fieldState: { error },
-      }) => (
-        <MuiTextField
-          fullWidth
-          color="primary"
-          size="small"
-          type={type}
-          label={label}
-          value={value ?? ""}
-          inputRef={ref}
-          onBlur={onBlur}
-          onChange={onChange}
-          error={!!error}
-          helperText={error?.message ?? ""}
-          multiline={multiline}
-          rows={multiline ? rows : undefined}
-          {...TextFieldProps}
-        />
-      )}
+      }) => {
+        const userSlotProps = TextFieldProps?.slotProps || {};
+
+        return (
+          <MuiTextField
+            fullWidth
+            color="primary"
+            size="small"
+            type={type}
+            label={label}
+            value={value ?? ""}
+            inputRef={ref}
+            onBlur={onBlur}
+            onChange={onChange}
+            error={!!error}
+            helperText={error?.message ?? ""}
+            multiline={multiline}
+            rows={multiline ? rows : undefined}
+            autoComplete="off"
+            slotProps={{
+              input: {
+                autoComplete: "new-password",
+                autoCorrect: "off",
+                name: fieldId.current,
+                ...userSlotProps.input,
+              },
+              ...userSlotProps,
+            }}
+            {...TextFieldProps}
+          />
+        );
+      }}
     />
   );
 };
