@@ -69,7 +69,12 @@ export const Login = () => {
           </Grid>
 
           <Grid size={{ xs: 12 }}>
-            <TextField control={control} name="usuario" label="Usuário" />
+            <TextField
+              control={control}
+              name="usuario"
+              label="Usuário"
+              autoComplete={false}
+            />
           </Grid>
           <Grid size={{ xs: 12 }}>
             <TextField
@@ -77,6 +82,7 @@ export const Login = () => {
               name="senha"
               label="Senha"
               type="password"
+              autoComplete={false}
             />
           </Grid>
 

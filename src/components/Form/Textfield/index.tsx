@@ -13,6 +13,7 @@ interface ITextFieldProps extends IFormProps {
   multiline?: boolean;
   rows?: number;
   readOnly?: boolean;
+  autoComplete?: boolean;
 }
 
 export const TextField: React.FC<ITextFieldProps> = ({
@@ -24,10 +25,17 @@ export const TextField: React.FC<ITextFieldProps> = ({
   multiline = false,
   rows = 4,
   readOnly,
+  autoComplete = true,
 }) => {
-  const fieldId = React.useRef(
-    `field-${Math.random().toString(36).substring(2, 11)}`,
-  );
+  const autoCompleteProps = autoComplete
+    ? {
+        autoComplete: "new-password",
+        autoCorrect: "off",
+        name: React.useRef(
+          `field-${Math.random().toString(36).substring(2, 11)}`,
+        ).current,
+      }
+    : {};
 
   return (
     <Controller
@@ -57,10 +65,8 @@ export const TextField: React.FC<ITextFieldProps> = ({
             autoComplete="off"
             slotProps={{
               input: {
-                autoComplete: "new-password",
-                autoCorrect: "off",
-                name: fieldId.current,
                 readOnly,
+                ...autoCompleteProps,
                 ...userSlotProps.input,
               },
               ...userSlotProps,
