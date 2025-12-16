@@ -24,6 +24,7 @@ interface ISelectProps extends IFormProps {
   multiple?: boolean;
   native?: boolean;
   autoWidth?: boolean;
+  readOnly?: boolean;
 }
 
 export const Select: React.FC<ISelectProps> = ({
@@ -39,6 +40,7 @@ export const Select: React.FC<ISelectProps> = ({
   multiple = false,
   native = false,
   autoWidth = false,
+  readOnly,
 }) => {
   const labelId = `${name}-label`;
 
@@ -77,6 +79,7 @@ export const Select: React.FC<ISelectProps> = ({
             native={native}
             autoWidth={autoWidth}
             input={native ? undefined : <OutlinedInput label={label} />}
+            readOnly={readOnly}
             renderValue={
               native
                 ? undefined

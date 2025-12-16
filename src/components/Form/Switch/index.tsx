@@ -14,6 +14,7 @@ interface ISwitchProps extends IFormProps {
   SwitchProps?: Partial<MuiSwitchProps>;
   labelPlacement?: "end" | "start" | "top" | "bottom";
   disabled?: boolean;
+  readOnly?: boolean;
 }
 
 export const Switch: React.FC<ISwitchProps> = ({
@@ -23,6 +24,7 @@ export const Switch: React.FC<ISwitchProps> = ({
   SwitchProps,
   labelPlacement = "end",
   disabled = false,
+  readOnly,
 }) => {
   return (
     <Controller
@@ -44,8 +46,9 @@ export const Switch: React.FC<ISwitchProps> = ({
                   SwitchProps?.onChange?.(event, event.target.checked);
                 }}
                 onBlur={onBlur}
-                disabled={disabled}
+                disabled={disabled || readOnly}
                 color={error ? "error" : "primary"}
+                readOnly={readOnly}
               />
             }
             label={label}
