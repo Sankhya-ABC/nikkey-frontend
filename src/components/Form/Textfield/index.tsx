@@ -9,10 +9,9 @@ import { IFormProps } from "../@types/form";
 
 interface ITextFieldProps extends IFormProps {
   TextFieldProps?: Partial<MuiTextFieldProps>;
-  type?: "text" | "number" | "email" | "password" | "tel" | "url";
+  type?: "text" | "number" | "email" | "password" | "tel" | "url" | "search";
   multiline?: boolean;
   rows?: number;
-  maxLength?: number;
 }
 
 export const TextField: React.FC<ITextFieldProps> = ({
@@ -23,7 +22,6 @@ export const TextField: React.FC<ITextFieldProps> = ({
   type = "text",
   multiline = false,
   rows = 4,
-  maxLength,
 }) => {
   return (
     <Controller
@@ -34,7 +32,6 @@ export const TextField: React.FC<ITextFieldProps> = ({
         fieldState: { error },
       }) => (
         <MuiTextField
-          {...TextFieldProps}
           fullWidth
           color="primary"
           size="small"
@@ -48,10 +45,7 @@ export const TextField: React.FC<ITextFieldProps> = ({
           helperText={error?.message ?? ""}
           multiline={multiline}
           rows={multiline ? rows : undefined}
-          inputProps={{
-            maxLength,
-            ...TextFieldProps?.inputProps,
-          }}
+          {...TextFieldProps}
         />
       )}
     />
