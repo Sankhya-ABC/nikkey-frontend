@@ -36,3 +36,8 @@ export interface Trace {
   class: string;
   type: string;
 }
+
+export interface Dominio {
+  id: number;
+  descricao: string;
+}

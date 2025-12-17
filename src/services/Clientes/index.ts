@@ -40,13 +40,10 @@ class ClienteService {
     }
   }
 
-  async atualizarCliente(
-    id: number,
-    cliente: Partial<Cliente>,
-  ): Promise<Cliente> {
+  async atualizarCliente(cliente: Partial<Cliente>): Promise<Cliente> {
     try {
       const response: AxiosResponse<Cliente> = await api.put(
-        `/clientes/${id}`,
+        `/clientes/${cliente?.id}`,
         cliente,
       );
       return response.data;

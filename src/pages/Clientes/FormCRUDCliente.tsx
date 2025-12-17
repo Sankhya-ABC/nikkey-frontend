@@ -7,7 +7,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Select } from "../../components/Form/Select";
@@ -16,14 +16,16 @@ import { TextField } from "../../components/Form/Textfield";
 import { Cliente } from "../../services/Clientes/types";
 import { CRUDType } from "../../services/types";
 
-import { estados } from "./provider";
 import { clienteService } from "@/services/Clientes";
+import { enderecoService } from "@/services/Endereco";
+import { Estado } from "@/services/Endereco/types";
 
 interface FormCRUDClienteProps {
   open: boolean;
   handleClose: () => void;
   formType: CRUDType;
   selected: Cliente | null;
+  persistCallback: () => Promise<void>;
 }
 
 const defaultValues: Cliente = {
@@ -61,22 +63,43 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
   handleClose,
   formType,
   selected,
+  persistCallback,
 }) => {
   const { control, reset, handleSubmit } = useForm<Cliente>({ defaultValues });
+
+  const [estados, setEstados] = useState<Estado[]>([]);
+
+  const onSubmit = async (data: Cliente) => {
+    try {
+      if (formType === CRUDType.CREATE) {
+        await clienteService.criarCliente(data);
+      } else {
+        await clienteService.atualizarCliente(data);
+      }
+      persistCallback();
+    } catch (error) {
+      //
+    }
+  };
+
+  const getAllEstados = async () => {
+    try {
+      const resp = await enderecoService.buscarTodosEstados();
+      setEstados(resp);
+    } catch (error) {
+      //
+    }
+  };
+
+  useEffect(() => {
+    getAllEstados();
+  }, []);
 
   useEffect(() => {
     if (formType === CRUDType.UPDATE || formType === CRUDType.READ) {
       reset(selected || defaultValues);
     }
   }, [formType, selected]);
-
-  const onSubmit = async (data: Cliente) => {
-    try {
-      await clienteService.criarCliente(data);
-    } catch (error) {
-      //
-    }
-  };
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -93,6 +116,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
 
           <Grid size={{ xs: 12 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="razaoSocial"
               label="Razão Social"
@@ -101,6 +125,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
 
           <Grid size={{ xs: 12 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="nomeFantasia"
               label="Nome Fantasia"
@@ -108,11 +133,17 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
           </Grid>
 
           <Grid size={{ xs: 6 }}>
-            <TextField control={control} name="cnpjCpf" label="CNPJ/CPF" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="cnpjCpf"
+              label="CNPJ/CPF"
+            />
           </Grid>
 
           <Grid size={{ xs: 6 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="validadeCertificado"
               label="Validade do Certificado (Dias)"
@@ -121,6 +152,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
 
           <Grid size={{ xs: 12 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="tipoAtividade"
               label="Tipo de Atividade"
@@ -129,6 +161,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
 
           <Grid size={{ xs: 12 }}>
             <Switch
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="possuiContrato"
               label="Cliente possui contrato?"
@@ -142,15 +175,26 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
           </Grid>
 
           <Grid size={{ xs: 12 }}>
-            <TextField control={control} name="logradouro" label="Logradouro" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="logradouro"
+              label="Logradouro"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 3 }}>
-            <TextField control={control} name="numero" label="Número" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="numero"
+              label="Número"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 9 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="complemento"
               label="Complemento"
@@ -158,29 +202,42 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
           </Grid>
 
           <Grid size={{ xs: 6, md: 3 }}>
-            <TextField control={control} name="bairro" label="Bairro" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="bairro"
+              label="Bairro"
+            />
           </Grid>
 
           <Grid size={{ xs: 6, md: 3 }}>
             <Select
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="estado"
               label="Estado"
-              options={estados?.map((estado, index) => ({
-                id: index,
-                descricao: estado,
-              }))}
-              propertyLabel="descricao"
-              propertyValue="id"
+              options={estados}
+              propertyLabel="nome"
+              propertyValue="sigla"
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 3 }}>
-            <TextField control={control} name="cidade" label="Cidade" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="cidade"
+              label="Cidade"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 3 }}>
-            <TextField control={control} name="cep" label="CEP" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="cep"
+              label="CEP"
+            />
           </Grid>
 
           <Grid size={{ xs: 12 }}>
@@ -190,27 +247,53 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
-            <TextField control={control} name="contato" label="Contato" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="contato"
+              label="Contato"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
-            <TextField control={control} name="telefone" label="Telefone" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="telefone"
+              label="Telefone"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
-            <TextField control={control} name="funcao" label="Função" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="funcao"
+              label="Função"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
-            <TextField control={control} name="fax" label="Fax" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="fax"
+              label="Fax"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 8 }}>
-            <TextField control={control} name="email" label="E-mail" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="email"
+              label="E-mail"
+            />
           </Grid>
 
           <Grid size={{ xs: 12 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="observacoes"
               label="Observações"
@@ -226,15 +309,26 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <TextField control={control} name="nomeAcesso" label="Nome" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="nomeAcesso"
+              label="Nome"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <TextField control={control} name="emailAcesso" label="E-mail" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="emailAcesso"
+              label="E-mail"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="departamento"
               label="Departamento"
@@ -243,6 +337,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
 
           <Grid size={{ xs: 12, md: 4 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="senha"
               label="Senha"
@@ -252,6 +347,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
 
           <Grid size={{ xs: 12, md: 4 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="confirmarSenha"
               label="Confirmar Senha"

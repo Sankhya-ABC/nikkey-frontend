@@ -88,6 +88,11 @@ export const Clientes = () => {
     setOpenFormCRUDCliente(false);
   };
 
+  const persistCallback = async () => {
+    handleCloseFormCRUDCliente();
+    await buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
+  };
+
   // -- status modal
   const handleOpenFormStatus = (cliente?: Cliente | null) => {
     setSelectedCliente(cliente || null);
@@ -170,13 +175,15 @@ export const Clientes = () => {
             control={control}
             name="search"
             TextFieldProps={{
-              InputProps: {
-                placeholder: "Pesquise por nome ou email...",
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
+              slotProps: {
+                input: {
+                  placeholder: "Pesquise por nome ou email...",
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                },
               },
             }}
           />
@@ -261,6 +268,7 @@ export const Clientes = () => {
             handleClose: handleCloseFormCRUDCliente,
             selected: selectedCliente,
             formType,
+            persistCallback,
           }}
         />
 
