@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 import { api } from "../api";
-import { ParamsForPagination, GetAllPaginated } from "../types";
+import { GetAllPaginated, ParamsForPagination } from "../types";
 
 import { Usuario } from "./types";
 
@@ -40,14 +40,22 @@ class UsuarioService {
     }
   }
 
-  async atualizarUsuario(
-    id: number,
-    usuario: Partial<Usuario>,
-  ): Promise<Usuario> {
+  async atualizarUsuario(usuario: Partial<Usuario>): Promise<Usuario> {
     try {
       const response: AxiosResponse<Usuario> = await api.put(
-        `/usuarios/${id}`,
+        `/usuarios/${usuario?.id}`,
         usuario,
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  async atualizarStatusUsuario(id: number): Promise<Usuario> {
+    try {
+      const response: AxiosResponse<Usuario> = await api.patch(
+        `/usuarios/${id}`,
       );
       return response.data;
     } catch (error) {

@@ -10,18 +10,20 @@ import {
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+import { usuarioService } from "@/services/Usuarios";
+
 import { Select } from "../../components/Form/Select";
 import { TextField } from "../../components/Form/Textfield";
 import { CRUDType } from "../../services/types";
-
-import { perfis } from "./provider";
-import { Usuario } from "./types";
+import { Usuario } from "../../services/Usuarios/types";
+import { Role } from "@/types";
 
 interface FormCRUDUsuarioProps {
   open: boolean;
   handleClose: () => void;
   formType: CRUDType;
   selected: Usuario | null;
+  persistCallback: () => Promise<void>;
 }
 
 const defaultValues: Usuario = {
@@ -29,7 +31,8 @@ const defaultValues: Usuario = {
   nome: "",
   email: "",
   departamento: "",
-  perfil: "",
+  perfil: null,
+  idCliente: null,
   telefone: "",
   senha: "",
   confirmarSenha: "",
@@ -42,8 +45,22 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
   handleClose,
   formType,
   selected,
+  persistCallback,
 }) => {
-  const { control, reset } = useForm<Usuario>({ defaultValues });
+  const { control, reset, handleSubmit } = useForm<Usuario>({ defaultValues });
+
+  const onSubmit = async (data: Usuario) => {
+    try {
+      if (formType === CRUDType.CREATE) {
+        await usuarioService.criarUsuario(data);
+      } else {
+        await usuarioService.atualizarUsuario(data);
+      }
+      persistCallback();
+    } catch (error) {
+      //
+    }
+  };
 
   useEffect(() => {
     if (formType === CRUDType.UPDATE || formType === CRUDType.READ) {
@@ -65,15 +82,26 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
           </Grid>
 
           <Grid size={{ xs: 12 }}>
-            <TextField control={control} name="nome" label="Nome" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="nome"
+              label="Nome"
+            />
           </Grid>
 
           <Grid size={{ xs: 12 }}>
-            <TextField control={control} name="email" label="Email" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="email"
+              label="Email"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 8 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="departamento"
               label="Departamento"
@@ -82,24 +110,30 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
 
           <Grid size={{ xs: 12, md: 4 }}>
             <Select
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="perfil"
               label="Perfil"
-              options={perfis?.map((perfil, index) => ({
-                id: index,
+              options={Object.keys(Role)?.map((perfil) => ({
                 descricao: perfil,
               }))}
               propertyLabel="descricao"
-              propertyValue="id"
+              propertyValue="descricao"
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
-            <TextField control={control} name="telefone" label="Telefone" />
+            <TextField
+              readOnly={formType === CRUDType.READ}
+              control={control}
+              name="telefone"
+              label="Telefone"
+            />
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="senha"
               label="Senha"
@@ -109,11 +143,18 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
 
           <Grid size={{ xs: 12, md: 4 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="confirmarSenha"
               label="Confirmar Senha"
               type="password"
             />
+          </Grid>
+
+          <Grid size={{ xs: 12 }}>
+            <Typography variant="h6" color="primary">
+              Cliente
+            </Typography>
           </Grid>
         </Grid>
       </DialogContent>
@@ -122,7 +163,7 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
           <Button variant="outlined" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" onClick={() => handleSubmit(onSubmit)()}>
             {formType === CRUDType.CREATE && "Cadastrar"}
             {formType === CRUDType.UPDATE && "Editar"}
           </Button>

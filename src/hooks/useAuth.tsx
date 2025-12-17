@@ -139,20 +139,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const hasRole = (role: Role | Role[]): boolean => {
     const userToCheck = getUser();
 
-    if (!userToCheck || !userToCheck.tipo_usuario) return false;
+    if (!userToCheck || !userToCheck.perfil) return false;
 
     if (Array.isArray(role)) {
-      return role.includes(userToCheck.tipo_usuario);
+      return role.includes(userToCheck.perfil);
     }
 
-    return userToCheck.tipo_usuario === role;
+    return userToCheck.perfil === role;
   };
 
   const hasAnyRole = (roles: Role[]): boolean => {
     const userToCheck = getUser();
 
-    if (!userToCheck || !userToCheck.tipo_usuario) return false;
-    return roles.includes(userToCheck.tipo_usuario);
+    if (!userToCheck || !userToCheck.perfil) return false;
+    return roles.includes(userToCheck.perfil);
   };
 
   useEffect(() => {

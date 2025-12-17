@@ -10,15 +10,15 @@ import {
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { clienteService } from "@/services/Clientes";
+import { enderecoService } from "@/services/Endereco";
+import { Estado } from "@/services/Endereco/types";
+
 import { Select } from "../../components/Form/Select";
 import { Switch } from "../../components/Form/Switch";
 import { TextField } from "../../components/Form/Textfield";
 import { Cliente } from "../../services/Clientes/types";
 import { CRUDType } from "../../services/types";
-
-import { clienteService } from "@/services/Clientes";
-import { enderecoService } from "@/services/Endereco";
-import { Estado } from "@/services/Endereco/types";
 
 interface FormCRUDClienteProps {
   open: boolean;

@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-import { Usuario } from "./types";
+import { Usuario } from "../../services/Usuarios/types";
 
 interface FormStatusProps {
   open: boolean;
