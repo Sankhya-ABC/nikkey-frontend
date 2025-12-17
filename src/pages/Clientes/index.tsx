@@ -90,6 +90,7 @@ export const Clientes = () => {
 
   const persistCallback = async () => {
     handleCloseFormCRUDCliente();
+    handleCloseFormStatus();
     await buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
   };
 
@@ -154,42 +155,42 @@ export const Clientes = () => {
 
   // useEffects
   useEffect(() => {
-    buscarTodosClientes(rowsPerPage, page, search);
+    (async () => await buscarTodosClientes(rowsPerPage, page, search))();
   }, [search]);
 
   return (
-    <Loading {...{ loading, setLoading }}>
-      <Layout title="Clientes">
-        <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "end" }}>
-          <Button
-            variant="contained"
-            startIcon={<Add />}
-            onClick={() => handleOpenFormCRUDCliente(CRUDType.CREATE, null)}
-          >
-            Cadastrar
-          </Button>
-        </Grid>
+    <Layout title="Clientes">
+      <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "end" }}>
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          onClick={() => handleOpenFormCRUDCliente(CRUDType.CREATE, null)}
+        >
+          Cadastrar
+        </Button>
+      </Grid>
 
-        <Grid size={{ xs: 12 }}>
-          <TextField
-            control={control}
-            name="search"
-            TextFieldProps={{
-              slotProps: {
-                input: {
-                  placeholder: "Pesquise por nome ou email...",
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                },
+      <Grid size={{ xs: 12 }}>
+        <TextField
+          control={control}
+          name="search"
+          TextFieldProps={{
+            slotProps: {
+              input: {
+                placeholder: "Pesquise por nome ou email...",
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
               },
-            }}
-          />
-        </Grid>
+            },
+          }}
+        />
+      </Grid>
 
-        <Grid size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }}>
+        <Loading loading={loading}>
           <Table<Cliente>
             headers={[
               {
@@ -260,27 +261,27 @@ export const Clientes = () => {
             itemId={(cliente: Cliente) => cliente?.id!.toString()}
             noResultsMessage={"Nenhum cliente encontrado."}
           />
-        </Grid>
+        </Loading>
+      </Grid>
 
-        <FormCRUDCliente
-          {...{
-            open: openFormCRUDCliente,
-            handleClose: handleCloseFormCRUDCliente,
-            selected: selectedCliente,
-            formType,
-            persistCallback,
-          }}
-        />
+      <FormCRUDCliente
+        {...{
+          open: openFormCRUDCliente,
+          handleClose: handleCloseFormCRUDCliente,
+          selected: selectedCliente,
+          formType,
+          persistCallback,
+        }}
+      />
 
-        <FormStatus
-          {...{
-            open: openFormStatus,
-            handleClose: handleCloseFormStatus,
-            selected: selectedCliente,
-            handleToggle: atualizarStatusCliente,
-          }}
-        />
-      </Layout>
-    </Loading>
+      <FormStatus
+        {...{
+          open: openFormStatus,
+          handleClose: handleCloseFormStatus,
+          selected: selectedCliente,
+          handleToggle: atualizarStatusCliente,
+        }}
+      />
+    </Layout>
   );
 };
