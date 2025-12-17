@@ -76,6 +76,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
       } else {
         await clienteService.atualizarCliente(data);
       }
+      handleClose();
       persistCallback();
     } catch (error) {
       //

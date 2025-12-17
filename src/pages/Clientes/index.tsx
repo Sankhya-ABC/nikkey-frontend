@@ -1,48 +1,27 @@
-import { Add, Edit, Search, Visibility } from "@mui/icons-material";
+import { Add, Edit, Visibility } from "@mui/icons-material";
 import LoginIcon from "@mui/icons-material/Login";
-import { Button, Chip, Grid, InputAdornment, Switch } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Button, Grid, Switch } from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { TextField } from "../../components/Form/Textfield";
-import { Loading } from "../../components/Loading";
-import { Table } from "../../components/Table";
 import { Layout } from "../../components/Template/Layout";
 import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../routes";
-import { clienteService } from "../../services/Clientes";
 import { Cliente } from "../../services/Clientes/types";
-import { CRUDType, GetAllPaginated } from "../../services/types";
+import { CRUDType } from "../../services/types";
 import { usuarioService } from "../../services/Usuarios";
-import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "../../utils/constants";
 
+import { ConsultaCliente } from "./ConsultaCliente";
 import { FormCRUDCliente } from "./FormCRUDCliente";
 import { FormStatus } from "./FormStatus";
 
-interface ClienteSearch {
-  search: string;
-}
-
-const defaultValues: ClienteSearch = {
-  search: "",
-};
-
 export const Clientes = () => {
   // hooks
-  const { control, watch } = useForm<ClienteSearch>({ defaultValues });
   const { impersonate } = useAuth();
   const navigate = useNavigate();
 
   // useStates
-  // -- table
-  const [page, setPage] = useState(DEFAULT_PAGE);
-  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE);
-
   // -- data
-  const [clientes, setClientes] = useState<GetAllPaginated<Cliente> | null>(
-    null,
-  );
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
 
   // -- crud type
@@ -52,27 +31,10 @@ export const Clientes = () => {
   const [openFormStatus, setOpenFormStatus] = useState(false);
   const [openFormCRUDCliente, setOpenFormCRUDCliente] = useState(false);
 
-  // -- search
-  const [loading, setLoading] = useState(true);
-  const search = watch("search");
+  // -- table
+  const [resetConsulta, setResetConsulta] = useState<boolean>(false);
 
   // handlers
-  // -- table
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    setPage(newPage);
-    buscarTodosClientes(rowsPerPage, newPage, search);
-  };
-
-  const handleChangeRowsPerPage = (event: any) => {
-    const newRowsPerPage = parseInt(event?.target?.value, 10);
-    setRowsPerPage(newRowsPerPage);
-    setPage(DEFAULT_PAGE);
-    buscarTodosClientes(newRowsPerPage, DEFAULT_PAGE, search);
-  };
-
   // -- crud modals
   const handleOpenFormCRUDCliente = (
     crudType: CRUDType,
@@ -89,9 +51,7 @@ export const Clientes = () => {
   };
 
   const persistCallback = async () => {
-    handleCloseFormCRUDCliente();
-    handleCloseFormStatus();
-    await buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
+    setResetConsulta(true);
   };
 
   // -- status modal
@@ -107,56 +67,14 @@ export const Clientes = () => {
 
   // -- impersonate
   const handleAcessarComo = async (id: number) => {
-    setLoading(true);
     try {
       const resp = await usuarioService.buscarUsuarioPorId(id);
       impersonate(resp);
       navigate(ROUTES.HOME);
     } catch (error: unknown) {
       //
-    } finally {
-      setLoading(false);
     }
   };
-
-  // requests
-  const buscarTodosClientes = async (
-    per_page: number,
-    page: number,
-    search: string,
-  ) => {
-    setLoading(true);
-    try {
-      const resp = await clienteService.buscarTodosClientes({
-        per_page,
-        page: page + 1,
-        search,
-      });
-      setClientes(resp);
-    } catch (error: unknown) {
-      //
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const atualizarStatusCliente = async () => {
-    setLoading(true);
-    try {
-      await clienteService.atualizarStatusCliente(selectedCliente?.id!);
-      await buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
-    } catch (error: unknown) {
-      //
-    } finally {
-      setLoading(false);
-      handleCloseFormStatus();
-    }
-  };
-
-  // useEffects
-  useEffect(() => {
-    (async () => await buscarTodosClientes(rowsPerPage, page, search))();
-  }, [search]);
 
   return (
     <Layout title="Clientes">
@@ -171,97 +89,41 @@ export const Clientes = () => {
       </Grid>
 
       <Grid size={{ xs: 12 }}>
-        <TextField
-          control={control}
-          name="search"
-          TextFieldProps={{
-            slotProps: {
-              input: {
-                placeholder: "Pesquise por nome ou email...",
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              },
+        <ConsultaCliente
+          resetConsulta={resetConsulta}
+          setResetConsulta={setResetConsulta}
+          actions={[
+            {
+              tooltip: "Acessar como",
+              element: <LoginIcon />,
+              onClick: (cliente: Cliente) =>
+                handleAcessarComo(cliente?.id! as number),
             },
-          }}
+            {
+              tooltip: "Visualizar",
+              element: <Visibility />,
+              onClick: (cliente: Cliente) =>
+                handleOpenFormCRUDCliente(CRUDType.READ, cliente),
+            },
+            {
+              tooltip: "Editar",
+              element: <Edit />,
+              onClick: (cliente: Cliente) =>
+                handleOpenFormCRUDCliente(CRUDType.UPDATE, cliente),
+            },
+            {
+              tooltip: (cliente: Cliente) =>
+                cliente?.ativo ? "Desativar" : "Ativar",
+              element: (cliente: Cliente) => (
+                <Switch
+                  checked={cliente?.ativo}
+                  onChange={() => handleOpenFormStatus(cliente)}
+                  color={cliente?.ativo ? "success" : "default"}
+                />
+              ),
+            },
+          ]}
         />
-      </Grid>
-
-      <Grid size={{ xs: 12 }}>
-        <Loading loading={loading}>
-          <Table<Cliente>
-            headers={[
-              {
-                text: "Razão Social",
-                value: (cliente: Cliente) => cliente?.razaoSocial,
-              },
-              {
-                text: "CPF/CNPJ",
-                value: (cliente: Cliente) => cliente?.cnpjCpf,
-              },
-              {
-                text: "Endereco",
-                value: (cliente: Cliente) =>
-                  `${cliente?.logradouro}, ${cliente?.numero}`,
-              },
-              {
-                text: "Contato",
-                value: (cliente: Cliente) => cliente?.telefone,
-              },
-              {
-                text: "Ativo",
-                value: (cliente: Cliente) => (
-                  <Chip
-                    label={cliente?.ativo ? "Ativo" : "Inativo"}
-                    color={cliente?.ativo ? "success" : "default"}
-                    size="small"
-                  />
-                ),
-              },
-            ]}
-            actions={[
-              {
-                tooltip: "Acessar como",
-                element: <LoginIcon />,
-                onClick: (cliente: Cliente) => handleAcessarComo(cliente?.id!),
-              },
-              {
-                tooltip: "Visualizar",
-                element: <Visibility />,
-                onClick: (cliente: Cliente) =>
-                  handleOpenFormCRUDCliente(CRUDType.READ, cliente),
-              },
-              {
-                tooltip: "Editar",
-                element: <Edit />,
-                onClick: (cliente: Cliente) =>
-                  handleOpenFormCRUDCliente(CRUDType.UPDATE, cliente),
-              },
-              {
-                tooltip: (cliente: Cliente) =>
-                  cliente?.ativo ? "Desativar" : "Ativar",
-                element: (cliente: Cliente) => (
-                  <Switch
-                    checked={cliente?.ativo}
-                    onChange={() => handleOpenFormStatus(cliente)}
-                    color={cliente?.ativo ? "success" : "default"}
-                  />
-                ),
-              },
-            ]}
-            pagination={{
-              rowsPerPage,
-              page,
-              handleChangePage,
-              handleChangeRowsPerPage,
-            }}
-            dataList={clientes}
-            itemId={(cliente: Cliente) => cliente?.id!.toString()}
-            noResultsMessage={"Nenhum cliente encontrado."}
-          />
-        </Loading>
       </Grid>
 
       <FormCRUDCliente
@@ -279,7 +141,7 @@ export const Clientes = () => {
           open: openFormStatus,
           handleClose: handleCloseFormStatus,
           selected: selectedCliente,
-          handleToggle: atualizarStatusCliente,
+          persistCallback,
         }}
       />
     </Layout>

@@ -7,21 +7,32 @@ import {
   DialogTitle,
 } from "@mui/material";
 
+import { clienteService } from "@/services/Clientes";
 import { Cliente } from "../../services/Clientes/types";
 
 interface FormStatusProps {
   open: boolean;
   handleClose: () => void;
   selected: Cliente | null;
-  handleToggle: () => void;
+  persistCallback: () => void;
 }
 
 export const FormStatus: React.FC<FormStatusProps> = ({
   open,
   handleClose,
   selected,
-  handleToggle,
+  persistCallback,
 }) => {
+  const atualizarStatusCliente = async () => {
+    try {
+      await clienteService.atualizarStatusCliente(selected?.id! as number);
+      handleClose();
+      persistCallback();
+    } catch (error: unknown) {
+      //
+    }
+  };
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
@@ -38,7 +49,7 @@ export const FormStatus: React.FC<FormStatusProps> = ({
         <Button variant="outlined" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="contained" onClick={handleToggle}>
+        <Button variant="contained" onClick={atualizarStatusCliente}>
           {selected?.ativo ? "Desativar" : "Ativar"}
         </Button>
       </DialogActions>

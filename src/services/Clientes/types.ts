@@ -1,5 +1,5 @@
 export interface Cliente {
-  id: number | null;
+  id: number | null | "";
   razaoSocial: string;
   nomeFantasia: string;
   cnpjCpf: string;
@@ -27,3 +27,5 @@ export interface Cliente {
   ativo: boolean;
   dataCadastro: Date | null | string;
 }
+
+export type ClienteDTO = Pick<Cliente, "id" | "nomeFantasia" | "cnpjCpf">;
