@@ -7,7 +7,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { usuarioService } from "@/services/Usuarios";
@@ -17,6 +17,9 @@ import { TextField } from "../../components/Form/Textfield";
 import { CRUDType } from "../../services/types";
 import { Usuario } from "../../services/Usuarios/types";
 import { Role } from "@/types";
+import { ConsultaCliente } from "../Clientes/ConsultaCliente";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { Cliente } from "@/services/Clientes/types";
 
 interface FormCRUDUsuarioProps {
   open: boolean;
@@ -32,7 +35,11 @@ const defaultValues: Usuario = {
   email: "",
   departamento: "",
   perfil: null,
-  idCliente: null,
+  cliente: {
+    id: "",
+    nomeFantasia: "",
+    cnpjCpf: "",
+  },
   telefone: "",
   senha: "",
   confirmarSenha: "",
@@ -47,8 +54,18 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
   selected,
   persistCallback,
 }) => {
-  const { control, reset, handleSubmit } = useForm<Usuario>({ defaultValues });
+  // hooks
+  const { control, reset, watch, handleSubmit, setValue } = useForm<Usuario>({
+    defaultValues,
+  });
 
+  // variables
+  const cliente = watch("cliente");
+
+  // useStates
+  const [resetConsulta, setResetConsulta] = useState<boolean>(false);
+
+  // requests
   const onSubmit = async (data: Usuario) => {
     try {
       if (formType === CRUDType.CREATE) {
@@ -62,6 +79,16 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
     }
   };
 
+  // handlers
+  const handleSelecionarCliente = (cliente: Cliente) => {
+    setValue("cliente", cliente);
+  };
+
+  const handleResetCliente = () => {
+    setValue("cliente", defaultValues.cliente);
+  };
+
+  // useEffects
   useEffect(() => {
     if (formType === CRUDType.UPDATE || formType === CRUDType.READ) {
       reset(selected || defaultValues);
@@ -156,6 +183,54 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
               Cliente
             </Typography>
           </Grid>
+
+          {cliente?.id && cliente?.nomeFantasia ? (
+            <>
+              <Grid
+                size={{ xs: 12 }}
+                sx={{ display: "flex", justifyContent: "end" }}
+              >
+                <Button
+                  variant="contained"
+                  startIcon={<CheckCircleOutlineIcon />}
+                  onClick={handleResetCliente}
+                >
+                  Selecionar outro cliente
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12, md: 8 }}>
+                <TextField
+                  readOnly={true}
+                  control={control}
+                  name="cliente.nomeFantasia"
+                  label="Nome Fantasia"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <TextField
+                  readOnly={true}
+                  control={control}
+                  name="cliente.cnpjCpf"
+                  label="CNPJ/CPF"
+                />
+              </Grid>
+            </>
+          ) : (
+            <Grid size={{ xs: 12 }}>
+              <ConsultaCliente
+                resetConsulta={resetConsulta}
+                setResetConsulta={setResetConsulta}
+                actions={[
+                  {
+                    tooltip: "Selecionar",
+                    element: <CheckCircleOutlineIcon />,
+                    onClick: (cliente: Cliente) =>
+                      handleSelecionarCliente(cliente),
+                  },
+                ]}
+              />
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
       {formType !== CRUDType.READ && (

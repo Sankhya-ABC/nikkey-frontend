@@ -1,4 +1,5 @@
 import { Role } from "../../types";
+import { ClienteDTO } from "../Clientes/types";
 
 export interface Usuario {
   id: number | null;
@@ -6,7 +7,7 @@ export interface Usuario {
   email: string;
   departamento: string;
   perfil: Role | null;
-  idCliente: number | null;
+  cliente: ClienteDTO;
   telefone: string;
   senha: string;
   confirmarSenha: string;
