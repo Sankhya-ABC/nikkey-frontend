@@ -34,7 +34,10 @@ const defaultValues: Usuario = {
   id: null,
   nome: "",
   email: "",
-  idDepartamento: "",
+  departamento: {
+    id: "",
+    descricao: "",
+  },
   perfil: null,
   cliente: {
     id: "",
@@ -145,7 +148,7 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
             <Select
               readOnly={formType === CRUDType.READ}
               control={control}
-              name="idDepartamento"
+              name="departamento.id"
               label="Departamento"
               options={departamentos}
               propertyLabel="id"

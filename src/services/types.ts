@@ -38,6 +38,6 @@ export interface Trace {
 }
 
 export interface Dominio {
-  id: number;
+  id: number | null | "";
   descricao: string;
 }

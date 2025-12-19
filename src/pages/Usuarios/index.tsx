@@ -14,6 +14,7 @@ import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "../../utils/constants";
 
 import { FormCRUDUsuario } from "./FormCRUDUsuario";
 import { FormStatus } from "./FormStatus";
+import { format } from "date-fns";
 
 interface UsuarioSearch {
   search: string;
@@ -182,11 +183,15 @@ export const Usuarios = () => {
               },
               {
                 text: "Departamento",
-                value: (usuario: Usuario) => usuario?.departamento,
+                value: (usuario: Usuario) => usuario?.departamento?.descricao,
               },
               {
                 text: "Data de Cadastro",
-                value: (usuario: Usuario) => usuario?.dataCadastro as string,
+                value: (usuario: Usuario) =>
+                  format(
+                    usuario?.dataCadastro as string,
+                    "dd/MM/yyyy",
+                  ) as string,
               },
               {
                 text: "Ativo",
