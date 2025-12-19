@@ -12,14 +12,15 @@ import { useForm } from "react-hook-form";
 
 import { usuarioService } from "@/services/Usuarios";
 
+import { Cliente } from "@/services/Clientes/types";
+import { departamentoService } from "@/services/Departamento";
+import { Role } from "@/types";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { Select } from "../../components/Form/Select";
 import { TextField } from "../../components/Form/Textfield";
-import { CRUDType } from "../../services/types";
+import { CRUDType, Dominio } from "../../services/types";
 import { Usuario } from "../../services/Usuarios/types";
-import { Role } from "@/types";
 import { ConsultaCliente } from "../Clientes/ConsultaCliente";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { Cliente } from "@/services/Clientes/types";
 
 interface FormCRUDUsuarioProps {
   open: boolean;
@@ -33,7 +34,7 @@ const defaultValues: Usuario = {
   id: null,
   nome: "",
   email: "",
-  departamento: "",
+  idDepartamento: "",
   perfil: null,
   cliente: {
     id: "",
@@ -64,6 +65,7 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
 
   // useStates
   const [resetConsulta, setResetConsulta] = useState<boolean>(false);
+  const [departamentos, setDepartamentos] = useState<Dominio[]>([]);
 
   // requests
   const onSubmit = async (data: Usuario) => {
@@ -74,6 +76,15 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
         await usuarioService.atualizarUsuario(data);
       }
       persistCallback();
+    } catch (error) {
+      //
+    }
+  };
+
+  const getAllDepartamentos = async () => {
+    try {
+      const resp = await departamentoService.buscarDepartamentos();
+      setDepartamentos(resp);
     } catch (error) {
       //
     }
@@ -94,6 +105,10 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
       reset(selected || defaultValues);
     }
   }, [formType, selected]);
+
+  useEffect(() => {
+    getAllDepartamentos();
+  }, []);
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -127,11 +142,14 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
           </Grid>
 
           <Grid size={{ xs: 12, md: 8 }}>
-            <TextField
+            <Select
               readOnly={formType === CRUDType.READ}
               control={control}
-              name="departamento"
+              name="idDepartamento"
               label="Departamento"
+              options={departamentos}
+              propertyLabel="id"
+              propertyValue="descricao"
             />
           </Grid>
 

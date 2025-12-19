@@ -5,7 +5,7 @@ export interface Usuario {
   id: number | null;
   nome: string;
   email: string;
-  departamento: string;
+  idDepartamento: string;
   perfil: Role | null;
   cliente: ClienteDTO;
   telefone: string;
