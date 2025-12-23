@@ -1,42 +1,18 @@
-import { Add, Edit, Search, Visibility } from "@mui/icons-material";
-import { Button, Chip, Grid, InputAdornment, Switch } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Add, Edit, Visibility } from "@mui/icons-material";
+import { Button, Grid, Switch } from "@mui/material";
+import { useState } from "react";
 
-import { TextField } from "../../components/Form/Textfield";
-import { Loading } from "../../components/Loading";
-import { Table } from "../../components/Table";
 import { Layout } from "../../components/Template/Layout";
-import { CRUDType, GetAllPaginated } from "../../services/types";
-import { usuarioService } from "../../services/Usuarios";
+import { CRUDType } from "../../services/types";
 import { Usuario } from "../../services/Usuarios/types";
-import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "../../utils/constants";
 
+import { ConsultaUsuario } from "./ConsultaUsuario";
 import { FormCRUDUsuario } from "./FormCRUDUsuario";
 import { FormStatus } from "./FormStatus";
-import { format } from "date-fns";
-
-interface UsuarioSearch {
-  search: string;
-}
-
-const defaultValues: UsuarioSearch = {
-  search: "",
-};
 
 export const Usuarios = () => {
-  // hooks
-  const { control, watch } = useForm<UsuarioSearch>({ defaultValues });
-
   // useStates
-  // -- table
-  const [page, setPage] = useState(DEFAULT_PAGE);
-  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE);
-
   // -- data
-  const [usuarios, setUsuarios] = useState<GetAllPaginated<Usuario> | null>(
-    null,
-  );
   const [selectedUsuario, setSelectedUsuario] = useState<Usuario | null>(null);
 
   // -- crud type
@@ -46,27 +22,10 @@ export const Usuarios = () => {
   const [openFormStatus, setOpenFormStatus] = useState(false);
   const [openFormCRUDUsuario, setOpenFormCRUDUsuario] = useState(false);
 
-  // -- search
-  const [loading, setLoading] = useState(false);
-  const search = watch("search");
+  // -- table
+  const [resetConsulta, setResetConsulta] = useState<boolean>(false);
 
   // handlers
-  // -- table
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    setPage(newPage);
-    buscarTodosUsuarios(rowsPerPage, newPage, search);
-  };
-
-  const handleChangeRowsPerPage = (event: any) => {
-    const newRowsPerPage = parseInt(event?.target?.value, 10);
-    setRowsPerPage(newRowsPerPage);
-    setPage(DEFAULT_PAGE);
-    buscarTodosUsuarios(newRowsPerPage, DEFAULT_PAGE, search);
-  };
-
   // -- crud modals
   const handleOpenFormCRUDUsuario = (
     crudType: CRUDType,
@@ -83,9 +42,7 @@ export const Usuarios = () => {
   };
 
   const persistCallback = async () => {
-    handleCloseFormCRUDUsuario();
-    handleCloseFormStatus();
-    await buscarTodosUsuarios(rowsPerPage, DEFAULT_PAGE, search);
+    setResetConsulta(true);
   };
 
   // -- status modal
@@ -98,45 +55,6 @@ export const Usuarios = () => {
     setSelectedUsuario(null);
     setOpenFormStatus(false);
   };
-
-  // requests
-  const buscarTodosUsuarios = async (
-    per_page: number,
-    page: number,
-    search: string,
-  ) => {
-    setLoading(true);
-    try {
-      const resp = await usuarioService.buscarTodosUsuarios({
-        per_page,
-        page: page + 1,
-        search,
-      });
-      setUsuarios(resp);
-    } catch (error: unknown) {
-      //
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const atualizarStatusUsuario = async () => {
-    setLoading(true);
-    try {
-      await usuarioService.atualizarStatusUsuario(selectedUsuario?.id!);
-      await buscarTodosUsuarios(rowsPerPage, DEFAULT_PAGE, search);
-    } catch (error: unknown) {
-      //
-    } finally {
-      setLoading(false);
-      handleCloseFormStatus();
-    }
-  };
-
-  // useEffects
-  useEffect(() => {
-    (async () => await buscarTodosUsuarios(rowsPerPage, page, search))();
-  }, [search]);
 
   return (
     <Layout title="Usuários">
@@ -151,95 +69,35 @@ export const Usuarios = () => {
       </Grid>
 
       <Grid size={{ xs: 12 }}>
-        <TextField
-          control={control}
-          name="search"
-          TextFieldProps={{
-            slotProps: {
-              input: {
-                placeholder: "Pesquise por nome ou email...",
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              },
+        <ConsultaUsuario
+          resetConsulta={resetConsulta}
+          setResetConsulta={setResetConsulta}
+          actions={[
+            {
+              tooltip: "Visualizar",
+              element: <Visibility />,
+              onClick: (usuario: Usuario) =>
+                handleOpenFormCRUDUsuario(CRUDType.READ, usuario),
             },
-          }}
+            {
+              tooltip: "Editar",
+              element: <Edit />,
+              onClick: (usuario: Usuario) =>
+                handleOpenFormCRUDUsuario(CRUDType.UPDATE, usuario),
+            },
+            {
+              tooltip: (usuario: Usuario) =>
+                usuario?.ativo ? "Desativar" : "Ativar",
+              element: (usuario: Usuario) => (
+                <Switch
+                  checked={usuario?.ativo}
+                  onChange={() => handleOpenFormStatus(usuario)}
+                  color={usuario?.ativo ? "success" : "default"}
+                />
+              ),
+            },
+          ]}
         />
-      </Grid>
-
-      <Grid size={{ xs: 12 }}>
-        <Loading loading={loading}>
-          <Table<Usuario>
-            headers={[
-              {
-                text: "Nome",
-                value: (usuario: Usuario) => usuario?.nome,
-              },
-              {
-                text: "E-mail",
-                value: (usuario: Usuario) => usuario?.email,
-              },
-              {
-                text: "Departamento",
-                value: (usuario: Usuario) => usuario?.departamento?.descricao,
-              },
-              {
-                text: "Data de Cadastro",
-                value: (usuario: Usuario) =>
-                  format(
-                    usuario?.dataCadastro as string,
-                    "dd/MM/yyyy",
-                  ) as string,
-              },
-              {
-                text: "Ativo",
-                value: (usuario: Usuario) => (
-                  <Chip
-                    label={usuario?.ativo ? "Ativo" : "Inativo"}
-                    color={usuario?.ativo ? "success" : "default"}
-                    size="small"
-                  />
-                ),
-              },
-            ]}
-            actions={[
-              {
-                tooltip: "Visualizar",
-                element: <Visibility />,
-                onClick: (usuario: Usuario) =>
-                  handleOpenFormCRUDUsuario(CRUDType.READ, usuario),
-              },
-              {
-                tooltip: "Editar",
-                element: <Edit />,
-                onClick: (usuario: Usuario) =>
-                  handleOpenFormCRUDUsuario(CRUDType.UPDATE, usuario),
-              },
-              {
-                tooltip: (usuario: Usuario) =>
-                  usuario?.ativo ? "Desativar" : "Ativar",
-                element: (usuario: Usuario) => (
-                  <Switch
-                    checked={usuario?.ativo}
-                    onChange={() => handleOpenFormStatus(usuario)}
-                    color={usuario?.ativo ? "success" : "default"}
-                  />
-                ),
-              },
-            ]}
-            pagination={{
-              rowsPerPage,
-              page,
-              handleChangePage,
-              handleChangeRowsPerPage,
-            }}
-            dataList={usuarios}
-            itemId={(usuario: Usuario) => usuario?.id!.toString()}
-            noResultsMessage={"Nenhum usuário encontrado."}
-          />
-        </Loading>
       </Grid>
 
       <FormCRUDUsuario
@@ -257,7 +115,7 @@ export const Usuarios = () => {
           open: openFormStatus,
           handleClose: handleCloseFormStatus,
           selected: selectedUsuario,
-          handleToggle: atualizarStatusUsuario,
+          persistCallback,
         }}
       />
     </Layout>

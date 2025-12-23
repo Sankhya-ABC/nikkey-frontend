@@ -18,8 +18,8 @@ import { Role } from "@/types";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { Select } from "../../components/Form/Select";
 import { TextField } from "../../components/Form/Textfield";
-import { CRUDType, Dominio } from "../../services/types";
 import { Usuario } from "../../services/Usuarios/types";
+import { CRUDType, Dominio } from "../../services/types";
 import { ConsultaCliente } from "../Clientes/ConsultaCliente";
 
 interface FormCRUDUsuarioProps {
@@ -78,6 +78,7 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
       } else {
         await usuarioService.atualizarUsuario(data);
       }
+      handleClose();
       persistCallback();
     } catch (error) {
       //
@@ -205,20 +206,23 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
             </Typography>
           </Grid>
 
-          {cliente?.id && cliente?.nomeFantasia ? (
+          {(cliente?.id && cliente?.nomeFantasia) ||
+          formType === CRUDType.READ ? (
             <>
-              <Grid
-                size={{ xs: 12 }}
-                sx={{ display: "flex", justifyContent: "end" }}
-              >
-                <Button
-                  variant="contained"
-                  startIcon={<CheckCircleOutlineIcon />}
-                  onClick={handleResetCliente}
+              {formType !== CRUDType.READ && (
+                <Grid
+                  size={{ xs: 12 }}
+                  sx={{ display: "flex", justifyContent: "end" }}
                 >
-                  Selecionar outro cliente
-                </Button>
-              </Grid>
+                  <Button
+                    variant="contained"
+                    startIcon={<CheckCircleOutlineIcon />}
+                    onClick={handleResetCliente}
+                  >
+                    Selecionar outro cliente
+                  </Button>
+                </Grid>
+              )}
               <Grid size={{ xs: 12, md: 8 }}>
                 <TextField
                   readOnly={true}
