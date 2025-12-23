@@ -9,6 +9,8 @@ export interface ParamsForPagination {
   per_page: number;
   page: number;
   search?: string;
+  dataInicio?: string;
+  dataFim?: string;
 }
 
 export interface GetAllPaginated<T> {
