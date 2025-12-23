@@ -1,8 +1,4 @@
-import {
-  Brightness4 as DarkModeIcon,
-  Brightness7 as LightModeIcon,
-  Settings as SettingsIcon,
-} from "@mui/icons-material";
+import { Settings as SettingsIcon } from "@mui/icons-material";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import { Link } from "react-router";
@@ -15,6 +11,8 @@ import { CountdownTimer } from "../../../CountdownTimer";
 import { ThemeMode } from "../../tokens";
 import nikkeyNameLogo from "/nikkey-name-logo.png";
 
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import NightlightIcon from "@mui/icons-material/Nightlight";
 import { Avatar } from "../components/Avatar";
 import { MenuContainer } from "../components/MenuContainer";
 
@@ -59,9 +57,9 @@ export const MenuDesktop: React.FC = () => {
               }}
             >
               {themeMode === ThemeMode.DARK ? (
-                <LightModeIcon />
+                <Brightness7Icon />
               ) : (
-                <DarkModeIcon />
+                <NightlightIcon />
               )}
             </IconButton>
           </Tooltip>
