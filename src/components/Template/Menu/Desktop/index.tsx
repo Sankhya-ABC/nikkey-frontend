@@ -7,19 +7,19 @@ import { Box, IconButton, Toolbar, Tooltip } from "@mui/material";
 import React from "react";
 import { Link } from "react-router";
 
-import { useAuth } from "../../../hooks/useAuth";
-import { useDrawer } from "../../../hooks/useDrawer";
-import { useTheme } from "../../../hooks/useTheme";
+import { useAuth } from "../../../../hooks/useAuth";
+import { useTheme } from "../../../../hooks/useTheme";
 
+import { ROUTES } from "../../../../routes";
+import { CountdownTimer } from "../../../CountdownTimer";
+import { ThemeMode } from "../../tokens";
 import nikkeyNameLogo from "/nikkey-name-logo.png";
-import { ROUTES } from "../../../routes";
-import { CountdownTimer } from "../../CountdownTimer";
-import { ThemeMode } from "../tokens";
 
-import { Avatar } from "./Avatar";
+import { useDrawer } from "@/hooks/useDrawer";
+import { Avatar } from "../components/Avatar";
 import { AppBar } from "./styles";
 
-export const Menu: React.FC = () => {
+export const MenuDesktop: React.FC = () => {
   const { themeMode, toggleTheme } = useTheme();
   const { isDrawerOpen } = useDrawer();
   const { isAuthenticated } = useAuth();
@@ -50,7 +50,7 @@ export const Menu: React.FC = () => {
         {isAuthenticated() && (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box sx={{ mr: 4 }}>
-              <CountdownTimer initialMinutes={120} />
+              <CountdownTimer />
             </Box>
 
             <Tooltip

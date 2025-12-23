@@ -1,13 +1,14 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, useMediaQuery } from "@mui/material";
 import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import { Outlet, useNavigate } from "react-router";
 
 import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../routes";
 
 import { Drawer } from "./Drawer";
-import { Menu } from "./Menu";
+import { MenuDesktop } from "./Menu/Desktop";
+import { MenuMobile } from "./Menu/Mobile";
 import { StyledAlert } from "./style";
 
 const Main = styled("main")(({ theme }) => ({
@@ -29,11 +30,14 @@ export const Template = () => {
   } = useAuth();
   const navigate = useNavigate();
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box sx={{ display: "flex" }}>
-      <Menu />
+      {isMobile ? <MenuMobile /> : <MenuDesktop />}
 
-      {isAuthenticated() && <Drawer />}
+      {isAuthenticated() && !isMobile && <Drawer />}
 
       <Main>
         {isImpersonating() && (
@@ -49,7 +53,7 @@ export const Template = () => {
               }}
             >
               <Typography>
-                Você está acessando como <strong>{getUser()!.name}</strong>
+                Você está acessando como <strong>{getUser()!.nome}</strong>
               </Typography>
 
               <Button
@@ -61,7 +65,7 @@ export const Template = () => {
                 }}
                 variant="text"
               >
-                Retomar acesso como {getOriginalUser()!.name}
+                Retomar acesso como {getOriginalUser()!.nome}
               </Button>
             </Box>
           </StyledAlert>

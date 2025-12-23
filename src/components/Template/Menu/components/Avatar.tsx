@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import * as React from "react";
 
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../../hooks/useAuth";
 
 export const Avatar = () => {
-  const { logout, getOriginalUser, getUser, isImpersonating } = useAuth();
+  const { logout, getUser, isImpersonating } = useAuth();
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
@@ -33,7 +33,7 @@ export const Avatar = () => {
     },
   ];
 
-  const userName = getUser()?.name;
+  const userName = getUser()?.nome;
 
   return (
     <Box sx={{ flexGrow: 0 }}>
