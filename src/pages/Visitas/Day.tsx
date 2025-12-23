@@ -94,8 +94,8 @@ export const Day: React.FC<DayProps> = ({
                       sx={{
                         position: "absolute",
                         top: (startMinutes / 60) * 60,
-                        left: 4,
-                        right: 4,
+                        left: 2,
+                        right: 2,
                         height: height,
                         bgcolor: "#fffde7",
                         border: "1px solid #ffeb3b",
@@ -103,6 +103,7 @@ export const Day: React.FC<DayProps> = ({
                         p: 0.5,
                         cursor: "pointer",
                         zIndex: 1,
+                        overflow: "hidden",
                         "&:hover": {
                           bgcolor: "#fff9c4",
                         },
@@ -114,7 +115,14 @@ export const Day: React.FC<DayProps> = ({
                     >
                       <Typography
                         variant="caption"
-                        sx={{ fontWeight: "bold", fontSize: "0.6rem" }}
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "0.6rem",
+                          display: "block",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
                       >
                         {visit.empresa}
                       </Typography>

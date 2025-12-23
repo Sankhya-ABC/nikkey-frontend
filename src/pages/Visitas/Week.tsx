@@ -27,11 +27,40 @@ export const Week: React.FC<WeekProps> = ({
   }, [activeDate]);
 
   return (
-    <Box sx={{ width: "100%", overflow: "auto" }}>
-      <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
-        <Box sx={{ width: 80, minWidth: 80 }}></Box>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        minHeight: 0,
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          mb: 1,
+          flexShrink: 0,
+        }}
+      >
+        <Box
+          sx={{
+            width: 45,
+            minWidth: 45,
+            flexShrink: 0,
+          }}
+        ></Box>
         {weekDays.map((d, i) => (
-          <Box key={i} sx={{ flex: 1, textAlign: "center", minWidth: 120 }}>
+          <Box
+            key={i}
+            sx={{
+              flex: 1,
+              minWidth: 0,
+              textAlign: "center",
+              px: 0.5,
+            }}
+          >
             <Typography variant="caption" sx={{ fontWeight: "bold" }}>
               {formatDayShort(d)} {formatDayNumber(d)}
             </Typography>
@@ -39,121 +68,147 @@ export const Week: React.FC<WeekProps> = ({
         ))}
       </Box>
 
-      <Box sx={{ width: "100%" }}>
-        {Array.from({ length: 24 }, (_, hour) => (
-          <Box
-            key={hour}
-            sx={{
-              display: "flex",
-              width: "100%",
-              borderBottom: "1px solid #e0e0e0",
-            }}
-          >
+      <Box
+        sx={{
+          flex: 1,
+          minHeight: 0,
+          width: "100%",
+          overflow: "auto",
+        }}
+      >
+        <Box sx={{ width: "100%" }}>
+          {Array.from({ length: 24 }, (_, hour) => (
             <Box
+              key={hour}
               sx={{
-                width: 80,
-                minWidth: 80,
-                py: 1,
-                textAlign: "center",
-                borderRight: "1px solid #e0e0e0",
-                bgcolor: "background.default",
+                display: "flex",
+                width: "100%",
+                borderBottom: "1px solid #e0e0e0",
               }}
             >
-              <Typography variant="caption">
-                {hour.toString().padStart(2, "0")}:00
-              </Typography>
-            </Box>
+              <Box
+                sx={{
+                  width: 45,
+                  minWidth: 45,
+                  py: 1,
+                  textAlign: "center",
+                  borderRight: "1px solid #e0e0e0",
+                  bgcolor: "background.default",
+                  flexShrink: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
+                  {hour.toString().padStart(2, "0")}:00
+                </Typography>
+              </Box>
 
-            {weekDays.map((day, dayIndex) => {
-              const dayVisits = handleGetVisitsForDay(day);
-              const hourVisits = dayVisits.filter((visit) => {
-                const visitHour = parseInt(visit.horaInicial.split(":")[0]);
-                return visitHour === hour;
-              });
+              {weekDays.map((day, dayIndex) => {
+                const dayVisits = handleGetVisitsForDay(day);
+                const hourVisits = dayVisits.filter((visit) => {
+                  const visitHour = parseInt(visit.horaInicial.split(":")[0]);
+                  return visitHour === hour;
+                });
 
-              return (
-                <Box
-                  key={dayIndex}
-                  sx={{
-                    flex: 1,
-                    minWidth: 120,
-                    minHeight: 60,
-                    position: "relative",
-                    borderRight: "1px solid #e0e0e0",
-                    bgcolor: "background.paper",
-                    "&:hover": {
-                      bgcolor: "action.hover",
-                    },
-                  }}
-                  onClick={() => handleDayClick(day)}
-                >
-                  {Array.from({ length: 12 }, (_, minuteIndex) => (
-                    <Box
-                      key={minuteIndex}
-                      sx={{
-                        height: 5,
-                        borderBottom: "1px solid #f0f0f0",
-                      }}
-                    />
-                  ))}
-
-                  {hourVisits.map((visit, visitIndex) => {
-                    const startMinutes = parseInt(
-                      visit.horaInicial.split(":")[1],
-                    );
-                    const endMinutes = parseInt(visit.horaFinal.split(":")[1]);
-                    const startHour = parseInt(visit.horaInicial.split(":")[0]);
-                    const endHour = parseInt(visit.horaFinal.split(":")[0]);
-
-                    const duration =
-                      (endHour - startHour) * 60 + (endMinutes - startMinutes);
-                    const height = (duration / 60) * 60;
-
-                    return (
+                return (
+                  <Box
+                    key={dayIndex}
+                    sx={{
+                      flex: 1,
+                      minWidth: 0,
+                      minHeight: 60,
+                      position: "relative",
+                      borderRight: dayIndex < 6 ? "1px solid #e0e0e0" : "none",
+                      bgcolor: "background.paper",
+                      "&:hover": {
+                        bgcolor: "action.hover",
+                      },
+                    }}
+                    onClick={() => handleDayClick(day)}
+                  >
+                    {Array.from({ length: 12 }, (_, minuteIndex) => (
                       <Box
-                        key={visitIndex}
+                        key={minuteIndex}
                         sx={{
-                          position: "absolute",
-                          top: (startMinutes / 60) * 60,
-                          left: 4,
-                          right: 4,
-                          height: height,
-                          bgcolor: "#fffde7",
-                          border: "1px solid #ffeb3b",
-                          borderRadius: 1,
-                          p: 0.5,
-                          cursor: "pointer",
-                          zIndex: 1,
-                          "&:hover": {
-                            bgcolor: "#fff9c4",
-                          },
+                          height: 5,
+                          borderBottom: "1px solid #f0f0f0",
                         }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditVisit(visit);
-                        }}
-                      >
-                        <Typography
-                          variant="caption"
-                          sx={{ fontWeight: "bold", fontSize: "0.6rem" }}
+                      />
+                    ))}
+
+                    {hourVisits.map((visit, visitIndex) => {
+                      const startMinutes = parseInt(
+                        visit.horaInicial.split(":")[1],
+                      );
+                      const endMinutes = parseInt(
+                        visit.horaFinal.split(":")[1],
+                      );
+                      const startHour = parseInt(
+                        visit.horaInicial.split(":")[0],
+                      );
+                      const endHour = parseInt(visit.horaFinal.split(":")[0]);
+
+                      const duration =
+                        (endHour - startHour) * 60 +
+                        (endMinutes - startMinutes);
+                      const height = (duration / 60) * 60;
+
+                      return (
+                        <Box
+                          key={visitIndex}
+                          sx={{
+                            position: "absolute",
+                            top: (startMinutes / 60) * 60,
+                            left: 2,
+                            right: 2,
+                            height: height,
+                            bgcolor: "#fffde7",
+                            border: "1px solid #ffeb3b",
+                            borderRadius: 1,
+                            p: 0.5,
+                            cursor: "pointer",
+                            zIndex: 1,
+                            overflow: "hidden",
+                            "&:hover": {
+                              bgcolor: "#fff9c4",
+                            },
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditVisit(visit);
+                          }}
                         >
-                          {visit.empresa}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          display="block"
-                          sx={{ fontSize: "0.55rem" }}
-                        >
-                          {visit.horaInicial} - {visit.horaFinal}
-                        </Typography>
-                      </Box>
-                    );
-                  })}
-                </Box>
-              );
-            })}
-          </Box>
-        ))}
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              fontWeight: "bold",
+                              fontSize: "0.6rem",
+                              display: "block",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {visit.empresa}
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            display="block"
+                            sx={{ fontSize: "0.55rem" }}
+                          >
+                            {visit.horaInicial} - {visit.horaFinal}
+                          </Typography>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                );
+              })}
+            </Box>
+          ))}
+        </Box>
       </Box>
     </Box>
   );
