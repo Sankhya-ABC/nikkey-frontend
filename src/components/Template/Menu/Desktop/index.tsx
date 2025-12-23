@@ -3,7 +3,7 @@ import {
   Brightness7 as LightModeIcon,
   Settings as SettingsIcon,
 } from "@mui/icons-material";
-import { Box, IconButton, Toolbar, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import { Link } from "react-router";
 
@@ -15,85 +15,75 @@ import { CountdownTimer } from "../../../CountdownTimer";
 import { ThemeMode } from "../../tokens";
 import nikkeyNameLogo from "/nikkey-name-logo.png";
 
-import { useDrawer } from "@/hooks/useDrawer";
 import { Avatar } from "../components/Avatar";
-import { AppBar } from "./styles";
+import { MenuContainer } from "../components/MenuContainer";
 
 export const MenuDesktop: React.FC = () => {
   const { themeMode, toggleTheme } = useTheme();
-  const { isDrawerOpen } = useDrawer();
   const { isAuthenticated } = useAuth();
 
   return (
-    <AppBar
-      position="fixed"
-      isDrawerOpen={isDrawerOpen}
-      isAuthenticated={isAuthenticated()}
-    >
-      <Toolbar sx={{ backgroundColor: "background.paper" }}>
-        <Box sx={{ flexGrow: 1 }}>
-          <Link
-            to={ROUTES.HOME}
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={nikkeyNameLogo}
-              alt="Nikkey - Absoluto no Combate"
-              height={30}
-            />
-          </Link>
-        </Box>
+    <MenuContainer>
+      <Box sx={{ flexGrow: 1 }}>
+        <Link
+          to={ROUTES.HOME}
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={nikkeyNameLogo}
+            alt="Nikkey - Absoluto no Combate"
+            height={30}
+          />
+        </Link>
+      </Box>
 
-        {isAuthenticated() && (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ mr: 4 }}>
-              <CountdownTimer />
-            </Box>
-
-            <Tooltip
-              title={
-                themeMode === ThemeMode.DARK ? "Modo Claro" : "Modo Escuro"
-              }
-            >
-              <IconButton
-                onClick={toggleTheme}
-                sx={{
-                  color: ({ palette }) => palette.text.primary,
-                  "&:hover": {
-                    backgroundColor: ({ palette }) => palette.action.hover,
-                  },
-                }}
-              >
-                {themeMode === ThemeMode.DARK ? (
-                  <LightModeIcon />
-                ) : (
-                  <DarkModeIcon />
-                )}
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Configurações">
-              <IconButton
-                sx={{
-                  color: ({ palette }) => palette.text.primary,
-                  "&:hover": {
-                    backgroundColor: ({ palette }) => palette.action.hover,
-                  },
-                }}
-              >
-                <SettingsIcon />
-              </IconButton>
-            </Tooltip>
-
-            <Box sx={{ ml: 1.5 }}>
-              <Avatar />
-            </Box>
+      {isAuthenticated() && (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ mr: 4 }}>
+            <CountdownTimer />
           </Box>
-        )}
-      </Toolbar>
-    </AppBar>
+
+          <Tooltip
+            title={themeMode === ThemeMode.DARK ? "Modo Claro" : "Modo Escuro"}
+          >
+            <IconButton
+              onClick={toggleTheme}
+              sx={{
+                color: ({ palette }) => palette.text.primary,
+                "&:hover": {
+                  backgroundColor: ({ palette }) => palette.action.hover,
+                },
+              }}
+            >
+              {themeMode === ThemeMode.DARK ? (
+                <LightModeIcon />
+              ) : (
+                <DarkModeIcon />
+              )}
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Configurações">
+            <IconButton
+              sx={{
+                color: ({ palette }) => palette.text.primary,
+                "&:hover": {
+                  backgroundColor: ({ palette }) => palette.action.hover,
+                },
+              }}
+            >
+              <SettingsIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Box sx={{ ml: 1.5 }}>
+            <Avatar />
+          </Box>
+        </Box>
+      )}
+    </MenuContainer>
   );
 };
