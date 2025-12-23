@@ -92,15 +92,18 @@ export const ConsultaCliente: React.FC<ConsultaClienteProps> = ({
 
   // useEffects
   useEffect(() => {
-    (async () =>
-      await buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search))();
+    (async () => {
+      setPage(DEFAULT_PAGE);
+      await buscarTodosClientes(rowsPerPage, page, search);
+    })();
   }, [search]);
 
   useEffect(() => {
     if (resetConsulta && setResetConsulta) {
       (async () => {
         setValue("search", "");
-        await buscarTodosClientes(rowsPerPage, DEFAULT_PAGE, search);
+        setPage(DEFAULT_PAGE);
+        await buscarTodosClientes(rowsPerPage, page, search);
         setResetConsulta(false);
       })();
     }

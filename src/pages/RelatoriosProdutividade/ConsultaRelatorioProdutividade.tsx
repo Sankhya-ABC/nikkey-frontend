@@ -135,11 +135,12 @@ export const ConsultaRelatorioProdutividade: React.FC<
     if (resetConsulta && setResetConsulta) {
       (async () => {
         setValue("search", "");
+        setPage(DEFAULT_PAGE);
         setValue("dataInicio", DEFAULT_DATA_INICIO);
         setValue("dataFim", DEFAULT_DATA_FIM);
         await buscarTodosRelatoriosProdutividade(
           rowsPerPage,
-          DEFAULT_PAGE,
+          page,
           search,
           dataInicio,
           dataFim,

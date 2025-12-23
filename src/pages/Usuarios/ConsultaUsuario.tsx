@@ -93,15 +93,18 @@ export const ConsultaUsuario: React.FC<ConsultaUsuarioProps> = ({
 
   // useEffects
   useEffect(() => {
-    (async () =>
-      await buscarTodosUsuarios(rowsPerPage, DEFAULT_PAGE, search))();
+    (async () => {
+      setPage(DEFAULT_PAGE);
+      await buscarTodosUsuarios(rowsPerPage, page, search);
+    })();
   }, [search]);
 
   useEffect(() => {
     if (resetConsulta && setResetConsulta) {
       (async () => {
         setValue("search", "");
-        await buscarTodosUsuarios(rowsPerPage, DEFAULT_PAGE, search);
+        setPage(DEFAULT_PAGE);
+        await buscarTodosUsuarios(rowsPerPage, page, search);
         setResetConsulta(false);
       })();
     }
