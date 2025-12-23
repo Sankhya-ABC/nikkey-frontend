@@ -1,7 +1,9 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router";
 
-import { useAuth, Role } from "../../hooks/useAuth";
+import { ROUTES } from "@/routes";
+import { Role } from "@/types";
+import { useAuth } from "../../hooks/useAuth";
 import { Unauthorized } from "../../pages/Unauthorized";
 
 interface ProtectedRouteProps {
@@ -21,7 +23,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const location = useLocation();
 
   if (!auth.isAuthenticated()) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    return <Navigate to={ROUTES.LOGIN} replace state={{ from: location }} />;
   }
 
   if (requiredRole && !auth.hasRole(requiredRole)) {
