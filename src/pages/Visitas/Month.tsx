@@ -80,7 +80,7 @@ export const Month: React.FC<MonthProps> = ({
                     p: 0.5,
                     textAlign: "center",
                     bgcolor: hasVisits
-                      ? "#fffde7"
+                      ? "#e9f6fd"
                       : isCurrentMonth
                         ? "background.paper"
                         : "action.hover",
@@ -102,7 +102,7 @@ export const Month: React.FC<MonthProps> = ({
                     minWidth: 0,
                     "&:hover": {
                       bgcolor: hasVisits
-                        ? "#fff9c4"
+                        ? "#a8d1e9"
                         : isCurrentMonth
                           ? "action.hover"
                           : "action.selected",
@@ -133,8 +133,8 @@ export const Month: React.FC<MonthProps> = ({
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {dayVisits.length}{" "}
-                      {dayVisits.length === 1 ? "Visita" : "Visitas"}
+                      <strong>{dayVisits.length} </strong>
+                      {dayVisits.length === 1 ? "visita" : "visitas"}
                     </Typography>
                   )}
                 </Box>

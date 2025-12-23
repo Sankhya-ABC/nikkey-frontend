@@ -100,9 +100,9 @@ export const Day: React.FC<DayProps> = ({
                         zIndex: 1,
                         overflow: "hidden",
                         width: "100%",
-                        bgcolor: "#fffde7",
+                        bgcolor: "#e9f6fd",
                         "&:hover": {
-                          bgcolor: "#fff9c4",
+                          bgcolor: "#a8d1e9",
                         },
                       }}
                       onClick={(e) => {
