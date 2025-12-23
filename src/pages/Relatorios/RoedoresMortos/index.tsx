@@ -26,7 +26,7 @@ export const RelatorioRoedoresMortos = () => {
   const [filteredRoedoresMortos] = useState(mockRoedoresMortos);
 
   // -- search
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // -- table
   const [page, setPage] = useState(0);

@@ -26,7 +26,7 @@ export const RelatorioConsumoDeProdutos = () => {
   const [filteredConsumoDeProdutos] = useState(mockConsumoDeProdutos);
 
   // -- search
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // -- table
   const [page, setPage] = useState(0);

@@ -22,7 +22,7 @@ export const DashboardAdmin = () => {
   const methods = useForm<FormDashboard>({ defaultValues });
   const { control } = methods;
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   return (
     <Loading {...{ loading, setLoading }}>

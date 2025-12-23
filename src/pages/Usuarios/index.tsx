@@ -47,7 +47,7 @@ export const Usuarios = () => {
   const [openFormCRUDUsuario, setOpenFormCRUDUsuario] = useState(false);
 
   // -- search
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const search = watch("search");
 
   // handlers

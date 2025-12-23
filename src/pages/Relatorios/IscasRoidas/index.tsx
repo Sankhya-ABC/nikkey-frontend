@@ -26,7 +26,7 @@ export const RelatorioIscasRoidas = () => {
   const [filteredIscasRoidas] = useState(mockIscasRoidas);
 
   // -- search
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // -- table
   const [page, setPage] = useState(0);

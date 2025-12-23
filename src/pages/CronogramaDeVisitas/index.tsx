@@ -31,7 +31,7 @@ export const CronogramasDeVisitas = () => {
     useState(mockCronogramasDeVisitas);
 
   // -- search
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const search = watch("search");
 
   // -- table
