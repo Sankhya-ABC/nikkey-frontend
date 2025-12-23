@@ -45,145 +45,103 @@ export const Month: React.FC<MonthProps> = ({
   }, [activeDate]);
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        minHeight: 0,
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          mb: 1,
-          flexShrink: 0,
-        }}
-      >
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ display: "flex", width: "100%", mb: 1 }}>
         {monthMatrix[0].map((d, i) => (
-          <Box
-            key={i}
-            sx={{
-              flex: 1,
-              textAlign: "center",
-              minWidth: 0,
-              px: 0.5,
-            }}
-          >
-            <Typography
-              variant="caption"
-              sx={{
-                fontWeight: "bold",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "block",
-              }}
-            >
+          <Box key={i} sx={{ flex: 1, textAlign: "center", minWidth: 0 }}>
+            <Typography variant="caption" sx={{ fontWeight: "bold" }}>
               {formatDayShort(d)}
             </Typography>
           </Box>
         ))}
       </Box>
+      <Box sx={{ width: "100%" }}>
+        {monthMatrix.map((week, wi) => (
+          <Box
+            key={wi}
+            sx={{
+              display: "flex",
+              width: "100%",
+              height: `calc((100vh - 340px) / ${monthMatrix.length})`,
+              minHeight: "60px",
+            }}
+          >
+            {week.map((day, di) => {
+              const isCurrentMonth = day.getMonth() === activeDate.getMonth();
+              const dayVisits = handleGetVisitsForDay(day);
+              const hasVisits = dayVisits.length > 0;
+              const lastRow = wi === monthMatrix?.length - 1;
 
-      <Box
-        sx={{
-          flex: 1,
-          minHeight: 0,
-          width: "100%",
-          overflow: "auto",
-        }}
-      >
-        <Box sx={{ width: "100%" }}>
-          {monthMatrix.map((week, wi) => (
-            <Box
-              key={wi}
-              sx={{
-                display: "flex",
-                width: "100%",
-                mb: 1,
-                "&:last-child": { mb: 0 },
-                height: `calc((100vh - 340px) / ${monthMatrix.length})`,
-                minHeight: "60px",
-              }}
-            >
-              {week.map((day, di) => {
-                const isCurrentMonth = day.getMonth() === activeDate.getMonth();
-                const dayVisits = handleGetVisitsForDay(day);
-                const hasVisits = dayVisits.length > 0;
+              return (
+                <Box
+                  key={di}
+                  sx={{
+                    flex: 1,
+                    p: 0.5,
+                    textAlign: "center",
+                    bgcolor: hasVisits
+                      ? "#fffde7"
+                      : isCurrentMonth
+                        ? "background.paper"
+                        : "action.hover",
+                    cursor: "pointer",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    boxSizing: "border-box",
+                    borderWidth: 1,
+                    borderStyle: "solid",
+                    borderColor: "divider",
+                    borderTop: 0,
+                    borderLeft: 0,
+                    borderRight: di === 6 ? 0 : undefined,
+                    borderBottom: lastRow ? 0 : undefined,
 
-                return (
-                  <Box
-                    key={di}
-                    sx={{
-                      flex: 1,
-                      borderRadius: 1,
-                      p: 0.5,
-                      textAlign: "center",
+                    minWidth: 0,
+                    "&:hover": {
                       bgcolor: hasVisits
-                        ? "#fffde7"
+                        ? "#fff9c4"
                         : isCurrentMonth
-                          ? "background.paper"
-                          : "action.hover",
-                      cursor: "pointer",
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "flex-start",
-                      mx: di < 6 ? 0.5 : 0,
-                      ml: di === 0 ? 0 : 0.5,
-                      mr: di === 6 ? 0 : 0.5,
-                      boxSizing: "border-box",
-                      border: "1px solid",
-                      borderColor: "divider",
-                      minWidth: 0,
-                      "&:hover": {
-                        bgcolor: hasVisits
-                          ? "#fff9c4"
-                          : isCurrentMonth
-                            ? "action.hover"
-                            : "action.selected",
-                      },
+                          ? "action.hover"
+                          : "action.selected",
+                    },
+                  }}
+                  onClick={() => handleDayClick(day)}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      width: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                     }}
-                    onClick={() => handleDayClick(day)}
                   >
+                    {formatDayNumber(day)}
+                  </Typography>
+                  {hasVisits && (
                     <Typography
-                      variant="body2"
+                      variant="caption"
                       sx={{
-                        whiteSpace: "nowrap",
+                        mt: 0.5,
+                        fontSize: "0.7rem",
+                        width: "100%",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        width: "100%",
-                        fontSize: { xs: "0.875rem", sm: "1rem" },
+                        whiteSpace: "nowrap",
                       }}
                     >
-                      {formatDayNumber(day)}
+                      {dayVisits.length}{" "}
+                      {dayVisits.length === 1 ? "Visita" : "Visitas"}
                     </Typography>
-                    {hasVisits && (
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          mt: 0.5,
-                          fontSize: "0.7rem",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          width: "100%",
-                        }}
-                      >
-                        {dayVisits.length}{" "}
-                        {dayVisits.length === 1 ? "Visita" : "Visitas"}
-                      </Typography>
-                    )}
-                  </Box>
-                );
-              })}
-            </Box>
-          ))}
-        </Box>
+                  )}
+                </Box>
+              );
+            })}
+          </Box>
+        ))}
       </Box>
     </Box>
   );

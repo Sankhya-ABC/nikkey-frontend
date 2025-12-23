@@ -161,16 +161,13 @@ export const Week: React.FC<WeekProps> = ({
                           sx={{
                             position: "absolute",
                             top: (startMinutes / 60) * 60,
-                            left: 2,
-                            right: 2,
                             height: height,
-                            bgcolor: "#fffde7",
-                            border: "1px solid #ffeb3b",
-                            borderRadius: 1,
                             p: 0.5,
                             cursor: "pointer",
                             zIndex: 1,
                             overflow: "hidden",
+                            width: "100%",
+                            bgcolor: "#fffde7",
                             "&:hover": {
                               bgcolor: "#fff9c4",
                             },
