@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Action } from "@/components/Table/types";
+import { format } from "date-fns";
 import { TextField } from "../../components/Form/Textfield";
 import { Loading } from "../../components/Loading";
 import { Table } from "../../components/Table";
@@ -11,7 +12,6 @@ import { usuarioService } from "../../services/Usuarios";
 import { Usuario } from "../../services/Usuarios/types";
 import { GetAllPaginated } from "../../services/types";
 import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "../../utils/constants";
-import { format } from "date-fns";
 
 interface UsuarioSearch {
   search: string;
@@ -49,6 +49,8 @@ export const ConsultaUsuario: React.FC<ConsultaUsuarioProps> = ({
 
   // -- search
   const [loading, setLoading] = useState(false);
+
+  // variables
   const search = watch("search");
 
   // handlers
