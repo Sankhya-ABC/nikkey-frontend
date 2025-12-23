@@ -23,6 +23,7 @@ export const FormStatus: React.FC<FormStatusProps> = ({
   selected,
   persistCallback,
 }) => {
+  // requests
   const atualizarStatusCliente = async () => {
     try {
       await clienteService.atualizarStatusCliente(selected?.id! as number);

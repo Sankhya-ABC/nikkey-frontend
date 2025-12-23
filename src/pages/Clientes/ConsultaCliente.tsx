@@ -48,6 +48,8 @@ export const ConsultaCliente: React.FC<ConsultaClienteProps> = ({
 
   // -- search
   const [loading, setLoading] = useState(false);
+
+  // variables
   const search = watch("search");
 
   // handlers

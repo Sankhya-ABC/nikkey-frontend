@@ -65,10 +65,13 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
   selected,
   persistCallback,
 }) => {
+  // hooks
   const { control, reset, handleSubmit } = useForm<Cliente>({ defaultValues });
 
+  // useStates
   const [estados, setEstados] = useState<Estado[]>([]);
 
+  // requests
   const onSubmit = async (data: Cliente) => {
     try {
       if (formType === CRUDType.CREATE) {
@@ -92,6 +95,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
     }
   };
 
+  // useEffects
   useEffect(() => {
     getAllEstados();
   }, []);
