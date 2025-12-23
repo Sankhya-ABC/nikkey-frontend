@@ -116,7 +116,7 @@ export const Day: React.FC<DayProps> = ({
                         variant="caption"
                         sx={{ fontWeight: "bold", fontSize: "0.6rem" }}
                       >
-                        {visit.empresa} - {visit.tecnico}
+                        {visit.empresa}
                       </Typography>
                       <Typography
                         variant="caption"
@@ -124,12 +124,6 @@ export const Day: React.FC<DayProps> = ({
                         sx={{ fontSize: "0.55rem" }}
                       >
                         {visit.horaInicial} - {visit.horaFinal}
-                      </Typography>
-                      <Typography
-                        variant="caption"
-                        sx={{ fontSize: "0.55rem" }}
-                      >
-                        {visit.descricao}
                       </Typography>
                     </Box>
                   );
