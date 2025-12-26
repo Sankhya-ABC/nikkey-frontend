@@ -12,6 +12,7 @@ import React, {
 } from "react";
 
 import { ThemeMode, themeTokens } from "../components/Template/tokens";
+import { SESSION_STORAGE_KEYS } from "@/utils/constants";
 
 interface ThemeContextType {
   themeMode: ThemeMode;
@@ -27,7 +28,9 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const getInitialTheme = (): ThemeMode => {
     if (typeof window !== "undefined") {
-      const savedTheme = sessionStorage.getItem("@nikkey-theme") as ThemeMode;
+      const savedTheme = sessionStorage.getItem(
+        SESSION_STORAGE_KEYS.theme,
+      ) as ThemeMode;
       if (
         savedTheme &&
         (savedTheme === ThemeMode.LIGHT || savedTheme === "dark")
@@ -43,7 +46,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const theme = createTheme(themeTokens(themeMode));
 
   useEffect(() => {
-    sessionStorage.setItem("@nikkey-theme", themeMode);
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.theme, themeMode);
   }, [themeMode]);
 
   const toggleTheme = () => {

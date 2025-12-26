@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { ROUTES } from "../routes";
-import { STORAGE_KEYS } from "../utils/constants";
+import { LOCAL_STORAGE_KEYS } from "../utils/constants";
 
 export const api = axios.create({
   baseURL: "http://erp.optecit.com.br:61872/api",
@@ -11,7 +11,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem(STORAGE_KEYS.token);
+    const token = localStorage.getItem(LOCAL_STORAGE_KEYS.token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

@@ -1,3 +1,5 @@
+export const APPLICATION_NAME = "nikkey-frontend";
+
 export const DEFAULT_ROWS_PER_PAGE = 10;
 
 export const DEFAULT_PAGE = 0;
@@ -14,9 +16,13 @@ export const DEFAULT_DATA_FIM = new Date(
   0,
 );
 
-export const STORAGE_KEYS = {
-  token: "auth_token",
-  user: "auth_user",
-  expiresAt: "auth_expiresAt",
-  originalUser: "auth_original_user",
+export const LOCAL_STORAGE_KEYS = {
+  token: `${APPLICATION_NAME}_auth_token`,
+  user: `${APPLICATION_NAME}_auth_user`,
+  expiresAt: `${APPLICATION_NAME}_auth_expiresAt`,
+  originalUser: `${APPLICATION_NAME}_auth_original_user`,
+};
+
+export const SESSION_STORAGE_KEYS = {
+  theme: `${APPLICATION_NAME}_theme`,
 };

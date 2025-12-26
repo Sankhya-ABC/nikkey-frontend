@@ -13,7 +13,7 @@ import { loginService } from "../services/Login";
 import { LoginResponse } from "../services/Login/types";
 import { Usuario } from "../services/Usuarios/types";
 import { Role } from "../types";
-import { STORAGE_KEYS } from "../utils/constants";
+import { LOCAL_STORAGE_KEYS } from "../utils/constants";
 
 interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
@@ -37,20 +37,20 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<Usuario | null>(() => {
-    const raw = localStorage.getItem(STORAGE_KEYS.user);
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEYS.user);
     return raw ? (JSON.parse(raw) as Usuario) : null;
   });
 
   const [originalUser, setOriginalUser] = useState<Usuario | null>(() => {
-    const raw = localStorage.getItem(STORAGE_KEYS.originalUser);
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEYS.originalUser);
     return raw ? (JSON.parse(raw) as Usuario) : null;
   });
 
   const [token, setToken] = useState<string | null>(() =>
-    localStorage.getItem(STORAGE_KEYS.token),
+    localStorage.getItem(LOCAL_STORAGE_KEYS.token),
   );
   const [expiresAt, setExpiresAt] = useState<number | null>(() => {
-    const v = localStorage.getItem(STORAGE_KEYS.expiresAt);
+    const v = localStorage.getItem(LOCAL_STORAGE_KEYS.expiresAt);
     return v ? Number(v) : null;
   });
 
@@ -65,11 +65,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const persistSession = (resp: LoginResponse) => {
     const SESSION_DURATION_MS = resp?.expires_in * 60 * 1000;
     const newExpires = Date.now() + SESSION_DURATION_MS;
-    localStorage.setItem(STORAGE_KEYS.token, resp.token);
-    localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(resp.user));
-    localStorage.setItem(STORAGE_KEYS.expiresAt, String(newExpires));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.token, resp.token);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(resp.user));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.expiresAt, String(newExpires));
 
-    localStorage.removeItem(STORAGE_KEYS.originalUser);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.originalUser);
 
     setToken(resp.token);
     setUser(resp.user);
@@ -78,10 +78,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem(STORAGE_KEYS.token);
-    localStorage.removeItem(STORAGE_KEYS.user);
-    localStorage.removeItem(STORAGE_KEYS.expiresAt);
-    localStorage.removeItem(STORAGE_KEYS.originalUser);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.token);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.user);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.expiresAt);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.originalUser);
 
     setToken(null);
     setUser(null);
@@ -105,22 +105,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const currentUser = getUser();
       setOriginalUser(currentUser);
       localStorage.setItem(
-        STORAGE_KEYS.originalUser,
+        LOCAL_STORAGE_KEYS.originalUser,
         JSON.stringify(currentUser),
       );
     }
 
     setUser(user);
-    localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(user));
   };
 
   const stopImpersonating = () => {
     if (originalUser) {
       setUser(originalUser);
-      localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(originalUser));
+      localStorage.setItem(
+        LOCAL_STORAGE_KEYS.user,
+        JSON.stringify(originalUser),
+      );
 
       setOriginalUser(null);
-      localStorage.removeItem(STORAGE_KEYS.originalUser);
+      localStorage.removeItem(LOCAL_STORAGE_KEYS.originalUser);
     }
   };
 
@@ -167,17 +170,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEYS.token) {
-        const newToken = localStorage.getItem(STORAGE_KEYS.token);
+      if (e.key === LOCAL_STORAGE_KEYS.token) {
+        const newToken = localStorage.getItem(LOCAL_STORAGE_KEYS.token);
         setToken(newToken);
-      } else if (e.key === STORAGE_KEYS.user) {
-        const newUser = localStorage.getItem(STORAGE_KEYS.user);
+      } else if (e.key === LOCAL_STORAGE_KEYS.user) {
+        const newUser = localStorage.getItem(LOCAL_STORAGE_KEYS.user);
         setUser(newUser ? JSON.parse(newUser) : null);
-      } else if (e.key === STORAGE_KEYS.expiresAt) {
-        const newExpires = localStorage.getItem(STORAGE_KEYS.expiresAt);
+      } else if (e.key === LOCAL_STORAGE_KEYS.expiresAt) {
+        const newExpires = localStorage.getItem(LOCAL_STORAGE_KEYS.expiresAt);
         setExpiresAt(newExpires ? Number(newExpires) : null);
-      } else if (e.key === STORAGE_KEYS.originalUser) {
-        const newOriginalUser = localStorage.getItem(STORAGE_KEYS.originalUser);
+      } else if (e.key === LOCAL_STORAGE_KEYS.originalUser) {
+        const newOriginalUser = localStorage.getItem(
+          LOCAL_STORAGE_KEYS.originalUser,
+        );
         setOriginalUser(newOriginalUser ? JSON.parse(newOriginalUser) : null);
       }
     };
