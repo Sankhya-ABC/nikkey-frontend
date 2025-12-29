@@ -1,18 +1,17 @@
 import { Settings as SettingsIcon } from "@mui/icons-material";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import NightlightIcon from "@mui/icons-material/Nightlight";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import { Link } from "react-router";
 
 import { useAuth } from "../../../../hooks/useAuth";
 import { useTheme } from "../../../../hooks/useTheme";
-
 import { ROUTES } from "../../../../routes";
 import { CountdownTimer } from "../../../CountdownTimer";
 import { ThemeMode } from "../../tokens";
 import nikkeyNameLogo from "/nikkey-name-logo.png";
 
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import NightlightIcon from "@mui/icons-material/Nightlight";
 import { Avatar } from "../components/Avatar";
 import { MenuContainer } from "../components/MenuContainer";
 

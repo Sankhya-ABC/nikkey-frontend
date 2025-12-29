@@ -1,9 +1,10 @@
 import { Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import React, { ReactNode } from "react";
 
+import { useDrawer } from "@/hooks/useDrawer";
+
 import { useAuth } from "../../../../hooks/useAuth";
 
-import { useDrawer } from "@/hooks/useDrawer";
 import { AppBar } from "./styles";
 
 interface MenuContainerProps {

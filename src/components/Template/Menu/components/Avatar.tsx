@@ -1,3 +1,5 @@
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import NightlightIcon from "@mui/icons-material/Nightlight";
 import {
   Avatar as AvatarUI,
   Box,
@@ -12,13 +14,11 @@ import {
 } from "@mui/material";
 import * as React from "react";
 
+import { CountdownTimer } from "@/components/CountdownTimer";
 import { useTheme as useHookTheme } from "@/hooks/useTheme";
+
 import { useAuth } from "../../../../hooks/useAuth";
 import { ThemeMode } from "../../tokens";
-
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import NightlightIcon from "@mui/icons-material/Nightlight";
-import { CountdownTimer } from "@/components/CountdownTimer";
 
 export const Avatar = () => {
   // hooks

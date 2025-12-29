@@ -1,3 +1,4 @@
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import {
   Button,
   Dialog,
@@ -10,16 +11,15 @@ import {
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { usuarioService } from "@/services/Usuarios";
-
 import { Cliente } from "@/services/Clientes/types";
 import { departamentoService } from "@/services/Departamento";
+import { usuarioService } from "@/services/Usuarios";
 import { Role } from "@/types";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+
 import { Select } from "../../components/Form/Select";
 import { TextField } from "../../components/Form/Textfield";
-import { Usuario } from "../../services/Usuarios/types";
 import { CRUDType, Dominio } from "../../services/types";
+import { Usuario } from "../../services/Usuarios/types";
 import { ConsultaCliente } from "../Clientes/ConsultaCliente";
 
 interface FormCRUDUsuarioProps {

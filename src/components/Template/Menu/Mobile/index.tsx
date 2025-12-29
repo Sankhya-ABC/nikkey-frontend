@@ -1,13 +1,12 @@
+import MenuIcon from "@mui/icons-material/Menu";
 import { Box, IconButton, Menu } from "@mui/material";
 import React from "react";
 import { Link } from "react-router";
 
 import { useAuth } from "../../../../hooks/useAuth";
-
 import { ROUTES } from "../../../../routes";
 import nikkeyNameLogo from "/nikkey-name-logo.png";
 
-import MenuIcon from "@mui/icons-material/Menu";
 import { MenuListItems } from "../../MenuListItems";
 import { Avatar } from "../components/Avatar";
 import { MenuContainer } from "../components/MenuContainer";
