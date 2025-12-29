@@ -78,7 +78,7 @@ export const Clientes = () => {
 
   return (
     <Layout title="Clientes">
-      <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "end" }}>
+      {/* <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "end" }}>
         <Button
           variant="contained"
           startIcon={<Add />}
@@ -86,7 +86,7 @@ export const Clientes = () => {
         >
           Cadastrar
         </Button>
-      </Grid>
+      </Grid> */}
 
       <Grid size={{ xs: 12 }}>
         <ConsultaCliente
@@ -105,23 +105,23 @@ export const Clientes = () => {
               onClick: (cliente: Cliente) =>
                 handleOpenFormCRUDCliente(CRUDType.READ, cliente),
             },
-            {
-              tooltip: "Editar",
-              element: <Edit />,
-              onClick: (cliente: Cliente) =>
-                handleOpenFormCRUDCliente(CRUDType.UPDATE, cliente),
-            },
-            {
-              tooltip: (cliente: Cliente) =>
-                cliente?.ativo ? "Desativar" : "Ativar",
-              element: (cliente: Cliente) => (
-                <Switch
-                  checked={cliente?.ativo}
-                  onChange={() => handleOpenFormStatus(cliente)}
-                  color={cliente?.ativo ? "success" : "default"}
-                />
-              ),
-            },
+            // {
+            //   tooltip: "Editar",
+            //   element: <Edit />,
+            //   onClick: (cliente: Cliente) =>
+            //     handleOpenFormCRUDCliente(CRUDType.UPDATE, cliente),
+            // },
+            // {
+            //   tooltip: (cliente: Cliente) =>
+            //     cliente?.ativo ? "Desativar" : "Ativar",
+            //   element: (cliente: Cliente) => (
+            //     <Switch
+            //       checked={cliente?.ativo}
+            //       onChange={() => handleOpenFormStatus(cliente)}
+            //       color={cliente?.ativo ? "success" : "default"}
+            //     />
+            //   ),
+            // },
           ]}
         />
       </Grid>
