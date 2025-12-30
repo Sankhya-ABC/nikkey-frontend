@@ -4,7 +4,7 @@ import {
 } from "@mui/icons-material";
 import PrintIcon from "@mui/icons-material/Print";
 import {
-  // Button, Switch
+  // Button, Switch,
   Grid,
 } from "@mui/material";
 import { useState } from "react";
@@ -91,7 +91,9 @@ export const OrdensDeServicoAdmin = () => {
         <Button
           variant="contained"
           startIcon={<Add />}
-          onClick={() => handleOpenFormCRUDOrdemDeServico(CRUDType.CREATE, null)}
+          onClick={() =>
+            handleOpenFormCRUDOrdemDeServico(CRUDType.CREATE, null)
+          }
         >
           Cadastrar
         </Button>
@@ -112,7 +114,10 @@ export const OrdensDeServicoAdmin = () => {
             //   tooltip: "Editar",
             //   element: <Edit />,
             //   onClick: (ordemDeServico: OrdemDeServico) =>
-            //     handleOpenFormCRUDOrdemDeServico(CRUDType.UPDATE, ordemDeServico),
+            //     handleOpenFormCRUDOrdemDeServico(
+            //       CRUDType.UPDATE,
+            //       ordemDeServico,
+            //     ),
             // },
             {
               tooltip: "Imprimir",

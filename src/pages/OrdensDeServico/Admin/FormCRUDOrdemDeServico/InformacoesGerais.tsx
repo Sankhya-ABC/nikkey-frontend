@@ -2,14 +2,15 @@ import { Box, Grid, Typography } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
 import { DatePicker } from "@/components/Form/DatePicker";
-import { Select } from "@/components/Form/Select";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
 import { TimePicker } from "@/components/Form/TimePicker";
 import { OrdemDeServico } from "@/services/OrdensDeServico/types";
 import { CRUDType } from "@/services/types";
 
-import { listClientes, listTecnicos } from "./provider";
+import { Autocomplete } from "@/components/Form/Autocomplete";
+import { clienteService } from "@/services/Clientes";
+import { tecnicoService } from "@/services/Tecnico";
 
 export const InformacoesGerais = () => {
   // hooks
@@ -18,6 +19,23 @@ export const InformacoesGerais = () => {
   // variables
   const formType = watch("formType");
 
+  // requests
+  const pesquisarClientes = async (search: string) => {
+    try {
+      return await clienteService.pesquisarClientes(search);
+    } catch {
+      return [];
+    }
+  };
+
+  const pesquisarTecnicos = async (search: string) => {
+    try {
+      return await tecnicoService.pesquisarTecnicos(search);
+    } catch {
+      return [];
+    }
+  };
+
   return (
     <Box>
       <Typography variant="h6" color="primary">
@@ -25,26 +43,28 @@ export const InformacoesGerais = () => {
       </Typography>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Select
+          <Autocomplete
             label="Cliente"
             name="informacoesGerais.cliente.id"
             readOnly={formType === CRUDType.READ}
             control={control}
-            propertyLabel="nome"
+            propertyLabel="nomeFantasia"
             propertyValue="id"
-            options={listClientes}
+            fetchOptions={pesquisarClientes}
+            minCharsToSearch={1}
           />
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Select
+          <Autocomplete
             label="Técnico"
             name="informacoesGerais.tecnico.id"
             readOnly={formType === CRUDType.READ}
             control={control}
             propertyLabel="nome"
             propertyValue="id"
-            options={listTecnicos}
+            fetchOptions={pesquisarTecnicos}
+            minCharsToSearch={1}
           />
         </Grid>
 

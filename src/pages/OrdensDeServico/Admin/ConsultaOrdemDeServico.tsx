@@ -126,7 +126,7 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
           TextFieldProps={{
             slotProps: {
               input: {
-                placeholder: "Pesquise por nome ou email...",
+                placeholder: "Pesquise por nome, email ou Nº da OS...",
                 endAdornment: (
                   <InputAdornment position="start">
                     <Search />

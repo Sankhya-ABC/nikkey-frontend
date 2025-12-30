@@ -16,11 +16,13 @@ import {
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
+import { Autocomplete } from "@/components/Form/Autocomplete";
 import { DatePicker } from "@/components/Form/DatePicker";
-import { Select } from "@/components/Form/Select";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
+import { equipamentoService } from "@/services/Equipamento";
 import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { produtoService } from "@/services/Produto";
 import { CRUDType } from "@/services/types";
 
 export const ConsumoProdutos = () => {
@@ -51,6 +53,23 @@ export const ConsumoProdutos = () => {
     const actualList = getValues("consumo");
     actualList?.splice(index, 1);
     setValue("consumo", actualList);
+  };
+
+  // requests
+  const pesquisarProdutos = async (search: string) => {
+    try {
+      return await produtoService.pesquisarProdutos(search);
+    } catch {
+      return [];
+    }
+  };
+
+  const pesquisarEquipamentos = async (search: string) => {
+    try {
+      return await equipamentoService.pesquisarEquipamentos(search);
+    } catch {
+      return [];
+    }
   };
 
   // useEffects
@@ -94,13 +113,14 @@ export const ConsumoProdutos = () => {
                     return (
                       <TableRow key={index}>
                         <TableCell sx={{ width: "40%" }}>
-                          <Select
+                          <Autocomplete
                             name={`consumo.${index}.idProduto`}
                             readOnly={formType === CRUDType.READ}
                             control={control}
                             propertyLabel="descricao"
                             propertyValue="id"
-                            options={produtos}
+                            fetchOptions={pesquisarProdutos}
+                            minCharsToSearch={1}
                           />
                         </TableCell>
                         <TableCell sx={{ width: "40%" }}>
@@ -118,13 +138,14 @@ export const ConsumoProdutos = () => {
                           />
                         </TableCell>
                         <TableCell sx={{ width: "20%" }}>
-                          <Select
+                          <Autocomplete
                             name={`consumo.${index}.idEquipamento`}
                             readOnly={formType === CRUDType.READ}
                             control={control}
                             propertyLabel="descricao"
                             propertyValue="id"
-                            options={equipamentos}
+                            fetchOptions={pesquisarEquipamentos}
+                            minCharsToSearch={1}
                           />
                         </TableCell>
                         <TableCell>

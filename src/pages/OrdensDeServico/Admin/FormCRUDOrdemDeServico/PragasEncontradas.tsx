@@ -25,7 +25,8 @@ import {
 } from "@/services/OrdensDeServico/types";
 import { CRUDType } from "@/services/types";
 
-import { listPragas } from "./provider";
+import { Autocomplete } from "@/components/Form/Autocomplete";
+import { pragaService } from "@/services/Praga";
 
 export const PragasEncontradas = () => {
   // hooks
@@ -53,6 +54,15 @@ export const PragasEncontradas = () => {
     const actualList = getValues("pragas");
     actualList?.splice(index, 1);
     setValue("pragas", actualList);
+  };
+
+  // requests
+  const pesquisarPragas = async (search: string) => {
+    try {
+      return await pragaService.pesquisarPragas(search);
+    } catch {
+      return [];
+    }
   };
 
   // useEffects
@@ -95,13 +105,14 @@ export const PragasEncontradas = () => {
                     return (
                       <TableRow key={index}>
                         <TableCell sx={{ width: "25%" }}>
-                          <Select
+                          <Autocomplete
                             name={`pragas.${index}.idPraga`}
                             readOnly={formType === CRUDType.READ}
                             control={control}
                             propertyLabel="descricao"
                             propertyValue="id"
-                            options={listPragas}
+                            fetchOptions={pesquisarPragas}
+                            minCharsToSearch={1}
                           />
                         </TableCell>
                         <TableCell sx={{ width: "25%" }}>
