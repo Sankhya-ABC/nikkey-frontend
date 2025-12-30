@@ -4,7 +4,13 @@ export enum Status {
   CANCELADO = "CANCELADO",
 }
 
-export interface CronogramaDeVisitas {
+export const StatusColors: Record<Status, string> = {
+  [Status.PENDENTE]: "warning",
+  [Status.REALIZADO]: "success",
+  [Status.CANCELADO]: "error",
+};
+
+export interface CronogramaDeVisita {
   id: number | null;
   status: Status;
   dataHora: Date | null | string;
@@ -14,9 +20,3 @@ export interface CronogramaDeVisitas {
     telefone: string;
   };
 }
-
-export const StatusColors: Record<Status, string> = {
-  [Status.PENDENTE]: "warning",
-  [Status.REALIZADO]: "success",
-  [Status.CANCELADO]: "error",
-};

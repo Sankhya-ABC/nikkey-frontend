@@ -10,7 +10,6 @@ import { ReactNode } from "react";
 
 import { Certificados } from "./pages/Certificados";
 import { Clientes } from "./pages/Clientes";
-import { CronogramasDeVisitas } from "./pages/CronogramaDeVisitas";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
@@ -30,6 +29,7 @@ import { RelatoriosProdutividade } from "./pages/RelatoriosProdutividade";
 import { Usuarios } from "./pages/Usuarios";
 import { Visitas } from "./pages/Visitas";
 import { Role } from "./types";
+import { CronogramasDeVisita } from "./pages/CronogramasDeVisita";
 
 export interface Routes {
   path: string;
@@ -133,7 +133,7 @@ export const routes: Routes[] = [
   },
   {
     path: ROUTES.CRONOGRAMA_DE_VISITAS,
-    element: <CronogramasDeVisitas />,
+    element: <CronogramasDeVisita />,
     isProtected: true,
     requiredAnyRole: [Role.COMMON],
     menu: {
