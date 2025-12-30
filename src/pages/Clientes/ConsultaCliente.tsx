@@ -4,13 +4,14 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Action } from "@/components/Table/types";
+import { useAlert } from "@/hooks/useAlert";
 
 import { TextField } from "../../components/Form/Textfield";
 import { Loading } from "../../components/Loading";
 import { Table } from "../../components/Table";
 import { clienteService } from "../../services/Clientes";
 import { Cliente } from "../../services/Clientes/types";
-import { GetAllPaginated } from "../../services/types";
+import { ErrorMessage, GetAllPaginated } from "../../services/types";
 import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "../../utils/constants";
 
 interface ClienteSearch {
@@ -36,6 +37,7 @@ export const ConsultaCliente: React.FC<ConsultaClienteProps> = ({
   const { control, watch, setValue } = useForm<ClienteSearch>({
     defaultValues,
   });
+  const { showAlert } = useAlert();
 
   // useStates
   // -- table
@@ -84,8 +86,14 @@ export const ConsultaCliente: React.FC<ConsultaClienteProps> = ({
         search,
       });
       setClientes(resp);
-    } catch (error: unknown) {
-      //
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     } finally {
       setLoading(false);
     }

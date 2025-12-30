@@ -6,13 +6,14 @@ import { useForm } from "react-hook-form";
 
 import { DatePicker } from "@/components/Form/DatePicker";
 import { Action } from "@/components/Table/types";
+import { useAlert } from "@/hooks/useAlert";
 
 import { TextField } from "../../components/Form/Textfield";
 import { Loading } from "../../components/Loading";
 import { Table } from "../../components/Table";
 import { relatorioProdutividadeService } from "../../services/RelatoriosProdutividade";
 import { RelatorioProdutividade } from "../../services/RelatoriosProdutividade/types";
-import { GetAllPaginated } from "../../services/types";
+import { ErrorMessage, GetAllPaginated } from "../../services/types";
 import {
   DEFAULT_DATA_FIM,
   DEFAULT_DATA_INICIO,
@@ -45,6 +46,7 @@ export const ConsultaRelatorioProdutividade: React.FC<
   const { control, watch, setValue } = useForm<RelatorioProdutividadeSearch>({
     defaultValues,
   });
+  const { showAlert } = useAlert();
 
   // useStates
   // -- table
@@ -111,8 +113,14 @@ export const ConsultaRelatorioProdutividade: React.FC<
           dataFim: format(dataFim, "YYYY-MM-DD"),
         });
       setRelatoriosProdutividade(resp);
-    } catch (error: unknown) {
-      //
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     } finally {
       setLoading(false);
     }

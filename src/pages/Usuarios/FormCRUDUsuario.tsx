@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { useAlert } from "@/hooks/useAlert";
 import { Cliente } from "@/services/Clientes/types";
 import { departamentoService } from "@/services/Departamento";
 import { usuarioService } from "@/services/Usuarios";
@@ -18,7 +19,7 @@ import { Role } from "@/types";
 
 import { Select } from "../../components/Form/Select";
 import { TextField } from "../../components/Form/Textfield";
-import { CRUDType, Dominio } from "../../services/types";
+import { CRUDType, Dominio, ErrorMessage } from "../../services/types";
 import { Usuario } from "../../services/Usuarios/types";
 import { ConsultaCliente } from "../Clientes/ConsultaCliente";
 
@@ -62,6 +63,7 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
   const { control, reset, watch, handleSubmit, setValue } = useForm<Usuario>({
     defaultValues,
   });
+  const { showAlert } = useAlert();
 
   // variables
   const cliente = watch("cliente");
@@ -78,10 +80,22 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
       } else {
         await usuarioService.atualizarUsuario(data);
       }
+      showAlert({
+        title: "Sucesso",
+        children: `Usuário ${formType === CRUDType.CREATE ? "criado" : "atualizado"} com sucesso!`,
+        severity: "success",
+        duration: 3000,
+      });
       handleClose();
       persistCallback();
     } catch (error) {
-      //
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     }
   };
 
@@ -90,7 +104,13 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
       const resp = await departamentoService.buscarDepartamentos();
       setDepartamentos(resp);
     } catch (error) {
-      //
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     }
   };
 

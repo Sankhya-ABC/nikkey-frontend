@@ -1,9 +1,11 @@
 import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 
+import { useAlert } from "@/hooks/useAlert";
+
 import { Loading } from "../../components/Loading";
 import { Layout } from "../../components/Template/Layout";
-import { CRUDType } from "../../services/types";
+import { CRUDType, ErrorMessage } from "../../services/types";
 
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";
@@ -18,6 +20,10 @@ import { getDateRange } from "./utils";
 import { Week } from "./Week";
 
 export const Visitas = () => {
+  // hooks
+  const { showAlert } = useAlert();
+
+  // useState
   const [view, setView] = useState<View>(View.MONTH);
   const [activeDate, setActiveDate] = useState<Date>(new Date());
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,6 +38,7 @@ export const Visitas = () => {
   );
   const [tempDate, setTempDate] = useState<Date>(new Date());
 
+  // handlers
   const handleDayClick = (date: Date) => {
     setSelectedDate(date);
     setModalMode(ModalMode.LIST);
@@ -107,7 +114,14 @@ export const Visitas = () => {
       const visits = await simulateBackendRequest(startDate, endDate);
       setMonthVisits(visits);
     } catch (error) {
-      console.error("Erro ao buscar visitas:", error);
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
+
       setMonthVisits([]);
     } finally {
       setLoading(false);

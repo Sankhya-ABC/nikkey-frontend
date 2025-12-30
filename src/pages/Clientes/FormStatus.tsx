@@ -7,7 +7,9 @@ import {
   DialogTitle,
 } from "@mui/material";
 
+import { useAlert } from "@/hooks/useAlert";
 import { clienteService } from "@/services/Clientes";
+import { ErrorMessage } from "@/services/types";
 
 import { Cliente } from "../../services/Clientes/types";
 
@@ -24,14 +26,29 @@ export const FormStatus: React.FC<FormStatusProps> = ({
   selected,
   persistCallback,
 }) => {
+  // hooks
+  const { showAlert } = useAlert();
+
   // requests
   const atualizarStatusCliente = async () => {
     try {
       await clienteService.atualizarStatusCliente(selected?.id! as number);
+      showAlert({
+        title: "Sucesso",
+        children: `Cliente atualizado com sucesso!`,
+        severity: "success",
+        duration: 3000,
+      });
       handleClose();
       persistCallback();
-    } catch (error: unknown) {
-      //
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     }
   };
 

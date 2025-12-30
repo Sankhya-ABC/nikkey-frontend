@@ -10,11 +10,13 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
+import { useAlert } from "@/hooks/useAlert";
+
 import { Layout } from "../../components/Template/Layout";
 import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../routes";
 import { Cliente } from "../../services/Clientes/types";
-import { CRUDType } from "../../services/types";
+import { CRUDType, ErrorMessage } from "../../services/types";
 import { usuarioService } from "../../services/Usuarios";
 
 import { ConsultaCliente } from "./ConsultaCliente";
@@ -24,6 +26,7 @@ import { FormCRUDCliente } from "./FormCRUDCliente";
 export const Clientes = () => {
   // hooks
   const { impersonate } = useAuth();
+  const { showAlert } = useAlert();
   const navigate = useNavigate();
 
   // useStates
@@ -77,8 +80,14 @@ export const Clientes = () => {
       const resp = await usuarioService.buscarUsuarioPorId(id);
       impersonate(resp);
       navigate(ROUTES.HOME);
-    } catch (error: unknown) {
-      //
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     }
   };
 

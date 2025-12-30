@@ -10,6 +10,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
 
+import { useAlert } from "@/hooks/useAlert";
+import { ErrorMessage } from "@/services/types";
+
 import { TextField } from "../../components/Form/Textfield";
 import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../routes";
@@ -25,22 +28,33 @@ const defaultValues: FormLogin = {
 };
 
 export const Login = () => {
+  // hooks
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as any)?.from?.pathname || ROUTES.HOME;
-
+  const { showAlert } = useAlert();
   const { control, handleSubmit } = useForm<FormLogin>({ defaultValues });
 
+  // useStates
   const [loading, setLoading] = useState(false);
 
+  // variables
+  const from = (location.state as any)?.from?.pathname || ROUTES.HOME;
+
+  // requests
   const onSubmit = async ({ usuario, senha }: FormLogin) => {
     setLoading(true);
     try {
       await auth.login(usuario, senha);
       navigate(from, { replace: true });
-    } catch (error: unknown) {
-      //
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     } finally {
       setLoading(false);
     }

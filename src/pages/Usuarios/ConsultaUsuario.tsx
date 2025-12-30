@@ -5,11 +5,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Action } from "@/components/Table/types";
+import { useAlert } from "@/hooks/useAlert";
 
 import { TextField } from "../../components/Form/Textfield";
 import { Loading } from "../../components/Loading";
 import { Table } from "../../components/Table";
-import { GetAllPaginated } from "../../services/types";
+import { ErrorMessage, GetAllPaginated } from "../../services/types";
 import { usuarioService } from "../../services/Usuarios";
 import { Usuario } from "../../services/Usuarios/types";
 import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "../../utils/constants";
@@ -37,6 +38,7 @@ export const ConsultaUsuario: React.FC<ConsultaUsuarioProps> = ({
   const { control, watch, setValue } = useForm<UsuarioSearch>({
     defaultValues,
   });
+  const { showAlert } = useAlert();
 
   // useStates
   // -- table
@@ -85,8 +87,14 @@ export const ConsultaUsuario: React.FC<ConsultaUsuarioProps> = ({
         search,
       });
       setUsuarios(resp);
-    } catch (error: unknown) {
-      //
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     } finally {
       setLoading(false);
     }

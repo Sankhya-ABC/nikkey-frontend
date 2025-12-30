@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { useAlert } from "@/hooks/useAlert";
 import { clienteService } from "@/services/Clientes";
 import { enderecoService } from "@/services/Endereco";
 import { Estado } from "@/services/Endereco/types";
@@ -18,7 +19,7 @@ import { Select } from "../../components/Form/Select";
 import { Switch } from "../../components/Form/Switch";
 import { TextField } from "../../components/Form/Textfield";
 import { Cliente } from "../../services/Clientes/types";
-import { CRUDType } from "../../services/types";
+import { CRUDType, ErrorMessage } from "../../services/types";
 
 interface FormCRUDClienteProps {
   open: boolean;
@@ -67,6 +68,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
 }) => {
   // hooks
   const { control, reset, handleSubmit } = useForm<Cliente>({ defaultValues });
+  const { showAlert } = useAlert();
 
   // useStates
   const [estados, setEstados] = useState<Estado[]>([]);
@@ -81,8 +83,20 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
       }
       handleClose();
       persistCallback();
+      showAlert({
+        title: "Sucesso",
+        children: `Cliente ${formType === CRUDType.CREATE ? "criado" : "atualizado"} com sucesso!`,
+        severity: "success",
+        duration: 3000,
+      });
     } catch (error) {
-      //
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     }
   };
 
@@ -91,7 +105,13 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
       const resp = await enderecoService.buscarTodosEstados();
       setEstados(resp);
     } catch (error) {
-      //
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     }
   };
 
