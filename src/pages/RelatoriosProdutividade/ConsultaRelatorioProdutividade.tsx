@@ -5,21 +5,20 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { DatePicker } from "@/components/Form/DatePicker";
+import { TextField } from "@/components/Form/Textfield";
+import { Loading } from "@/components/Loading";
+import { Table } from "@/components/Table";
 import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
-
-import { TextField } from "../../components/Form/Textfield";
-import { Loading } from "../../components/Loading";
-import { Table } from "../../components/Table";
-import { relatorioProdutividadeService } from "../../services/RelatoriosProdutividade";
-import { RelatorioProdutividade } from "../../services/RelatoriosProdutividade/types";
-import { ErrorMessage, GetAllPaginated } from "../../services/types";
+import { relatorioProdutividadeService } from "@/services/RelatoriosProdutividade";
+import { RelatorioProdutividade } from "@/services/RelatoriosProdutividade/types";
+import { ErrorMessage, GetAllPaginated } from "@/services/types";
 import {
   DEFAULT_DATA_FIM,
   DEFAULT_DATA_INICIO,
   DEFAULT_PAGE,
   DEFAULT_ROWS_PER_PAGE,
-} from "../../utils/constants";
+} from "@/utils/constants";
 
 interface RelatorioProdutividadeSearch {
   search: string;

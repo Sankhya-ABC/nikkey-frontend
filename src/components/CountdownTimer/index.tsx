@@ -1,8 +1,9 @@
 import { Box, Theme, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-import { useAuth } from "../../hooks/useAuth";
-import { useTheme } from "../../hooks/useTheme";
+import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/hooks/useTheme";
+
 import { ThemeMode } from "../Template/tokens";
 
 export const CountdownTimer: React.FC = () => {

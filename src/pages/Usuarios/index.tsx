@@ -2,9 +2,9 @@ import { Add, Edit, Visibility } from "@mui/icons-material";
 import { Button, Grid, Switch } from "@mui/material";
 import { useState } from "react";
 
-import { Layout } from "../../components/Template/Layout";
-import { CRUDType } from "../../services/types";
-import { Usuario } from "../../services/Usuarios/types";
+import { Layout } from "@/components/Template/Layout";
+import { CRUDType } from "@/services/types";
+import { Usuario } from "@/services/Usuarios/types";
 
 import { ConsultaUsuario } from "./ConsultaUsuario";
 import { FormCRUDUsuario } from "./FormCRUDUsuario";

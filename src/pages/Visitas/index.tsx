@@ -1,11 +1,10 @@
 import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 
+import { Loading } from "@/components/Loading";
+import { Layout } from "@/components/Template/Layout";
 import { useAlert } from "@/hooks/useAlert";
-
-import { Loading } from "../../components/Loading";
-import { Layout } from "../../components/Template/Layout";
-import { CRUDType, ErrorMessage } from "../../services/types";
+import { CRUDType, ErrorMessage } from "@/services/types";
 
 import { CalendarContainer } from "./CalendarContainer";
 import { Day } from "./Day";

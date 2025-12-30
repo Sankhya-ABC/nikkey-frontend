@@ -1,4 +1,5 @@
-import { Role } from "../../types";
+import { Role } from "@/types";
+
 import { ClienteDTO } from "../Clientes/types";
 import { Dominio } from "../types";
 

@@ -7,10 +7,11 @@ import { Link } from "react-router";
 
 import nikkeyNameLogo from "/nikkey-name-logo.png";
 
-import { useAuth } from "../../../../hooks/useAuth";
-import { useTheme } from "../../../../hooks/useTheme";
+import { CountdownTimer } from "@/components/CountdownTimer";
+import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/hooks/useTheme";
+
 import { ROUTES } from "../../../../routes";
-import { CountdownTimer } from "../../../CountdownTimer";
 import { ThemeMode } from "../../tokens";
 import { Avatar } from "../components/Avatar";
 import { MenuContainer } from "../components/MenuContainer";

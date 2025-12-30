@@ -10,14 +10,14 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
+import { Layout } from "@/components/Template/Layout";
 import { useAlert } from "@/hooks/useAlert";
+import { useAuth } from "@/hooks/useAuth";
+import { Cliente } from "@/services/Clientes/types";
+import { CRUDType, ErrorMessage } from "@/services/types";
+import { usuarioService } from "@/services/Usuarios";
 
-import { Layout } from "../../components/Template/Layout";
-import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../routes";
-import { Cliente } from "../../services/Clientes/types";
-import { CRUDType, ErrorMessage } from "../../services/types";
-import { usuarioService } from "../../services/Usuarios";
 
 import { ConsultaCliente } from "./ConsultaCliente";
 import { FormCRUDCliente } from "./FormCRUDCliente";

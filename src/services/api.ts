@@ -1,7 +1,8 @@
 import axios from "axios";
 
+import { LOCAL_STORAGE_KEYS } from "@/utils/constants";
+
 import { ROUTES } from "../routes";
-import { LOCAL_STORAGE_KEYS } from "../utils/constants";
 
 export const api = axios.create({
   baseURL: "http://erp.optecit.com.br:61872/api",

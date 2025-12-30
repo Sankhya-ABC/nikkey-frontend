@@ -1,11 +1,10 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router";
 
+import { useAuth } from "@/hooks/useAuth";
+import { Unauthorized } from "@/pages/Unauthorized";
 import { ROUTES } from "@/routes";
 import { Role } from "@/types";
-
-import { useAuth } from "../../hooks/useAuth";
-import { Unauthorized } from "../../pages/Unauthorized";
 
 interface ProtectedRouteProps {
   children: ReactNode;

@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { useState } from "react";
 
-import { Layout } from "../../components/Template/Layout";
+import { Layout } from "@/components/Template/Layout";
 
 import { ConsultaRelatorioProdutividade } from "./ConsultaRelatorioProdutividade";
 

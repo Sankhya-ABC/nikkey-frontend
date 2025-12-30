@@ -2,9 +2,10 @@ import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
-import { Select } from "../../../../components/Form/Select";
-import { Switch } from "../../../../components/Form/Switch";
-import { TextField } from "../../../../components/Form/Textfield";
+import { Select } from "@/components/Form/Select";
+import { Switch } from "@/components/Form/Switch";
+import { TextField } from "@/components/Form/Textfield";
+
 import { OrdemDeServico, TipoContagem } from "../types";
 
 import { ContagemEspecie } from "./ContagemEspecie";

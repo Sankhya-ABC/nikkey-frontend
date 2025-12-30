@@ -15,9 +15,9 @@ import {
 import * as React from "react";
 
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { useAuth } from "@/hooks/useAuth";
 import { useTheme as useHookTheme } from "@/hooks/useTheme";
 
-import { useAuth } from "../../../../hooks/useAuth";
 import { ThemeMode } from "../../tokens";
 
 export const Avatar = () => {

@@ -1,9 +1,8 @@
 import { Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import React, { ReactNode } from "react";
 
+import { useAuth } from "@/hooks/useAuth";
 import { useDrawer } from "@/hooks/useDrawer";
-
-import { useAuth } from "../../../../hooks/useAuth";
 
 import { AppBar } from "./styles";
 

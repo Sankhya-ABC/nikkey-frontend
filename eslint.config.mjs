@@ -71,6 +71,8 @@ export default defineConfig([
       "@typescript-eslint/no-explicit-any": "off", //to do
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
 
+      "import/no-relative-parent-imports": "error",
+
       "no-unused-vars": "off", // to do
       "@typescript-eslint/no-unused-vars": [
         "error",

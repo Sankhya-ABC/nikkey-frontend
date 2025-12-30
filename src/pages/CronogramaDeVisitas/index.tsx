@@ -3,9 +3,9 @@ import { Grid, InputAdornment } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { TextField } from "../../components/Form/Textfield";
-import { Loading } from "../../components/Loading";
-import { Layout } from "../../components/Template/Layout";
+import { TextField } from "@/components/Form/Textfield";
+import { Loading } from "@/components/Loading";
+import { Layout } from "@/components/Template/Layout";
 
 import { mockCronogramasDeVisitas } from "./provider";
 import { TableCronogramasDeVisitas } from "./TableCronogramasDeVisitas";

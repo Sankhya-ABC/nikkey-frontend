@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import { styled, useTheme } from "@mui/material/styles";
 import { Outlet, useNavigate } from "react-router";
 
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
+
 import { ROUTES } from "../../routes";
 
 import { Drawer } from "./Drawer";

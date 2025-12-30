@@ -1,5 +1,5 @@
-import { useAuth } from "../../hooks/useAuth";
-import { Role } from "../../types";
+import { useAuth } from "@/hooks/useAuth";
+import { Role } from "@/types";
 
 import { OrdensDeServicoAdmin } from "./Admin";
 import { OrdensDeServicoCommon } from "./Common";

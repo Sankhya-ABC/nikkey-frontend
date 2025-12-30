@@ -10,8 +10,7 @@ import {
 import { useAlert } from "@/hooks/useAlert";
 import { ErrorMessage } from "@/services/types";
 import { usuarioService } from "@/services/Usuarios";
-
-import { Usuario } from "../../services/Usuarios/types";
+import { Usuario } from "@/services/Usuarios/types";
 
 interface FormStatusProps {
   open: boolean;

@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { ChangeEvent } from "react";
 
-import { CRUDType } from "../../../services/types";
+import { CRUDType } from "@/services/types";
 
 import { OrdemDeServico } from "./types";
 

@@ -21,7 +21,8 @@ import {
   generateYearRange,
   getRangeType,
   normalizeDate,
-} from "../../../utils/chart";
+} from "@/utils/chart";
+
 import { CardInfo } from "../components/CardInfo";
 
 import { FormRelatorio } from "./types";

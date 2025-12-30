@@ -16,8 +16,9 @@ import {
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
-import { Switch } from "../../../../components/Form/Switch";
-import { TextField } from "../../../../components/Form/Textfield";
+import { Switch } from "@/components/Form/Switch";
+import { TextField } from "@/components/Form/Textfield";
+
 import { OrdemDeServico } from "../types";
 
 export const InformacoesAdicionais = () => {

@@ -12,8 +12,9 @@ import {
 import { MouseEvent, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 
-import { useAuth } from "../../../hooks/useAuth";
-import { useDrawer } from "../../../hooks/useDrawer";
+import { useAuth } from "@/hooks/useAuth";
+import { useDrawer } from "@/hooks/useDrawer";
+
 import { Routes, ROUTES, routes } from "../../../routes";
 
 export const MenuListItems = () => {

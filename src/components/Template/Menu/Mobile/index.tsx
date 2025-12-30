@@ -5,7 +5,8 @@ import { Link } from "react-router";
 
 import nikkeyNameLogo from "/nikkey-name-logo.png";
 
-import { useAuth } from "../../../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
+
 import { ROUTES } from "../../../../routes";
 import { MenuListItems } from "../../MenuListItems";
 import { Avatar } from "../components/Avatar";

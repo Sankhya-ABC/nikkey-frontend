@@ -3,8 +3,9 @@ import { Button, Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import { DateTimePicker } from "../../../components/Form/DateTimePicker";
-import { TextField } from "../../../components/Form/Textfield";
+import { DateTimePicker } from "@/components/Form/DateTimePicker";
+import { TextField } from "@/components/Form/Textfield";
+
 import { CardInfo } from "../components/CardInfo";
 
 interface UltimaVisitaForm {

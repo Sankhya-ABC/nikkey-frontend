@@ -3,16 +3,15 @@ import { Chip, Grid, InputAdornment } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { TextField } from "@/components/Form/Textfield";
+import { Loading } from "@/components/Loading";
+import { Table } from "@/components/Table";
 import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
-
-import { TextField } from "../../components/Form/Textfield";
-import { Loading } from "../../components/Loading";
-import { Table } from "../../components/Table";
-import { clienteService } from "../../services/Clientes";
-import { Cliente } from "../../services/Clientes/types";
-import { ErrorMessage, GetAllPaginated } from "../../services/types";
-import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "../../utils/constants";
+import { clienteService } from "@/services/Clientes";
+import { Cliente } from "@/services/Clientes/types";
+import { ErrorMessage, GetAllPaginated } from "@/services/types";
+import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "@/utils/constants";
 
 interface ClienteSearch {
   search: string;

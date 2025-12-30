@@ -2,9 +2,10 @@ import { Grid } from "@mui/material";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DatePicker } from "../../../components/Form/DatePicker";
-import { Loading } from "../../../components/Loading";
-import { Layout } from "../../../components/Template/Layout";
+import { DatePicker } from "@/components/Form/DatePicker";
+import { Loading } from "@/components/Loading";
+import { Layout } from "@/components/Template/Layout";
+
 import { CardQuantity } from "../components/CardQuantity";
 
 import { AtendimentosChart } from "./AtendimentosChart";

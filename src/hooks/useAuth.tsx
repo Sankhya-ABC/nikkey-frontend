@@ -8,12 +8,13 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 
+import { loginService } from "@/services/Login";
+import { LoginResponse } from "@/services/Login/types";
+import { Usuario } from "@/services/Usuarios/types";
+import { Role } from "@/types";
+import { LOCAL_STORAGE_KEYS } from "@/utils/constants";
+
 import { ROUTES } from "../routes";
-import { loginService } from "../services/Login";
-import { LoginResponse } from "../services/Login/types";
-import { Usuario } from "../services/Usuarios/types";
-import { Role } from "../types";
-import { LOCAL_STORAGE_KEYS } from "../utils/constants";
 
 interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;

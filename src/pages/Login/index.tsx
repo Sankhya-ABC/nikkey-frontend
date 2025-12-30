@@ -10,11 +10,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
 
+import { TextField } from "@/components/Form/Textfield";
 import { useAlert } from "@/hooks/useAlert";
+import { useAuth } from "@/hooks/useAuth";
 import { ErrorMessage } from "@/services/types";
 
-import { TextField } from "../../components/Form/Textfield";
-import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../routes";
 
 interface FormLogin {

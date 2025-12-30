@@ -9,7 +9,8 @@ import {
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { CRUDType } from "../../../../services/types";
+import { CRUDType } from "@/services/types";
+
 import { OrdemDeServico } from "../types";
 
 import { ConsumoProdutos } from "./ConsumoProdutos";
