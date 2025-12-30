@@ -5,7 +5,7 @@ import { DatePicker } from "@/components/Form/DatePicker";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
 import { TimePicker } from "@/components/Form/TimePicker";
-import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType } from "@/services/types";
 
 import { Autocomplete } from "@/components/Form/Autocomplete";

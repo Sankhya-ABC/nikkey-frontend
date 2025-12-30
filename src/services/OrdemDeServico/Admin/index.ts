@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-import { api } from "../api";
-import { GetAllPaginated, ParamsForPagination } from "../types";
+import { api } from "../../api";
+import { GetAllPaginated, ParamsForPagination } from "../../types";
 
 import { OrdemDeServico } from "./types";
 

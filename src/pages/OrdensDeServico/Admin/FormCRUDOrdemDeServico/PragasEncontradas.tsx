@@ -22,7 +22,7 @@ import { TextField } from "@/components/Form/Textfield";
 import {
   ComoEncontrado,
   OrdemDeServico,
-} from "@/services/OrdensDeServico/types";
+} from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType } from "@/services/types";
 
 import { Autocomplete } from "@/components/Form/Autocomplete";

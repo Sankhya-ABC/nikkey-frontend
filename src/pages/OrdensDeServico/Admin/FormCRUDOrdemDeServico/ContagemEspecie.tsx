@@ -11,7 +11,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 
 import { TextField } from "@/components/Form/Textfield";
-import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType } from "@/services/types";
 
 export const ContagemEspecie: React.FC = () => {

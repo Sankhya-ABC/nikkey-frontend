@@ -11,8 +11,8 @@ import { useState } from "react";
 
 import { Layout } from "@/components/Template/Layout";
 import { useAlert } from "@/hooks/useAlert";
-import { ordemDeServicoService } from "@/services/OrdensDeServico";
-import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { ordemDeServicoService } from "@/services/OrdemDeServico/Admin";
+import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType, ErrorMessage } from "@/services/types";
 
 import { ConsultaOrdemDeServico } from "./ConsultaOrdemDeServico";

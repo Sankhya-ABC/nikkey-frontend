@@ -21,7 +21,7 @@ import { DatePicker } from "@/components/Form/DatePicker";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
 import { equipamentoService } from "@/services/Equipamento";
-import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { produtoService } from "@/services/Produto";
 import { CRUDType } from "@/services/types";
 

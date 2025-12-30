@@ -10,8 +10,8 @@ import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useAlert } from "@/hooks/useAlert";
-import { ordemDeServicoService } from "@/services/OrdensDeServico";
-import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { ordemDeServicoService } from "@/services/OrdemDeServico/Admin";
+import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType, ErrorMessage } from "@/services/types";
 
 import { ConsumoProdutos } from "./ConsumoProdutos";

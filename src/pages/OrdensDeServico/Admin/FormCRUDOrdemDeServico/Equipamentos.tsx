@@ -5,7 +5,10 @@ import { useFormContext } from "react-hook-form";
 import { Select } from "@/components/Form/Select";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
-import { OrdemDeServico, TipoContagem } from "@/services/OrdensDeServico/types";
+import {
+  OrdemDeServico,
+  TipoContagem,
+} from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType } from "@/services/types";
 
 import { ContagemEspecie } from "./ContagemEspecie";

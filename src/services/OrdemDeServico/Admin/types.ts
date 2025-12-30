@@ -1,4 +1,4 @@
-import { CRUDType } from "../types";
+import { CRUDType } from "../../types";
 
 export enum ComoEncontrado {
   INDIVIDUOS_VIVOS = "Indivíduos Vivos",

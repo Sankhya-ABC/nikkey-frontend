@@ -9,8 +9,8 @@ import { Loading } from "@/components/Loading";
 import { Table } from "@/components/Table";
 import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
-import { ordemDeServicoService } from "@/services/OrdensDeServico";
-import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { ordemDeServicoService } from "@/services/OrdemDeServico/Admin";
+import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { ErrorMessage, GetAllPaginated } from "@/services/types";
 import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "@/utils/constants";
 
