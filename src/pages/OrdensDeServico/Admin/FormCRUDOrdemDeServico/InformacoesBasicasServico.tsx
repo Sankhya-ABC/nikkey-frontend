@@ -3,13 +3,16 @@ import { useFormContext } from "react-hook-form";
 
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
-
-import { OrdemDeServico } from "../types";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 export const InformacoesBasicasServico = () => {
+  // hooks
   const { control, watch } = useFormContext<OrdemDeServico>();
 
+  // variables
   const flagServicoRealizado = watch("flagServicoRealizado");
+  const formType = watch("formType");
 
   return (
     <Box>
@@ -19,6 +22,7 @@ export const InformacoesBasicasServico = () => {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
           <Switch
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="flagServicoRealizado"
             label="Serviço realizado?"
@@ -28,6 +32,7 @@ export const InformacoesBasicasServico = () => {
         {!flagServicoRealizado && (
           <Grid size={{ xs: 12 }}>
             <TextField
+              readOnly={formType === CRUDType.READ}
               control={control}
               name="motivoNaoRealizacao"
               label="Motivo da não realização"

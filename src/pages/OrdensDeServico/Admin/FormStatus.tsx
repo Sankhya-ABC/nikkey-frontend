@@ -7,21 +7,52 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-import { OrdemDeServico } from "./types";
+import { useAlert } from "@/hooks/useAlert";
+import { ordemDeServicoService } from "@/services/OrdensDeServico";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { ErrorMessage } from "@/services/types";
 
 interface FormStatusProps {
   open: boolean;
   handleClose: () => void;
   selected: OrdemDeServico | null;
-  handleToggle: () => void;
+  persistCallback: () => void;
 }
 
 export const FormStatus: React.FC<FormStatusProps> = ({
   open,
   handleClose,
   selected,
-  handleToggle,
+  persistCallback,
 }) => {
+  // hooks
+  const { showAlert } = useAlert();
+
+  // requests
+  const atualizarStatusOrdemDeServico = async () => {
+    try {
+      await ordemDeServicoService.atualizarStatusOrdemDeServico(
+        selected?.id! as number,
+      );
+      showAlert({
+        title: "Sucesso",
+        children: `Ordem de Serviço atualizada com sucesso!`,
+        severity: "success",
+        duration: 3000,
+      });
+      handleClose();
+      persistCallback();
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle color="primary" variant="h5" fontWeight="bold">
@@ -38,7 +69,7 @@ export const FormStatus: React.FC<FormStatusProps> = ({
         <Button variant="outlined" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="contained" onClick={handleToggle}>
+        <Button variant="contained" onClick={atualizarStatusOrdemDeServico}>
           {selected?.ativo ? "Desativar" : "Ativar"}
         </Button>
       </DialogActions>

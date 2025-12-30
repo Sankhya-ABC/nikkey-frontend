@@ -1,3 +1,5 @@
+import { CRUDType } from "../types";
+
 export enum ComoEncontrado {
   INDIVIDUOS_VIVOS = "Indivíduos Vivos",
   INDIVIDUOS_MORTOS = "Indivíduos Mortos",
@@ -132,6 +134,10 @@ export interface UploadEvidencias {
   uploads: File[];
 }
 
+export interface FrontendHelper {
+  formType?: CRUDType;
+}
+
 export type OrdemDeServico = InformacoesGerais &
   InformacoesBasicasServico &
   PragasEncontradas &
@@ -139,4 +145,5 @@ export type OrdemDeServico = InformacoesGerais &
   ConsumoProdutos &
   NaoConformidade &
   InformacoesAdicionais &
-  UploadEvidencias;
+  UploadEvidencias &
+  FrontendHelper;

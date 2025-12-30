@@ -11,15 +11,18 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 
 import { TextField } from "@/components/Form/Textfield";
-
-import { OrdemDeServico } from "../types";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 export const ContagemTotal: React.FC = () => {
+  // hooks
   const { control, watch } = useFormContext<OrdemDeServico>();
 
+  // variables
   const armadilhaLuminosaQuantidade = Number(
     watch("armadilhaLuminosa.quantidade"),
   );
+  const formType = watch("formType");
 
   return (
     armadilhaLuminosaQuantidade > 0 && (
@@ -39,6 +42,7 @@ export const ContagemTotal: React.FC = () => {
                 <TableRow key={index}>
                   <TableCell sx={{ width: "25%" }}>
                     <TextField
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name={`armadilhaLuminosa.contagem.${index}.identificacao`}
                       label={`${index + 1}`}
@@ -46,6 +50,7 @@ export const ContagemTotal: React.FC = () => {
                   </TableCell>
                   <TableCell sx={{ width: "25%" }}>
                     <TextField
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name={`armadilhaLuminosa.contagem.${index}.quantidade`}
                       label={`${index + 1}`}

@@ -19,18 +19,25 @@ import { useFormContext } from "react-hook-form";
 import { Select } from "@/components/Form/Select";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
-
-import { ComoEncontrado, OrdemDeServico } from "../types";
+import {
+  ComoEncontrado,
+  OrdemDeServico,
+} from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 import { listPragas } from "./provider";
 
 export const PragasEncontradas = () => {
+  // hooks
   const { control, watch, getValues, setValue } =
     useFormContext<OrdemDeServico>();
 
+  // variables
   const pragas = watch("pragas");
   const flagEvidenciasPragas = watch("flagEvidenciasOuFocosPragas");
+  const formType = watch("formType");
 
+  // handlers
   const handleAdd = () => {
     const actualList = getValues("pragas");
     actualList?.push({
@@ -48,6 +55,7 @@ export const PragasEncontradas = () => {
     setValue("pragas", actualList);
   };
 
+  // useEffects
   useEffect(() => {
     if (!flagEvidenciasPragas) {
       setValue("pragas", []);
@@ -62,6 +70,7 @@ export const PragasEncontradas = () => {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
           <Switch
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="flagEvidenciasOuFocosPragas"
             label="Evidências ou focos de pragas?"
@@ -88,6 +97,7 @@ export const PragasEncontradas = () => {
                         <TableCell sx={{ width: "25%" }}>
                           <Select
                             name={`pragas.${index}.idPraga`}
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             propertyLabel="descricao"
                             propertyValue="id"
@@ -97,6 +107,7 @@ export const PragasEncontradas = () => {
                         <TableCell sx={{ width: "25%" }}>
                           <Select
                             name={`pragas.${index}.comoEncontrado`}
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             propertyLabel="descricao"
                             propertyValue="id"
@@ -110,6 +121,7 @@ export const PragasEncontradas = () => {
                         </TableCell>
                         <TableCell sx={{ width: "25%" }}>
                           <TextField
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             name={`pragas.${index}.ondeEncontrado`}
                           />
@@ -118,16 +130,19 @@ export const PragasEncontradas = () => {
                           {getValues(`pragas.${index}.comoEncontrado`) !==
                             ComoEncontrado.FRAGMENTOS && (
                             <TextField
+                              readOnly={formType === CRUDType.READ}
                               control={control}
                               name={`pragas.${index}.quantidade`}
                             />
                           )}
                         </TableCell>
-                        <TableCell>
-                          <IconButton onClick={() => handleDelete(index)}>
-                            <Delete />
-                          </IconButton>
-                        </TableCell>
+                        {formType !== CRUDType.READ && (
+                          <TableCell>
+                            <IconButton onClick={() => handleDelete(index)}>
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        )}
                       </TableRow>
                     );
                   })}
@@ -137,7 +152,7 @@ export const PragasEncontradas = () => {
           </Grid>
         ) : null}
 
-        {flagEvidenciasPragas && (
+        {flagEvidenciasPragas && formType !== CRUDType.READ && (
           <Box>
             <Button
               variant="outlined"

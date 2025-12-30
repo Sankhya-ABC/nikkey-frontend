@@ -14,8 +14,8 @@ import React from "react";
 import { FieldPath, useFormContext } from "react-hook-form";
 
 import { TextField } from "@/components/Form/Textfield";
-
-import { OrdemDeServico } from "../types";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 interface QuantidadeIdentificacaoProps {
   title: string;
@@ -25,11 +25,14 @@ interface QuantidadeIdentificacaoProps {
 export const QuantidadeIdentificacao: React.FC<
   QuantidadeIdentificacaoProps
 > = ({ title, property }) => {
+  // hooks
   const { control, watch } = useFormContext<OrdemDeServico>();
 
+  // variables
   const iscagemMofoDeterioracaoQuantidade = Number(
     watch(`${property}.quantidade` as FieldPath<OrdemDeServico>),
   );
+  const formType = watch("formType");
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -39,6 +42,7 @@ export const QuantidadeIdentificacao: React.FC<
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
           <TextField
+            readOnly={formType === CRUDType.READ}
             control={control}
             name={`${property}.quantidade`}
             label="Quantidade"
@@ -62,6 +66,7 @@ export const QuantidadeIdentificacao: React.FC<
                       <TableRow key={index}>
                         <TableCell sx={{ width: "25%" }}>
                           <TextField
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             name={`${property}.identificacao.${index}`}
                             label={`${index + 1}`}

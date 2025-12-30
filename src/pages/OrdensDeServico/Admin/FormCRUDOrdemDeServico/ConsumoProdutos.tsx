@@ -20,18 +20,20 @@ import { DatePicker } from "@/components/Form/DatePicker";
 import { Select } from "@/components/Form/Select";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
-
-import { OrdemDeServico } from "../types";
-
-import { listEquipamentos, listProdutos } from "./provider";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 export const ConsumoProdutos = () => {
+  // hooks
   const { control, watch, getValues, setValue } =
     useFormContext<OrdemDeServico>();
 
+  // variables
   const consumo = watch("consumo");
   const flagConsumoProdutos = watch("flagConsumoProdutos");
+  const formType = watch("formType");
 
+  // handlers
   const handleAdd = () => {
     const actualList = getValues("consumo");
     actualList?.push({
@@ -51,6 +53,7 @@ export const ConsumoProdutos = () => {
     setValue("consumo", actualList);
   };
 
+  // useEffects
   useEffect(() => {
     if (!flagConsumoProdutos) {
       setValue("consumo", []);
@@ -65,6 +68,7 @@ export const ConsumoProdutos = () => {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
           <Switch
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="flagConsumoProdutos"
             label="Consumo de produtos?"
@@ -92,20 +96,23 @@ export const ConsumoProdutos = () => {
                         <TableCell sx={{ width: "40%" }}>
                           <Select
                             name={`consumo.${index}.idProduto`}
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             propertyLabel="descricao"
                             propertyValue="id"
-                            options={listProdutos}
+                            options={produtos}
                           />
                         </TableCell>
                         <TableCell sx={{ width: "40%" }}>
                           <TextField
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             name={`consumo.${index}.lote`}
                           />
                         </TableCell>
                         <TableCell>
                           <DatePicker
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             name={`consumo.${index}.validade`}
                           />
@@ -113,23 +120,27 @@ export const ConsumoProdutos = () => {
                         <TableCell sx={{ width: "20%" }}>
                           <Select
                             name={`consumo.${index}.idEquipamento`}
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             propertyLabel="descricao"
                             propertyValue="id"
-                            options={listEquipamentos}
+                            options={equipamentos}
                           />
                         </TableCell>
                         <TableCell>
                           <TextField
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             name={`consumo.${index}.quantidade`}
                           />
                         </TableCell>
-                        <TableCell>
-                          <IconButton onClick={() => handleDelete(index)}>
-                            <Delete />
-                          </IconButton>
-                        </TableCell>
+                        {formType !== CRUDType.READ && (
+                          <TableCell>
+                            <IconButton onClick={() => handleDelete(index)}>
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        )}
                       </TableRow>
                     );
                   })}
@@ -139,7 +150,7 @@ export const ConsumoProdutos = () => {
           </Grid>
         ) : null}
 
-        {flagConsumoProdutos && (
+        {flagConsumoProdutos && formType !== CRUDType.READ && (
           <Box>
             <Button
               variant="outlined"

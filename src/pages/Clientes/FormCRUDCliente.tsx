@@ -116,7 +116,7 @@ export const FormCRUDCliente: React.FC<FormCRUDClienteProps> = ({
 
   // useEffects
   useEffect(() => {
-    getAllEstados();
+    (async () => await getAllEstados())();
   }, []);
 
   useEffect(() => {

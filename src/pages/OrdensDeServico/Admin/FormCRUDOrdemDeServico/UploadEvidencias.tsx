@@ -4,13 +4,16 @@ import { useFormContext } from "react-hook-form";
 import { FileUpload } from "@/components/FileUpload";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
-
-import { OrdemDeServico } from "../types";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 export const UploadEvidencias = () => {
+  // hooks
   const { control, watch } = useFormContext<OrdemDeServico>();
 
+  // variables
   const flagUploadEvidencias = watch("flagUploadEvidencias");
+  const formType = watch("formType");
 
   return (
     <Box>
@@ -20,6 +23,7 @@ export const UploadEvidencias = () => {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
           <Switch
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="flagUploadEvidencias"
             label="Upload de evidências?"
@@ -39,6 +43,7 @@ export const UploadEvidencias = () => {
 
         <Grid size={{ xs: 12 }}>
           <TextField
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="observacoes"
             label="Observações"

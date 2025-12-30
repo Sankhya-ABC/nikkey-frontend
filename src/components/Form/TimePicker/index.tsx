@@ -22,6 +22,7 @@ interface ITimePickerProps extends IFormProps {
   disableFuture?: boolean;
   views?: ITimeView[];
   ampm?: boolean;
+  readOnly?: boolean;
 }
 
 export const TimePicker: React.FC<ITimePickerProps> = ({
@@ -36,6 +37,7 @@ export const TimePicker: React.FC<ITimePickerProps> = ({
   disableFuture,
   views,
   ampm = false,
+  readOnly,
 }) => {
   return (
     <Controller
@@ -68,6 +70,7 @@ export const TimePicker: React.FC<ITimePickerProps> = ({
                 helperText: error?.message ?? "",
               } as any,
             }}
+            readOnly={readOnly}
             onChange={(newValue) => {
               onChange(newValue);
             }}

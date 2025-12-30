@@ -1,36 +1,30 @@
-import { Add, Search } from "@mui/icons-material";
-import { Button, Grid, InputAdornment } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import {
+  //  Add, Edit,
+  Visibility,
+} from "@mui/icons-material";
+import PrintIcon from "@mui/icons-material/Print";
+import {
+  // Button, Switch
+  Grid,
+} from "@mui/material";
+import { useState } from "react";
 
-import { TextField } from "@/components/Form/Textfield";
-import { Loading } from "@/components/Loading";
 import { Layout } from "@/components/Template/Layout";
-import { CRUDType } from "@/services/types";
+import { useAlert } from "@/hooks/useAlert";
+import { ordemDeServicoService } from "@/services/OrdensDeServico";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType, ErrorMessage } from "@/services/types";
 
+import { ConsultaOrdemDeServico } from "./ConsultaOrdemDeServico";
 import { FormCRUDOrdemDeServico } from "./FormCRUDOrdemDeServico";
-import { FormStatus } from "./FormStatus";
-import { mockOrdensDeServico } from "./provider";
-import { TableOrdensDeServico } from "./TableOrdensDeServico";
-import { OrdemDeServico } from "./types";
-
-interface OrdemDeServicoSearch {
-  search: string;
-}
-
-const defaultValues: OrdemDeServicoSearch = {
-  search: "",
-};
+// import { FormStatus } from "./FormStatus";
 
 export const OrdensDeServicoAdmin = () => {
   // hooks
-  const { control, watch } = useForm<OrdemDeServicoSearch>({ defaultValues });
+  const { showAlert } = useAlert();
 
   // useStates
   // -- data
-  const [ordensDeServico, setOrdensDeServico] = useState(mockOrdensDeServico);
-  const [filteredOrdensDeServico, setFilteredOrdensDeServico] =
-    useState(mockOrdensDeServico);
   const [selectedOrdemDeServico, setSelectedOrdemDeServico] =
     useState<OrdemDeServico | null>(null);
 
@@ -38,39 +32,14 @@ export const OrdensDeServicoAdmin = () => {
   const [formType, setFormType] = useState<CRUDType>(CRUDType.CREATE);
 
   // -- modals
-  const [openFormStatus, setOpenFormStatus] = useState(false);
+  // const [openFormStatus, setOpenFormStatus] = useState(false);
   const [openFormCRUDOrdemDeServico, setOpenFormCRUDOrdemDeServico] =
     useState(false);
 
-  // -- search
-  const [loading, setLoading] = useState(false);
-  const search = watch("search");
-
   // -- table
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  // variables
-  const paginatedOrdensDeServico = filteredOrdensDeServico.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage,
-  );
+  const [resetConsulta, setResetConsulta] = useState<boolean>(false);
 
   // handlers
-
-  // -- table
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: any) => {
-    setRowsPerPage(parseInt(event?.target?.value, 10));
-    setPage(0);
-  };
-
   // -- crud modals
   const handleOpenFormCRUDOrdemDeServico = (
     crudType: CRUDType,
@@ -86,112 +55,104 @@ export const OrdensDeServicoAdmin = () => {
     setOpenFormCRUDOrdemDeServico(false);
   };
 
+  const persistCallback = async () => {
+    setResetConsulta(true);
+  };
+
   // -- status modal
-  const handleOpenFormStatus = (ordemDeServico?: OrdemDeServico | null) => {
-    setSelectedOrdemDeServico(ordemDeServico || null);
-    setOpenFormStatus(true);
-  };
+  // const handleOpenFormStatus = (ordemDeServico?: OrdemDeServico | null) => {
+  //   setSelectedOrdemDeServico(ordemDeServico || null);
+  //   setOpenFormStatus(true);
+  // };
 
-  const handleCloseFormStatus = () => {
-    setSelectedOrdemDeServico(null);
-    setOpenFormStatus(false);
-  };
+  // const handleCloseFormStatus = () => {
+  //   setSelectedOrdemDeServico(null);
+  //   setOpenFormStatus(false);
+  // };
 
-  const handleToggleOrdemDeServicoStatus = () => {
-    if (selectedOrdemDeServico) {
-      const updatedOrdensDeServico = ordensDeServico?.map((ordemDeServico) =>
-        ordemDeServico?.id === selectedOrdemDeServico.id
-          ? {
-              ...ordemDeServico,
-              ativo: !ordemDeServico?.ativo,
-            }
-          : ordemDeServico,
-      );
-      setOrdensDeServico(updatedOrdensDeServico);
-      handleCloseFormStatus();
+  // requests
+  const handleImprimir = async (id: number) => {
+    try {
+      await ordemDeServicoService.imprimirOrdemDeServicoPorId(id);
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
     }
   };
 
-  // useEffects
-  useEffect(() => {
-    const filtered = ordensDeServico.filter(
-      (ordemDeServico) =>
-        ordemDeServico?.cliente?.nome
-          ?.toLowerCase()
-          ?.includes(search?.toLowerCase()) ||
-        ordemDeServico?.tecnico?.nome
-          ?.toLowerCase()
-          ?.includes(search?.toLowerCase()),
-    );
-    setFilteredOrdensDeServico(filtered);
-    setPage(0);
-  }, [search, ordensDeServico]);
-
   return (
-    <Loading {...{ loading, setLoading }}>
-      <Layout title="Ordens de Serviço">
-        <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "end" }}>
-          <Button
-            variant="contained"
-            startIcon={<Add />}
-            onClick={() =>
-              handleOpenFormCRUDOrdemDeServico(CRUDType.CREATE, null)
-            }
-          >
-            Cadastrar
-          </Button>
-        </Grid>
+    <Layout title="Ordens de Serviço">
+      {/* <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "end" }}>
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          onClick={() => handleOpenFormCRUDOrdemDeServico(CRUDType.CREATE, null)}
+        >
+          Cadastrar
+        </Button>
+      </Grid> */}
 
-        <Grid size={{ xs: 12 }}>
-          <TextField
-            control={control}
-            name="search"
-            TextFieldProps={{
-              InputProps: {
-                placeholder: "Pesquisar por cliente ou técnico...",
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12 }}>
-          <TableOrdensDeServico
-            {...{
-              paginatedList: paginatedOrdensDeServico,
-              handleOpenFormCRUD: handleOpenFormCRUDOrdemDeServico,
-              handleOpenFormStatus,
-              filteredList: filteredOrdensDeServico,
-              rowsPerPage,
-              page,
-              handleChangePage,
-              handleChangeRowsPerPage,
-            }}
-          />
-        </Grid>
-
-        <FormCRUDOrdemDeServico
-          {...{
-            open: openFormCRUDOrdemDeServico,
-            handleClose: handleCloseFormCRUDOrdemDeServico,
-            selected: selectedOrdemDeServico,
-            formType,
-          }}
+      <Grid size={{ xs: 12 }}>
+        <ConsultaOrdemDeServico
+          resetConsulta={resetConsulta}
+          setResetConsulta={setResetConsulta}
+          actions={[
+            {
+              tooltip: "Visualizar",
+              element: <Visibility />,
+              onClick: (ordemDeServico: OrdemDeServico) =>
+                handleOpenFormCRUDOrdemDeServico(CRUDType.READ, ordemDeServico),
+            },
+            // {
+            //   tooltip: "Editar",
+            //   element: <Edit />,
+            //   onClick: (ordemDeServico: OrdemDeServico) =>
+            //     handleOpenFormCRUDOrdemDeServico(CRUDType.UPDATE, ordemDeServico),
+            // },
+            {
+              tooltip: "Imprimir",
+              element: <PrintIcon />,
+              onClick: (ordemDeServico: OrdemDeServico) =>
+                handleImprimir(ordemDeServico?.id! as number),
+            },
+            // {
+            //   tooltip: (ordemDeServico: OrdemDeServico) =>
+            //     ordemDeServico?.ativo ? "Desativar" : "Ativar",
+            //   element: (ordemDeServico: OrdemDeServico) => (
+            //     <Switch
+            //       checked={ordemDeServico?.ativo}
+            //       onChange={() => handleOpenFormStatus(ordemDeServico)}
+            //       color={ordemDeServico?.ativo ? "success" : "default"}
+            //     />
+            //   ),
+            // },
+          ]}
         />
+      </Grid>
 
-        <FormStatus
-          {...{
-            open: openFormStatus,
-            handleClose: handleCloseFormStatus,
-            selected: selectedOrdemDeServico,
-            handleToggle: handleToggleOrdemDeServicoStatus,
-          }}
-        />
-      </Layout>
-    </Loading>
+      <FormCRUDOrdemDeServico
+        {...{
+          open: openFormCRUDOrdemDeServico,
+          handleClose: handleCloseFormCRUDOrdemDeServico,
+          selected: selectedOrdemDeServico,
+          formType,
+          persistCallback,
+        }}
+      />
+
+      {/* <FormStatus
+        {...{
+          open: openFormStatus,
+          handleClose: handleCloseFormStatus,
+          selected: selectedOrdemDeServico,
+          persistCallback,
+        }}
+      /> */}
+    </Layout>
   );
 };

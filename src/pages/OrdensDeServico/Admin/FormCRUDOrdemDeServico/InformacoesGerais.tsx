@@ -6,13 +6,17 @@ import { Select } from "@/components/Form/Select";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
 import { TimePicker } from "@/components/Form/TimePicker";
-
-import { OrdemDeServico } from "../types";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 import { listClientes, listTecnicos } from "./provider";
 
 export const InformacoesGerais = () => {
-  const { control } = useFormContext<OrdemDeServico>();
+  // hooks
+  const { control, watch } = useFormContext<OrdemDeServico>();
+
+  // variables
+  const formType = watch("formType");
 
   return (
     <Box>
@@ -24,6 +28,7 @@ export const InformacoesGerais = () => {
           <Select
             label="Cliente"
             name="informacoesGerais.cliente.id"
+            readOnly={formType === CRUDType.READ}
             control={control}
             propertyLabel="nome"
             propertyValue="id"
@@ -35,6 +40,7 @@ export const InformacoesGerais = () => {
           <Select
             label="Técnico"
             name="informacoesGerais.tecnico.id"
+            readOnly={formType === CRUDType.READ}
             control={control}
             propertyLabel="nome"
             propertyValue="id"
@@ -46,6 +52,7 @@ export const InformacoesGerais = () => {
           <DatePicker
             label="Data Visita"
             name="informacoesGerais.data.data"
+            readOnly={formType === CRUDType.READ}
             control={control}
           />
         </Grid>
@@ -54,6 +61,7 @@ export const InformacoesGerais = () => {
           <TimePicker
             label="Hora início"
             name="informacoesGerais.data.horaInicio"
+            readOnly={formType === CRUDType.READ}
             control={control}
           />
         </Grid>
@@ -62,12 +70,14 @@ export const InformacoesGerais = () => {
           <TimePicker
             label="Hora final"
             name="informacoesGerais.data.horaFinal"
+            readOnly={formType === CRUDType.READ}
             control={control}
           />
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
           <TextField
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="informacoesGerais.responsavel.nome"
             label="Nome do Responsável"
@@ -76,6 +86,7 @@ export const InformacoesGerais = () => {
 
         <Grid size={{ xs: 12, md: 6 }}>
           <TextField
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="informacoesGerais.responsavel.cargo"
             label="Cargo do Responsável"
@@ -84,6 +95,7 @@ export const InformacoesGerais = () => {
 
         <Grid size={{ xs: 12 }}>
           <Switch
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="informacoesGerais.flagPossuiVisitaPendente"
             label="Possui visita pendente?"

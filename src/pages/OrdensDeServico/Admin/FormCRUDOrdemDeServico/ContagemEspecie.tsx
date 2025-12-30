@@ -11,15 +11,18 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 
 import { TextField } from "@/components/Form/Textfield";
-
-import { OrdemDeServico } from "../types";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 export const ContagemEspecie: React.FC = () => {
+  // hooks
   const { control, watch } = useFormContext<OrdemDeServico>();
 
+  // variables
   const armadilhaLuminosaQuantidade = Number(
     watch("armadilhaLuminosa.quantidade"),
   );
+  const formType = watch("formType");
 
   return (
     armadilhaLuminosaQuantidade > 0 && (
@@ -43,6 +46,7 @@ export const ContagemEspecie: React.FC = () => {
                 <TableRow key={index}>
                   <TableCell>
                     <TextField
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name={`armadilhaLuminosa.contagem.identificacao.${index}`}
                       label={`${index + 1}`}
@@ -50,6 +54,7 @@ export const ContagemEspecie: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <TextField
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name={`armadilhaLuminosa.contagem.mosca${index}`}
                       label="Qtd"
@@ -58,6 +63,7 @@ export const ContagemEspecie: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <TextField
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name={`armadilhaLuminosa.contagem.mosca${index}`}
                       label="Qtd"
@@ -66,6 +72,7 @@ export const ContagemEspecie: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <TextField
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name={`armadilhaLuminosa.contagem.mosca${index}`}
                       label="Qtd"
@@ -74,6 +81,7 @@ export const ContagemEspecie: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <TextField
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name={`armadilhaLuminosa.contagem.mosca${index}`}
                       label="Qtd"
@@ -82,6 +90,7 @@ export const ContagemEspecie: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <TextField
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name={`armadilhaLuminosa.contagem.mosca${index}`}
                       label="Qtd"

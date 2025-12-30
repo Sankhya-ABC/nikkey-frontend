@@ -5,16 +5,18 @@ import { useFormContext } from "react-hook-form";
 import { Select } from "@/components/Form/Select";
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
-
-import { OrdemDeServico, TipoContagem } from "../types";
+import { OrdemDeServico, TipoContagem } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 import { ContagemEspecie } from "./ContagemEspecie";
 import { ContagemTotal } from "./ContagemTotal";
 import { QuantidadeIdentificacao } from "./QuantidadeIdentificacao";
 
 export const Equipamentos: React.FC = () => {
+  // hooks
   const { control, watch } = useFormContext<OrdemDeServico>();
 
+  // variables
   const flagRevisaoEquipamentos = watch("flagRevisaoEquipamentos");
   const flagIscagem = watch("iscagem.flag");
   const flagPlacaCola = watch("placaColaArmadilhaMecanica.flag");
@@ -27,6 +29,7 @@ export const Equipamentos: React.FC = () => {
   const armadilhaLuminosaQuantidade = Number(
     watch("armadilhaLuminosa.quantidade"),
   );
+  const formType = watch("formType");
 
   return (
     <Box>
@@ -36,6 +39,7 @@ export const Equipamentos: React.FC = () => {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
           <Switch
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="flagRevisaoEquipamentos"
             label="Revisão de equipamentos?"
@@ -59,6 +63,7 @@ export const Equipamentos: React.FC = () => {
                 <Grid container spacing={2}>
                   <Grid size={{ xs: 12 }}>
                     <Switch
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name="iscagem.flag"
                       label="Iscagem ativa?"
@@ -69,6 +74,7 @@ export const Equipamentos: React.FC = () => {
                     <>
                       <Grid size={{ xs: 12, md: 6 }}>
                         <TextField
+                          readOnly={formType === CRUDType.READ}
                           control={control}
                           name="iscagem.quantidade"
                           label="Quantidade"
@@ -118,6 +124,7 @@ export const Equipamentos: React.FC = () => {
                 <Grid container spacing={2}>
                   <Grid size={{ xs: 12 }}>
                     <Switch
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name="placaColaArmadilhaMecanica.flag"
                       label="Placa cola/armadilha mecânica ativa?"
@@ -128,6 +135,7 @@ export const Equipamentos: React.FC = () => {
                     <>
                       <Grid size={{ xs: 12, md: 6 }}>
                         <TextField
+                          readOnly={formType === CRUDType.READ}
                           control={control}
                           name="placaColaArmadilhaMecanica.quantidade"
                           label="Quantidade"
@@ -177,6 +185,7 @@ export const Equipamentos: React.FC = () => {
                 <Grid container spacing={2}>
                   <Grid size={{ xs: 12 }}>
                     <Switch
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name="armadilhaLuminosa.flag"
                       label="Armadilha luminosa ativa?"
@@ -187,6 +196,7 @@ export const Equipamentos: React.FC = () => {
                     <>
                       <Grid size={{ xs: 12, md: 6 }}>
                         <TextField
+                          readOnly={formType === CRUDType.READ}
                           control={control}
                           name="armadilhaLuminosa.quantidade"
                           label="Quantidade"
@@ -198,6 +208,7 @@ export const Equipamentos: React.FC = () => {
                         <>
                           <Grid size={{ xs: 12 }}>
                             <Switch
+                              readOnly={formType === CRUDType.READ}
                               control={control}
                               name="armadilhaLuminosa.flagClienteExigeContagemInsetosPorArmadilha"
                               label="Cliente exige contagem de insetos por armadilha?"
@@ -210,6 +221,7 @@ export const Equipamentos: React.FC = () => {
                                 <Select
                                   label="Tipo de Contagem"
                                   name="armadilhaLuminosa.tipoContagem"
+                                  readOnly={formType === CRUDType.READ}
                                   control={control}
                                   propertyLabel="descricao"
                                   propertyValue="id"
@@ -263,6 +275,7 @@ export const Equipamentos: React.FC = () => {
                 <Grid container spacing={2}>
                   <Grid size={{ xs: 12 }}>
                     <Switch
+                      readOnly={formType === CRUDType.READ}
                       control={control}
                       name="armadilhaFeromonio.flag"
                       label="Armadilha feromônio ativa?"
@@ -273,6 +286,7 @@ export const Equipamentos: React.FC = () => {
                     <>
                       <Grid size={{ xs: 12, md: 6 }}>
                         <TextField
+                          readOnly={formType === CRUDType.READ}
                           control={control}
                           name="armadilhaFeromonio.quantidade"
                           label="Quantidade"

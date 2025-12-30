@@ -20,6 +20,7 @@ interface IDatePickerProps extends IFormProps {
   views?: IViews[];
   disablePast?: boolean;
   fullWidth?: boolean;
+  readOnly?: boolean;
 }
 
 export const DatePicker: React.FC<IDatePickerProps> = ({
@@ -33,6 +34,7 @@ export const DatePicker: React.FC<IDatePickerProps> = ({
   views,
   disablePast,
   fullWidth = true,
+  readOnly,
 }) => {
   return (
     <Controller
@@ -63,6 +65,7 @@ export const DatePicker: React.FC<IDatePickerProps> = ({
                 helperText: error?.message ?? "",
               } as any,
             }}
+            readOnly={readOnly}
             onChange={(newValue) => {
               onChange(newValue);
             }}

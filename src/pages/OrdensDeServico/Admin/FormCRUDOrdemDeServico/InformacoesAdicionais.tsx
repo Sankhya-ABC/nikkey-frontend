@@ -18,16 +18,20 @@ import { useFormContext } from "react-hook-form";
 
 import { Switch } from "@/components/Form/Switch";
 import { TextField } from "@/components/Form/Textfield";
-
-import { OrdemDeServico } from "../types";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType } from "@/services/types";
 
 export const InformacoesAdicionais = () => {
+  // hooks
   const { control, watch, getValues, setValue } =
     useFormContext<OrdemDeServico>();
 
+  // variables
   const naoConformidades = watch("naoConformidades.naoConformidades");
   const flagNaoConformidades = watch("naoConformidades.flag");
+  const formType = watch("formType");
 
+  // handlers
   const handleAdd = () => {
     const actualList = getValues("naoConformidades.naoConformidades");
     actualList?.push({
@@ -44,6 +48,7 @@ export const InformacoesAdicionais = () => {
     setValue("naoConformidades.naoConformidades", actualList);
   };
 
+  // useEffects
   useEffect(() => {
     if (!flagNaoConformidades) {
       setValue("naoConformidades.naoConformidades", []);
@@ -58,6 +63,7 @@ export const InformacoesAdicionais = () => {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
           <Switch
+            readOnly={formType === CRUDType.READ}
             control={control}
             name="naoConformidades.flag"
             label="Não conformidades?"
@@ -82,27 +88,32 @@ export const InformacoesAdicionais = () => {
                       <TableRow key={index}>
                         <TableCell>
                           <TextField
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             name={`naoConformidades.naoConformidades.${index}.areaLocal`}
                           />
                         </TableCell>
                         <TableCell>
                           <TextField
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             name={`naoConformidades.naoConformidades.${index}.naoConformidade`}
                           />
                         </TableCell>
                         <TableCell>
                           <TextField
+                            readOnly={formType === CRUDType.READ}
                             control={control}
                             name={`naoConformidades.naoConformidades.${index}.acaoSugerida`}
                           />
                         </TableCell>
-                        <TableCell>
-                          <IconButton onClick={() => handleDelete(index)}>
-                            <Delete />
-                          </IconButton>
-                        </TableCell>
+                        {formType !== CRUDType.READ && (
+                          <TableCell>
+                            <IconButton onClick={() => handleDelete(index)}>
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        )}
                       </TableRow>
                     );
                   })}
@@ -112,7 +123,7 @@ export const InformacoesAdicionais = () => {
           </Grid>
         ) : null}
 
-        {flagNaoConformidades && (
+        {flagNaoConformidades && formType !== CRUDType.READ && (
           <Box>
             <Button
               variant="outlined"

@@ -6,12 +6,13 @@ import {
   DialogTitle,
   Grid,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { CRUDType } from "@/services/types";
-
-import { OrdemDeServico } from "../types";
+import { useAlert } from "@/hooks/useAlert";
+import { ordemDeServicoService } from "@/services/OrdensDeServico";
+import { OrdemDeServico } from "@/services/OrdensDeServico/types";
+import { CRUDType, ErrorMessage } from "@/services/types";
 
 import { ConsumoProdutos } from "./ConsumoProdutos";
 import { Equipamentos } from "./Equipamentos";
@@ -26,6 +27,7 @@ interface FormCRUDOrdemDeServicoProps {
   handleClose: () => void;
   formType: CRUDType;
   selected: OrdemDeServico | null;
+  persistCallback: () => Promise<void>;
 }
 
 const defaultValues: OrdemDeServico = {
@@ -136,11 +138,42 @@ export const FormCRUDOrdemDeServico: React.FC<FormCRUDOrdemDeServicoProps> = ({
   handleClose,
   formType,
   selected,
+  persistCallback,
 }) => {
+  // hooks
   const methods = useForm<OrdemDeServico>({ defaultValues });
-  const { reset, watch } = methods;
+  const { showAlert } = useAlert();
 
+  // variables
+  const { reset, watch, handleSubmit } = methods;
   const flagServicoRealizado = watch("flagServicoRealizado");
+
+  // requests
+  const onSubmit = async (data: OrdemDeServico) => {
+    try {
+      if (formType === CRUDType.CREATE) {
+        await ordemDeServicoService.criarOrdemDeServico(data);
+      } else {
+        await ordemDeServicoService.atualizarOrdemDeServico(data);
+      }
+      handleClose();
+      persistCallback();
+      showAlert({
+        title: "Sucesso",
+        children: `Ordem de Serviço ${formType === CRUDType.CREATE ? "criada" : "atualizada"} com sucesso!`,
+        severity: "success",
+        duration: 3000,
+      });
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
+    }
+  };
 
   useEffect(() => {
     if (formType === CRUDType.UPDATE || formType === CRUDType.READ) {
@@ -195,7 +228,7 @@ export const FormCRUDOrdemDeServico: React.FC<FormCRUDOrdemDeServicoProps> = ({
           <Button variant="outlined" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" onClick={() => handleSubmit(onSubmit)()}>
             {formType === CRUDType.CREATE && "Cadastrar"}
             {formType === CRUDType.UPDATE && "Editar"}
           </Button>
