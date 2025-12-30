@@ -43,3 +43,15 @@ export interface Dominio {
   id: number | null | "";
   descricao: string;
 }
+
+export enum Status {
+  PENDENTE = "PENDENTE",
+  REALIZADO = "REALIZADO",
+  CANCELADO = "CANCELADO",
+}
+
+export const StatusColors: Record<Status, string> = {
+  [Status.PENDENTE]: "warning",
+  [Status.REALIZADO]: "success",
+  [Status.CANCELADO]: "error",
+};
