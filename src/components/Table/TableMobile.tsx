@@ -6,6 +6,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { Fragment } from "react";
 
 import { TableProps } from "./types";
 
@@ -34,20 +35,24 @@ export const TableMobile = <T,>({
               borderRadius: `0px 0px 8px 8px`,
             }}
           >
-            {headers?.map((header, index) =>
-              header?.totalCustomElement ? (
-                header?.totalCustomElement
-              ) : (
-                <Typography sx={{ ...header?.elementStyle }} key={index}>
-                  <strong>{header?.text}: </strong>
-                  {header?.value(data)}
-                </Typography>
-              ),
-            )}
+            {headers?.map((header, headerValueIndex) => (
+              <Fragment
+                key={`header-value-${itemId(data)}-${headerValueIndex}`}
+              >
+                {header?.totalCustomElement ? (
+                  header?.totalCustomElement
+                ) : (
+                  <Typography sx={{ ...header?.elementStyle }}>
+                    <strong>{header?.text}: </strong>
+                    {header?.value(data)}
+                  </Typography>
+                )}
+              </Fragment>
+            ))}
 
             {actions && actions.length > 0 && (
               <Box mt={1}>
-                {actions?.map((action, index) => {
+                {actions?.map((action, actionIndex) => {
                   return (
                     <Tooltip
                       title={
@@ -55,7 +60,7 @@ export const TableMobile = <T,>({
                           ? action?.tooltip(data)
                           : action?.tooltip
                       }
-                      key={index}
+                      key={`actions-${itemId(data)}-${actionIndex}`}
                       arrow
                       placement="top"
                     >

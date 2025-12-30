@@ -39,7 +39,7 @@ export const ContagemEspecie: React.FC = () => {
               length: armadilhaLuminosaQuantidade,
             })?.map((_data, index) => {
               return (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell>
                     <TextField
                       control={control}

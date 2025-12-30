@@ -87,7 +87,7 @@ export const ConsumoProdutos = () => {
                 <TableBody>
                   {consumo?.map((_data, index) => {
                     return (
-                      <TableRow>
+                      <TableRow key={index}>
                         <TableCell sx={{ width: "40%" }}>
                           <Select
                             name={`consumo.${index}.idProduto`}

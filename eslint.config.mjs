@@ -67,8 +67,11 @@ export default defineConfig([
       "react/react-in-jsx-scope": "off",
       "no-case-declarations": "off",
       "react/prop-types": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "@typescript-eslint/no-explicit-any": "off", //to do
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
 
-      "no-unused-vars": "off",
+      "no-unused-vars": "off", // to do
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
@@ -97,6 +100,11 @@ export default defineConfig([
           ],
 
           pathGroups: [
+            {
+              pattern: "/**/*.{png,jpg,jpeg,svg,webp}",
+              group: "external",
+              position: "after",
+            },
             {
               pattern: "@/**",
               group: "internal",

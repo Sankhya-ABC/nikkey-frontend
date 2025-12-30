@@ -28,14 +28,14 @@ export const TableDesktop = <T,>({
         <Table stickyHeader aria-label="tabela de clientes">
           <TableHead>
             <TableRow>
-              {headers?.map((header, index) => (
+              {headers?.map((header, headerIndex) => (
                 <TableCell
                   sx={{
                     backgroundColor: "primary.main",
                     color: "primary.contrastText",
                     ...header?.elementStyle,
                   }}
-                  key={index}
+                  key={`column-${headerIndex}`}
                   align={header?.columnAlignment}
                 >
                   {header?.totalCustomElement
@@ -65,13 +65,17 @@ export const TableDesktop = <T,>({
             ) : (
               list?.map((data) => {
                 return (
-                  <TableRow key={itemId(data)} hover>
-                    {headers?.map((header) => {
-                      return <TableCell>{header?.value(data)}</TableCell>;
+                  <TableRow key={`row-${itemId(data)}`} hover>
+                    {headers?.map((header, cellIndex) => {
+                      return (
+                        <TableCell key={`cell-${itemId(data)}-${cellIndex}`}>
+                          {header?.value(data)}
+                        </TableCell>
+                      );
                     })}
                     {actions && actions.length > 0 && (
                       <TableCell align="center">
-                        {actions?.map((action, index) => {
+                        {actions?.map((action, actionIndex) => {
                           return (
                             <Tooltip
                               title={
@@ -79,7 +83,7 @@ export const TableDesktop = <T,>({
                                   ? action?.tooltip(data)
                                   : action?.tooltip
                               }
-                              key={index}
+                              key={`actions-${itemId(data)}-${actionIndex}`}
                               arrow
                               placement="top"
                             >

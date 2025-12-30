@@ -27,13 +27,15 @@ export const TextField: React.FC<ITextFieldProps> = ({
   readOnly,
   autoComplete = true,
 }) => {
+  const uniqueName = React.useRef(
+    `field-${Math.random().toString(36).substring(2, 11)}`,
+  ).current;
+
   const autoCompleteProps = autoComplete
     ? {
         autoComplete: "new-password",
         autoCorrect: "off",
-        name: React.useRef(
-          `field-${Math.random().toString(36).substring(2, 11)}`,
-        ).current,
+        name: uniqueName,
       }
     : {};
 

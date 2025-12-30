@@ -83,7 +83,7 @@ export const PragasEncontradas = () => {
                 <TableBody>
                   {pragas?.map((_data, index) => {
                     return (
-                      <TableRow>
+                      <TableRow key={index}>
                         <TableCell sx={{ width: "25%" }}>
                           <Select
                             name={`pragas.${index}.idPraga`}

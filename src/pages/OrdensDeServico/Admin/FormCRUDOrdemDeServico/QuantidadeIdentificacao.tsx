@@ -58,7 +58,7 @@ export const QuantidadeIdentificacao: React.FC<
                     length: iscagemMofoDeterioracaoQuantidade,
                   })?.map((_data, index) => {
                     return (
-                      <TableRow>
+                      <TableRow key={index}>
                         <TableCell sx={{ width: "25%" }}>
                           <TextField
                             control={control}

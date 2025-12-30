@@ -17,16 +17,20 @@ export const App: React.FC = () => {
             <Routes>
               <Route element={<Template />}>
                 {routes.map(
-                  ({
-                    path,
-                    element,
-                    isProtected,
-                    requiredRole,
-                    requiredAnyRole,
-                  }) => {
+                  (
+                    {
+                      path,
+                      element,
+                      isProtected,
+                      requiredRole,
+                      requiredAnyRole,
+                    },
+                    index,
+                  ) => {
                     return (
                       <Route
                         path={path}
+                        key={index}
                         element={
                           isProtected ? (
                             <ProtectedRoute

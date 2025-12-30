@@ -1,6 +1,12 @@
-import { Add, Edit, Visibility } from "@mui/icons-material";
+import {
+  //  Add, Edit,
+  Visibility,
+} from "@mui/icons-material";
 import LoginIcon from "@mui/icons-material/Login";
-import { Button, Grid, Switch } from "@mui/material";
+import {
+  // Button, Switch
+  Grid,
+} from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -13,7 +19,7 @@ import { usuarioService } from "../../services/Usuarios";
 
 import { ConsultaCliente } from "./ConsultaCliente";
 import { FormCRUDCliente } from "./FormCRUDCliente";
-import { FormStatus } from "./FormStatus";
+// import { FormStatus } from "./FormStatus";
 
 export const Clientes = () => {
   // hooks
@@ -28,7 +34,7 @@ export const Clientes = () => {
   const [formType, setFormType] = useState<CRUDType>(CRUDType.CREATE);
 
   // -- modals
-  const [openFormStatus, setOpenFormStatus] = useState(false);
+  // const [openFormStatus, setOpenFormStatus] = useState(false);
   const [openFormCRUDCliente, setOpenFormCRUDCliente] = useState(false);
 
   // -- table
@@ -55,15 +61,15 @@ export const Clientes = () => {
   };
 
   // -- status modal
-  const handleOpenFormStatus = (cliente?: Cliente | null) => {
-    setSelectedCliente(cliente || null);
-    setOpenFormStatus(true);
-  };
+  // const handleOpenFormStatus = (cliente?: Cliente | null) => {
+  //   setSelectedCliente(cliente || null);
+  //   setOpenFormStatus(true);
+  // };
 
-  const handleCloseFormStatus = () => {
-    setSelectedCliente(null);
-    setOpenFormStatus(false);
-  };
+  // const handleCloseFormStatus = () => {
+  //   setSelectedCliente(null);
+  //   setOpenFormStatus(false);
+  // };
 
   // -- impersonate
   const handleAcessarComo = async (id: number) => {
@@ -136,14 +142,14 @@ export const Clientes = () => {
         }}
       />
 
-      <FormStatus
+      {/* <FormStatus
         {...{
           open: openFormStatus,
           handleClose: handleCloseFormStatus,
           selected: selectedCliente,
           persistCallback,
         }}
-      />
+      /> */}
     </Layout>
   );
 };

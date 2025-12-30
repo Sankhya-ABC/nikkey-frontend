@@ -78,7 +78,7 @@ export const InformacoesAdicionais = () => {
                 <TableBody>
                   {naoConformidades?.map((_data, index) => {
                     return (
-                      <TableRow>
+                      <TableRow key={index}>
                         <TableCell>
                           <TextField
                             control={control}

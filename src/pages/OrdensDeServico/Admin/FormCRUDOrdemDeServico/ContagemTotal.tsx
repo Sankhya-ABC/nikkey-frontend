@@ -35,7 +35,7 @@ export const ContagemTotal: React.FC = () => {
               length: armadilhaLuminosaQuantidade,
             })?.map((_data, index) => {
               return (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell sx={{ width: "25%" }}>
                     <TextField
                       control={control}
