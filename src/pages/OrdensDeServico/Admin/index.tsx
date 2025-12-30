@@ -11,7 +11,7 @@ import { useState } from "react";
 
 import { Layout } from "@/components/Template/Layout";
 import { useAlert } from "@/hooks/useAlert";
-import { ordemDeServicoService } from "@/services/OrdemDeServico/Admin";
+import { ordemDeServicoAdminService } from "@/services/OrdemDeServico/Admin";
 import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType, ErrorMessage } from "@/services/types";
 
@@ -73,7 +73,7 @@ export const OrdensDeServicoAdmin = () => {
   // requests
   const handleImprimir = async (id: number) => {
     try {
-      await ordemDeServicoService.imprimirOrdemDeServicoPorId(id);
+      await ordemDeServicoAdminService.imprimirOrdemDeServicoPorId(id);
     } catch (error) {
       const err = error as ErrorMessage;
       showAlert({

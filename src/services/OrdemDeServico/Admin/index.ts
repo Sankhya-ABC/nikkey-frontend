@@ -5,7 +5,7 @@ import { GetAllPaginated, ParamsForPagination } from "../../types";
 
 import { OrdemDeServico } from "./types";
 
-class OrdemDeServicoService {
+class OrdemDeServicoAdminService {
   async criarOrdemDeServico(
     ordemDeServico: Omit<OrdemDeServico, "id">,
   ): Promise<OrdemDeServico> {
@@ -111,4 +111,4 @@ class OrdemDeServicoService {
   }
 }
 
-export const ordemDeServicoService = new OrdemDeServicoService();
+export const ordemDeServicoAdminService = new OrdemDeServicoAdminService();

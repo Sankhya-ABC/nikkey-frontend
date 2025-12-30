@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 
 import { useAlert } from "@/hooks/useAlert";
-import { ordemDeServicoService } from "@/services/OrdemDeServico/Admin";
+import { ordemDeServicoAdminService } from "@/services/OrdemDeServico/Admin";
 import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { ErrorMessage } from "@/services/types";
 
@@ -31,7 +31,7 @@ export const FormStatus: React.FC<FormStatusProps> = ({
   // requests
   const atualizarStatusOrdemDeServico = async () => {
     try {
-      await ordemDeServicoService.atualizarStatusOrdemDeServico(
+      await ordemDeServicoAdminService.atualizarStatusOrdemDeServico(
         selected?.id! as number,
       );
       showAlert({

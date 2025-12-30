@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useAlert } from "@/hooks/useAlert";
-import { ordemDeServicoService } from "@/services/OrdemDeServico/Admin";
+import { ordemDeServicoAdminService } from "@/services/OrdemDeServico/Admin";
 import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType, ErrorMessage } from "@/services/types";
 
@@ -152,9 +152,9 @@ export const FormCRUDOrdemDeServico: React.FC<FormCRUDOrdemDeServicoProps> = ({
   const onSubmit = async (data: OrdemDeServico) => {
     try {
       if (formType === CRUDType.CREATE) {
-        await ordemDeServicoService.criarOrdemDeServico(data);
+        await ordemDeServicoAdminService.criarOrdemDeServico(data);
       } else {
-        await ordemDeServicoService.atualizarOrdemDeServico(data);
+        await ordemDeServicoAdminService.atualizarOrdemDeServico(data);
       }
       handleClose();
       persistCallback();

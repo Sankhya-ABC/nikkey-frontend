@@ -9,7 +9,7 @@ import { Loading } from "@/components/Loading";
 import { Table } from "@/components/Table";
 import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
-import { ordemDeServicoService } from "@/services/OrdemDeServico/Admin";
+import { ordemDeServicoAdminService } from "@/services/OrdemDeServico/Admin";
 import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { ErrorMessage, GetAllPaginated } from "@/services/types";
 import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "@/utils/constants";
@@ -79,7 +79,7 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
   ) => {
     setLoading(true);
     try {
-      const resp = await ordemDeServicoService.buscarTodasOrdensDeServico({
+      const resp = await ordemDeServicoAdminService.buscarTodasOrdensDeServico({
         per_page,
         page: page + 1,
         search,

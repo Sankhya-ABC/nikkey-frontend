@@ -10,10 +10,9 @@ import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
 import { cronogramaDeVisitaService } from "@/services/CronogramaDeVisita";
 import { CronogramaDeVisita } from "@/services/CronogramaDeVisita/types";
-import { ErrorMessage, GetAllPaginated } from "@/services/types";
+import { ErrorMessage, GetAllPaginated, StatusColors } from "@/services/types";
 import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "@/utils/constants";
 import { format } from "date-fns";
-import { StatusColors } from "../OrdensDeServico/Common/types";
 
 interface CronogramaDeVisitaSearch {
   search: string;
