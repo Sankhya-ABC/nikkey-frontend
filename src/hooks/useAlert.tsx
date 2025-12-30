@@ -75,12 +75,13 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
 
       <Box
         sx={{
-          position: "fixed",
+          position: "absolute",
           top: 16,
-          right: 16,
-          zIndex: 1400,
-          width: "100%",
-          maxWidth: 420,
+          left: `50%`,
+          transform: "translateX(-50%)",
+          zIndex: (theme) => theme.zIndex.snackbar,
+          width: "auto",
+          maxWidth: "90%",
         }}
       >
         <Collapse in={Boolean(alert?.open)}>
