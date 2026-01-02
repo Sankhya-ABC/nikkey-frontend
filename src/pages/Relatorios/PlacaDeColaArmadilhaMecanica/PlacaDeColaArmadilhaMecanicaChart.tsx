@@ -25,6 +25,7 @@ import {
 import { CardInfo } from "../components/CardInfo";
 
 import { FormRelatorio } from "./types";
+import { Payload } from "recharts/types/component/DefaultTooltipContent";
 
 interface ChartData {
   date: string;
@@ -129,7 +130,10 @@ export const PlacaDeColaArmadilhaMecanicaChart = () => {
     }
   };
 
-  const formatTooltipLabel = (label: string, payload: any[]) => {
+  const formatTooltipLabel = (
+    label: any,
+    payload: readonly Payload<number, "Unidade">[],
+  ) => {
     if (!payload || !payload[0]) return label;
 
     const data = payload[0].payload;

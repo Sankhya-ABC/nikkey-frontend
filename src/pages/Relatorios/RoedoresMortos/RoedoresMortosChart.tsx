@@ -24,6 +24,7 @@ import {
 
 import { CardInfo } from "../components/CardInfo";
 
+import { Payload } from "recharts/types/component/DefaultTooltipContent";
 import { FormRelatorio } from "./types";
 
 interface ChartData {
@@ -129,7 +130,10 @@ export const RoedoresMortosChart = () => {
     }
   };
 
-  const formatTooltipLabel = (label: string, payload: any[]) => {
+  const formatTooltipLabel = (
+    label: any,
+    payload: readonly Payload<number, "Unidade">[],
+  ) => {
     if (!payload || !payload[0]) return label;
 
     const data = payload[0].payload;
