@@ -8,7 +8,6 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 
-import { loginService } from "@/services/Login";
 import { LoginResponse } from "@/services/Login/types";
 import { Usuario } from "@/services/Usuarios/types";
 import { Role } from "@/types";
@@ -17,7 +16,7 @@ import { LOCAL_STORAGE_KEYS } from "@/utils/constants";
 import { ROUTES } from "../routes";
 
 interface AuthContextValue {
-  login: (email: string, password: string) => Promise<void>;
+  persistSession: (resp: LoginResponse) => void;
   logout: () => void;
 
   getUser: () => Usuario | null;
@@ -90,11 +89,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setExpiresAt(null);
 
     navigate(ROUTES.LOGIN, { replace: true });
-  };
-
-  const login = async (email: string, password: string) => {
-    const resp = await loginService.logar({ email, password });
-    persistSession(resp);
   };
 
   const impersonate = (user: Usuario) => {
@@ -200,7 +194,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const value = useMemo<AuthContextValue>(
     () => ({
-      login,
+      persistSession,
       logout,
       getUser,
       getOriginalUser,

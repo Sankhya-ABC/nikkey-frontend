@@ -15,6 +15,7 @@ import { useAlert } from "@/hooks/useAlert";
 import { useAuth } from "@/hooks/useAuth";
 import { ErrorMessage } from "@/services/types";
 
+import { loginService } from "@/services/Login";
 import { ROUTES } from "../../routes";
 
 interface FormLogin {
@@ -29,7 +30,7 @@ const defaultValues: FormLogin = {
 
 export const Login = () => {
   // hooks
-  const auth = useAuth();
+  const { persistSession } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { showAlert } = useAlert();
@@ -45,7 +46,11 @@ export const Login = () => {
   const onSubmit = async ({ usuario, senha }: FormLogin) => {
     setLoading(true);
     try {
-      await auth.login(usuario, senha);
+      const resp = await loginService.logar({
+        email: usuario,
+        password: senha,
+      });
+      persistSession(resp);
       navigate(from, { replace: true });
     } catch (error) {
       const err = error as ErrorMessage;
