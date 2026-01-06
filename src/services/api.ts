@@ -5,7 +5,7 @@ import { LOCAL_STORAGE_KEYS } from "@/utils/constants";
 import { ROUTES } from "../routes";
 
 export const api = axios.create({
-  baseURL: "http://erp.optecit.com.br:61872/api",
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });

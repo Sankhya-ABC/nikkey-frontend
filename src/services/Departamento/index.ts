@@ -34,7 +34,7 @@ class DepartamentoService {
 
   async buscarDepartamentos(): Promise<Dominio[]> {
     try {
-      const response = await api.get<Dominio[]>("/departamentos");
+      const response = await api.get<Dominio[]>("/departamentos/select");
       return response.data;
     } catch (error) {
       throw this.handleError(error);
