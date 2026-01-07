@@ -11,7 +11,7 @@ class OrdemDeServicoCommonService {
   ): Promise<OrdemDeServico> {
     try {
       const response: AxiosResponse<OrdemDeServico> = await api.post(
-        "/ordens-de-servico",
+        "/ordens-servico",
         ordemDeServico,
       );
       return response.data;
@@ -25,7 +25,7 @@ class OrdemDeServicoCommonService {
   ): Promise<GetAllPaginated<OrdemDeServico>> {
     try {
       const response = await api.get<GetAllPaginated<OrdemDeServico>>(
-        "/ordens-de-servico",
+        "/ordens-servico",
         {
           params,
         },
@@ -39,7 +39,7 @@ class OrdemDeServicoCommonService {
   async buscarOrdemDeServicoPorId(id: number): Promise<OrdemDeServico> {
     try {
       const response: AxiosResponse<OrdemDeServico> = await api.get(
-        `/ordens-de-servico/${id}`,
+        `/ordens-servico/${id}`,
       );
       return response.data;
     } catch (error) {
@@ -50,7 +50,7 @@ class OrdemDeServicoCommonService {
   async imprimirOrdemDeServicoPorId(id: number): Promise<OrdemDeServico> {
     try {
       const response: AxiosResponse<OrdemDeServico> = await api.get(
-        `/ordens-de-servico/${id}`,
+        `/ordens-servico/${id}`,
       );
       return response.data;
     } catch (error) {
@@ -63,7 +63,7 @@ class OrdemDeServicoCommonService {
   ): Promise<OrdemDeServico> {
     try {
       const response: AxiosResponse<OrdemDeServico> = await api.put(
-        `/ordens-de-servico/${ordemDeServico?.id}`,
+        `/ordens-servico/${ordemDeServico?.numOS}`,
         ordemDeServico,
       );
       return response.data;
@@ -75,7 +75,7 @@ class OrdemDeServicoCommonService {
   async atualizarStatusOrdemDeServico(id: number): Promise<OrdemDeServico> {
     try {
       const response: AxiosResponse<OrdemDeServico> = await api.patch(
-        `/ordens-de-servico/${id}`,
+        `/ordens-servico/${id}`,
       );
       return response.data;
     } catch (error) {
@@ -85,7 +85,7 @@ class OrdemDeServicoCommonService {
 
   async deletarOrdemDeServico(id: number): Promise<void> {
     try {
-      await api.delete(`/ordens-de-servico/${id}`);
+      await api.delete(`/ordens-servico/${id}`);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -94,7 +94,7 @@ class OrdemDeServicoCommonService {
   async pesquisarOrdensDeServico(termo: string): Promise<OrdemDeServico[]> {
     try {
       const response: AxiosResponse<OrdemDeServico[]> = await api.get(
-        `/ordens-de-servico/search?q=${termo}`,
+        `/ordens-servico/search?q=${termo}`,
       );
       return response.data;
     } catch (error) {

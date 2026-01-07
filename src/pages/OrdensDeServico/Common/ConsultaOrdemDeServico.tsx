@@ -11,15 +11,26 @@ import { useAlert } from "@/hooks/useAlert";
 import { ordemDeServicoCommonService } from "@/services/OrdemDeServico/Common";
 import { OrdemDeServico } from "@/services/OrdemDeServico/Common/types";
 import { ErrorMessage, GetAllPaginated, StatusColors } from "@/services/types";
-import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "@/utils/constants";
+import {
+  DEFAULT_DATA_FIM,
+  DEFAULT_DATA_INICIO,
+  DEFAULT_PAGE,
+  DEFAULT_ROWS_PER_PAGE,
+} from "@/utils/constants";
 import { format } from "date-fns";
+import { DatePicker } from "@/components/Form/DatePicker";
+import { useAuth } from "@/hooks/useAuth";
 
 interface OrdemDeServicoSearch {
   search: string;
+  dataInicio: Date | string;
+  dataFim: Date | string;
 }
 
 const defaultValues: OrdemDeServicoSearch = {
   search: "",
+  dataInicio: DEFAULT_DATA_INICIO,
+  dataFim: DEFAULT_DATA_FIM,
 };
 
 interface ConsultaOrdemDeServicoProps {
@@ -38,6 +49,7 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
     defaultValues,
   });
   const { showAlert } = useAlert();
+  const { getUser } = useAuth();
 
   // useStates
   // -- table
@@ -53,6 +65,9 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
 
   // variables
   const search = watch("search");
+  const dataInicio = watch("dataInicio");
+  const dataFim = watch("dataFim");
+  const idCliente = getUser()?.cliente?.id;
 
   // handlers
   // -- table
@@ -84,6 +99,9 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
           per_page,
           page: page + 1,
           search,
+          dataInicio: format(dataInicio, "yyyy-MM-dd"),
+          dataFim: format(dataFim, "yyyy-MM-dd"),
+          idCliente: idCliente as number,
         },
       );
       setOrdensDeServico(resp);
@@ -106,7 +124,7 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
       setPage(DEFAULT_PAGE);
       await buscarTodosOrdensDeServico(rowsPerPage, page, search);
     })();
-  }, [search]);
+  }, [search, dataInicio, dataFim]);
 
   useEffect(() => {
     if (resetConsulta && setResetConsulta) {
@@ -121,14 +139,15 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
 
   return (
     <Grid container spacing={3}>
-      <Grid size={{ xs: 12 }}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <TextField
           control={control}
           name="search"
           TextFieldProps={{
             slotProps: {
               input: {
-                placeholder: "Pesquise por nome ou email...",
+                placeholder:
+                  "Pesquise por nome/email do técnico ou nº da OS...",
                 endAdornment: (
                   <InputAdornment position="start">
                     <Search />
@@ -140,13 +159,22 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
         />
       </Grid>
 
+      <Grid size={{ xs: 12, md: 3 }}>
+        <DatePicker label="Data início" name="dataInicio" control={control} />
+      </Grid>
+
+      <Grid size={{ xs: 12, md: 3 }}>
+        <DatePicker label="Data fim" name="dataFim" control={control} />
+      </Grid>
+
       <Grid size={{ xs: 12 }}>
         <Loading loading={loading}>
           <Table<OrdemDeServico>
             headers={[
               {
                 text: "Nº OS",
-                value: (ordemDeServico: OrdemDeServico) => ordemDeServico?.id,
+                value: (ordemDeServico: OrdemDeServico) =>
+                  ordemDeServico?.numOS,
               },
               {
                 text: "Técnico",
@@ -156,18 +184,8 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
               {
                 text: "Data e Hora",
                 value: (ordemDeServico: OrdemDeServico) =>
-                  `${
-                    format(
-                      ordemDeServico?.data as string,
-                      "dd/MM/yyyy",
-                    ) as string
-                  } ${
-                    format(
-                      ordemDeServico?.horaInicio as string,
-                      "HH:mm",
-                    ) as string
-                  } - ${
-                    format(ordemDeServico?.horaFim as string, "HH:mm") as string
+                  `${format(ordemDeServico?.data as string, "dd/MM/yyyy")} ${ordemDeServico?.horaInicio} - ${
+                    ordemDeServico?.horaFim
                   }`,
               },
               {
@@ -190,7 +208,7 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
             }}
             dataList={ordensDeServico}
             itemId={(ordemDeServico: OrdemDeServico) =>
-              ordemDeServico?.id!.toString()
+              ordemDeServico?.numOS!.toString()
             }
             noResultsMessage={"Nenhuma ordem de serviço encontrada."}
           />

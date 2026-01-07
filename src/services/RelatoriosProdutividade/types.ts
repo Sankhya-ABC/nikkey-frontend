@@ -1,6 +1,8 @@
+import { Tecnico } from "../Tecnico/types";
+
 export interface RelatorioProdutividade {
   id: number;
-  tecnico: string;
+  tecnico: Tecnico;
   horasTrabalhadas: string;
   visitasAgendadas: number;
   osRealizadas: number;

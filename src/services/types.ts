@@ -11,6 +11,8 @@ export interface ParamsForPagination {
   search?: string;
   dataInicio?: string;
   dataFim?: string;
+  idUsuario?: number;
+  idCliente?: number;
 }
 
 export interface GetAllPaginated<T> {

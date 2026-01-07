@@ -194,7 +194,7 @@ export const ConsultaRelatorioProdutividade: React.FC<
               {
                 text: "Técnico",
                 value: (relatorioProdutividade: RelatorioProdutividade) =>
-                  relatorioProdutividade?.tecnico,
+                  relatorioProdutividade?.tecnico?.nome,
               },
               {
                 text: "Horas Trabalhadas",

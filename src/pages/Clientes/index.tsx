@@ -84,7 +84,7 @@ export const Clientes = () => {
       const err = error as ErrorMessage;
       showAlert({
         title: "Erro",
-        children: err?.message,
+        children: err?.message?.toString(),
         severity: "error",
         duration: 3000,
       });
