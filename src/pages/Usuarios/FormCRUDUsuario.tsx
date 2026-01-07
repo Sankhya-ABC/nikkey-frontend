@@ -172,8 +172,8 @@ export const FormCRUDUsuario: React.FC<FormCRUDUsuarioProps> = ({
               name="departamento.id"
               label="Departamento"
               options={departamentos}
-              propertyLabel="id"
-              propertyValue="descricao"
+              propertyLabel="descricao"
+              propertyValue="id"
             />
           </Grid>
 

@@ -55,7 +55,7 @@ class UsuarioService {
   async atualizarStatusUsuario(id: number): Promise<Usuario> {
     try {
       const response: AxiosResponse<Usuario> = await api.patch(
-        `/usuarios/${id}`,
+        `/usuarios/status/${id}`,
       );
       return response.data;
     } catch (error) {
