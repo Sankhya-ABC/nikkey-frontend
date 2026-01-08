@@ -1,6 +1,5 @@
 import { Search } from "@mui/icons-material";
 import { Grid, InputAdornment } from "@mui/material";
-import { format } from "date-fns";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -10,8 +9,8 @@ import { Loading } from "@/components/Loading";
 import { Table } from "@/components/Table";
 import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
-import { relatorioProdutividadeService } from "@/services/RelatoriosProdutividade";
-import { RelatorioProdutividade } from "@/services/RelatoriosProdutividade/types";
+import { relatorioProdutividadeService } from "@/services/RelatorioProdutividade";
+import { RelatorioProdutividade } from "@/services/RelatorioProdutividade/types";
 import { ErrorMessage, GetAllPaginated } from "@/services/types";
 import {
   DEFAULT_DATA_FIM,
@@ -19,6 +18,7 @@ import {
   DEFAULT_PAGE,
   DEFAULT_ROWS_PER_PAGE,
 } from "@/utils/constants";
+import { format } from "date-fns";
 
 interface RelatorioProdutividadeSearch {
   search: string;
@@ -56,6 +56,8 @@ export const ConsultaRelatorioProdutividade: React.FC<
   const [relatoriosProdutividade, setRelatoriosProdutividade] =
     useState<GetAllPaginated<RelatorioProdutividade> | null>(null);
 
+  console.log("relatoriosProdutividade", relatoriosProdutividade);
+
   // -- search
   const [loading, setLoading] = useState(false);
 
@@ -71,26 +73,14 @@ export const ConsultaRelatorioProdutividade: React.FC<
     newPage: number,
   ) => {
     setPage(newPage);
-    buscarTodosRelatoriosProdutividade(
-      rowsPerPage,
-      newPage,
-      search,
-      dataInicio,
-      dataFim,
-    );
+    buscarTodosRelatoriosProdutividade(rowsPerPage, newPage, search);
   };
 
   const handleChangeRowsPerPage = (event: any) => {
     const newRowsPerPage = parseInt(event?.target?.value, 10);
     setRowsPerPage(newRowsPerPage);
     setPage(DEFAULT_PAGE);
-    buscarTodosRelatoriosProdutividade(
-      newRowsPerPage,
-      DEFAULT_PAGE,
-      search,
-      dataInicio,
-      dataFim,
-    );
+    buscarTodosRelatoriosProdutividade(newRowsPerPage, DEFAULT_PAGE, search);
   };
 
   // requests
@@ -98,8 +88,6 @@ export const ConsultaRelatorioProdutividade: React.FC<
     per_page: number,
     page: number,
     search: string,
-    dataInicio: Date | string,
-    dataFim: Date | string,
   ) => {
     setLoading(true);
     try {
@@ -108,8 +96,8 @@ export const ConsultaRelatorioProdutividade: React.FC<
           per_page,
           page: page + 1,
           search,
-          dataInicio: format(dataInicio, "YYYY-MM-DD"),
-          dataFim: format(dataFim, "YYYY-MM-DD"),
+          dataInicio: format(dataInicio, "yyyy-MM-dd"),
+          dataFim: format(dataFim, "yyyy-MM-dd"),
         });
       setRelatoriosProdutividade(resp);
     } catch (error) {
@@ -129,15 +117,9 @@ export const ConsultaRelatorioProdutividade: React.FC<
   useEffect(() => {
     (async () => {
       setPage(DEFAULT_PAGE);
-      await buscarTodosRelatoriosProdutividade(
-        rowsPerPage,
-        page,
-        search,
-        dataInicio,
-        dataFim,
-      );
+      await buscarTodosRelatoriosProdutividade(rowsPerPage, page, search);
     })();
-  }, [search]);
+  }, [search, dataInicio, dataFim]);
 
   useEffect(() => {
     if (resetConsulta && setResetConsulta) {
@@ -146,13 +128,8 @@ export const ConsultaRelatorioProdutividade: React.FC<
         setPage(DEFAULT_PAGE);
         setValue("dataInicio", DEFAULT_DATA_INICIO);
         setValue("dataFim", DEFAULT_DATA_FIM);
-        await buscarTodosRelatoriosProdutividade(
-          rowsPerPage,
-          page,
-          search,
-          dataInicio,
-          dataFim,
-        );
+
+        await buscarTodosRelatoriosProdutividade(rowsPerPage, page, search);
         setResetConsulta(false);
       })();
     }
@@ -167,7 +144,7 @@ export const ConsultaRelatorioProdutividade: React.FC<
           TextFieldProps={{
             slotProps: {
               input: {
-                placeholder: "Pesquise por nome ou email...",
+                placeholder: "Pesquise por nome do técnico...",
                 endAdornment: (
                   <InputAdornment position="start">
                     <Search />

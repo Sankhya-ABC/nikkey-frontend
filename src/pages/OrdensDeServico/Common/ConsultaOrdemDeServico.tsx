@@ -131,6 +131,9 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
       (async () => {
         setValue("search", "");
         setPage(DEFAULT_PAGE);
+        setValue("dataInicio", DEFAULT_DATA_INICIO);
+        setValue("dataFim", DEFAULT_DATA_FIM);
+
         await buscarTodosOrdensDeServico(rowsPerPage, page, search);
         setResetConsulta(false);
       })();

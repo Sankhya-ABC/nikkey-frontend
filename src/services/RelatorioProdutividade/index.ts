@@ -11,7 +11,7 @@ class RelatorioProdutividadeService {
   ): Promise<GetAllPaginated<RelatorioProdutividade>> {
     try {
       const response = await api.get<GetAllPaginated<RelatorioProdutividade>>(
-        "/relatorioProdutividades",
+        "/relatorios-produtividade",
         {
           params,
         },
