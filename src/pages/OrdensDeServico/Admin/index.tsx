@@ -1,10 +1,12 @@
 import {
-  //  Add, Edit,
+  // Add,
+  //  Edit,
   Visibility,
 } from "@mui/icons-material";
 import PrintIcon from "@mui/icons-material/Print";
 import {
-  // Button, Switch,
+  // Button,
+  // Switch,
   Grid,
 } from "@mui/material";
 import { useState } from "react";
@@ -12,9 +14,10 @@ import { useState } from "react";
 import { Layout } from "@/components/Template/Layout";
 import { useAlert } from "@/hooks/useAlert";
 import { ordemDeServicoAdminService } from "@/services/OrdemDeServico/Admin";
-import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
+import { OrdemDeServicoCommon } from "@/services/OrdemDeServico/Common/types";
 import { CRUDType, ErrorMessage } from "@/services/types";
 
+import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { ConsultaOrdemDeServico } from "./ConsultaOrdemDeServico";
 import { FormCRUDOrdemDeServico } from "./FormCRUDOrdemDeServico";
 // import { FormStatus } from "./FormStatus";
@@ -43,10 +46,10 @@ export const OrdensDeServicoAdmin = () => {
   // -- crud modals
   const handleOpenFormCRUDOrdemDeServico = (
     crudType: CRUDType,
-    ordemDeServico?: OrdemDeServico | null,
+    numOS?: number | null,
   ) => {
     setFormType(crudType);
-    setSelectedOrdemDeServico(ordemDeServico || null);
+    handleBuscarOrdemDeServicoPorId(numOS!);
     setOpenFormCRUDOrdemDeServico(true);
   };
 
@@ -71,9 +74,25 @@ export const OrdensDeServicoAdmin = () => {
   // };
 
   // requests
-  const handleImprimir = async (id: number) => {
+  const handleImprimir = async (numOS: number) => {
     try {
-      await ordemDeServicoAdminService.imprimirOrdemDeServicoPorId(id);
+      await ordemDeServicoAdminService.imprimirOrdemDeServicoPorId(numOS);
+    } catch (error) {
+      const err = error as ErrorMessage;
+      showAlert({
+        title: "Erro",
+        children: err?.message,
+        severity: "error",
+        duration: 3000,
+      });
+    }
+  };
+
+  const handleBuscarOrdemDeServicoPorId = async (numOS: number) => {
+    try {
+      const resp =
+        await ordemDeServicoAdminService.buscarOrdemDeServicoPorId(numOS);
+      setSelectedOrdemDeServico(resp);
     } catch (error) {
       const err = error as ErrorMessage;
       showAlert({
@@ -107,28 +126,31 @@ export const OrdensDeServicoAdmin = () => {
             {
               tooltip: "Visualizar",
               element: <Visibility />,
-              onClick: (ordemDeServico: OrdemDeServico) =>
-                handleOpenFormCRUDOrdemDeServico(CRUDType.READ, ordemDeServico),
+              onClick: (ordemDeServico: OrdemDeServicoCommon) =>
+                handleOpenFormCRUDOrdemDeServico(
+                  CRUDType.READ,
+                  ordemDeServico?.numOS! as number,
+                ),
             },
             // {
             //   tooltip: "Editar",
             //   element: <Edit />,
-            //   onClick: (ordemDeServico: OrdemDeServico) =>
+            //   onClick: (ordemDeServico: OrdemDeServicoCommon) =>
             //     handleOpenFormCRUDOrdemDeServico(
             //       CRUDType.UPDATE,
-            //       ordemDeServico,
+            //       ordemDeServico?.numOS! as number,
             //     ),
             // },
             {
               tooltip: "Imprimir",
               element: <PrintIcon />,
-              onClick: (ordemDeServico: OrdemDeServico) =>
-                handleImprimir(ordemDeServico?.id! as number),
+              onClick: (ordemDeServico: OrdemDeServicoCommon) =>
+                handleImprimir(ordemDeServico?.numOS! as number),
             },
             // {
-            //   tooltip: (ordemDeServico: OrdemDeServico) =>
+            //   tooltip: (ordemDeServico: OrdemDeServicoCommon) =>
             //     ordemDeServico?.ativo ? "Desativar" : "Ativar",
-            //   element: (ordemDeServico: OrdemDeServico) => (
+            //   element: (ordemDeServico: OrdemDeServicoCommon) => (
             //     <Switch
             //       checked={ordemDeServico?.ativo}
             //       onChange={() => handleOpenFormStatus(ordemDeServico)}

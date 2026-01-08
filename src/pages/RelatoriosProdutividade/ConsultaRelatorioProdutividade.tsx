@@ -56,8 +56,6 @@ export const ConsultaRelatorioProdutividade: React.FC<
   const [relatoriosProdutividade, setRelatoriosProdutividade] =
     useState<GetAllPaginated<RelatorioProdutividade> | null>(null);
 
-  console.log("relatoriosProdutividade", relatoriosProdutividade);
-
   // -- search
   const [loading, setLoading] = useState(false);
 

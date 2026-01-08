@@ -31,7 +31,7 @@ interface FormCRUDOrdemDeServicoProps {
 }
 
 const defaultValues: OrdemDeServico = {
-  id: null,
+  numOS: null,
   ativo: true,
   dataCadastro: null,
   cliente: {

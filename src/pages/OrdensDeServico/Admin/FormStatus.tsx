@@ -32,7 +32,7 @@ export const FormStatus: React.FC<FormStatusProps> = ({
   const atualizarStatusOrdemDeServico = async () => {
     try {
       await ordemDeServicoAdminService.atualizarStatusOrdemDeServico(
-        selected?.id! as number,
+        selected?.numOS! as number,
       );
       showAlert({
         title: "Sucesso",
@@ -61,8 +61,8 @@ export const FormStatus: React.FC<FormStatusProps> = ({
       <DialogContent sx={{ overflow: "unset" }}>
         <DialogContentText>
           {selected?.ativo
-            ? `Tem certeza que deseja desativar a OS ${selected?.id}?`
-            : `Tem certeza que deseja ativar a OS ${selected?.id}?`}
+            ? `Tem certeza que deseja desativar a OS ${selected?.numOS}?`
+            : `Tem certeza que deseja ativar a OS ${selected?.numOS}?`}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

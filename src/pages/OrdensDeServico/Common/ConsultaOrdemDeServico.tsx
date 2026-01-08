@@ -9,7 +9,7 @@ import { Table } from "@/components/Table";
 import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
 import { ordemDeServicoCommonService } from "@/services/OrdemDeServico/Common";
-import { OrdemDeServico } from "@/services/OrdemDeServico/Common/types";
+import { OrdemDeServicoCommon } from "@/services/OrdemDeServico/Common/types";
 import { ErrorMessage, GetAllPaginated, StatusColors } from "@/services/types";
 import {
   DEFAULT_DATA_FIM,
@@ -34,7 +34,7 @@ const defaultValues: OrdemDeServicoSearch = {
 };
 
 interface ConsultaOrdemDeServicoProps {
-  actions?: Action<OrdemDeServico>[];
+  actions?: Action<OrdemDeServicoCommon>[];
   resetConsulta?: boolean;
   setResetConsulta?: Dispatch<SetStateAction<boolean>>;
 }
@@ -58,7 +58,7 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
 
   // -- data
   const [ordensDeServico, setOrdensDeServico] =
-    useState<GetAllPaginated<OrdemDeServico> | null>(null);
+    useState<GetAllPaginated<OrdemDeServicoCommon> | null>(null);
 
   // -- search
   const [loading, setLoading] = useState(false);
@@ -172,28 +172,28 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
 
       <Grid size={{ xs: 12 }}>
         <Loading loading={loading}>
-          <Table<OrdemDeServico>
+          <Table<OrdemDeServicoCommon>
             headers={[
               {
                 text: "Nº OS",
-                value: (ordemDeServico: OrdemDeServico) =>
+                value: (ordemDeServico: OrdemDeServicoCommon) =>
                   ordemDeServico?.numOS,
               },
               {
                 text: "Técnico",
-                value: (ordemDeServico: OrdemDeServico) =>
+                value: (ordemDeServico: OrdemDeServicoCommon) =>
                   ordemDeServico?.tecnico?.nome,
               },
               {
                 text: "Data e Hora",
-                value: (ordemDeServico: OrdemDeServico) =>
+                value: (ordemDeServico: OrdemDeServicoCommon) =>
                   `${format(ordemDeServico?.data as string, "dd/MM/yyyy")} ${ordemDeServico?.horaInicio} - ${
                     ordemDeServico?.horaFim
                   }`,
               },
               {
                 text: "Status",
-                value: (ordemDeServico: OrdemDeServico) => (
+                value: (ordemDeServico: OrdemDeServicoCommon) => (
                   <Chip
                     label={ordemDeServico?.status}
                     color={StatusColors[ordemDeServico?.status]}
@@ -210,7 +210,7 @@ export const ConsultaOrdemDeServico: React.FC<ConsultaOrdemDeServicoProps> = ({
               handleChangeRowsPerPage,
             }}
             dataList={ordensDeServico}
-            itemId={(ordemDeServico: OrdemDeServico) =>
+            itemId={(ordemDeServico: OrdemDeServicoCommon) =>
               ordemDeServico?.numOS!.toString()
             }
             noResultsMessage={"Nenhuma ordem de serviço encontrada."}

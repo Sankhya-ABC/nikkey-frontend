@@ -1,11 +1,17 @@
-import { Tecnico } from "@/services/Tecnico/types";
 import { Status } from "@/services/types";
 
-export interface OrdemDeServico {
+export interface OrdemDeServicoCommon {
   numOS: number | null;
   status: Status;
   data: Date | null | string;
   horaInicio: Date | null | string;
   horaFim: Date | null | string;
-  tecnico: Tecnico;
+  tecnico: {
+    id: number | null;
+    nome: string;
+  };
+  cliente: {
+    id: number | null;
+    nome: string;
+  };
 }

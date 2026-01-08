@@ -42,7 +42,7 @@ export interface Consumo {
 }
 
 export interface InformacoesGerais {
-  id: number | null;
+  numOS: number | null;
   ativo: boolean;
   dataCadastro: Date | null | string;
   cliente: {
