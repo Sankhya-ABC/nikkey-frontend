@@ -29,39 +29,41 @@ export const MenuMobile = () => {
 
   return (
     <MenuContainer>
-      <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleOpenNavMenu}
-          sx={{ color: ({ palette }) => palette.text.primary }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorElNav}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          open={Boolean(anchorElNav)}
-          onClose={handleCloseNavMenu}
-          sx={{
-            display: { xs: "block", md: "none" },
-            color: ({ palette }) => palette.text.primary,
-          }}
-        >
-          <MenuListItems />
-        </Menu>
-      </Box>
+      {isAuthenticated() && (
+        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            sx={{ color: ({ palette }) => palette.text.primary }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: "block", md: "none" },
+              color: ({ palette }) => palette.text.primary,
+            }}
+          >
+            <MenuListItems />
+          </Menu>
+        </Box>
+      )}
 
       <Box sx={{ flexGrow: 1 }}>
         <Link
@@ -69,6 +71,7 @@ export const MenuMobile = () => {
           style={{
             display: "flex",
             alignItems: "center",
+            justifyContent: isAuthenticated() ? "flex-start" : "center",
           }}
         >
           <img
