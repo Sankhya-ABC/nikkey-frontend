@@ -12,8 +12,9 @@ export const CountdownTimer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
   const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
+    const totalSeconds = seconds + 60;
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
 
     return {
       hours: hours.toString().padStart(2, "0").split(""),
