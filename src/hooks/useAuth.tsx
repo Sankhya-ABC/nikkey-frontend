@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router";
 
 import { LoginResponse } from "@/services/Login/types";
-import { Usuario } from "@/services/Usuarios/types";
+import { Usuario } from "@/services/Usuario/types";
 import { Role } from "@/types";
 import { LOCAL_STORAGE_KEYS } from "@/utils/constants";
 

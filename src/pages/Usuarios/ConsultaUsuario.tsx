@@ -10,8 +10,8 @@ import { Table } from "@/components/Table";
 import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
 import { ErrorMessage, GetAllPaginated } from "@/services/types";
-import { usuarioService } from "@/services/Usuarios";
-import { Usuario } from "@/services/Usuarios/types";
+import { usuarioService } from "@/services/Usuario";
+import { Usuario } from "@/services/Usuario/types";
 import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "@/utils/constants";
 
 interface UsuarioSearch {

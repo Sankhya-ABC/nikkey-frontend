@@ -1,4 +1,4 @@
-import { Usuario } from "../Usuarios/types";
+import { Usuario } from "../Usuario/types";
 
 export interface LoginRequest {
   email: string;

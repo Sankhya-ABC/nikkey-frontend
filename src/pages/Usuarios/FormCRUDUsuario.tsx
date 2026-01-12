@@ -14,11 +14,11 @@ import { useForm } from "react-hook-form";
 import { Select } from "@/components/Form/Select";
 import { TextField } from "@/components/Form/Textfield";
 import { useAlert } from "@/hooks/useAlert";
-import { Cliente } from "@/services/Clientes/types";
+import { Cliente } from "@/services/Cliente/types";
 import { departamentoService } from "@/services/Departamento";
 import { CRUDType, Dominio, ErrorMessage } from "@/services/types";
-import { usuarioService } from "@/services/Usuarios";
-import { Usuario } from "@/services/Usuarios/types";
+import { usuarioService } from "@/services/Usuario";
+import { Usuario } from "@/services/Usuario/types";
 import { Role } from "@/types";
 
 import { ConsultaCliente } from "../Clientes/ConsultaCliente";

@@ -13,9 +13,9 @@ import { useNavigate } from "react-router";
 import { Layout } from "@/components/Template/Layout";
 import { useAlert } from "@/hooks/useAlert";
 import { useAuth } from "@/hooks/useAuth";
-import { Cliente } from "@/services/Clientes/types";
+import { Cliente } from "@/services/Cliente/types";
 import { CRUDType, ErrorMessage } from "@/services/types";
-import { usuarioService } from "@/services/Usuarios";
+import { usuarioService } from "@/services/Usuario";
 
 import { ROUTES } from "../../routes";
 

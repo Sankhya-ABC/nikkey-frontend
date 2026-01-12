@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 
 import { useAlert } from "@/hooks/useAlert";
-import { clienteService } from "@/services/Clientes";
-import { Cliente } from "@/services/Clientes/types";
+import { clienteService } from "@/services/Cliente";
+import { Cliente } from "@/services/Cliente/types";
 import { ErrorMessage } from "@/services/types";
 
 interface FormStatusProps {

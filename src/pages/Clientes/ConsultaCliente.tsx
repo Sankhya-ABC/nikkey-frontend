@@ -8,8 +8,8 @@ import { Loading } from "@/components/Loading";
 import { Table } from "@/components/Table";
 import { Action } from "@/components/Table/types";
 import { useAlert } from "@/hooks/useAlert";
-import { clienteService } from "@/services/Clientes";
-import { Cliente } from "@/services/Clientes/types";
+import { clienteService } from "@/services/Cliente";
+import { Cliente } from "@/services/Cliente/types";
 import { ErrorMessage, GetAllPaginated } from "@/services/types";
 import { DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE } from "@/utils/constants";
 

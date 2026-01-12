@@ -1,6 +1,6 @@
 import { Role } from "@/types";
 
-import { ClienteDTO } from "../Clientes/types";
+import { ClienteDTO } from "../Cliente/types";
 import { Dominio } from "../types";
 
 export interface Usuario {

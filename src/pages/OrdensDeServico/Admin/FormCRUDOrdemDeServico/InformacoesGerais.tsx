@@ -9,7 +9,7 @@ import { OrdemDeServico } from "@/services/OrdemDeServico/Admin/types";
 import { CRUDType } from "@/services/types";
 
 import { Autocomplete } from "@/components/Form/Autocomplete";
-import { clienteService } from "@/services/Clientes";
+import { clienteService } from "@/services/Cliente";
 import { tecnicoService } from "@/services/Tecnico";
 
 export const InformacoesGerais = () => {

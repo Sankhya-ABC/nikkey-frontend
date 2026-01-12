@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Layout } from "@/components/Template/Layout";
 import { CRUDType } from "@/services/types";
-import { Usuario } from "@/services/Usuarios/types";
+import { Usuario } from "@/services/Usuario/types";
 
 import { ConsultaUsuario } from "./ConsultaUsuario";
 import { FormCRUDUsuario } from "./FormCRUDUsuario";
