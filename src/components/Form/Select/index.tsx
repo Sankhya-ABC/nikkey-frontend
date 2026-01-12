@@ -79,7 +79,7 @@ export const Select: React.FC<ISelectProps> = ({
             native={native}
             autoWidth={autoWidth}
             input={native ? undefined : <OutlinedInput label={label} />}
-            readOnly={readOnly}
+            readOnly={readOnly || options?.length === 0}
             renderValue={
               native
                 ? undefined
